@@ -1,18 +1,33 @@
 \documentclass[12pt,letterpaper,spanish]{article}
-\usepackage[utf8]{inputenc} %Encoding
 
-\usepackage[top=3cm, left=3cm, bottom=2cm, right=2cm, paper=letterpaper]{geometry} % Margenes
+% formato, lenguaje y encoding
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-nolists, es-lcroman]{babel}
+\usepackage[top=3cm, left=3cm, bottom=2cm, right=2cm, paper=letterpaper]{geometry}
 
-\usepackage{amsmath, amssymb, amsthm, graphicx} % Varios
 
-\usepackage[spanish, es-nolists, es-lcroman]{babel} % Lenguaje
+% Links y numeracion del PDF
+\usepackage[pdfpagelabels]{hyperref}
 
-\usepackage[pdfpagelabels]{hyperref} % Links y numeracion del PDF
+% Codigo Fuente
+\usepackage{listings}
 
-\usepackage{listings} % Codigo Fuente
+% varios
+\usepackage{amsmath, amssymb, amsthm, graphicx}
 
-\usepackage{pgffor} % foreach
 
+% = = = = = = = = = = = = = = = = = = = = = = =
+% TODO NOTES
+% = = = = = = = = = = = = = = = = = = = = = = =
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+\usepackage{xargs} % Use more than one optional parameter in a new commands
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+% = = = = = = = = = = = = = = = = = = = = = = =
 
 \begin{document}
 
@@ -39,77 +54,231 @@
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
 \emph{Autor:}\\
-Mat\'ias \textsc{Pavez} % Your name
+Mat\'ias \textsc{Pavez}\\
+\texttt{\normalsize matias.pavez@ing.uchile.cl} \\
+\texttt{\normalsize +569 9888 9358}
 \end{flushleft}
 \end{minipage}
 ~
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
-\emph{Profesor Gu\'ia:} \\
-Javier \textsc{Ruiz del Solar} % Supervisor's Name
+\emph{Profesor Gu\'ia:} (DIE) \\
+Javier \textsc{Ruiz del Solar}\\
+\texttt{\normalsize jruizd@ing.uchile.cl}
 \end{flushright}
 \end{minipage}\\[1cm]
-
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft}\end{flushleft}
 \end{minipage}
 ~
 \begin{minipage}{0.4\textwidth}
 \begin{flushright} \large
-\emph{Co-Gu\'ia:} \\
-Jocelyn \textsc{Simmond} % Supervisor's Name
+\emph{Co-Gu\'ia:} (DCC)\\
+Jocelyn \textsc{Simmond}\\
+\texttt{\normalsize jsimmond@dcc.uchile.cl}
 \end{flushright}
 \end{minipage}\\[2.5cm]
-
-{\large Santiago de Chile}\\[0cm]
-{\large Abril, 2017}\\[1cm]
-
+\improvement[inline]{FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS FIRMAS}
+{\large Santiago de Chile}\\
+{\large Abril, 2017}
 \vfill
  
 \end{titlepage}
 %----------------------------------------------------------------------------------------
 
+%\improvement[inline]{REVISAR REDACCI\'ON, P\'ARRAFOS CORRECTOS}
+
+\section{Contexto}
+
+%\improvement[inline]{los conceptos necesarios para introducir al lector en el tema y permitirle entender el resto de la presentacion.}
+
+\subsection{Robots de Servicio}
+
+La rob\'otica de servicio es un \'area enfocada en asistir a los seres humanos en tareas repetitivas y comunes, como los deberes del hogar. Formalmente, se define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''\cite{IFR}. Luego, el robot requiere cierto grado de autonom\'ia, que es la habilidad de actuar a partir del estado actual, usando lo que observa del ambiente y sin intervenci\'on humana. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido.\\
+
+Un caso de uso t\'ipico es la asistencia en las tareas del hogar, donde se espera que un robot pueda ayudar a ordenar, preparar comida u ofrecer bebestibles. Otros casos de uso consideran el cuidado de adultos mayores, robots para compa\~nia en el hogar, mascotas robots, salud, educaci\'on o para la recolecci\'on de basura. Particularmente, la compa\~nia SoftBank Robotics es pionera en ofrecer a Pepper como el primer robot humanoide ya adoptado en hogares de Jap\'on, as\'i como robot de bienvenida en hoteles y tiendas\cite{softbank}.\\
+
+
+\subsection{Laboratorio de Rob\'otica y Equipo de Trabajo}
+
+En laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la Universidad de Chile, alberga dos equipos de rob\'otica: \textit{UChile Robotics Team}, dedicado al fútbol rob\'otico y \textit{UChile Homebreakers Team}, enfocado en rob\'otica de servicio. Ambos son conformados por alumnos de pregrado y postgrado de diversas especialidades, y liderados por el profesor Javier Ruiz del Solar\cite{uchile-robotics}.\\
+
+UChile Homebreakers existe desde el a\~no 2007 y actualmente cuenta con 15 estudiantes. Todo su desarrollo de software est\'a basado en ROS, un framework para el desarrollo de plataformas rob\'oticas y con miles de usuarios alrededor del mundo\cite{ROS:2009}.\\
+
+El equipo trabaja en dos plataformas humanoides, Bender y Pepper. Bender es un robot construido en el laboratorio y con el objetivo de ser un mayordomo en el hogar. Pepper, desarrollado por SoftBank Robotics, est\'a dise\~nado para ser un robot de compa\~nia.\\
+
+
+\subsection{RoboCup @Home League}
+
+La RoboCup es una competencia internacional cuyo objetivo es ser un veh\'iculo para el desarrollo de la rob\'otica y la inteligencia artificial. Est\'a compuesta de variadas ligas: Rescue, Soccer, Simulation, @Home, Industrial y Junior, cada una con diversas subligas orientadas a fomentar la investigaci\'on de distintos aspectos del campo. Su sue\~no es que para mediados del siglo 21, un equipo de futbol rob\'otico completamente aut\'onomo, sea capaz de vencer al campi\'on de la última copa mundial y siguiendo las reglas de la FIFA\cite{robocup:rulebook_2017}.\\ 
+
+UChile Homebreakers participa desde el a\~no 2007 en la categor\'ia @Home. Las pruebas de la liga se desarrollan en escenarios que imitan ambientes reales, como un hogar o un restaurante. Las capacidades evaluadas y potenciadas son de Vision Computacional, Navegaci\'on aut\'onoma, Manipulaci\'on de objetos y Reconocimiento de V\'oz. Cada a\~no el equipo planifica sus desarrollos de acuerdo a los requerimientos de la competencia, por lo que trabajos fuera de las \'areas mencionadas no son considerados una prioridad.\\
+
+%\subsection{Interacci\'on Humano Robot}
+%
+%La Interacci\'on Humano-Robot (HRI, por sus siglas en ingl\'es), ...
+%
+%Sobre HRI y la robocup
+%
+%Bender y Pepper... mostrar emociones, Speech Recognition, conversar con gente... objetivos..
+%% Luego, ambos deben ser robots con alto desarrollo del \'area de Human-Robot interaction. \\
+
 \section{Motivaci\'on}
 
-\subsection{Contexto}
+\todo[inline]{por que el tema es interesante como memoria}
 
-\subsubsection{Robots de Servicio}
+\todo[inline]{por que es suficientemente complejo}
 
-\subsubsection{Equipo, Bender y Pepper}
+\todo[inline]{que problemas a resolver}
 
-Plataforma .. ROS ..
-
-\subsubsection{Robocup}
+\todo[inline]{que interes academico o profesional tiene}
 
 \subsection{Problema}
 
 Sobre Loreto  \cite{Sanchez:2015} y Victoria.
+memoria dise\~nada e implementada parcialmente.. 
+no integrada en el robot, no se usa, desactualizacion
+no provee una API ROS bender estandar (skills).. no hay incentivo para ocuparla.
+sólo tiene 2 modelos semánticos: personas y objetos .. otros modelos de interes?
+falta la integraci\'on con objetos
+informacion acotada para modelo de personas ... otros datos de interes??
+
+equipo:
+no hay incentivo robocup para mantener el desarrollo de la memoria. (sólo queda hacerla parte del SO y que funcione continuamente... se espera que esto cambie)
+demos-significancia de la robotica de servicio (capacidad de HRI) .. interesante desarrollar capacidades de HRI.
+
+hay limitacion respecto a los datos que realmente es posible obtener (oportunidad, trabajo futuro-). ejemplos de datos que actuallmente se tienen.
+
+
+
+%Hasta la actualidad, . Sin embargo, casi no ha considerado el tema de los recuerdos Sobre requerimientos de memoria bajos, pero inter\'es en potenciar esta \'area.\\
+%
+%... mi trabajo pretende romper el esquema actual y dar un avance en la implementaci\'on  de memoria e inferencia.\change{esto es m\'as como objetivos o oportunidad}
+%area muy poco exploirada \improvement{referencias}
+%pretende proveer el c\'odigo fuente de la forma estandar que se utiliza en ROS
+%pretende mostrar la importancia de este tema en HRI e incentivar la consideraci\'on de est en la competencia...\improvement{hay otras competencias que enfaticen esto??}
+
+
+
 
 \subsection{Oportunidad}
 
-\newpage
+Existe poco desarrollo al respecto y no hay soluciones evidentes ni estandar.. tampoco existe codigo libre para esto. \\
+
+Diseño de memoria a largo plazo para robots de servicio
+- base com\'un + componentes custom
+- que otros modelos especializados son de inter\'es,, casas, ni\~nos mascotas, autos..
+- quefeatures son relevantes para ellos
+- sobre los datos: almacenamiento, formato, compresi\'on
+- datos relevantes para tareas futuras, cuales, planes, mapas..
+consolidacion de STM a LTM
+memoria emocional y estimulos relevantes
+consolidacion vs. deterioro de la informacion
+actualizacion y envejecimiento de las entidades.
+
+
+Implementacion
+. estandar ROS. skills
+integracion en robots.. funcional, recopilacion continua..servicios en background
+. interaccion con memoria a corto plazo ... es algo difuso aun.. hay 4 fuentes de info: ed, worldmodel, context, nodos ROS
+
+Implementacion Propuestos
+- inferir info .. suele desayunar a las 9am
+- visualizacion de los datos
+- migracion y memoria compartida con otros robots
+- memoria emocional; personalidad y estado de animo del robot
+- complementar HRI mediante info WEB
+- almacenaje, merge y recuperacion de bakups.
+
+Validacion
+- Definir preguntas a responder
+- queries episodicas: que hiciste ayer, como?, que paso hace 1 mes?
+- queries semanticas: que ha cambiado en el entorno desde tu ultima visita?, hace 1 a\~no?. Describe a Juan.. Hablame de Pedro...
+- definir otras validaciones intrinsecas
+- definir otras validaciones dependientes de las implementaciones propuestas.
+
+como validar:
+- v0. funcion(skills) que retorme informacion solicitada.
+- v1. mostrar info solicitada en visualizador (de seguir ese camino)
+- v2. uso de API externa para analisis de frases e intenciones
+- v3. uso de chatbot para demo de conversacion.
+
+
+La memoria no s\'olo se relaciona a HRI, sino que le puede servir al robot para inferir datos.... mejorar la realizaci\'on de actividades, dar una personalidad.. ?? NADA de eso es HRI??
+
+
 \section{Posibles Soluciones}
 
-\subsection{Sobre la Memoria Humana...}
+\subsection{Dise\~no de memoria}
 
-Sobre la memoria \cite{Eichenbaum:2008}
+\subsubsection{Approach basado en la Memoria Humana...}
 
-Sobre Felix
+Sobre Felix ... \unsure{esto no se puede citar de alguna forma??.. c\'omo lo referencio?}\\
 
-\newpage
+Sobre la memoria \cite{Eichenbaum:2008}\\
+... memoria de corto plazo STM> iconica u de trabajo.. info detallada sobre eventos recientes.\\
+
+.. memoria de largo plazo (LTM).\\
+- episodica: responde a preguntas qhat, where and when.. dando links a areas de la memoria  semantica.\\
+- semantica: info estructurada en modelos especializados: Personas, Objetos, Lenguaje, Musica, ...\\
+
+... memoria emocional (implicita)\\
+- modula la consolidacion de la STM en LTM\\
+- permite dar mas importancia a los eventos... mas alla del replay.\\
+- ejemplos de esto.\\
+
+... plasticidad: procesos de consolidacion y deterioro de la memoria.\\
+- consolidacionL: se requiere estimulo + sinapsis. siempre fortalecen los links a partir del replay o info nueva (interesante)\\
+- todos los links no utilizados estan constantemente debilitandose. no se borra la memoria, sino que se debilitan los links.\\
+
+En que se traduce esto?... lo de loreto. Entidades de la Base se datos.\\
+
+
+\subsubsection{Approach 2 ..}
+
+
+\subsection{Diseño de bla...}
+
+El resto...
+
 \section{Objetivos}
 
 \subsection{Alcances y Objetivo General}
 
-Dise\~no e implementaci\'on de memoria de largo plazo para robots de servicio.
+Dise\~no e implementaci\'on de memoria de largo plazo para robots de servicio.\change{Explicar m\'as detalaldo.. con otras palabras.}
+\improvement[inline]{unas pocas l\'ineas describiendo a grandes rasgos cual es el objetivo que se persigue con la memoria. Evitar que el objetivo general sea simplemente una repeticion del t\'itulo.}
+
+\subsection{Objetivos Espec\'ificos}
+
+\improvement[inline]{na serie de puntos mas detallados que desglosen el objetivo general en una serie de objetivos menores verificables.}
+
+- Evaluar requerimientos de ribits de servicio. Bender/Pepper.
+- Definir preguntas de interes a validar
+- modelos features de interes
+- datos a recuperar y almacenamiento.
+- consolidacion y deterioro, memoria emocional
+- implementacion de memoria. Recopilacion continue y API para desarrolladores
+- validaciones
+- otros dependen de los componentes escogidos.
 
 
-\subsection{Objetivos Secundarios}
+\section{Idea General de la Soluci\'on}
 
-\newpage
+\todo[inline]{TODO, por definir}
+
+
 \section{Metodolog\'ia}
 
-\newpage
+\improvement[inline]{de que forma se planea abordar la memoria, es decir que serie de pasos se seguiran para cumplir los objetivos. Si se desea se puede incluir un cronograma de trabajo.}
+
+- revisar diapos de Ing. de Software. Sobre metodologias de trabajo y ciclo de software.
+
+
+\begin{itemize}
+\item Revisi\'on Bibliogr\'afica
+\item 
+\end{itemize}
+
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,bibliography.bib}
