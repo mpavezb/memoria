@@ -13,5 +13,5 @@
 
 ### Versiones PDF
 
-- [Propuesta de Memoria](https://latexonline.cc/compile?git=https%3A%2F%2Fgithub.com%2Fmpavezb%2Fmemoria&target=propuesta%2Fmain.tex&command=pdflatex)
+- [Propuesta de Memoria](https://latexonline.cc/compile?git=https://github.com/mpavezb/memoria&target=propuesta/main.tex&command=pdflatex)
 - Memoria: En desarrollo
