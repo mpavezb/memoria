@@ -1,2 +1,96 @@
 
-\chapter{Marco Te\'orico}
+\chapter{Contextualizaci\'on}
+
+%\section{Memoria y rob\'otica}
+%
+%\subsection{Interacci\'on Humano-Computador}
+%
+%\subsection{Interacci\'on con el entorno}
+%
+%\subsection{Robots de servicio}
+%
+%\subsection{Dificultades}
+
+
+\section{Componentes de software}
+
+La implementaci\'on de un sistema de memoria ro\'otica asume que muchos sistemas y capacidades de un robot est\'an disponibles. Entonces, se requiere del uso de variados frameworks y librer\'ias que permiten comunicarse con el robot y acceder a los datos de inter\'es que se desea recordar. A continuaci\'on se explican los componentes de software relevantes para el trabajo.
+
+\subsection{ROS}
+
+Los sistemas rob\'oticos actuales son cada vez m\'as complejos. Deben lidiar con muchos componentes tanto de hardware como de software y su interacci\'on, de una forma eficaz y que no entorpezca el desarrollo. Muchas tareas de control requieren altas frecuencias de funcionamiento, as\'i como la sincronizaci\'on y comunicaci\'on entre los diversos m\'odulos. Por lo tanto, el c\'omo se unen los subsistemas en una aplicaci\'on rob\'otica es una tarea dif\'icil.
+
+ROS\cite{ROS:2009}, acr\'onimo para Robot Operating System, es un proyecto que funciona como middleware para aplicaciones rob\'oticas, y permite resolver el problema de la comunicaci\'on entre procesos. Es una colecci\'on de herramientas, librer\'ias y convenciones que buscan simplificar la tarea de crear comportamientos rob\'oticos complejos y robustos, sin importar la plataforma rob\'otica.
+
+Fue originalmente creado por la empresa WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de m\'odulos de software con soluciones a problemas espec\'ificos, los que pueden interconectarse para construir comportamientos m\'as complejos. Por lo anterior, su uso se ha convertido en una pr\'actica mundial, siendo adoptado incluso en soluciones industriales.
+
+
+%\subsubsection{Nodo}
+%
+%Mensajes y master
+%
+%\subsubsection{T\'opicos}
+%
+%\subsubsection{Servicios}
+%
+%\subsubsection{Servidor de par\'ametros}
+%
+%\subsubsection{Launch}
+
+%\subsubsection{Herramientas}
+
+%\subsubsection{Actionlib}
+
+
+\subsection{UChile ROS Framework}
+
+UChile ROS Framework (URF) .
+
+
+La mayor parte del c\'odigo es p\'ublico  y se encuentra en GitHub ...
+
+
+
+%
+%\subsection{KnowRob}
+%
+%
+%\subsection{MongoDB}
+%
+%
+%\subsection{SMACH}
+
+
+
+
+
+
+\section{Plataformas objetivo}
+
+\subsection{Robot Bender}
+
+Bender es un robot humanoide creado el a\~no 2007 en el laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera aut\'onoma para apoyar en tales labores\cite{uchile-robotics}.
+
+%\todo[inline]{FOTO}
+
+En cuanto a actuadores, el robot cuenta con 3 brazos antropom\'orficos de 6 grados de libertad cada uno, una base m\'ovil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negaci\'on, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
+
+El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micr\'ofono M-Audio Producer USB y una c\'amara de profundidad ASUS Xtion Pro.
+
+El software de Bender est\'a basado en el framework URF. Su arquitectura de software utiliza  ROS para el manejo de componentes de bajo y medio nivel. La capa de alto nivel, escrita en python, se abstrae de ROS y permite la creaci\'on de comportamientos complejos mediante m\'aquinas de estado. Todos los m\'odulos que interactuan con sensores y actuadores est\'an implementados en ROS.
+
+
+
+%\subsection{Pepper}
+%
+%Pepper es un robot humanoide desarrollado por SoftBank Robotics, orientado a la interacci\'on humano robot y con el objetivo de ser un robot de compa\~nia y soporte emocional.
+
+
+
+
+%\section{Estado del arte}
+
+
+
+
+

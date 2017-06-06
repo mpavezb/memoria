@@ -1,11 +1,12 @@
 
 \chapter{Introducci\'on}
 
-\section{Contexto}
+\section{Antecedentes Generales}
 
-A continuaci\'on se presenta una breve introducci\'on a los temas requeridos para contextualizar esta propuesta de trabajo de t\'itulo: La rob\'otica de servicio, el equipo de trabajo y la RoboCup. Adem\'as, se introduce el tema de la memoria humana, requerido para entender los conceptos t\'ecnicos que se propone implementar y como se relacionan con la rob\'otica.
+A continuaci\'on se presenta una breve introducci\'on a los temas requeridos para contextualizar este trabajo de t\'itulo: La rob\'otica de servicio y el equipo de trabajo donde se implantar\'a la soluci\'on. Adem\'as, se introduce el tema de la memoria humana, requerido para entender la propuesta y su relaci\'on con la rob\'otica.
 
-\subsection{Robots de Servicio}
+
+\subsection{Robots de servicio}
 
 La rob\'otica de servicio es un \'area enfocada en asistir a los seres humanos en tareas repetitivas y comunes, como la recolecci\'on de basura. Formalmente, se define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''\cite{IFR}. Luego, el robot requiere cierto grado de autonom\'ia, que es la habilidad de actuar a partir del estado actual, usando lo que observa del ambiente y sin intervenci\'on humana. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido.
 
@@ -18,10 +19,11 @@ El laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la 
 
 UChile Homebreakers existe desde el a\~no 2007 y actualmente cuenta con 15 estudiantes. Todo su desarrollo de software est\'a basado en ROS, un framework para el desarrollo de plataformas rob\'oticas y con miles de usuarios alrededor del mundo\cite{ROS:2009}.
 
-El equipo trabaja en dos plataformas humanoides, Bender y Pepper. Bender es un robot construido en el laboratorio y con el objetivo de ser un mayordomo en el hogar. Pepper, desarrollado por SoftBank Robotics, est\'a dise\~nado para ser un robot de compa\~nia. Ambos comparten la misma arquitectura de software y pr\'acticamente todo su c\'odigo, exceptuando los drivers para acceder al hardware respectivo.
+El equipo trabaja en dos plataformas humanoides, Bender y Pepper. Bender es un robot construido en el mismo laboratorio y con el objetivo de ser un mayordomo para el hogar. Pepper, desarrollado por SoftBank Robotics, est\'a dise\~nado para ser un robot de compa\~nia. Ambos comparten la misma arquitectura de software y pr\'acticamente todo su c\'odigo, exceptuando los drivers para acceder al hardware respectivo.
 
 
-\subsection{RoboCup @Home League}
+\subsubsection{RoboCup @Home League}
+
 
 La RoboCup es una competencia internacional cuyo objetivo es ser un veh\'iculo para el desarrollo de la rob\'otica y la inteligencia artificial. Est\'a compuesta de variadas ligas: Rescue, Soccer, Simulation, @Home, Industrial y Junior, cada una con diversas subligas orientadas a fomentar la investigaci\'on de distintos aspectos del campo. Su sue\~no es que para mediados del siglo 21, un equipo de f\'utbol rob\'otico completamente aut\'onomo sea capaz de vencer al campi\'on de la \'ultima copa mundial y siguiendo las reglas de la FIFA\cite{robocup:rulebook_2017}.
 
@@ -30,7 +32,8 @@ UChile Homebreakers participa desde el a\~no 2007 en la categor\'ia @Home. Las p
 % 
 Las capacidades generalmente evaluadas y potenciadas en @Home son de Vision Computacional, Navegaci\'on aut\'onoma, Manipulaci\'on de objetos y Reconocimiento de Voz. Cada a\~no el equipo planifica sus desarrollos de acuerdo a los requerimientos de la competencia, por lo que trabajos fuera de las \'areas mencionadas no son considerados una prioridad.
 
-\subsection{La Memoria Humana}
+
+\subsection{La memoria humana}
 
 La memoria hace relaci\'on al almacenamiento de experiencias en el cerebro. Hay m\'ultiples sistemas de memoria independientes y sustentados por distintas estructuras cerebrales. A grandes rasgos, la memoria se puede dividir en de corto plazo STM (Short-Term Memory) y de largo plazo LTM (Large-Term Memory). La STM maneja informaci\'on muy detallada, es de poca capacidad y permite un r\'apido acceso, mientras que la LTM maneja mucha informaci\'on sobre experiencias y entidades, es menos detallada y de acceso m\'as lento\cite{Eichenbaum:2008}.
 
@@ -39,6 +42,7 @@ La LTM se puede dividir en expl\'icita (consciente) e impl\'icita (inconsciente)
 Existen procesos de consolidaci\'on y deterioro de la memoria que est\'an constantemente en funcionamiento. La consolidaci\'on requiere un est\'imulo relevante, sumado al proceso de almacenamiento, lo que genera conexiones entre la memoria epis\'odica y la respectiva zona sem\'antica. En caso de haber experiencias repetidas, las conexiones se fortalecen. El deterioro de la memoria es un proceso que degenera las conexiones entre ambas formas de memorias expl\'icitas.
 
 La memoria emocional es una forma de memoria impl\'icita que genera reacciones emocionales y sentimientos. Seg\'un los est\'imulos a los que se enfrente, permite modular el proceso de consolidaci\'on de la STM en LTM, modificando el nivel de relevancia de los eventos, pudiendo generar memorias muy fuertes y h\'abitos arraigados. Ejemplos de esto son los flashbacks y las memorias asociadas a eventos importantes.
+
 
 
 \section{Motivaci\'on}
@@ -79,10 +83,10 @@ El uso de LTM no est\'a en las prioridades ``RoboCup'' del equipo, sino que es a
 As\'i, \'esta es una oportunidad para dise\~nar una LTM para robots de servicio, que considere aspectos como: 
 \begin{itemize}
 \item Memoria epis\'odica y sem\'antica adecuada a tareas generales de robots de servicio.
-\item M\'etodos de consolidaci\'on de STM en LTM.
+\item M\'etodolog\'ia para consolidaci\'on de STM en LTM.
 \item Servicio para recopilaci\'on continua de informaci\'on
-\item Implementaci\'on est\'andar y de c\'odigo libre basada en ROS.
-\item Capacidad de generar respaldos de la memoria y recuperaci\'on de \'estos. 
+\item Implementaci\'on est\'andar ROS, adecuada a las plataformas donde se implantar\'a la soluci\'on.
+%\item Capacidad de generar respaldos de la memoria y recuperaci\'on de \'estos. 
 \item Memoria emocional que permita dar relevancia a los eventos.
 \item Inferencia de informaci\'on a partir de datos de la memoria. Por ejemplo: ``Juan suele desayunar a las 9am'', ``El control de la TV suele estar en el sof\'a'', etc.
 %\item Integraci\'on con el di\'alogo que realiza el robot.\unsure{quitarlo?}
@@ -90,52 +94,13 @@ As\'i, \'esta es una oportunidad para dise\~nar una LTM para robots de servicio,
 
 Tanto la memoria emocional, como la inferencia de informaci\'on, se consideran requisitos deseables, por lo que est\'an fuera del \textit{core} del proyecto.
 
-Tambi\'en se considera que es la oportunidad de promover la inclusi\'on de desafios basados en LTM en la liga @Home, a partir de los resultados de \'este trabajo. As\'i, el desarrollo de LTMs y capacidades asociadas dejar\'ia de ser postergado y pasar\'ia a ser una prioridad para los equipos de la competencia.
+%Tambi\'en se considera que es la oportunidad de promover la inclusi\'on de desafios basados en LTM en la liga @Home, a partir de los resultados de \'este trabajo. As\'i, el desarrollo de LTMs y capacidades asociadas dejar\'ia de ser postergado y pasar\'ia a ser una prioridad para los equipos de la competencia.
 
 
-\section{Posibles Soluciones}
-
-Respecto al dise\~no de la memoria, un camino posible es modelar los datos y sus interacciones de acuerdo al funcionamiento de la memoria humana. Trabajos en esta l\'inea han sido desarrollados por Vijayakumar\cite{Vijayakumar2014} y Sanchez et al.\cite{Sanchez:2015}, en el dise\~no de LTMs epis\'odicas.
-
-Para definir que modelos sem\'anticos considerar y sus caracter\'isticas, en una primera instancia se puede acotar el desarrollo a robots de servicio que operen bajo determinadas condiciones. Un caso de inter\'es RoboCup son los robots de servicio para el hogar, que ayuden con las tareas dom\'esticas. \'Esto se puede acotar adem\'as, a los robots Bender y Pepper.
-
-El algoritmo a utilizar para la consolidaci\'on de STM en LTM no est\'a claro y debe ser estudiado. Se espera considerar los siguientes aspectos al escogerlo o dise\~narlo: Selecci\'on de que informaci\'on almacenar y como evitar redundancia, estrategia para cu\'ando y c\'omo actualizar la informaci\'on, y mecanismos de deterioro controlado de la memoria. %\todo{Citar alternativas de algoritmos para la consolidaci\'on de la memoria.}
-
-Una vez definido el proceso de consolidaci\'on, se puede implementar el servicio que recopile informaci\'on constantemente. \'Este podr\'ia acceder a la informaci\'on que genera el robot durante sus rutinas, una forma de STM b\'asica, mediante sus interfaces ROS.
-% \item Interacci\'on con la STM de Bender y Pepper, como fuente principal para recopilar informaci\'on. % hay muchas fuentes de STM
-
-% Respaldos
-%Capacidad de generar respaldos de la memoria y recuperaci\'on de \'estos. Mezcla del respaldo con memoria ya existente.
-
-%Respecto a la integraci\'on en la operaci\'on normal del robot, se puede implementar una rutina de conversaci\'on que utilice informaci\'on de la memoria. Para esto, una opci\'on es utilizar un chatbot basado en el lenguaje AIML\cite{aiml}.
-%\item Implementaci\'on de demostraci\'on que utilice la memoria desarrollada.
-
-Para validar el dise\~no e implementaci\'on de la LTM, algunos procedimientos de inter\'es son:
-\begin{itemize}
-\item Definici\'on de consultas que requieran informaci\'on epis\'odica y sem\'antica, para ser respondidas por la LTM. Por ejemplo:
-\subitem - Consultas epis\'odicas: ``Qu\'e hiciste ayer y c\'omo?'', ``Qu\'e pas\'o hace 1 mes?''.
-\subitem - Consultas sem\'anticas: ``Qu\'e ha cambiado en la habitaci\'on?'', ``Describe un humano que conozcas.''.
-\item Uso de la API para responder a las preguntas definidas.
-\item Uso de chatbot b\'asico basado en AIML\cite{aiml}, a modo de demostraci\'on de conversaci\'on.
-\item Queda definir otras alternativas de validaci\'on
-\end{itemize}
-
-Para la inferencia de informaci\'on, una aproximaci\'on b\'asica ser\'ia aplicar t\'ecnicas de clustering, sin embargo, la forma de solucionarlo se debe estudiar con m\'as detalle.
-
-En cuanto a la memoria emocional, hay dos partes de inter\'es, asignar importancia a los eventos y usar ese indicador para modular el proceso de consolidaci\'on. Ambos componentes deben ser estudiados con m\'as detalle. Para su validaci\'on bastar\'ia definir consultas que requieran informaci\'on emocional, como por ejemplo: ``Enumera los 10 eventos m\'as importantes que conoces''.
-
-
-%\subsubsection{OTROS}
-%\begin{itemize}
-%\item Visualizador de la memoria e interfaz para facilitar gesti\'on de los recuerdos por parte de un operador.
-%\item Migraci\'on de memoria a otros robots.
-%\item Memoria compartida entre robots.
-%\item Uso de memoria emocional para dar personalidad y reflejar estado de \'animo.
-%\item Complementar recopilaci\'on de informaci\'on e inferencia mediante informaci\'on WEB.
-%\item Uso de servicio web para an\'alisis de frases e intenciones, para responder preguntas en lenguaje natural.
-%\end{itemize}
-
-
+%\subsection{Aporte del Trabajo}
+%
+%La contribuci\'on del trabajo es principalmente el dise\~no e implementaci\'on 
+%
 
 \section{Objetivos}
 
@@ -160,23 +125,8 @@ A continuaci\'on se presentan los objetivos espec\'ificos del trabajo, a modo de
 
 Otros objetivos espec\'ificos, correspondientes a requisitos que no son del \textit{core} del proyecto, son la implementaci\'on de la memoria emocional y la implementaci\'on de un m\'odulo de inferencia de informaci\'on basada en LTM.
 
-\section{Metodolog\'ia}
 
-Tomando en cuenta la orientaci\'on de los cursos de (CC6908, EL6908) y EL6909, se propone una metodolog\'ia de 2 etapas, 1 por cada curso.
-
-Durante el primer semestre se espera realizar la revisi\'on bibliogr\'afica correspondiente, y particularmente:
-\begin{itemize}
-\item Estudiar la implementaci\'on de LTM en robots de servicio y otras plataformas.
-\item Definir algoritmo de consolidaci\'on.
-\item Formalizar las validaciones y demostraci\'on a realizar.
-\item Dise\~no de la arquitectura de software.
-\item Estudiar alternativas para la inferencia de informaci\'on y memoria emocional.
-\end{itemize}
-
-Durante el segundo semestre se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteraci\'on y los 2 objetivos alternativos en las siguientes. An\'alogamente, el desarrollo del core ser\'a dividido en los siguientes incrementos m\'as peque\~nos:
-\begin{enumerate}
-\item Implementaci\'on de la LTM, su API y validaci\'on.
-\item Servicio para recopilaci\'on continua de informaci\'on.
-\item Implementaci\'on de la demostraci\'on.
-\end{enumerate}
- 
+%\section{Alcances}
+%
+%\section{Estructura de la memoria}
+%

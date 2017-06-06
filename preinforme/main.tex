@@ -33,6 +33,14 @@
 
 \setlength{\parskip}{6pt}
 
+
+\hypersetup{
+    colorlinks,
+    linkcolor={black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
 \begin{document}
 
 
@@ -44,7 +52,7 @@
 \center % Center everything on the page
  
 \ \\[-1cm]
-\includegraphics[height=3cm]{escudoU2014.pdf}\\[0.5cm]
+\includegraphics[height=3cm]{./figures/escudoU2014.pdf}\\[0.5cm]
 \textsc{\LARGE Universidad de Chile}\\[0cm]
 \textsc{\large Departamento de Ingenier\'ia El\'ectrica}\\
 \textsc{\large Departamento de Ciencias de la Computaci\'on}\\[3cm]
@@ -91,13 +99,78 @@ Jocelyn \textsc{Simmond}\\
 
 \tableofcontents
 
-\listoffigures
+%\listoffigures
 
-\listoftables
+%\listoftables
 
 
 \input{./chapters/1_introduccion}
 \input{./chapters/2_marco_teorico}
+
+%\section{Posibles Soluciones}
+%
+%Respecto al dise\~no de la memoria, un camino posible es modelar los datos y sus interacciones de acuerdo al funcionamiento de la memoria humana. Trabajos en esta l\'inea han sido desarrollados por Vijayakumar\cite{Vijayakumar2014} y Sanchez et al.\cite{Sanchez:2015}, en el dise\~no de LTMs epis\'odicas.
+%
+%Para definir que modelos sem\'anticos considerar y sus caracter\'isticas, en una primera instancia se puede acotar el desarrollo a robots de servicio que operen bajo determinadas condiciones. Un caso de inter\'es RoboCup son los robots de servicio para el hogar, que ayuden con las tareas dom\'esticas. \'Esto se puede acotar adem\'as, a los robots Bender y Pepper.
+%
+%El algoritmo a utilizar para la consolidaci\'on de STM en LTM no est\'a claro y debe ser estudiado. Se espera considerar los siguientes aspectos al escogerlo o dise\~narlo: Selecci\'on de que informaci\'on almacenar y como evitar redundancia, estrategia para cu\'ando y c\'omo actualizar la informaci\'on, y mecanismos de deterioro controlado de la memoria. %\todo{Citar alternativas de algoritmos para la consolidaci\'on de la memoria.}
+%
+%Una vez definido el proceso de consolidaci\'on, se puede implementar el servicio que recopile informaci\'on constantemente. \'Este podr\'ia acceder a la informaci\'on que genera el robot durante sus rutinas, una forma de STM b\'asica, mediante sus interfaces ROS.
+%% \item Interacci\'on con la STM de Bender y Pepper, como fuente principal para recopilar informaci\'on. % hay muchas fuentes de STM
+%
+%% Respaldos
+%%Capacidad de generar respaldos de la memoria y recuperaci\'on de \'estos. Mezcla del respaldo con memoria ya existente.
+%
+%%Respecto a la integraci\'on en la operaci\'on normal del robot, se puede implementar una rutina de conversaci\'on que utilice informaci\'on de la memoria. Para esto, una opci\'on es utilizar un chatbot basado en el lenguaje AIML\cite{aiml}.
+%%\item Implementaci\'on de demostraci\'on que utilice la memoria desarrollada.
+%
+%Para validar el dise\~no e implementaci\'on de la LTM, algunos procedimientos de inter\'es son:
+%\begin{itemize}
+%\item Definici\'on de consultas que requieran informaci\'on epis\'odica y sem\'antica, para ser respondidas por la LTM. Por ejemplo:
+%\subitem - Consultas epis\'odicas: ``Qu\'e hiciste ayer y c\'omo?'', ``Qu\'e pas\'o hace 1 mes?''.
+%\subitem - Consultas sem\'anticas: ``Qu\'e ha cambiado en la habitaci\'on?'', ``Describe un humano que conozcas.''.
+%\item Uso de la API para responder a las preguntas definidas.
+%\item Uso de chatbot b\'asico basado en AIML\cite{aiml}, a modo de demostraci\'on de conversaci\'on.
+%\item Queda definir otras alternativas de validaci\'on
+%\end{itemize}
+%
+%Para la inferencia de informaci\'on, una aproximaci\'on b\'asica ser\'ia aplicar t\'ecnicas de clustering, sin embargo, la forma de solucionarlo se debe estudiar con m\'as detalle.
+%
+%En cuanto a la memoria emocional, hay dos partes de inter\'es, asignar importancia a los eventos y usar ese indicador para modular el proceso de consolidaci\'on. Ambos componentes deben ser estudiados con m\'as detalle. Para su validaci\'on bastar\'ia definir consultas que requieran informaci\'on emocional, como por ejemplo: ``Enumera los 10 eventos m\'as importantes que conoces''.
+%
+%
+%%\subsubsection{OTROS}
+%%\begin{itemize}
+%%\item Visualizador de la memoria e interfaz para facilitar gesti\'on de los recuerdos por parte de un operador.
+%%\item Migraci\'on de memoria a otros robots.
+%%\item Memoria compartida entre robots.
+%%\item Uso de memoria emocional para dar personalidad y reflejar estado de \'animo.
+%%\item Complementar recopilaci\'on de informaci\'on e inferencia mediante informaci\'on WEB.
+%%\item Uso de servicio web para an\'alisis de frases e intenciones, para responder preguntas en lenguaje natural.
+%%\end{itemize}
+%
+
+
+%\section{Metodolog\'ia}
+%
+%Tomando en cuenta la orientaci\'on de los cursos de (CC6908, EL6908) y EL6909, se propone una metodolog\'ia de 2 etapas, 1 por cada curso.
+%
+%Durante el primer semestre se espera realizar la revisi\'on bibliogr\'afica correspondiente, y particularmente:
+%\begin{itemize}
+%\item Estudiar la implementaci\'on de LTM en robots de servicio y otras plataformas.
+%\item Definir algoritmo de consolidaci\'on.
+%\item Formalizar las validaciones y demostraci\'on a realizar.
+%\item Dise\~no de la arquitectura de software.
+%\item Estudiar alternativas para la inferencia de informaci\'on y memoria emocional.
+%\end{itemize}
+%
+%Durante el segundo semestre se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteraci\'on y los 2 objetivos alternativos en las siguientes. An\'alogamente, el desarrollo del core ser\'a dividido en los siguientes incrementos m\'as peque\~nos:
+%\begin{enumerate}
+%\item Implementaci\'on de la LTM, su API y validaci\'on.
+%\item Servicio para recopilaci\'on continua de informaci\'on.
+%\item Implementaci\'on de la demostraci\'on.
+%\end{enumerate}
+% 
 
 
 \bibliographystyle{IEEEtran}
