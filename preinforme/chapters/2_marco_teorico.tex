@@ -1,15 +1,62 @@
 
 \chapter{Contextualizaci\'on}
 
+\section{Robots de servicio}
+
+La Federaci\'on Internacional de Rob\'otica (IFR)\cite{IFR} define \textit{robot} como:
+\begin{quotation}
+``Un mecanismo actuado y programable en dos o m\'as ejes y con un cierto grado de autonom\'ia, que se mueve en su entorno para realizar tareas previstas. En \'este contexto, autonom\'ia se refiere a la habilidad de realizar tareas previstas, basado en el estado actual y lo sensado, sin intervenci\'on humana.''
+\end{quotation}
+
+Asimismo, la IFR define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido. Generalmente, la rob\'otica de servicio se enfocada en asistir a los seres humanos en tareas repetitivas y comunes.
+
+Seg\'un su \'area de aplicaci\'on, un rob\'ot de servicio se clasifica en \textit{de uso personal} o \textit{de uso profesional}. Los primeros son utilizados en ambientes no comerciales y por personas comunes; como por ejemplo, un robot sirviente o una silla de ruedas aut\'onoma. Un robot de servicio profesional se utiliza en ambientes comerciales, usualmente operados por alguien entrenado; un ejemplo son los robots de entrega de paquetes o para cirug\'ia.
+
+
+\subsection{Robots Dom\'esticos}
+
+Seg\'un la recopilaci\'on de datos realizada por la IFR durante el 2016, \'este tipo de robots es utilizado en las siguientes \'areas:
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Tareas dom\'esticas: De compa\~nia, asistencia, limpieza, cuidado del hogar.
+\item Entretenimiento: Juguetes, comunicaci\'on, educaci\'on e investigaci\'on.
+\item Asistencia a ancianos y discapacitados: Sillas rob\'oticas, de asistencia.
+\item Transporte.
+\item Seguridad y vigilancia.
+\item Otros que no caen en las categor\'ias anteriores.
+\end{itemize}
+\bigskip
+
+El foco de \'este trabajo son los robots de servicio personales, enfocados en tareas dom\'esticas, clasificaci\'on a la que en  adelante se referir\'a como \textit{Robots Dom\'esticos}.
+
+Un robot dom\'estico de compa\~nia y asistencia tiene, pero no se limita a las siguientes tareas:
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Interacci\'on amistosa con humanos.
+\item Ayudar a recordar y organizar tareas.
+\item Cooperar a con la realizaci\'on de un procedimiento.
+\end{itemize}
+\bigskip
+
+
+Algunas tareas que robots dom\'esticos de tipo mayordomo deben ejecutar son:
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Ofrecer comida y bebestibles.
+\item Preparaci\'on de comida.
+\item Ordenar y limpiar el hogar.
+\end{itemize}
+\bigskip
+
+
 %\section{Memoria y rob\'otica}
 %
 %\subsection{Interacci\'on Humano-Computador}
 %
 %\subsection{Interacci\'on con el entorno}
 %
-%\subsection{Robots de servicio}
-%
 %\subsection{Dificultades}
+
 
 
 \section{Componentes de software}
@@ -24,6 +71,7 @@ ROS\cite{ROS:2009}, acr\'onimo para Robot Operating System, es un proyecto que f
 
 Fue originalmente creado por la empresa WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de m\'odulos de software con soluciones a problemas espec\'ificos, los que pueden interconectarse para construir comportamientos m\'as complejos. Por lo anterior, su uso se ha convertido en una pr\'actica mundial, siendo adoptado incluso en soluciones industriales.
 
+\todo[inline]{M\'as informaci\'on sobre ROS. Lo que sea relevante para la implementaci\'on y el dise\~no}
 
 %\subsubsection{Nodo}
 %
@@ -42,23 +90,49 @@ Fue originalmente creado por la empresa WillowGarage en el 2008, y mantenido act
 %\subsubsection{Actionlib}
 
 
+%\subsection{SMACH}
+
+\todo[inline]{Sobre SMACH Ser\'a utilizado para la demo.}
+
+
 \subsection{UChile ROS Framework}
 
-UChile ROS Framework (URF) .
+UChile ROS Framework (URF) hace referencia al sistema de software desarrollado en el laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la Universidad de Chile, para sus robots de servicio. El sistema cuenta con 10 a\~nos de desarrollo y est\'a orientado a cumplir los requisitos de la competencia Robocup en su categor\'ia @Home.
+
+URF est\'a construido sobre ROS y en una estructura de 4 capas. La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no; Es la \'unica capa donde que contiene c\'odigo externo. Sobre ella, se monta una capa ROS de bajo nivel, con herramientas y librer\'ias comunes, sumado a los drivers necesarios para manejar cada robot. La capa intermedia alberga capacidades rob\'oticas avanzadas, relacionadas a percepci\'on ro\'otica, manipulaci\'on de objetos, navegaci\'on aut\'onoma e interacci\'on Humano-Robot. Finalmente, existe una capa desarrollada en python, con interfaces para el uso de las capacidades de menor nivel, utilizada para la elaboraci\'on de maquinas de estado y comportamientos rob\'oticos complejos.
+
+\todo[inline]{Agregar imagen con las capas de URF}
+
+Todos los m\'odulos de URF son de c\'odigo libre, a excepci\'on de los algoritmos relacionados con percepci\'on y la interfaz de alto nivel. El c\'odigo se almacena p\'ublicamente en la organizaci\'on \textit{uchile-robotics} en GitHub\footnote{Organizaci\'on \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
 
 
-La mayor parte del c\'odigo es p\'ublico  y se encuentra en GitHub ...
+%\subsubsection{Concepto de robot-skills}
+\todo[inline]{Sobre las robot skills. Ser\'an utilizadas para la demo.}
+
+
+\subsubsection{Manejo de informaci\'on en URF}
+
+Si un robot implementa URF, entonces es posible acceder a la informaci\'on compartida por sus procesos. Cualquier m\'odulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en postprocesamientos, junto al acceso para controlar el hardware.
+
+Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. Tambi\'en se pueden dividir en de corto y largo plazo:
+
+Como STM, se puede definir como memoria de trabajo a todo el flujo de informaci\'on presente durante la ejecuci\'on del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente tales datos no son almacenados para posteriores ejecuciones.
+
+A manera de LTM, se puede encontrar una memoria procedural, relacionada con todo el conocimiento almacenado que posee el robot para cumplir ciertas tareas. Caen en \'esta categor\'ia: modelos para percepci\'on rob\'otica, modelos para reconocimiento de voz y patrones, bases de datos de movimientos precalculados para manipular objetos y acciones predefinidas que se utilizan para controlar el robot.
+
+Tambi\'en se pueden encontrar especializaciones de memoria LTM sem\'antica. Ejemplos de \'esto son: El m\'apa que se conoce del entorno, junto a los lugares y objetos anotados en \'el. Diccionarios con informaci\'on anotada sobre entidades y sus caracter\'isticas, c\'omo personas y objetos. Bases de datos con im\'agenes anotadas para el reconocimiento de objetos y personas. 
+
+Sin embargo, en URF no existen formas de memoria emocional ni epis\'osica de largo plazo. Luego, toda interacci\'on realizada por los robots est\'a limitada a la informaci\'on obtenida desde el inicio al t\'ermino de cada rutina.
 
 
 
-%
 %\subsection{KnowRob}
-%
-%
+
+
 %\subsection{MongoDB}
 %
 %
-%\subsection{SMACH}
+
 
 
 
