@@ -5,39 +5,40 @@
 
 La Federaci\'on Internacional de Rob\'otica (IFR)\cite{IFR} define \textit{robot} como:
 \begin{quotation}
-``Un mecanismo actuado y programable en dos o m\'as ejes y con un cierto grado de autonom\'ia, que se mueve en su entorno para realizar tareas previstas. En \'este contexto, autonom\'ia se refiere a la habilidad de realizar tareas previstas, basado en el estado actual y lo sensado, sin intervenci\'on humana.''
+``Un mecanismo actuado y programable en dos o m\'as ejes y con un cierto grado de autonom\'ia, que se mueve en su entorno para realizar tareas previstas. En este contexto, autonom\'ia se refiere a la habilidad de realizar tareas previstas, basado en el estado actual y lo sensado, sin intervenci\'on humana.''
 \end{quotation}
 
-Asimismo, la IFR define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido. Generalmente, la rob\'otica de servicio se enfocada en asistir a los seres humanos en tareas repetitivas y comunes.
+Asimismo, la IFR define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido. Generalmente, la rob\'otica de servicio se enfoca en asistir a los seres humanos en tareas repetitivas y comunes.
 
 Seg\'un su \'area de aplicaci\'on, un rob\'ot de servicio se clasifica en \textit{de uso personal} o \textit{de uso profesional}. Los primeros son utilizados en ambientes no comerciales y por personas comunes; como por ejemplo, un robot sirviente o una silla de ruedas aut\'onoma. Un robot de servicio profesional se utiliza en ambientes comerciales, usualmente operados por alguien entrenado; un ejemplo son los robots de entrega de paquetes o para cirug\'ia.
 
 
 \subsection{Robots Dom\'esticos}
 
-Seg\'un la recopilaci\'on de datos realizada por la IFR durante el 2016, \'este tipo de robots es utilizado en las siguientes \'areas:
+Seg\'un la recopilaci\'on de datos realizada por la IFR durante el 2016, este tipo de robots es utilizado en las siguientes \'areas:
 \begin{itemize}[topsep=0pt]
 \setlength\itemsep{0.2em}
 \item Tareas dom\'esticas: De compa\~nia, asistencia, limpieza, cuidado del hogar.
 \item Entretenimiento: Juguetes, comunicaci\'on, educaci\'on e investigaci\'on.
-\item Asistencia a ancianos y discapacitados: Sillas rob\'oticas, de asistencia.
+\item Asistencia a ancianos y discapacitados: Sillas rob\'oticas y robots para cuidar personas.
 \item Transporte.
 \item Seguridad y vigilancia.
 \item Otros que no caen en las categor\'ias anteriores.
 \end{itemize}
 \bigskip
 
-El foco de \'este trabajo son los robots de servicio personales, enfocados en tareas dom\'esticas, clasificaci\'on a la que en  adelante se referir\'a como \textit{Robots Dom\'esticos}.
+El foco de este trabajo son los robots de servicio personales, dedicados a tareas dom\'esticas, clasificaci\'on a la que en  adelante se referir\'a como \textit{Robots Dom\'esticos}.
 
-Un robot dom\'estico de compa\~nia y asistencia tiene, pero no se limita a las siguientes tareas:
+Para entender el alcance del trabajo, en cuanto a qu\'e es lo que se espera del sistema, a continuaci\'on se listan algunas capacidades de los robots dom\'esticos. Un robot de compa\~nia y asistencia tiene, pero no se limita a las siguientes tareas:
 \begin{itemize}[topsep=0pt]
 \setlength\itemsep{0.2em}
 \item Interacci\'on amistosa con humanos.
 \item Ayudar a recordar y organizar tareas.
-\item Cooperar a con la realizaci\'on de un procedimiento.
+\item Cooperar con la realizaci\'on de un procedimiento.
+\item Guiar y seguir a personas.
+\item Recordar informaci\'on y entidades.
 \end{itemize}
 \bigskip
-
 
 Algunas tareas que robots dom\'esticos de tipo mayordomo deben ejecutar son:
 \begin{itemize}[topsep=0pt]
@@ -49,13 +50,98 @@ Algunas tareas que robots dom\'esticos de tipo mayordomo deben ejecutar son:
 \bigskip
 
 
-%\section{Memoria y rob\'otica}
-%
+\section{Memoria y rob\'otica}
+
+\unsure[inline]{bla bla generico}
+
+
+\subsection{Trabajos relacionados}
+
+requerimientos para interaccion humana y tareas que debe desarrollar un robot de servicio.
 %\subsection{Interacci\'on Humano-Computador}
 %
 %\subsection{Interacci\'on con el entorno}
-%
-%\subsection{Dificultades}
+
+sobre importancia de la memoria en un sistema robotico!!!
+... blabla util \cite{Vijayakumar2014}
+... como memoria ayuda a mejorar desempeno en tareas \cite{Salgado2012}
+... mas al respecto \cite{Ho2009}
+... casos de uso e inferencia \cite{Vijayakumar2014}
+
+
+diagramas
+... memoria humana \cite{Vijayakumar2014}
+... memoria humana LTM \cite{Stachowicz2012}
+... consolidacion y olvido \cite{Deutsch2008}
+
+Punto de vista de las ciencias cognitivas
+... agregar!!! o mover a la memoria humana
+... referencias a psicoanalisis \cite{Deutsch2008}
+
+Sobre casos quie no son human like...
+- algunos solo base de datos y recordar todo
+- deep neural network... \cite{KimMinJoo2016}
+
+
+Muchos intentar basarse en bla...
+
+
+Relacion memoria humana con robotica.
+... habilidades y PM \cite{Salgado2012} ... CRAM
+... datos y semantica
+... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
+ ... E LTM no solo responde que donde y cuando.. necesita perspectiva \cite{Stachowicz2012}
+... S Memory.. se abstrae de perspecttiva y cosas situacionales \cite{Stachowicz2012}
+... defs de memoria \cite{Deutsch2008}
+... definiciones de procesos cognitivos: \cite{Deutsch2008}
+ 
+ 
+Existen los siguientes modelos
+- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
+- dejar de aprender (sorprenderse al ser mayor)
+... modelo probabilistico para consolidar y decaer \cite{Dodd2005}
+... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
+... modelo capaz de adaptarse a m\'as robots \cite{Ho2009}
+... modelo de contexto \cite{Sanchez:2015} FELIX
+
+sobre el diseno..
+... que recordar y cuando \cite{Kasap2010}
+... conflicto etico de almacenar datos de usuarios \cite{Ho2009}
+... aspectos de diseno \cite{Ho2009}
+... propiedades de LTM \cite{Jockel2008}
+... requerimientos de LTM \cite{Vijayakumar2014}
+... requerimientos E LTM \cite{Stachowicz2012}
+... 11 req. ELTM \cite{Stachowicz2012}
+... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
+... diseno explicado de SONIA en RDF \cite{Vijayakumar2014}
+... definir contenido de QWHAT \cite{Stachowicz2012}
+
+Existen los siguientes frameworks, modelos
+- procedural y CRAM \cite{Winkler2014}
+... ISAC \cite{Dodd2005}
+... MINERVA, LIDA, Neuronal,M SMRTI \cite{Jockel2008}
+... deficiencias de ISAC, EPIROME, \cite{Stachowicz2012}
+... sobre Tecuci, ISAC, SOAR y Ho \cite{Deutsch2008}
+
+Existen las siguientes reglas generales
+.. definicion de episodio \cite{Dodd2005}
+.. reglas de consolidacion \cite{Dodd2005}
+
+
+sobre memoria emocional y mapeo al robot
+.. emotion Engine \cite{Kasap2010}
+.. mapeo por dolor. teoria de haikonen y otros \cite{Dodd2005}
+... refs sobre emociones \cite{Deutsch2008}
+.. emociones modulan el bla \cite{Deutsch2008}
+
+sobre inferencia y mapeo al robot
+.. sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
+
+Resumen de dificultades ... diagrama o tabla.
+
+
+
+Considerar unificaci\'on de informaci\'on.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
 
 
 
@@ -112,13 +198,13 @@ Todos los m\'odulos de URF son de c\'odigo libre, a excepci\'on de los algoritmo
 
 \subsubsection{Manejo de informaci\'on en URF}
 
-Si un robot implementa URF, entonces es posible acceder a la informaci\'on compartida por sus procesos. Cualquier m\'odulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en postprocesamientos, junto al acceso para controlar el hardware.
+Si un robot implementa URF, entonces es posible acceder a la informaci\'on compartida por sus procesos. Cualquier m\'odulo ROS en el sistema tiene acceso a los datos extra\'idos desde sensores y luego generados en postprocesamientos, junto al acceso para controlar el hardware.
 
 Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. Tambi\'en se pueden dividir en de corto y largo plazo:
 
 Como STM, se puede definir como memoria de trabajo a todo el flujo de informaci\'on presente durante la ejecuci\'on del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente tales datos no son almacenados para posteriores ejecuciones.
 
-A manera de LTM, se puede encontrar una memoria procedural, relacionada con todo el conocimiento almacenado que posee el robot para cumplir ciertas tareas. Caen en \'esta categor\'ia: modelos para percepci\'on rob\'otica, modelos para reconocimiento de voz y patrones, bases de datos de movimientos precalculados para manipular objetos y acciones predefinidas que se utilizan para controlar el robot.
+A manera de LTM, se puede encontrar una memoria procedural, relacionada con todo el conocimiento almacenado que posee el robot para cumplir ciertas tareas. Caen en esta categor\'ia: modelos para percepci\'on rob\'otica, modelos para reconocimiento de voz y patrones, bases de datos de movimientos precalculados para manipular objetos y acciones predefinidas que se utilizan para controlar el robot.
 
 Tambi\'en se pueden encontrar especializaciones de memoria LTM sem\'antica. Ejemplos de \'esto son: El m\'apa que se conoce del entorno, junto a los lugares y objetos anotados en \'el. Diccionarios con informaci\'on anotada sobre entidades y sus caracter\'isticas, c\'omo personas y objetos. Bases de datos con im\'agenes anotadas para el reconocimiento de objetos y personas. 
 
@@ -126,15 +212,25 @@ Sin embargo, en URF no existen formas de memoria emocional ni epis\'osica de lar
 
 
 
-%\subsection{KnowRob}
+\subsection{KnowRob}
 
+Permite implementar memoria sem\'antica (facts) y procedural (actions).
+\cite{Tenorth2013}, \cite{Tenorth2009}
 
 %\subsection{MongoDB}
 %
 %
 
+\subsection{Bases de Datos}
+
+Base Relacional SQLite Para memoria Epis\'odica. Es realmente necesario?.. quizas basta con MongoDB
+
+Base No Relacional Mongo: para datos
+
+OWL para sem\'antica. Pues permite realizar inferencias.
 
 
+Son estructuras "cerebrales especializadas" para las tareas que deben cubrir.
 
 
 
@@ -154,17 +250,12 @@ El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser 
 El software de Bender est\'a basado en el framework URF. Su arquitectura de software utiliza  ROS para el manejo de componentes de bajo y medio nivel. La capa de alto nivel, escrita en python, se abstrae de ROS y permite la creaci\'on de comportamientos complejos mediante m\'aquinas de estado. Todos los m\'odulos que interactuan con sensores y actuadores est\'an implementados en ROS.
 
 
-
 %\subsection{Pepper}
 %
 %Pepper es un robot humanoide desarrollado por SoftBank Robotics, orientado a la interacci\'on humano robot y con el objetivo de ser un robot de compa\~nia y soporte emocional.
 
 
-
-
-%\section{Estado del arte}
-
-
+\section{Contribuci\'on del Trabajo}
 
 
 
