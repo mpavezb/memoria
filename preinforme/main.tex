@@ -15,8 +15,21 @@
 \usepackage{listings}
 
 % varios
-\usepackage{amsmath, amssymb, amsthm, graphicx}
+\usepackage{amsmath, amssymb, amsthm}
 \usepackage{enumitem} % opciones para itemize 
+
+
+% ------------- Imágenes -------------------------------------- %
+\usepackage[pdftex]{graphicx}	% Para Archivos gráficos         %
+\usepackage{float}				% Para usar H!                   %
+\usepackage[section]{placeins}	% auto \FloatBarrier por sección %
+\usepackage{caption}			% [font=small,labelfont=bf]      %
+\usepackage{subcaption}         % Caption para subfiguras        %
+\usepackage{sidecap}            % Captions al lado               %
+\usepackage{wrapfig}            % Escribir alrededor             %
+\graphicspath{{./img/}}         % Agrega Path para buscar imgs.  %
+% ------------------------------------------------------------- %
+
 
 % = = = = = = = = = = = = = = = = = = = = = = =
 % TODO NOTES
@@ -41,6 +54,9 @@
     citecolor={blue!50!black},
     urlcolor={blue!80!black}
 }
+
+
+
 
 \begin{document}
 
