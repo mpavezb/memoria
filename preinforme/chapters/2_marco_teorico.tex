@@ -1,6 +1,12 @@
 
 \chapter{Contextualizaci\'on}
 
+\todo[inline]{INTRO AL CAPITULO!, explicando los temas variados!}
+
+% ================================================================
+% ================================================================
+% ================================================================
+
 \section{Robots de servicio}
 
 La Federaci\'on Internacional de Rob\'otica (IFR)\cite{IFR} define \textit{robot} como:
@@ -49,8 +55,14 @@ Algunas tareas que robots dom\'esticos de tipo mayordomo deben ejecutar son:
 \end{itemize}
 \bigskip
 
+% ================================================================
+% ================================================================
+% ================================================================
 
 \section{Memoria Humana}
+
+\todo[inline]{Faltan varias referencias!... ver... referencias a psicoanalisis \cite{Deutsch2008} }
+
 
 La memoria es un elemento fundamental para los humanos en su d\'ia a d\'ia, es parte integral de su existencia. P ermite recordar qui\'en, qu\'e, c\'omo, d\'onde y cu\'ando. En t\'erminos psicol\'ogicos, es la habilidad para para codificar, almacenar y luego obtener informaci\'on sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el \'area de la psicolog\'ia cognitiva con diversas descripciones y modelos te\'oricos de cada tipo de memoria\cite{Vijayakumar2014}.
 
@@ -123,94 +135,192 @@ Existen procesos qu\'imicos a nivel cerebral que afectan la consolidaci\'on y el
 
 Es posible modular ambos procesos. Las experiencias repetidas potencian la consolidaci\'on de la memoria, lo que fortalece las conexiones neuronales. Por otro lado, la memoria emocional es capaz de potenciar o deprimir las reacciones qu\'imicas requeridas; seg\'un los est\'imulos a los que se enfrente, modifica el nivel de relevancia de los eventos, pudiendo generar memorias muy fuertes y h\'abitos arraigados. Ejemplos de esto, son la memorizaci\'on por repetici\'on, los flashbacks y las memorias asociadas a eventos importantes como cumplea\~nos.
 
+% ================================================================
+% ================================================================
+% ================================================================
 
 \section{Memoria y rob\'otica}
 
-requerimientos para interaccion humana y tareas que debe desarrollar un robot de servicio.
-%\subsection{Interacci\'on Humano-Computador}
+En esta secci\'on se presenta el estado del arte respecto al uso de LTM en rob\'otica. En primer lugar se presenta la importancia de la LTM y las expectativas para un robot dom\'estico. Luego se hace una comparaci\'on entre la memoria humana y el manejo de informaci\'on en robots.  Se presenta el estado del arte para cada componente cognitivo de inter\'es. Finalmente, se describen otros enfoques de la literatura para la implementaci\'on de LTMs, que no est\'an basados en el enfoque biol\'ogico utilizado en este proyecto.
+
+
+\subsection{Relevancia de la memoria rob\'otica}
+
+La memoria es una habilidad esencial para cualquier ser social. Lo mismo aplica para un robot dom\'estico cuya misi\'on sea establecer una relaci\'on de largo plazo con usuarios humanos. Un problema com\'un es que los usuarios tienden a perder el inter\'es r\'apidamente en los robots, debido a la falta de vida y expectativas no cumplidas, respecto a la inteligencia y capacidad de socializar de la m\'aquina. El problema se potencia con el paso del tiempo, donde la motivaci\'on por interactuar disminuye y se genera frustraci\'on, a medida que el robot continua repitiendo los mismos comportamientos predefinidos\cite{Ho2009}.
+
+Si se desea mejorar la interacci\'on humano-robot, entonces se requiere que el robot se comporte de manera m\'as natural. Los mejores agentes rob\'oticos sociales deber\'ian satisfacer las necesidades cognitivas y sociales humanas; mientras m\'as familiar sea la interacci\'on, ser\'an m\'as efectivos en su prop\'osito. As\'i, la LTM es una habilidad crucial si se espera que el robot sea capaz de aprender y adaptarse a su entorno.
+
+
+Por otro lado, desde un punto de vista pr\'actico, se ha mostrado que el concepto de memoria LTM aplicada a robots es beneficioso. En \cite{Salgado2012} ocupan memoria P-LTM para mejorar el desempe\~no de un robot en ambientes din\'amicos, logrando acelerar el proceso de adaptaci\'on al entorno y la toma de decisiones.
+
+%... blabla util \cite{Vijayakumar2014}
+
+
+%\subsubsection{Requerimientos para robots dom\'esticos}
 %
-%\subsection{Interacci\'on con el entorno}
-
-sobre importancia de la memoria en un sistema robotico!!!
-... blabla util \cite{Vijayakumar2014}
-... como memoria ayuda a mejorar desempeno en tareas \cite{Salgado2012}
-... mas al respecto \cite{Ho2009}
-... casos de uso e inferencia \cite{Vijayakumar2014}
-
-
-diagramas
-... consolidacion y olvido \cite{Deutsch2008}
-
-Punto de vista de las ciencias cognitivas
-... agregar!!! o mover a la memoria humana
-... referencias a psicoanalisis \cite{Deutsch2008}
-
-Sobre casos quie no son human like...
-- algunos solo base de datos y recordar todo
-- deep neural network... \cite{KimMinJoo2016}
+%En t\'erminos de LTM, un robot dom\'estico necesita poder recordar los siguientes conocimientos:
+%
+%... \todo[inline]{tareas de un robot de servicio}
+%\begin{itemize}
+%\item 
+%\end{itemize}
+%
+%... casos de uso e inferencia \cite{Vijayakumar2014}
+%
+%... artificial companion PAG 13 \cite{Vijayakumar2014}
+%
 
 
-Muchos intentar basarse en bla...
+\subsection{Relaci\'on entre memoria humana y memoria rob\'otica}
 
 
-Relacion memoria humana con robotica.
-... habilidades y PM \cite{Salgado2012} ... CRAM
-... datos y semantica
-... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
- ... E LTM no solo responde que donde y cuando.. necesita perspectiva \cite{Stachowicz2012}
-... S Memory.. se abstrae de perspecttiva y cosas situacionales \cite{Stachowicz2012}
-... defs de memoria \cite{Deutsch2008}
-... definiciones de procesos cognitivos: \cite{Deutsch2008}
- 
- 
-Existen los siguientes modelos
-- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
-- dejar de aprender (sorprenderse al ser mayor)
-... modelo probabilistico para consolidar y decaer \cite{Dodd2005}
-... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
-... modelo capaz de adaptarse a m\'as robots \cite{Ho2009}
-... modelo de contexto \cite{Sanchez:2015} FELIX
+Son muchos los trabajos en LTM que han basado su desarrollo en la taxonom\'ia de la memoria humana, donde se implementan esquemas de informaci\'on con m\'odulos an\'alogos a los presentados en la figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con m\'odulos preexistentes en la arquitectura rob\'otica. A continuaci\'on se presenta una comparaci\'on entre cada tipo de memoria y sus procesos, y el an\'alogo rob\'otico.
 
-sobre el diseno..
-... que recordar y cuando \cite{Kasap2010}
-... conflicto etico de almacenar datos de usuarios \cite{Ho2009}
-... aspectos de diseno \cite{Ho2009}
-... propiedades de LTM \cite{Jockel2008}
-... requerimientos de LTM \cite{Vijayakumar2014}
-... requerimientos E LTM \cite{Stachowicz2012}
-... 11 req. ELTM \cite{Stachowicz2012}
-... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
-... diseno explicado de SONIA en RDF \cite{Vijayakumar2014}
-... definir contenido de QWHAT \cite{Stachowicz2012}
+\subsubsection{Memoria STM}
 
-Existen los siguientes frameworks, modelos
-- procedural y CRAM \cite{Winkler2014}
-... ISAC \cite{Dodd2005}
-... MINERVA, LIDA, Neuronal,M SMRTI \cite{Jockel2008}
-... deficiencias de ISAC, EPIROME, \cite{Stachowicz2012}
-... sobre Tecuci, ISAC, SOAR y Ho \cite{Deutsch2008}
-
-Existen las siguientes reglas generales
-.. definicion de episodio \cite{Dodd2005}
-.. reglas de consolidacion \cite{Dodd2005}
+Se relaciona a todos los datos que est\'an actualmente cargados en la memoria primaria de la m\'aquina. Esta memoria es la utilizada para solucionar la tarea actual, es equivalente a los pensamientos del robot y cumple con las caracter\'isticas de la STM humana: es volátil, de r\'apido acceso y limitada en capacidad. Tambi\'en se encuentra presente en todo archivo temporal manejado por el sistema, mientras est\'a en funcionamiento. As\'i, la estructura equivalente a la cerebral ser\'ia la RAM de la m\'aquina.
 
 
-sobre memoria emocional y mapeo al robot
-.. emotion Engine \cite{Kasap2010}
-.. mapeo por dolor. teoria de haikonen y otros \cite{Dodd2005}
-... refs sobre emociones \cite{Deutsch2008}
-.. emociones modulan el bla \cite{Deutsch2008}
+\subsubsection{Memoria S-LTM}
 
-sobre inferencia y mapeo al robot
-.. sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
+La memoria S-LTM es com\'un y se puede asociar a casi toda fuente de datos est\'atica, no utilizada por las otras memorias. Luego, la S-LTM se sustenta en la memoria secundaria, cumpliendo las caracter\'isticas de la LTM humana: es persistente, de acceso costoso y virtualmente ilimitada en capacidad. Algunos ejemplos son:
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Bases de datos.
+\item Directorios con im\'agenes de personas y objetos conocidos.
+\item Mapa con descripci\'on del ambiente.
+\item Frases predefinidas que puede decir el robot.
+\item Archivos de audio utilizados por el robot.
+\item En general, todo archivo con datos persistentes, cargados en cada sesi\'on de trabajo.
+\end{itemize}
 
-Resumen de dificultades ... diagrama o tabla.
+
+\subsubsection{Memoria P-LTM}
+
+Este tipo de memoria es comparable a algoritmos predefinidos para realizar acciones, generalmente motoras. 
+
+Algunos ejemplos comparables son: 
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Algoritmos basados en redes neuronales, entrenados para manipular objetos o reconocer patrones.
+\item Algoritmos entrenados para tareas espec\'ificas, c\'omo la detecci\'on de caras o el reconocimiento de voz.
+\item Controladores basados en puntos de operaci\'on para acciones motoras.
+\item S\'intesis de voz
+\end{itemize}
+
+Las estructuras equivalentes a la versi\'on cerebral ser\'ian los archivos con par\'ametros para cada algoritmo, obtenidos a partir del entrenamiento o ajustados manualmente.
+
+
+\subsubsection{Otros tipos de memoria}
+
+Generalmente, tanto STM, S-LTM como P-LTM son un requisito m\'inimo para el funcionamiento de un software rob\'otico, por lo que no son implementadas conscientemente. Luego, la existencia de tales memorias, no implica la intenci\'on de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias s\'olo son implementados en casos especializados.
 
 
 
-Considerar unificaci\'on de informaci\'on.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
+\subsection{Memoria LTM expl\'icita}\label{sec:ltm_exp}
+
+%Han existido diversos intentos por crear memorias epis\'odicas y sem\'anticas. ... tal persona hizo tal cosa ....
+
+No existe un consenso sobre los contenidos, el formato o las herramientas para implementar Ep-LTM.
+%... que recordar y cuando \cite{Kasap2010}
+%... modelo de contexto \cite{Sanchez:2015} FELIX
+
+% ... Considerar unificaci\'on de informaci\'on.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
+%...... S Memory.. se abstrae de perspecttiva y cosas situacionales \cite{Stachowicz2012}
+
+Sin embargo, si existe una aceptaci\'on generalizada sobre los requerimientos m\'inimos y deseables para el dise\~no\cite{Vijayakumar2014}\cite{Ho2009}\cite{Stachowicz2012}\cite{Jockel2008}:
+
+\subsubsection{Aspectos de dise\~no m\'inimos}
+
+% Stachowicz2012
+% The first three requirements are given by the criteria of Clayton et al [14]
+
+% corregirlos
+
+\begin{enumerate}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Contenido: (R1) Informaci\'on de eventos pasados debe ser recolectada e indexada respecto a su contexto espacio-temporal: Qu\'e, d\'onde y cu\'ando pas\'o.
+
+\item Estructura: (R2) Cada evento en conjunto con su contexto espacio-temporal forman una \'unica representaci\'on integrada, que debe ser recordada como un todo, en caso de obtener cualquiera de las caracter\'isticas del evento.
+
+\item Flexibilidad: (R3) La informaci\'on almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento sem\'antico, incluso si este fue obtenido con posterioridad a la codificaci\'on del episodio.
+
+\item Datos espec\'ificos: (R4) Memoria epis\'odica cuenta con s\'olo una instancia de cada evento para su entrenamiento, pues cada evento tiene caracter\'isticas espec\'ificas a la situaci\'on.
+
+\item Ep-LTM es LTM y declarativa: (R5) La memoria epis\'odica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, d\'ias o a\~nos. Tambi\'en es una forma de memoria declarativa.
+
+\item Perspectiva: (R6) Memoria epis\'odica debe lidiar con datos espec\'ificos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se ten\'ia en la experiencia original.
+
+\item Anidamiento: (R7) Eventos almacenados en la memoria epis\'odica pueden variar en tiempo y extensi\'on. Particularmente, pueden ocurrir eventos dentro del actual.
+
+\item Trasposici\'on : (R8)  Eventos almacenados en la memoria epis\'odica pueden variar en tiempo y extensi\'on. Particularmente, un evento A puede iniciar antes B, pero terminar durante la vida de B.
+
+\end{enumerate}
+
+\subsubsection{Aspectos de dise\~no deseables}
+
+\begin{enumerate}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item No intrusivo: (R9) El campo ``Qu\'e'' puede contener informaci\'on aleatorea, que se puede proveer mediante diversos m\'odulos de software. Se espera que la LTM no requiera dependencias de m\'odulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros m\'odulos no cambien la represnetaci\'on de sus datos.
+
+\item Eficiente: (R10) El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot.
+
+\item Escalable: (R11) Los costos de manejo de la informaci\'on deben escalar bien, independientemente de la cantidad de tiempo de operaci\'on.
+\end{enumerate}
 
 
+%\subsubsection{Frameworks relacionados}
+%
+%... ISAC \cite{Dodd2005}
+%... MINERVA, LIDA, Neuronal,M SMRTI \cite{Jockel2008}
+%... deficiencias de ISAC, EPIROME, \cite{Stachowicz2012}
+%... sobre Tecuci, ISAC, SOAR y Ho \cite{Deutsch2008}
+%... definir contenido de QWHAT \cite{Stachowicz2012}
+%.. definicion de episodio \cite{Dodd2005}
+%... diseno explicado de SONIA en RDF \cite{Vijayakumar2014}
+
+
+%\subsection{Memoria Procedural}
+%
+%... procedural y CRAM \cite{Winkler2014}
+%...... habilidades y PM \cite{Salgado2012}
+
+%\subsection{Memoria Emocional}
+%
+%.. emotion Engine \cite{Kasap2010}
+%.. mapeo por dolor. teoria de haikonen y otros \cite{Dodd2005}
+%... refs sobre emociones \cite{Deutsch2008}
+%.. emociones modulan el bla \cite{Deutsch2008}
+%
+%
+%\subsection{Procesos de consolidaci\'on y deterioro}
+%
+%- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
+%- dejar de aprender (sorprenderse al ser mayor)
+%... modelo probabilistico para consolidar y decaer \cite{Dodd2005}
+%... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
+%... reglas de consolidacion \cite{Dodd2005}
+%
+%\subsection{Inferencia a partir de LTM}
+%
+%... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
+%... knowrob
+%
+%\subsection{Otros enfoques}
+%
+%... modelo capaz de adaptarse a m\'as robots \cite{Ho2009}
+%... conflicto etico de almacenar datos de usuarios \cite{Ho2009}
+%- algunos solo base de datos y recordar todo
+%- deep neural network... \cite{KimMinJoo2016}
+%
+
+\todo[inline]{Resumen de dificultades ... diagrama o tabla.}
+
+
+
+% ================================================================
+% ================================================================
+% ================================================================
 
 \section{Componentes de software}
 
@@ -288,18 +398,21 @@ Permite implementar memoria sem\'antica (facts) y procedural (actions).
 %
 %
 
-\subsection{Bases de Datos}
+%\subsection{Bases de Datos}
+%
+%Base Relacional SQLite Para memoria Epis\'odica. Es realmente necesario?.. quizas basta con MongoDB
+%
+%Base No Relacional Mongo: para datos
+%
+%OWL para sem\'antica. Pues permite realizar inferencias.
+%
+%
+%Son estructuras "cerebrales especializadas" para las tareas que deben cubrir.
 
-Base Relacional SQLite Para memoria Epis\'odica. Es realmente necesario?.. quizas basta con MongoDB
 
-Base No Relacional Mongo: para datos
-
-OWL para sem\'antica. Pues permite realizar inferencias.
-
-
-Son estructuras "cerebrales especializadas" para las tareas que deben cubrir.
-
-
+% ================================================================
+% ================================================================
+% ================================================================
 
 
 \section{Plataformas objetivo}
@@ -308,7 +421,7 @@ Son estructuras "cerebrales especializadas" para las tareas que deben cubrir.
 
 Bender es un robot humanoide creado el a\~no 2007 en el laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera aut\'onoma para apoyar en tales labores\cite{uchile-robotics}.
 
-%\todo[inline]{FOTO}
+\todo[inline]{FOTO}
 
 En cuanto a actuadores, el robot cuenta con 3 brazos antropom\'orficos de 6 grados de libertad cada uno, una base m\'ovil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negaci\'on, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
 
