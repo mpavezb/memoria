@@ -19,13 +19,11 @@ En este cap\'itulo se presenta la metodolog\'ia a utilizar para el desarrollo de
 
 El dise\~no de la memoria LTM estar\'a basado en los 11 requerimientos de dise\~no mostrados en la secci\'on \ref{sec:ltm_exp}. Adem\'as se basar\'a en la taxonom\'ia de la memoria humana, de manera similar a los trabajos desarrollados por Vijayakumar\cite{Vijayakumar2014} y Sanchez et al.\cite{Sanchez:2015}.
 
-En cuanto a los modelos sem\'anticos a considerar y sus caracter\'isticas, se ha acotado el tema a robots de servicio de tipo dom\'estico, pues son los disponibles en la Universidad. Particularmente, el foco del trabajo, ser\'a generar una memoria LTM adecuada al robot Bender.
-
+En cuanto a los modelos sem\'anticos a considerar y sus caracter\'isticas, se ha acotado el tema a robots de servicio de tipo dom\'estico, pues son los disponibles en la Universidad. Particularmente, el foco del trabajo, ser\'a generar una memoria LTM adecuada al robot Bender. Falta definir exactamente las consultas que debe ser capaz de manejar el robot, seg\'un los requerimientos para robots dom\'esticos mostrados en la secci\'on \ref{sec:domestic_robots}
 
 El algoritmo a utilizar para la consolidaci\'on de STM en LTM no est\'a claro a\'un y debe ser estudiado. No existe un consenso al respecto en la literatura, pero un primer acercamiento ser\'a basado en la propuesta de Sanchez et al.\cite{Sanchez:2015}.
 
-
-Una vez definido el proceso de consolidaci\'on, queda definir una arquitectura de software. La intenci\'on es basar el desarrollo en el software KnowRob, pues provee muchas de las funcionalidades requeridas para las memorias sem\'antica y procedural. El desaf\'io se centra en poder agregar el soporte para memoria epis\'odica al sistema. KnowRob ha sido descargado y probado su correcto funcionamiento.
+Una vez definido el proceso de consolidaci\'on, queda definir una arquitectura de software. La intenci\'on es basar el desarrollo en el software KnowRob, pues provee muchas de las funcionalidades requeridas para las memorias sem\'antica y procedural. El desaf\'io se centra en poder agregar el soporte para memoria epis\'odica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus m\'odulos principales.
 
 Tras implementar lo anterior, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema. Luego se debe implementar una demostraci\'on del uso de los datos recopilados.
 
@@ -67,48 +65,47 @@ En cuanto a la inferencia de informaci\'on, se aprovechar\'a que KnowRob ya prov
 
 \section{Planificaci\'on}
 
-Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteraci\'on y los 2 objetivos alternativos en las siguientes. An\'alogamente, el desarrollo del core ser\'a dividido en los siguientes incrementos m\'as peque\~nos:
+Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteraci\'on y los 2 objetivos alternativos en las siguientes. El desarrollo del core ser\'a dividido en los siguientes incrementos m\'as peque\~nos:
 \begin{enumerate}[topsep=0pt]
 \setlength\itemsep{0.2em}
+\item Definir consultas a responder.
+
 \item Definir algoritmo de consolidaci\'on.
 
-\item Definir las validaciones y demostraci\'on a realizar.
+\item Dise\~no de la arquitectura de software basada en KnowRob y ROS.
 
-\item Dise\~no de la arquitectura de software
-
-\item Implementaci\'on de la LTM, su API y validaci\'on.
+\item Implementaci\'on de la Ep-LTM en KnowRob.
 
 \item Servicio para recopilaci\'on continua de informaci\'on.
 
 \item Implementaci\'on de la demostraci\'on.
 \end{enumerate}
 
- 
-%\subsection{Carta Gantt para el Trabajo de T\'itulo}
-%
-%\begin{center}
-%\scalebox{1.5}[1.1]{
-%\rotatebox{-90}{
-%\boxed{
-%\begin{gantt}{11}{10}
-%	\begin{ganttitle}
-%		\titleelement{Agosto}{2}
-%		\titleelement{Septiembre}{2}
-%		\titleelement{Octubre}{2}
-%		\titleelement{Noviembre}{2}
-%		\titleelement{Diciembre}{2}
-%    \end{ganttitle}
-%    \ganttbar[color=cyan]{Inst. sist en otro PC}{0}{2}
-%    \ganttbarcon[color=cyan]{Inst. sist. en alienware}{2}{2}
-%    \ganttbarcon[color=red]{Incorporar otro Laser}{4}{2}
-%    \ganttbarcon[color=magenta]{Ajuste par\'ametros}{6}{2}
-%    \ganttbarcon[color=yellow]{URBI $\rightarrow$ ROS }{8}{2}
-%	\ganttbar[color=cyan]{Doc. Navegaci\'on}{0}{4}
-%	\ganttbarcon[color=red]{Doc. Laser}{4}{2}
-%	\ganttbarcon[color=magenta]{Doc. Ajustes}{6}{2}
-%	\ganttbarcon[color=yellow]{Doc. URBI $\rightarrow$ ROS}{8}{2}
-%	\ganttbar[color=gray]{Escritura}{0}{10}
-%\end{gantt}
-%}}}
-%\end{center}
+
+\subsection{Carta Gantt para el Trabajo de T\'itulo}
+
+
+\begin{center}
+\scalebox{1.5}[1.1]{
+%\rotatebox{0}{
+\boxed{
+\begin{gantt}{8}{9}
+	\begin{ganttitle}
+		\titleelement{Ago.}{1}
+		\titleelement{Sept.}{2}
+		\titleelement{Oct.}{2}
+		\titleelement{Nov.}{2}
+		\titleelement{Dic.}{2}
+    \end{ganttitle}
+    \ganttbar[color=cyan]{Consultas}{0}{1}
+    \ganttbar[color=cyan]{Consolidaci\'on}{0}{1}
+    \ganttbar[color=red]{Dise\~no}{1}{2}
+    \ganttbar[color=magenta]{Implementaci\'on}{3}{2}
+    \ganttbar[color=yellow]{Integraci\'on}{5}{2}
+	\ganttbar[color=red]{Demostraci\'on}{7}{2}
+	\ganttbar[color=gray]{Escritura}{0}{9}
+\end{gantt}
+%}
+}}
+\end{center}
 
