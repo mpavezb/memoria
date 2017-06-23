@@ -29,6 +29,10 @@ Tras implementar lo anterior, se debe implementar un servicio que escuche consta
 
 En cuanto a la inferencia de informaci\'on, se aprovechar\'a que KnowRob ya provee herramientas para ello. La memoria emocional s\'olo ser\'a considerada como un objetivo secundario.
 
+\todo[inline]{Sobre como se puede implementar la memoria emocional a partir de mediciones simples en el robot.}
+
+\todo[inline]{Sobre como ser\'a la rutina de desmostraci\'on a implementar.}
+
 % Una vez definido el proceso de consolidaci\'on, se puede implementar el servicio que recopile informaci\'on constantemente. \'Este podr\'ia acceder a la informaci\'on que genera el robot durante sus rutinas, una forma de STM b\'asica, mediante sus interfaces ROS.
 
 % \item Interacci\'on con la STM de Bender y Pepper, como fuente principal para recopilar informaci\'on. % hay muchas fuentes de STM
@@ -86,10 +90,10 @@ Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de d
 
 
 \begin{center}
-\scalebox{1.5}[1.1]{
+\scalebox{1.2}[1.0]{
 %\rotatebox{0}{
 \boxed{
-\begin{gantt}{8}{9}
+\begin{gantt}{10}{9}
 	\begin{ganttitle}
 		\titleelement{Ago.}{1}
 		\titleelement{Sept.}{2}
@@ -99,10 +103,12 @@ Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de d
     \end{ganttitle}
     \ganttbar[color=cyan]{Consultas}{0}{1}
     \ganttbar[color=cyan]{Consolidaci\'on}{0}{1}
-    \ganttbar[color=red]{Dise\~no}{1}{2}
-    \ganttbar[color=magenta]{Implementaci\'on}{3}{2}
-    \ganttbar[color=yellow]{Integraci\'on}{5}{2}
-	\ganttbar[color=red]{Demostraci\'on}{7}{2}
+    \ganttbar[color=red]{Dise\~no}{1}{1}
+    \ganttbar[color=magenta]{Implementaci\'on}{2}{2}
+    \ganttbar[color=yellow]{Integraci\'on}{4}{1}
+	\ganttbar[color=red]{Demostraci\'on}{5}{1}
+	\ganttbar[color=red]{Inferencia}{6}{1}
+	\ganttbar[color=red]{M. Emocional}{7}{1}
 	\ganttbar[color=gray]{Escritura}{0}{9}
 \end{gantt}
 %}
