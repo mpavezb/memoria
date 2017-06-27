@@ -1,7 +1,7 @@
 
-\chapter{Contextualización}
+\chapter{Contextualización}\label{chapter:context}
 
-\todo[inline]{Escribir introducción al capítulo!}
+En este capítulo se revisan los temas y conceptos relevantes para el desarrollo del trabajo. Se formaliza la definición de robot doméstico y sus alcances. Se describe la memoria humana, sus categorías, funcionamiento y procesos cerebrales relevantes. Basando en los temas anteriores, se revisa la relación entre robótica y la memoria humana: se describen los distintos enfoques existentes, las reglas generales para su implementación y los frameworks actuales. Finalmente, se detalla el software de interés y las plataformas objetivo del proyecto.
 
 % ================================================================
 % ================================================================
@@ -55,6 +55,7 @@ Algunas tareas que robots domésticos de tipo mayordomo deben ejecutar son:
 \end{itemize}
 \bigskip
 
+
 % ================================================================
 % ================================================================
 % ================================================================
@@ -64,16 +65,17 @@ Algunas tareas que robots domésticos de tipo mayordomo deben ejecutar son:
 \todo[inline]{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
 % \cite{Deutsch2008} 
 
-
 La memoria es un elemento fundamental para los humanos en su día a día, es parte integral de su existencia. Permite recordar quién, qué, cómo, dónde y cuándo. En términos psicológicos, es la habilidad para para codificar, almacenar y luego obtener información sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el área de la psicología cognitiva con diversas descripciones y modelos teóricos de cada tipo de memoria\cite{Vijayakumar2014}.
 
 Desde el punto de vista de la información procesada, la memoria es vista como una facultad humana consistente en procesos para el manejo de información. Los 3 componentes principales son:
 
-\begin{itemize}
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
 \item Codificación: En este paso, se adquiere nueva información desde los sentidos humanos. Los datos son convertidos a un formato que pueda ser almacenado en la estructura cerebral correspondiente.
 \item Almacenamiento: Consiste en la creación de registros permanentes de información. Es un proceso pasivo, de continuo procesamiento para clasificar datos nuevos y los ya existentes en el cerebro.
 \item Adquisición: Hace referencia al acceso de datos almacenados. El proceso se realiza en el momento, para obtener una reconstrucción aproximada de la información, a partir de elementos repartidos en distintas partes del cerebro.
 \end{itemize}
+%\bigskip
 
 
 La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales. La primera diferenciación define dos tipos de memoria: la memoria de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés. En el diagrama de la figura \ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
@@ -156,31 +158,15 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 
 %... blabla util \cite{Vijayakumar2014}
 
-\todo[inline]{Sobre los requerimientos en específico para robots domésticos}
-
-%\subsubsection{Requerimientos para robots domésticos}
-%
-%En términos de LTM, un robot doméstico necesita poder recordar los siguientes conocimientos:
-%
-%... \todo[inline]{tareas de un robot de servicio}
-%\begin{itemize}
-%\item 
-%\end{itemize}
-%
-%... casos de uso e inferencia \cite{Vijayakumar2014}
-%
-%... artificial companion PAG 13 \cite{Vijayakumar2014}
-%
-
 
 \subsection{Relación entre memoria humana y memoria robótica}
 
 
-Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria y sus procesos, y el análogo robótico.
+Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria, sus procesos y el análogo robótico.
 
 \subsubsection{Memoria STM}
 
-Se relaciona a todos los datos que están actualmente cargados en la memoria primaria de la máquina. Esta memoria es la utilizada para solucionar la tarea actual, es equivalente a los pensamientos del robot y cumple con las características de la STM humana: es volátil, de rápido acceso y limitada en capacidad. También se encuentra presente en todo archivo temporal manejado por el sistema, mientras está en funcionamiento. Así, la estructura equivalente a la cerebral sería la RAM de la máquina.
+Se relaciona a todos los datos que están actualmente cargados en la memoria primaria de la máquina. Esta memoria es la utilizada para solucionar la tarea actual, es equivalente a los pensamientos del robot y cumple con las características de la STM humana: es volátil, de rápido acceso y limitada en capacidad. También se encuentra presente en todo archivo temporal manejado por el sistema, mientras está en funcionamiento. Así, la estructura equivalente a la cerebral sería principalmente la RAM de la máquina.
 
 
 \subsubsection{Memoria S-LTM}
@@ -222,7 +208,7 @@ Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funci
 \subsection{Memoria LTM explícita}\label{sec:ltm_exp}
 
 \todo[inline]{Sobre approaches para crear memorias episódicas.}
-%Han existido diversos intentos por crear memorias episódicas y semánticas. ... tal persona hizo tal cosa ....
+%Han existido diversos intentos por crear memorias episódicas y semánticas. ... tal persona hizo tal cosa .... desde el 2000
 
 
 \todo[inline]{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
@@ -429,7 +415,7 @@ Bender es un robot humanoide creado el año 2007 en el laboratorio de robótica 
 
 \todo[inline]{Insertar foto del robot!}
 
-En cuanto a actuadores, el robot cuenta con 3 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
+En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
 
 El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micrófono M-Audio Producer USB y una cámara de profundidad ASUS Xtion Pro.
 
@@ -437,7 +423,7 @@ El software de Bender está basado en el framework URF. Su arquitectura de softw
 
 
 
-\todo[inline]{Robot pepper es eliminado por ahora, para acotar los alcances.}
+%\todo[inline]{Robot pepper es eliminado por ahora, para acotar los alcances.}
 %\subsection{Pepper}
 %
 %Pepper es un robot humanoide desarrollado por SoftBank Robotics, orientado a la interacción humano robot y con el objetivo de ser un robot de compañía y soporte emocional.
