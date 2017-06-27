@@ -1,92 +1,92 @@
 
-\chapter{Metodolog\'ia}
+\chapter{Metodología}
 
-En este cap\'itulo se presenta la metodolog\'ia a utilizar para el desarrollo del trabajo de t\'itulo. En primer lugar se presentan las alternativas de soluci\'on evaluadas para el proyecto, haciendo \'enfasis en la factibilidad de la propuesta. Para luego, describir la planificaci\'on de tareas a realizar durante el segundo periodo del proceso, sustentados en las soluciones propuestas. Finalmente, se presenta una carta gantt con los periodos de trabajo estimados.
+En este capítulo se presenta la metodología a utilizar para el desarrollo del trabajo de título. En primer lugar se presentan las alternativas de solución evaluadas para el proyecto, haciendo énfasis en la factibilidad de la propuesta. Para luego, describir la planificación de tareas a realizar durante el segundo periodo del proceso, sustentados en las soluciones propuestas. Finalmente, se presenta una carta gantt con los periodos de trabajo estimados.
 
 
-\section{Propuesta de Soluci\'on}
+\section{Propuesta de Solución}
 
 %Temas a resolver:
 %
 %- modelo de memoria a utilizar
 %- arquitectura
-%- consolidaci\'on
+%- consolidación
 %- base de datos
 %- demostracion 
 %- emociones
 %- inferencia
 
 
-El dise\~no de la memoria LTM estar\'a basado en los 11 requerimientos de dise\~no mostrados en la secci\'on \ref{sec:ltm_exp}. Adem\'as se basar\'a en la taxonom\'ia de la memoria humana, de manera similar a los trabajos desarrollados por Vijayakumar\cite{Vijayakumar2014} y Sanchez et al.\cite{Sanchez:2015}.
+El diseño de la memoria LTM estará basado en los 11 requerimientos de diseño mostrados en la sección \ref{sec:ltm_exp}. Además se basará en la taxonomía de la memoria humana, de manera similar a los trabajos desarrollados por Vijayakumar\cite{Vijayakumar2014} y Sánchez et al.\cite{Sanchez:2015}.
 
-En cuanto a los modelos sem\'anticos a considerar y sus caracter\'isticas, se ha acotado el tema a robots de servicio de tipo dom\'estico, pues son los disponibles en la Universidad. Particularmente, el foco del trabajo, ser\'a generar una memoria LTM adecuada al robot Bender. Falta definir exactamente las consultas que debe ser capaz de manejar el robot, seg\'un los requerimientos para robots dom\'esticos mostrados en la secci\'on \ref{sec:domestic_robots}
+En cuanto a los modelos semánticos a considerar y sus características, se ha acotado el tema a robots de servicio de tipo doméstico, pues son los disponibles en la Universidad. Particularmente, el foco del trabajo, será generar una memoria LTM adecuada al robot Bender. Falta definir exactamente las consultas que debe ser capaz de manejar el robot, según los requerimientos para robots domésticos mostrados en la sección \ref{sec:domestic_robots}
 
-El algoritmo a utilizar para la consolidaci\'on de STM en LTM no est\'a claro a\'un y debe ser estudiado. No existe un consenso al respecto en la literatura, pero un primer acercamiento ser\'a basado en la propuesta de Sanchez et al.\cite{Sanchez:2015}.
+El algoritmo a utilizar para la consolidación de STM en LTM no está claro aún y debe ser estudiado. No existe un consenso al respecto en la literatura, pero un primer acercamiento será basado en la propuesta de Sánchez et al.\cite{Sanchez:2015}.
 
-Una vez definido el proceso de consolidaci\'on, queda definir una arquitectura de software. La intenci\'on es basar el desarrollo en el software KnowRob, pues provee muchas de las funcionalidades requeridas para las memorias sem\'antica y procedural. El desaf\'io se centra en poder agregar el soporte para memoria epis\'odica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus m\'odulos principales.
+Una vez definido el proceso de consolidación, queda definir una arquitectura de software. La intención es basar el desarrollo en el software KnowRob, pues provee muchas de las funcionalidades requeridas para las memorias semántica y procedural. El desafío se centra en poder agregar el soporte para memoria episódica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus módulos principales.
 
-Tras implementar lo anterior, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema. Luego se debe implementar una demostraci\'on del uso de los datos recopilados.
+Tras implementar lo anterior, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema. Luego se debe implementar una demostración del uso de los datos recopilados.
 
-En cuanto a la inferencia de informaci\'on, se aprovechar\'a que KnowRob ya provee herramientas para ello. La memoria emocional s\'olo ser\'a considerada como un objetivo secundario.
+En cuanto a la inferencia de información, se aprovechará que KnowRob ya provee herramientas para ello. La memoria emocional sólo será considerada como un objetivo secundario.
 
 \todo[inline]{Sobre como se puede implementar la memoria emocional a partir de mediciones simples en el robot.}
 
-\todo[inline]{Sobre como ser\'a la rutina de desmostraci\'on a implementar.}
+\todo[inline]{Sobre como será la rutina de desmostración a implementar.}
 
-% Una vez definido el proceso de consolidaci\'on, se puede implementar el servicio que recopile informaci\'on constantemente. \'Este podr\'ia acceder a la informaci\'on que genera el robot durante sus rutinas, una forma de STM b\'asica, mediante sus interfaces ROS.
+% Una vez definido el proceso de consolidación, se puede implementar el servicio que recopile información constantemente. éste podría acceder a la información que genera el robot durante sus rutinas, una forma de STM básica, mediante sus interfaces ROS.
 
-% \item Interacci\'on con la STM de Bender y Pepper, como fuente principal para recopilar informaci\'on. % hay muchas fuentes de STM
+% \item Interacción con la STM de Bender y Pepper, como fuente principal para recopilar información. % hay muchas fuentes de STM
 
 % Respaldos
-%Capacidad de generar respaldos de la memoria y recuperaci\'on de \'estos. Mezcla del respaldo con memoria ya existente.
+%Capacidad de generar respaldos de la memoria y recuperación de éstos. Mezcla del respaldo con memoria ya existente.
 
-%Respecto a la integraci\'on en la operaci\'on normal del robot, se puede implementar una rutina de conversaci\'on que utilice informaci\'on de la memoria. Para esto, una opci\'on es utilizar un chatbot basado en el lenguaje AIML\cite{aiml}.
-%\item Implementaci\'on de demostraci\'on que utilice la memoria desarrollada.
+%Respecto a la integración en la operación normal del robot, se puede implementar una rutina de conversación que utilice información de la memoria. Para esto, una opción es utilizar un chatbot basado en el lenguaje AIML\cite{aiml}.
+%\item Implementación de demostración que utilice la memoria desarrollada.
 
-% Para validar el dise\~no e implementaci\'on de la LTM, algunos procedimientos de inter\'es son:
+% Para validar el diseño e implementación de la LTM, algunos procedimientos de interés son:
 %\begin{itemize}
-%\item Definici\'on de consultas que requieran informaci\'on epis\'odica y sem\'antica, para ser respondidas por la LTM. Por ejemplo:
-%\subitem - Consultas epis\'odicas: ``Qu\'e hiciste ayer y c\'omo?'', ``Qu\'e pas\'o hace 1 mes?''.
-%\subitem - Consultas sem\'anticas: ``Qu\'e ha cambiado en la habitaci\'on?'', ``Describe un humano que conozcas.''.
+%\item Definición de consultas que requieran información episódica y semántica, para ser respondidas por la LTM. Por ejemplo:
+%\subitem - Consultas episódicas: ``Qué hiciste ayer y cómo?'', ``Qué pasó hace 1 mes?''.
+%\subitem - Consultas semánticas: ``Qué ha cambiado en la habitación?'', ``Describe un humano que conozcas.''.
 %\item Uso de la API para responder a las preguntas definidas.
-%\item Uso de chatbot b\'asico basado en AIML\cite{aiml}, a modo de demostraci\'on de conversaci\'on.
-%\item Queda definir otras alternativas de validaci\'on
+%\item Uso de chatbot básico basado en AIML\cite{aiml}, a modo de demostración de conversación.
+%\item Queda definir otras alternativas de validación
 %\end{itemize}
 
-% En cuanto a la memoria emocional, hay dos partes de inter\'es, asignar importancia a los eventos y usar ese indicador para modular el proceso de consolidaci\'on. Ambos componentes deben ser estudiados con m\'as detalle. Para su validaci\'on bastar\'ia definir consultas que requieran informaci\'on emocional, como por ejemplo: ``Enumera los 10 eventos m\'as importantes que conoces''.
+% En cuanto a la memoria emocional, hay dos partes de interés, asignar importancia a los eventos y usar ese indicador para modular el proceso de consolidación. Ambos componentes deben ser estudiados con más detalle. Para su validación bastaría definir consultas que requieran información emocional, como por ejemplo: ``Enumera los 10 eventos más importantes que conoces''.
 
 
 %\subsubsection{OTROS}
 %\begin{itemize}
-%\item Visualizador de la memoria e interfaz para facilitar gesti\'on de los recuerdos por parte de un operador.
-%\item Migraci\'on de memoria a otros robots.
+%\item Visualizador de la memoria e interfaz para facilitar gestión de los recuerdos por parte de un operador.
+%\item Migración de memoria a otros robots.
 %\item Memoria compartida entre robots.
-%\item Uso de memoria emocional para dar personalidad y reflejar estado de \'animo.
-%\item Complementar recopilaci\'on de informaci\'on e inferencia mediante informaci\'on WEB.
-%\item Uso de servicio web para an\'alisis de frases e intenciones, para responder preguntas en lenguaje natural.
+%\item Uso de memoria emocional para dar personalidad y reflejar estado de ánimo.
+%\item Complementar recopilación de información e inferencia mediante información WEB.
+%\item Uso de servicio web para análisis de frases e intenciones, para responder preguntas en lenguaje natural.
 %\end{itemize}
 
 
-\section{Planificaci\'on}
+\section{Planificación}
 
-Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteraci\'on y los 2 objetivos alternativos en las siguientes. El desarrollo del core ser\'a dividido en los siguientes incrementos m\'as peque\~nos:
+Durante el trabajo de título se propone seguir una estrategia incremental de desarrollo de software, que considere el \textit{core} como primera iteración y los 2 objetivos alternativos en las siguientes. El desarrollo del core será dividido en los siguientes incrementos más pequeños:
 \begin{enumerate}[topsep=0pt]
 \setlength\itemsep{0.2em}
 \item Definir consultas a responder.
 
-\item Definir algoritmo de consolidaci\'on.
+\item Definir algoritmo de consolidación.
 
-\item Dise\~no de la arquitectura de software basada en KnowRob y ROS.
+\item Diseño de la arquitectura de software basada en KnowRob y ROS.
 
-\item Implementaci\'on de la Ep-LTM en KnowRob.
+\item Implementación de la Ep-LTM en KnowRob.
 
-\item Servicio para recopilaci\'on continua de informaci\'on.
+\item Servicio para recopilación continua de información.
 
-\item Implementaci\'on de la demostraci\'on.
+\item Implementación de la demostración.
 \end{enumerate}
 
 
-\subsection{Carta Gantt para el Trabajo de T\'itulo}
+\subsection{Carta Gantt para el Trabajo de Título}
 
 
 \begin{center}
@@ -102,11 +102,11 @@ Durante el trabajo de t\'itulo se propone seguir una estrategia incremental de d
 		\titleelement{Dic.}{2}
     \end{ganttitle}
     \ganttbar[color=cyan]{Consultas}{0}{1}
-    \ganttbar[color=cyan]{Consolidaci\'on}{0}{1}
-    \ganttbar[color=red]{Dise\~no}{1}{1}
-    \ganttbar[color=magenta]{Implementaci\'on}{2}{2}
-    \ganttbar[color=yellow]{Integraci\'on}{4}{1}
-	\ganttbar[color=red]{Demostraci\'on}{5}{1}
+    \ganttbar[color=cyan]{Consolidación}{0}{1}
+    \ganttbar[color=red]{Diseño}{1}{1}
+    \ganttbar[color=magenta]{Implementación}{2}{2}
+    \ganttbar[color=yellow]{Integración}{4}{1}
+	\ganttbar[color=red]{Demostración}{5}{1}
 	\ganttbar[color=red]{Inferencia}{6}{1}
 	\ganttbar[color=red]{M. Emocional}{7}{1}
 	\ganttbar[color=gray]{Escritura}{0}{9}
