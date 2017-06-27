@@ -12,7 +12,7 @@ A continuaci\'on se presenta una breve introducci\'on a los temas requeridos par
 
 La rob\'otica de servicio es un \'area enfocada en asistir a los seres humanos en tareas repetitivas y comunes, como la recolecci\'on de basura. Formalmente, se define un \textit{robot de servicio} como un robot ``que realiza tareas \'utiles para humanos o equipamiento, excluyendo aplicaciones de automatizaci\'on industrial''\cite{IFR}. Luego, el robot requiere cierto grado de autonom\'ia, que es la habilidad de actuar a partir del estado actual, usando lo que observa del ambiente y sin intervenci\'on humana. As\'i, un robot de servicio debe trabajar en ambientes no controlados y con la autonom\'ia suficiente que le permita llevar a cabo su cometido.
 
-Un caso de uso t\'ipico es la asistencia en las tareas del hogar, donde se espera que un robot pueda ayudar a ordenar, preparar comida u ofrecer bebestibles. Otros casos de uso consideran el cuidado de adultos mayores, robots para compa\~nia en el hogar, mascotas robots, salud o educaci\'on. Particularmente, la compa\~nia SoftBank Robotics es pionera en ofrecer a Pepper como el primer robot humanoide ya adoptado en hogares de Jap\'on, as\'i como robot de bienvenida en hoteles y tiendas\cite{softbank}.
+Estos pueden se categorizar en robots para transporte, seguridad y dom\'esticos, entre otros. Los robots de servicio dom\'esticos se caracterizan por tareas de asistencia en el hogar y de compa\~n\'ia para humanos. Tareas t\'ipicas que deben realizar son ayudar a ordenar, preparar comida u ofrecer bebestibles. Otros tipos de robots se enfocan en el cuidado de adultos mayores, mascotas robots, salud o educaci\'on. Particularmente, la compa\~n\'ia SoftBank Robotics es pionera en ofrecer a Pepper como el primer robot humanoide ya adoptado en hogares de Jap\'on, as\'i como robot de bienvenida en hoteles y tiendas\cite{softbank}.
 
 
 \subsection{Equipo de Trabajo: UChile Homebreakers}
@@ -21,7 +21,7 @@ El laboratorio de rob\'otica del Departamento de Ingenier\'ia El\'ectrica de la 
 
 UChile Homebreakers existe desde el a\~no 2007 y actualmente cuenta con 15 estudiantes. Todo su desarrollo de software est\'a basado en ROS, un framework para el desarrollo de plataformas rob\'oticas y con miles de usuarios alrededor del mundo\cite{ROS:2009}.
 
-El equipo trabaja en dos plataformas humanoides, Bender y Pepper. Bender es un robot construido en el mismo laboratorio y con el objetivo de ser un mayordomo para el hogar. Pepper, desarrollado por SoftBank Robotics, est\'a dise\~nado para ser un robot de compa\~nia. Ambos comparten la misma arquitectura de software y pr\'acticamente todo su c\'odigo, exceptuando los drivers para acceder al hardware respectivo.
+El equipo trabaja en dos plataformas humanoides de tipo dom\'estico, Bender y Pepper. Bender es un robot construido en el mismo laboratorio y con el objetivo de ser un mayordomo para el hogar. Pepper, desarrollado por SoftBank Robotics, est\'a dise\~nado para ser un robot de compa\~n\'ia. Ambos comparten la misma arquitectura de software y pr\'acticamente todo su c\'odigo, exceptuando los drivers para acceder al hardware respectivo.
 
 
 \subsubsection{RoboCup @Home League}
@@ -32,7 +32,7 @@ La RoboCup es una competencia internacional cuyo objetivo es ser un veh\'iculo p
 UChile Homebreakers participa desde el a\~no 2007 en la categor\'ia @Home. Las pruebas de la liga se desarrollan en escenarios que imitan ambientes reales, como un hogar o un restaurante. 
 %Adem\'as, la competencia funciona como un espect\'aculo para p\'ublico general, por lo que se priorizan pruebas y demostraciones interesantes para los espectadores.
 % 
-Las capacidades generalmente evaluadas y potenciadas en @Home son de Vision Computacional, Navegaci\'on aut\'onoma, Manipulaci\'on de objetos y Reconocimiento de Voz. Cada a\~no el equipo planifica sus desarrollos de acuerdo a los requerimientos de la competencia, por lo que trabajos fuera de las \'areas mencionadas no son considerados una prioridad.
+Las capacidades generalmente evaluadas y potenciadas en @Home son de Visi\'on Computacional, Navegaci\'on aut\'onoma, Manipulaci\'on de objetos y Reconocimiento de Voz. Cada a\~no el equipo planifica sus desarrollos de acuerdo a los requerimientos de la competencia, por lo que trabajos fuera de las \'areas mencionadas no son considerados una prioridad.
 
 
 \subsection{La memoria humana}
@@ -106,9 +106,9 @@ Tanto la memoria emocional, como la inferencia de informaci\'on, se consideran r
 
 \subsection{Objetivo General}
 
-El objetivo general corresponde al dise\~no de una LTM para robots de servicio, que considere componentes epis\'odicos y sem\'anticos. La LTM debe ser integrada en Bender, con un servicio en background que recopile informaci\'on y con una API acorde a los desarrollos de UChile Homebreakers. Adem\'as, la LTM debe quedar integrada con alguna demostraci\'on de esta capacidad, ya sea mediante el di\'alogo o mediante inferencia de informaci\'on.
+El objetivo general corresponde al dise\~no de una LTM para robots de servicio dom\'esticos, que considere componentes epis\'odicos y sem\'anticos. La LTM debe ser integrada en Bender, con un servicio en background que recopile informaci\'on y con una API acorde a los desarrollos de UChile Homebreakers. Adem\'as, la LTM debe quedar integrada con alguna demostraci\'on de esta capacidad, ya sea mediante el di\'alogo o mediante inferencia de informaci\'on.
 
-En resumen, el producto final debe ser una LTM integrada en los robots, de generaci\'on continua de recuerdos y que provea una demostraci\'on de esta capacidad.
+En resumen, el producto final debe ser una LTM integrada en Bender, de generaci\'on continua de recuerdos y una demostraci\'on de su funcionamiento.
 
 
 \subsection{Objetivos Espec\'ificos}
