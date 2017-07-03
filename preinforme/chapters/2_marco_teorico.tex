@@ -294,7 +294,7 @@ En la figura \ref{img:sleep_eventos} se muestra un episodio de interés y sus ev
 
 Además, este diseño permite que el sistema cambie su opinión sobre una evento, mediante aprendizaje reforzado. Si se repiten eventos, pero la consecuencia deja de ser la misma, entonces el sistema se acostumbra.
 
-\subsubsection{Frameworks relacionados}
+%\subsubsection{Frameworks relacionados}
 %
 %... ISAC \cite{Dodd2005}
 %... MINERVA, LIDA, Neuronal,M SMRTI \cite{Jockel2008}
@@ -308,7 +308,7 @@ Además, este diseño permite que el sistema cambie su opinión sobre una evento
 %\subsection{Memoria Procedural}
 %
 %... procedural y CRAM \cite{Winkler2014}
-\cite{Winkler2014}
+%\cite{Winkler2014}
 
 %...... habilidades y PM \cite{Salgado2012}
 
@@ -380,7 +380,7 @@ ROS\cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que fu
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
-\todo[inline]{Más información sobre ROS. Lo que sea relevante para la implementación y el diseño.}
+%\todo[inline]{Más información sobre ROS. Lo que sea relevante para la implementación y el diseño.}
 
 %\subsubsection{Nodo}
 %
@@ -401,7 +401,7 @@ Fue originalmente creado por la organización WillowGarage en el 2008, y manteni
 
 %\subsection{SMACH}
 
-\todo[inline]{Sobre librería para máquinas de estado (a utilizar en la demostración)}
+%\todo[inline]{Sobre librería para máquinas de estado (a utilizar en la demostración)}
 
 
 \subsection{UChile ROS Framework}
@@ -410,7 +410,12 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 
 URF está construido sobre ROS y en una estructura de 4 capas. La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no; Es la única capa donde que contiene código externo. Sobre ella, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar cada robot. La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción Humano-Robot. Finalmente, existe una capa desarrollada en python, con interfaces para el uso de las capacidades de menor nivel, utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos.
 
-\todo[inline]{Agregar imagen con las capas de URF}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{./figures/URF.png}
+\caption{\small Diagrama de UChile ROS Framework utilizado en el robot Bender.}
+\label{img:URF}
+\end{figure}
 
 Todos los módulos de URF son de código libre, a excepción de los algoritmos relacionados con percepción y la interfaz de alto nivel. El código se almacena públicamente en la organización \textit{uchile-robotics} en GitHub\footnote{Organización \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
 
@@ -437,7 +442,7 @@ Sin embargo, en URF no existen formas de memoria emocional ni episódica de larg
 
 \subsection{KnowRob}
 
-KnowRob es un sistema de procesamiento de conocimiento. Combina métodos para representar conocimiento y para razonar a partir de él, junto a técnicas  para adquirir conocimiento y almacenarlo físicamente. Permite integrar información proveniente de distintas fuentes.\cite{Tenorth2013}, \cite{Tenorth2009}
+KnowRob es un sistema de procesamiento de conocimiento. Combina métodos para representar conocimiento y para razonar a partir de él, junto a técnicas  para adquirir conocimiento y almacenarlo físicamente. Permite integrar información proveniente de distintas fuentes\cite{Tenorth2013, Tenorth2009}.
 
 Está implementado en java, prolog y provee una interfaz ROS. Almacena los datos en archivos OWL (Web Ontology Language) y en una base de datos NoSQL, MongoDB. Por su diseño, permite el manejo e inferencia de memoria semántica y procedural.
 
@@ -461,7 +466,13 @@ Está implementado en java, prolog y provee una interfaz ROS. Almacena los datos
 
 Bender es un robot humanoide creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera autónoma para apoyar en tales labores\cite{uchile-robotics}.
 
-\todo[inline]{Insertar foto del robot!}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{./figures/bender.png}
+\caption{\small Robot Bender en competencia RoboCup 2015.}
+\label{img:bender}
+\end{figure}
+
 
 En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
 
