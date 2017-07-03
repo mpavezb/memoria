@@ -218,9 +218,11 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 %... modelo de contexto \cite{Sanchez:2015} FELIX
 % ... Considerar unificación de información.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
 %...... S Memory.. se abstrae de perspecttiva y cosas situacionales \cite{Stachowicz2012}
-Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para el diseño\cite{Vijayakumar2014}\cite{Ho2009}\cite{Stachowicz2012}\cite{Jockel2008}:
+Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para el diseño\cite{Vijayakumar2014, Ho2009,  Stachowicz2012, Jockel2008}:
 
-\subsubsection{Aspectos de diseño mínimos}
+%\subsubsection{Aspectos de diseño}
+
+\paragraph{Aspectos de diseño requeridos:}
 
 % Stachowicz2012
 % The first three requirements are given by the criteria of Clayton et al [14]
@@ -247,7 +249,7 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 
 \end{enumerate}
 
-\subsubsection{Aspectos de diseño deseables}
+\paragraph{Aspectos de diseño deseables:}
 
 \begin{enumerate}[topsep=0pt]
 \setlength\itemsep{0.2em}
@@ -259,8 +261,8 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 \end{enumerate}
 
 
-\todo[inline]{Sobre los implementaciones de procesos de consolidación y deterioro}
-%\subsection{Procesos de consolidación y deterioro}
+
+\subsubsection{Procesos de consolidación y deterioro}
 %
 %- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
 %- dejar de aprender (sorprenderse al ser mayor)
@@ -268,9 +270,31 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
 %... reglas de consolidacion \cite{Dodd2005}
 
+En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todo lo ocurrido, pero tiene un costo de búsqueda lineal, respecto a los episodios almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sue\~no humano.
 
-\todo[inline]{Sobre los frameworks relacionados}
-%\subsubsection{Frameworks relacionados}
+La estrategia propuesta por Kelley se basa en recordar todo, pero realizando un postprocesamiento de los datos una vez terminado el evento. La ventaja es que no sólo permite recordar episodios, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
+
+En la figura \ref{img:sleep_eventos} se muestra un episodio de interés y sus eventos previos y sucesivos. La memoria almacena la secuencia completa de eventos. En el postprocesamiento se descartan los elementos poco interesantes, del 1-2 y 5-6. Sin embargo, el evento 2 se mantiene en la Ep-LTM como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{./figures/eventos.png}
+\caption{\small Ejemplo de una secuencia de eventos enumerados. Los colores rojo y blanco indican que el evento tiene poca o mucha relevancia, respectivamente. Eventos del 3 al 4 conforman un episodio interesante para recordar, mientras que el resto pueden servir como pista o consecuencia del episodio. Obtenido de \cite{Kelley2014}.}
+\label{img:sleep_eventos}
+\end{figure}
+
+
+%Ejemplo:
+%At some location (cue), something big and orange (Tiger) moved from left to right resulting in pain (event)
+
+
+
+%Abstraccion de episodios de manera declarativa simbolica... permite mejorar tiempos de busqueda
+
+
+Además, este diseño permite que el sistema cambie su opinión sobre una evento, mediante aprendizaje reforzado. Si se repiten eventos, pero la consecuencia deja de ser la misma, entonces el sistema se acostumbra.
+
+\subsubsection{Frameworks relacionados}
 %
 %... ISAC \cite{Dodd2005}
 %... MINERVA, LIDA, Neuronal,M SMRTI \cite{Jockel2008}
@@ -284,25 +308,9 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %\subsection{Memoria Procedural}
 %
 %... procedural y CRAM \cite{Winkler2014}
+\cite{Winkler2014}
+
 %...... habilidades y PM \cite{Salgado2012}
-
-
-\todo[inline]{Sobre los inferencia a partir de la LTM}
-%\subsection{Inferencia a partir de LTM}
-%
-%... sobre importancia del sueno y postprocesamiento \cite{Kelley2014}
-%... knowrob
-
-
-\subsubsection{Otros enfoques}
-
-Se han desarrollado otras derivaciones de la memoria Ep-LTM. Algunos estudios tienen otros objetivos, como el traspaso de memoria entre robots o conflictos éticos con la información. Mientras que otras memorias no se diseñan con un enfoque biológico, basado en la memoria humana.
-
-El sistema propuesto por Ho et al. \cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto; El costo de esto, es que se reduce la personalización de cada robot. Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto \cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
-
-En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modelar la memoria episódica y la planificación de acciones de manera holística. En su implementación, los procesos de codificación, almacenado y recuperación de episodios son manejados como uno solo. Los procesos de decaimiento y relevancia son abstraídos, para ser manejados automáticamente por la red.
-
-Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias Ep-LTM y S-LTM, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir el las dependencias entre si de cada componente y reducir el ancho de banda utilizado para retransmitir la información entre procesos.
 
 
 \subsection{Memoria Emocional}
@@ -341,6 +349,19 @@ Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones rep
 
 %\todo[inline]{Resumen de dificultades ... diagrama o tabla.}
 
+
+\subsection{Otros enfoques}
+
+Se han desarrollado otras derivaciones de la memoria Ep-LTM. Algunos estudios tienen otros objetivos, como el traspaso de memoria entre robots o conflictos éticos con la información. Mientras que otras memorias no se diseñan con un enfoque biológico, basado en la memoria humana.
+
+El sistema propuesto por Ho et al. \cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto; El costo de esto, es que se reduce la personalización de cada robot. Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto \cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
+
+En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modelar la memoria episódica y la planificación de acciones de manera holística. En su implementación, los procesos de codificación, almacenado y recuperación de episodios son manejados como uno solo. Los procesos de decaimiento y relevancia son abstraídos, para ser manejados automáticamente por la red.
+
+Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias Ep-LTM y S-LTM, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir el las dependencias entre si de cada componente y reducir el ancho de banda utilizado para retransmitir la información entre procesos.
+
+
+\todo[inline]{\cite{Pratama2014}}
 
 
 % ================================================================
