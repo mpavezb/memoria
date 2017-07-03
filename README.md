@@ -3,7 +3,7 @@
 **Tema:** Diseño e Implementación de Memoria de Largo Plazo para Robots de Servicio
 
 - Autor: Matías Pavez
-- Comisión: Javier Ruiz del Solar, Jocelyn Simmond
+- Comisión: Javier Ruiz del Solar, Jocelyn Simmonds
 - Universidad de Chile, Departamento de Ingeniería Eléctrica, Departamento de Ciencias de la Computación
 
 ### Repositorio de Software
