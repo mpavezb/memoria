@@ -286,15 +286,6 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %... procedural y CRAM \cite{Winkler2014}
 %...... habilidades y PM \cite{Salgado2012}
 
-\todo[inline]{Sobre implementaciones de memoria emocional}
-%\subsection{Memoria Emocional}
-%
-%.. emotion Engine \cite{Kasap2010}
-%.. mapeo por dolor. teoria de haikonen y otros \cite{Dodd2005}
-%... refs sobre emociones \cite{Deutsch2008}
-%.. emociones modulan el bla \cite{Deutsch2008}
-
-
 
 \todo[inline]{Sobre los inferencia a partir de la LTM}
 %\subsection{Inferencia a partir de LTM}
@@ -303,14 +294,50 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %... knowrob
 
 
-\todo[inline]{Sobre otros enfoques no biológicos para LTM}
-%\subsection{Otros enfoques}
-%
-%... modelo capaz de adaptarse a más robots \cite{Ho2009}
-%... conflicto etico de almacenar datos de usuarios \cite{Ho2009}
-%- algunos solo base de datos y recordar todo
-%- deep neural network... \cite{KimMinJoo2016}
-%
+\subsubsection{Otros enfoques}
+
+Se han desarrollado otras derivaciones de la memoria Ep-LTM. Algunos estudios tienen otros objetivos, como el traspaso de memoria entre robots o conflictos éticos con la información. Mientras que otras memorias no se diseñan con un enfoque biológico, basado en la memoria humana.
+
+El sistema propuesto por Ho et al. \cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto; El costo de esto, es que se reduce la personalización de cada robot. Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto \cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
+
+En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modelar la memoria episódica y la planificación de acciones de manera holística. En su implementación, los procesos de codificación, almacenado y recuperación de episodios son manejados como uno solo. Los procesos de decaimiento y relevancia son abstraídos, para ser manejados automáticamente por la red.
+
+Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias Ep-LTM y S-LTM, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir el las dependencias entre si de cada componente y reducir el ancho de banda utilizado para retransmitir la información entre procesos.
+
+
+\subsection{Memoria Emocional}
+
+La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona. Por lo tanto, la decisión de que almacenar o recordar depende de las emociones\cite{Deutsch2008}.
+
+Su implementación requiere como mínimo de un mapeo entre estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al. \cite{Dodd2005} propone el uso de la teoría emocional de reacciones de Haikonen, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
+
+Dood et al. proponen implementar las sensaciones a partir de distintos estímulos medidos en un robot:
+
+\begin{itemize}[topsep=0pt]
+\setlength\itemsep{0.2em}
+\item Actuador que se aproxima a sus límites de movimiento físico o de fuerza. 
+\item Nivel de iluminación percibido.
+\item Nivel de ruido acústico percibido.
+\item Ausencia o presencia de humanos. Falta de interacción.
+\item Cumplimiento de objetivos.
+\item Cumplimiento de expectaciones.
+\end{itemize}
+
+
+Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la figura \ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al. \cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{./figures/haikonen.png}
+\caption{\small Sensaciones elementales y sus reacciones correspondientes, según el modelo de Haikonen. Obtenido de \cite{Dodd2005}.}
+\label{img:emotional_haikonen}
+\end{figure}
+
+Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al. \cite{Deutsch2008} consideran que el la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados. Por otro lado, Dood et al. proponen curvas de decaimiento para la importancia de los episodios, que permiten simular la pérdida de interés en los eventos.
+
+
+%... + refs sobre emociones \cite{Deutsch2008}
+
 
 %\todo[inline]{Resumen de dificultades ... diagrama o tabla.}
 
@@ -330,7 +357,7 @@ Los sistemas robóticos actuales son cada vez más complejos. Deben lidiar con m
 
 ROS\cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que funciona como middleware para aplicaciones robóticas, y permite resolver el problema de la comunicación entre procesos. Es una colección de herramientas, librerías y convenciones que buscan simplificar la tarea de crear comportamientos robóticos complejos y robustos, sin importar la plataforma robótica.
 
-Fue originalmente creado por la empresa WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
+Fue originalmente creado por la organización WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
 \todo[inline]{Más información sobre ROS. Lo que sea relevante para la implementación y el diseño.}
 
