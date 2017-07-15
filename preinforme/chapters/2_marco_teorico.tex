@@ -7,9 +7,9 @@ En este capítulo se revisan los temas y conceptos relevantes para el desarrollo
 % ================================================================
 % ================================================================
 
-\section{Robots de servicio}
+\section{Robots de Servicio Domésticos}\label{sec:domestic_robots}
 
-La Federación Internacional de Robótica (IFR)\cite{IFR} define \textit{robot} como:
+La Federación Internacional de Robótica (IFR) \cite{IFR} define \textit{robot} como:
 \begin{quotation}
 ``Un mecanismo actuado y programable en dos o más ejes y con un cierto grado de autonomía, que se mueve en su entorno para realizar tareas previstas. En este contexto, autonomía se refiere a la habilidad de realizar tareas previstas, basado en el estado actual y lo sensado, sin intervención humana.''
 \end{quotation}
@@ -18,8 +18,6 @@ Asimismo, la IFR define un \textit{robot de servicio} como un robot ``que realiz
 
 Según su área de aplicación, un robot de servicio se clasifica en \textit{de uso personal} o \textit{de uso profesional}. Los primeros son utilizados en ambientes no comerciales y por personas comunes; como por ejemplo, un robot sirviente o una silla de ruedas autónoma. Un robot de servicio profesional se utiliza en ambientes comerciales, usualmente operados por alguien entrenado; un ejemplo son los robots de entrega de paquetes o para cirugía.
 
-
-\subsection{Robots Domésticos}\label{sec:domestic_robots}
 
 Según la recopilación de datos realizada por la IFR durante el 2016, este tipo de robots es utilizado en las siguientes áreas:
 \begin{itemize}[topsep=0pt]
@@ -65,7 +63,7 @@ Algunas tareas que robots domésticos de tipo mayordomo deben ejecutar son:
 \todo[inline]{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
 % \cite{Deutsch2008} 
 
-La memoria es un elemento fundamental para los humanos en su día a día, es parte integral de su existencia. Permite recordar quién, qué, cómo, dónde y cuándo. En términos psicológicos, es la habilidad para para codificar, almacenar y luego obtener información sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el área de la psicología cognitiva con diversas descripciones y modelos teóricos de cada tipo de memoria\cite{Vijayakumar2014}.
+La memoria es un elemento fundamental para los humanos en su día a día, es parte integral de su existencia. Permite recordar quién, qué, cómo, dónde y cuándo. En términos psicológicos, es la habilidad para para codificar, almacenar y luego obtener información sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el área de la psicología cognitiva con diversas descripciones y modelos teóricos de cada tipo de memoria \cite{Vijayakumar2014}.
 
 Desde el punto de vista de la información procesada, la memoria es vista como una facultad humana consistente en procesos para el manejo de información. Los 3 componentes principales son:
 
@@ -78,12 +76,12 @@ Desde el punto de vista de la información procesada, la memoria es vista como u
 %\bigskip
 
 
-La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales. La primera diferenciación define dos tipos de memoria: la memoria de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés. En el diagrama de la figura \ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
+La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales. La primera diferenciación define dos tipos de memoria: la memoria de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés. En el diagrama de la figura \ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas \cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{./figures/diagrama_memoria.png}
-\caption{\small Clasificaciones de la memoria humana. Obtenido de \cite{Vijayakumar2014}.}
+\caption{\small Clasificaciones de la memoria humana. Obtenido de  \cite{Vijayakumar2014}.}
 \label{img:human_memory}
 \end{figure}
 
@@ -101,7 +99,7 @@ En los humanos esta área presenta gran activación durante procesos de codifica
 
 \subsection{Memoria de Largo Plazo}
 
-La LTM se asocia al almacenamiento permanente de información en el cerebro. Se caracteriza por manejar mucha información sobre experiencias y entidades, ser menos detallada y proveer un acceso más lento a los recuerdos, respecto a la STM\cite{Eichenbaum:2008}. Cierta información de la STM eventualmente es transferida a la LTM. De acuerdo a la figura \ref{img:human_memory}, sus dos principales categorías son la \textit{Memoria Implícita} y la \textit{Memoria Explícita}.
+La LTM se asocia al almacenamiento permanente de información en el cerebro. Se caracteriza por manejar mucha información sobre experiencias y entidades, ser menos detallada y proveer un acceso más lento a los recuerdos, respecto a la STM \cite{Eichenbaum:2008}. Cierta información de la STM eventualmente es transferida a la LTM. De acuerdo a la figura \ref{img:human_memory}, sus dos principales categorías son la \textit{Memoria Implícita} y la \textit{Memoria Explícita}.
 % algunos creen que no está limitada en su capacidad de almacenar información.
 
 \subsubsection{Memoria Implícita}
@@ -149,7 +147,7 @@ En esta sección se presenta el estado del arte respecto al uso de LTM en robót
 
 \subsection{Relevancia de la memoria robótica}
 
-La memoria es una habilidad esencial para cualquier ser social. Lo mismo aplica para un robot doméstico cuya misión sea establecer una relación de largo plazo con usuarios humanos. Un problema común es que los usuarios tienden a perder el interés rápidamente en los robots, debido a la falta de vida y expectativas no cumplidas, respecto a la inteligencia y capacidad de socializar de la máquina. El problema se potencia con el paso del tiempo, donde la motivación por interactuar disminuye y se genera frustración, a medida que el robot continua repitiendo los mismos comportamientos predefinidos\cite{Ho2009}.
+La memoria es una habilidad esencial para cualquier ser social. Lo mismo aplica para un robot doméstico cuya misión sea establecer una relación de largo plazo con usuarios humanos. Un problema común es que los usuarios tienden a perder el interés rápidamente en los robots, debido a la falta de vida y expectativas no cumplidas, respecto a la inteligencia y capacidad de socializar de la máquina. El problema se potencia con el paso del tiempo, donde la motivación por interactuar disminuye y se genera frustración, a medida que el robot continua repitiendo los mismos comportamientos predefinidos \cite{Ho2009}.
 
 Si se desea mejorar la interacción humano-robot, entonces se requiere que el robot se comporte de manera más natural. Los mejores agentes robóticos sociales deberían satisfacer las necesidades cognitivas y sociales humanas; mientras más familiar sea la interacción, serán más efectivos en su propósito. Así, la LTM es una habilidad crucial si se espera que el robot sea capaz de aprender y adaptarse a su entorno.
 
@@ -193,7 +191,7 @@ Algunos ejemplos comparables son:
 \item Algoritmos basados en redes neuronales, entrenados para manipular objetos o reconocer patrones.
 \item Algoritmos entrenados para tareas específicas, cómo la detección de caras o el reconocimiento de voz.
 \item Controladores basados en puntos de operación para acciones motoras.
-\item Síntesis de voz
+\item Síntesis de voz.
 \end{itemize}
 
 Las estructuras equivalentes a la versión cerebral serían los archivos con parámetros para cada algoritmo, obtenidos a partir del entrenamiento o ajustados manualmente.
@@ -201,7 +199,7 @@ Las estructuras equivalentes a la versión cerebral serían los archivos con par
 
 \subsubsection{Otros tipos de memoria}
 
-Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funcionamiento de un software robótico, por lo que no son implementadas conscientemente. Luego, la existencia de tales memorias, no implica la intención de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias sólo son implementados en casos especializados.
+Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funcionamiento de un software robótico, por lo que no son implementadas de forma explícita, sino que se pueden identificar en los componentes de software descritos anteriormente. Luego, la existencia de tales memorias, no implica la intención de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias sólo son implementados en casos especializados.
 
 
 
@@ -218,7 +216,7 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 %... modelo de contexto \cite{Sanchez:2015} FELIX
 % ... Considerar unificación de información.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
 %...... S Memory.. se abstrae de perspecttiva y cosas situacionales \cite{Stachowicz2012}
-Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para el diseño\cite{Vijayakumar2014, Ho2009,  Stachowicz2012, Jockel2008}:
+Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para el diseño \cite{Vijayakumar2014, Ho2009,  Stachowicz2012, Jockel2008}:
 
 %\subsubsection{Aspectos de diseño}
 
@@ -231,21 +229,21 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 
 \begin{enumerate}[topsep=0pt]
 \setlength\itemsep{0.2em}
-\item Contenido: (R1) Información de eventos pasados debe ser recolectada e indexada respecto a su contexto espacio-temporal: Qué, dónde y cuándo pasó.
+\item Contenido: (R1) La información de eventos pasados debe ser recolectada e indexada respecto a su contexto espacio-temporal: Qué, dónde y cuándo pasó.
 
 \item Estructura: (R2) Cada evento en conjunto con su contexto espacio-temporal forman una única representación integrada, que debe ser recordada como un todo, en caso de obtener cualquiera de las características del evento.
 
 \item Flexibilidad: (R3) La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.
 
-\item Datos específicos: (R4) Memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación.
+\item Datos específicos: (R4) La memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación.
 
 \item Ep-LTM es LTM y declarativa: (R5) La memoria episódica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, días o años. También es una forma de memoria declarativa.
 
-\item Perspectiva: (R6) Memoria episódica debe lidiar con datos específicos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se tenía en la experiencia original.
+\item Perspectiva: (R6) La memoria episódica debe lidiar con datos específicos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se tenía en la experiencia original.
 
-\item Anidamiento: (R7) Eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, pueden ocurrir eventos dentro del actual.
+\item Anidamiento: (R7) Los eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, pueden ocurrir eventos dentro del actual.
 
-\item Trasposición : (R8)  Eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, un evento A puede iniciar antes B, pero terminar durante la vida de B.
+\item Trasposición : (R8) Los eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, un evento A puede iniciar antes B, pero terminar durante la vida de B.
 
 \end{enumerate}
 
@@ -253,11 +251,12 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 
 \begin{enumerate}[topsep=0pt]
 \setlength\itemsep{0.2em}
-\item No intrusivo: (R9) El campo ``Qué'' puede contener información aleatoria, que se puede proveer mediante diversos módulos de software. Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
+\item No intrusivo: (R9) El campo ``Qué'' debe permitir almacenar información variable, organizada en estructuras de datos que no se conocen de antemano y que se ajustan a diversos módulos de procesamiento. Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
 
-\item Eficiente: (R10) El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot.
+\item Eficiente: (R10) El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot. Es decir, todos los eventos deben ser procesados eventualmente, aún cuando el robot esté ocupando gran parte de sus recursos, y sin generar hambruna de CPU ni ancho de banda (de disco y red) al resto de los procesos.
 
-\item Escalable: (R11) Los costos de manejo de la información deben escalar bien, independientemente de la cantidad de tiempo de operación.
+\item Escalable: (R11) Los costos asociados al manejo de la información (agregar, eliminar, actualizar y buscar datos) en la memoria deben escalar bien, respecto a la cantidad de datos almacenados. La memoria debe mantener los costos acotados, dentro de un rango que no entorpezca su uso.
+
 \end{enumerate}
 
 
@@ -315,7 +314,7 @@ Además, este diseño permite que el sistema cambie su opinión sobre una evento
 
 \subsection{Memoria Emocional}
 
-La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona. Por lo tanto, la decisión de que almacenar o recordar depende de las emociones\cite{Deutsch2008}.
+La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona. Por lo tanto, la decisión de que almacenar o recordar depende de las emociones \cite{Deutsch2008}.
 
 Su implementación requiere como mínimo de un mapeo entre estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al. \cite{Dodd2005} propone el uso de la teoría emocional de reacciones de Haikonen, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
 
@@ -336,12 +335,27 @@ Sistemas más avanzados, incluso pueden considerar la generación de reacciones 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\textwidth]{./figures/haikonen.png}
+\begin{tabular}{| l | l |}
+\hline
+\rowcolor{gray!50}
+Sensación Elemental & Reacción  \\ 
+\hline Bueno: gusto, aroma & Aceptación, Acercar \\ 
+\hline Malo: gusto, aroma & Rechazo, Alejar \\ 
+\hline Dolor: autoinfligido  & Alejar, Desistir \\ 
+\hline Dolor: agente externo & Agresión \\ 
+\hline Dolor: sobre esfuerzo & Sumisión \\ 
+\hline Placer & Mantener, Acercar \\ 
+\hline Acierto & Mantener atención \\ 
+\hline Desacierto & Migrar atención \\ 
+\hline Novedad & Enfocar atención \\ 
+\hline 
+\end{tabular} 
 \caption{\small Sensaciones elementales y sus reacciones correspondientes, según el modelo de Haikonen. Obtenido de \cite{Dodd2005}.}
 \label{img:emotional_haikonen}
 \end{figure}
 
-Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al. \cite{Deutsch2008} consideran que el la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados. Por otro lado, Dood et al. proponen curvas de decaimiento para la importancia de los episodios, que permiten simular la pérdida de interés en los eventos.
+
+Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al.  \cite{Deutsch2008} consideran que el la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados. Por otro lado, Dood et al. proponen curvas de decaimiento para la importancia de los episodios, que permiten simular la pérdida de interés en los eventos.
 
 
 %... + refs sobre emociones \cite{Deutsch2008}
@@ -376,7 +390,7 @@ La implementación de un sistema de memoria robótica asume que muchos sistemas 
 
 Los sistemas robóticos actuales son cada vez más complejos. Deben lidiar con muchos componentes tanto de hardware como de software y su interacción, de una forma eficaz y que no entorpezca el desarrollo. Muchas tareas de control requieren altas frecuencias de funcionamiento, así como la sincronización y comunicación entre los diversos módulos. Por lo tanto, el cómo se unen los subsistemas en una aplicación robótica es una tarea difícil.
 
-ROS\cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que funciona como middleware para aplicaciones robóticas, y permite resolver el problema de la comunicación entre procesos. Es una colección de herramientas, librerías y convenciones que buscan simplificar la tarea de crear comportamientos robóticos complejos y robustos, sin importar la plataforma robótica.
+ROS \cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que funciona como middleware para aplicaciones robóticas, y permite resolver el problema de la comunicación entre procesos. Es una colección de herramientas, librerías y convenciones que buscan simplificar la tarea de crear comportamientos robóticos complejos y robustos, sin importar la plataforma robótica.
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
@@ -442,9 +456,9 @@ Sin embargo, en URF no existen formas de memoria emocional ni episódica de larg
 
 \subsection{KnowRob}
 
-KnowRob es un sistema de procesamiento de conocimiento. Combina métodos para representar conocimiento y para razonar a partir de él, junto a técnicas  para adquirir conocimiento y almacenarlo físicamente. Permite integrar información proveniente de distintas fuentes\cite{Tenorth2013, Tenorth2009}.
+KnowRob es un sistema de procesamiento de conocimiento. Combina métodos para representar conocimiento y para razonar a partir de él, junto a técnicas  para adquirir conocimiento y almacenarlo físicamente. Permite integrar información proveniente de distintas fuentes \cite{Tenorth2013, Tenorth2009}.
 
-Está implementado en java, prolog y provee una interfaz ROS. Almacena los datos en archivos OWL (Web Ontology Language) y en una base de datos NoSQL, MongoDB. Por su diseño, permite el manejo e inferencia de memoria semántica y procedural.
+Está implementado en Java y Prolog, y provee una interfaz ROS. Almacena los datos en archivos OWL (Web Ontology Language) y en una base de datos NoSQL, MongoDB. Por su diseño, permite el manejo e inferencia de memoria semántica y procedural.
 
 
 \todo[inline]{Más info sobre knowRob... todo el trabajo se basará en este software!.}
@@ -460,11 +474,9 @@ Está implementado en java, prolog y provee una interfaz ROS. Almacena los datos
 % ================================================================
 
 
-\section{Plataformas objetivo}
+\section{Plataforma objetivo: Robot Bender}
 
-\subsection{Robot Bender}
-
-Bender es un robot humanoide creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera autónoma para apoyar en tales labores\cite{uchile-robotics}.
+Bender es un robot humanoide creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera autónoma para apoyar en tales labores \cite{uchile-robotics}.
 
 \begin{figure}[H]
 \centering
