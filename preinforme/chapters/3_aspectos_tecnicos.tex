@@ -7,6 +7,7 @@ La implementación de un sistema de memoria robótica asume que muchos sistemas 
 % ================================================================
 % ================================================================
 
+
 \section{ROS}
 
 Los sistemas robóticos actuales son cada vez más complejos. Deben lidiar con muchos componentes tanto de hardware como de software y su interacción, de una forma eficaz y que no entorpezca el desarrollo. Muchas tareas de control requieren altas frecuencias de funcionamiento, así como la sincronización y comunicación entre los diversos módulos. Por lo tanto, el cómo se unen los subsistemas en una aplicación robótica es una tarea difícil.
@@ -39,11 +40,11 @@ Fue originalmente creado por la organización WillowGarage en el 2008, y manteni
 %\todo[inline]{Sobre librería para máquinas de estado (a utilizar en la demostración)}
 
 
-\subsection{UChile ROS Framework}
+\section{UChile ROS Framework}
 
 UChile ROS Framework (URF) hace referencia al sistema de software desarrollado en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, para sus robots de servicio. El sistema cuenta con 10 años de desarrollo y está orientado a cumplir los requisitos de la competencia Robocup en su categoría @Home.
 
-URF está construido sobre ROS y en una estructura de 4 capas. La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no; Es la única capa donde que contiene código externo. Sobre ella, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar cada robot. La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción Humano-Robot. Finalmente, existe una capa desarrollada en python, con interfaces para el uso de las capacidades de menor nivel, utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos.
+URF está construido sobre ROS y en una estructura de 4 capas (Ver Figura \ref{img:URF}). La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no; Es la única capa que contiene sólo código externo. Sobre ella, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar cada robot (módulos de \textit{Hardware} en el diagrama). La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción Humano-Robot (sección \textit{ROS modules} del diagrama). Finalmente, existe una capa desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos (cuadros \textit{ROS-python interface} y \textit{State Machine}).
 
 \begin{figure}[H]
 \centering
@@ -75,7 +76,7 @@ Sin embargo, en URF no existen formas de memoria emocional ni episódica de larg
 
 
 
-\subsection{KnowRob}
+\section{KnowRob}
 
 KnowRob es un sistema de procesamiento de conocimiento. Combina métodos para representar conocimiento y para razonar a partir de él, junto a técnicas  para adquirir conocimiento y almacenarlo físicamente. Permite integrar información proveniente de distintas fuentes \cite{Tenorth2013, Tenorth2009}.
 
@@ -99,12 +100,6 @@ Está implementado en Java y Prolog, y provee una interfaz ROS. Almacena los dat
 
 Bender es un robot humanoide creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. El equipo UChile Homebreakers es el encargado de su desarrollo y  su objetivo es ser un mayordomo para el hogar, funcionando de manera autónoma para apoyar en tales labores \cite{uchile-robotics}.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\textwidth]{./figures/bender.png}
-\caption{\small Robot Bender en competencia RoboCup 2015.}
-\label{img:bender}
-\end{figure}
 
 
 En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
@@ -114,11 +109,20 @@ El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser 
 El software de Bender está basado en el framework URF. Su arquitectura de software utiliza  ROS para el manejo de componentes de bajo y medio nivel. La capa de alto nivel, escrita en python, se abstrae de ROS y permite la creación de comportamientos complejos mediante máquinas de estado. Todos los módulos que interactúan con sensores y actuadores están implementados en ROS.
 
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{./figures/bender.png}
+\caption{\small Robot Bender en competencia RoboCup 2015.}
+\label{img:bender}
+\end{figure}
+
+
 
 %\todo[inline]{Robot pepper es eliminado por ahora, para acotar los alcances.}
 %\subsection{Pepper}
 %
 %Pepper es un robot humanoide desarrollado por SoftBank Robotics, orientado a la interacción humano robot y con el objetivo de ser un robot de compañía y soporte emocional.
+
 
 
 %\section{Contribución del Trabajo}

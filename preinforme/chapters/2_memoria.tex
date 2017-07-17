@@ -263,7 +263,9 @@ Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funci
 
 \todo[inline]{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
 
-No existe un consenso sobre los contenidos, el formato o las herramientas para implementar Ep-LTM.
+La memoria de mayor interés para este proyecto es la Ep-LTM, pues es la que permite generar interacciones humano-robot interesantes y que no sean repetitivas en el tiempo. Para su implementación, es un requisito disponer de S-LTM, pues la Ep-LTM almacena episodios y los cambios ocurridos a las entidades percibidas. La S-LTM almacena los modelos de cada entidad que llegarán a utilizar por la Ep-LTM.
+
+No existe un consenso sobre los contenidos, el formato o las herramientas para implementar una Ep-LTM.
 %... que recordar y cuando \cite{Kasap2010}
 %... modelo de contexto \cite{Sanchez:2015} FELIX
 % ... Considerar unificación de información.. que pasa si almaceno obj1 y obj2, pero luego aprendo que son el mismo?
@@ -321,16 +323,16 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
 %... reglas de consolidacion \cite{Dodd2005}
 
-En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todo lo ocurrido, pero tiene un costo de búsqueda lineal, respecto a los episodios almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sue\~no humano.
+En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
 
-La estrategia propuesta por Kelley se basa en recordar todo, pero realizando un postprocesamiento de los datos una vez terminado el evento. La ventaja es que no sólo permite recordar episodios, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
+La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no sólo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
 
-En la Figura \ref{img:sleep_eventos} se muestra un episodio de interés y sus eventos previos y sucesivos. La memoria almacena la secuencia completa de eventos. En el postprocesamiento se descartan los elementos poco interesantes, del 1-2 y 5-6. Sin embargo, el evento 2 se mantiene en la Ep-LTM como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
+En la Figura \ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la Ep-LTM como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\textwidth]{./figures/eventos.png}
-\caption{\small Ejemplo de una secuencia de eventos enumerados. Los colores rojo y blanco indican que el evento tiene poca o mucha relevancia, respectivamente. Eventos del 3 al 4 conforman un episodio interesante para recordar, mientras que el resto pueden servir como pista o consecuencia del episodio. Obtenido de \cite{Kelley2014}.}
+\caption{\small Ejemplo de una secuencia de eventos. Los cuadros coloreados y blancos indican eventos con poca o mucha relevancia, respectivamente. Los marcadores indican transiciones entre fases de poco y mucho interés. Obtenido de \cite{Kelley2014}.}
 \label{img:sleep_eventos}
 \end{figure}
 
@@ -418,7 +420,7 @@ Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones rep
 
 \subsection{Otros enfoques}
 
-Se han desarrollado otras derivaciones de la memoria Ep-LTM. Algunos estudios tienen otros objetivos, como el traspaso de memoria entre robots o conflictos éticos con la información. Mientras que otras memorias no se diseñan con un enfoque biológico, basado en la memoria humana.
+A continuación se presentan algunos estudios relacionados con aspectos de una memoria Ep-LTM que escapan de los requerimientos para este proyecto o que simplemente no son basados en la taxonomía de la memoria humana. Estos trabajos sólo se presentan a modo de completitud, pues no permiten resolver el objetivo de este proyecto, sino que sólo comprender otros enfoques y acercamientos a la solución. 
 
 El sistema propuesto por Ho et al. \cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto; El costo de esto, es que se reduce la personalización de cada robot. Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto \cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
 

@@ -61,7 +61,10 @@ El diseño de la memoria LTM estará basado en los 11 requerimientos de diseño 
 
 El algoritmo a utilizar para la consolidación de STM en LTM no está claro aún y debe ser estudiado. Esta es la parte más relevante del trabajo, donde se tomarán las decisiones de diseño definitivas. No existe un consenso al respecto en la literatura, pero un primer acercamiento será basado en la propuesta de Sánchez et al.  \cite{Sanchez:2015}, para la definición de episodios, sumado al trabajo de Kelley  \cite{Kelley2014} para la selección de qué eventos almacenar y cómo procesarlos.
 
-Una vez definido el proceso de consolidación, queda definir una arquitectura de software. La intención es basar el desarrollo en el software KnowRob, pues fue diseñado para manejar memoria semántica y procedural, además de proveer funcionalidades para realizar inferencias. Por su estructura, se cree que la Ep-LTM puede ser almacenada como si fuese memoria semántica. Entonces, el desafío se centra en poder agregar el soporte para memoria episódica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus módulos principales.
+Una vez definido el proceso de consolidación, queda definir una arquitectura de software. Se propone basar el desarrollo en el software KnowRob, pues fue diseñado para manejar memoria semántica y procedural, además de proveer funcionalidades para realizar inferencias. Por su estructura, se cree que la Ep-LTM puede ser almacenada como si fuese memoria semántica. Entonces, el desafío se centra en poder agregar el soporte para memoria episódica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus módulos principales.
+
+En cuanto a la integración de KnowRob y la Ep-LTM en URF, se cree que se deberá agregar un nuevo módulo al sistema. De acuerdo a la Figura \ref{img:URF}, se debería agregar la Ep-LTM como un componente en la capa de alto nivel, pues es donde se manejan las máquinas de estado del robot y el único lugar donde se podrían abstraer los conceptos de evento y episodio. Las capas de menor nivel sólo se encargan de proveer funcionalidades para construir los comportamientos ejecutados por el robot. Se debe diseñar la solución final, pero a priori, la Ep-LTM debe tener acceso a todos los componentes de la capa de alto nivel. Además, se debe considerar que una futura implementación de memoria emocional debería interactuar directamente con el hardware del robot. 
+
 
 Finalmente, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema, los analice y almacene recuerdos. Luego se debe implementar una demostración del uso de los datos recopilados.
 
@@ -90,11 +93,11 @@ La demostración será definida como un conjunto de validaciones que permitan co
 %\item Uso de servicio web para análisis de frases e intenciones, para responder preguntas en lenguaje natural.
 %\end{itemize}
 
-
+\newpage
 \section{Planificación}
 
 Durante el trabajo de título se propone seguir una estrategia incremental de desarrollo de software, que considere cada uno de los objetivos específicos. La demostración es de carácter transversal al proyecto, pues se utilizará como medio de validación de cada parte del trabajo. Considerando la solución propuesta, se tienen las siguientes etapas del proyecto:
-\begin{enumerate}[topsep=0pt]
+\begin{enumerate}[topsep=10pt]
 \setlength\itemsep{0.2em}
 \item Definir consultas a responder por un robot doméstico. Seleccionar entidades a ser modeladas, acordes a las consultas.
 
@@ -102,11 +105,13 @@ Durante el trabajo de título se propone seguir una estrategia incremental de de
 
 \item Implementación de componente Ep-LTM para KnowRob.
 
-\item Integración en Bender
+\item Integración de KnowRob en Bender
 
 \item Servicio para recopilación continua de recuerdos.
 
 \end{enumerate}
+
+Los tiempos estimados de trabajo para cada una de las tareas anteriores se presentan en la siguiente Carta Gantt. La resolución de los tiempos es a periodos de 15 días.
 
 \begin{center}
 \scalebox{1.2}[1.0]{
@@ -120,13 +125,13 @@ Durante el trabajo de título se propone seguir una estrategia incremental de de
 		\titleelement{Nov.}{2}
 		\titleelement{Dic.}{2}
     \end{ganttitle}
-    \ganttbar[color=cyan]{Consultas}{0}{1}
-    \ganttbar[color=cyan]{Consolidación}{1}{3}
-    \ganttbar[color=red]{Arquitectura}{2}{2}
-    \ganttbar[color=magenta]{Implementación}{4}{2}
-    \ganttbar[color=yellow]{Integración}{6}{3}
-	\ganttbar[color=orange]{Demostración}{0}{9}
-	\ganttbar[color=gray]{Escritura}{0}{9}
+    \ganttbar[color=cyan]{Consultas y Modelos}{0}{2}
+    \ganttbar[color=cyan]{Diseño Consolidación}{1}{3}
+    \ganttbar[color=red]{Ep-LTM en KnowRob}{3}{2}
+    \ganttbar[color=magenta]{Integración en URF}{5}{2}
+    \ganttbar[color=yellow]{Generación de Recuerdos}{6}{3}
+	\ganttbar[color=orange]{Demo y Validación}{3}{6}
+	\ganttbar[color=gray]{Escritura}{1}{8}
 \end{gantt}
 %}
 }}
