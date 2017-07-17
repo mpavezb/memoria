@@ -16,4 +16,4 @@
 [//]: # (https://latexonline.cc/compile?git=https://github.com/mpavezb/memoria&target=propuesta/main.tex&command=pdflatex)
 
 - [Propuesta de Memoria](https://rawgit.com/mpavezb/memoria/master/propuesta/main.pdf)
-- Memoria: En desarrollo
+- [Preinforme](https://rawgit.com/mpavezb/memoria/master/preinforme/preinforme_v3.pdf)
