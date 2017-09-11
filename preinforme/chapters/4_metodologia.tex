@@ -63,7 +63,7 @@ El algoritmo a utilizar para la consolidación de STM en LTM no está claro aún
 
 Una vez definido el proceso de consolidación, queda definir una arquitectura de software. Se propone basar el desarrollo en el software KnowRob, pues fue diseñado para manejar memoria semántica y procedural, además de proveer funcionalidades para realizar inferencias. Por su estructura, se cree que la Ep-LTM puede ser almacenada como si fuese memoria semántica. Entonces, el desafío se centra en poder agregar el soporte para memoria episódica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus módulos principales.
 
-En cuanto a la integración de KnowRob y la Ep-LTM en URF, se cree que se deberá agregar un nuevo módulo al sistema. De acuerdo a la Figura \ref{img:URF}, se debería agregar la Ep-LTM como un componente en la capa de alto nivel, pues es donde se manejan las máquinas de estado del robot y el único lugar donde se podrían abstraer los conceptos de evento y episodio. Las capas de menor nivel sólo se encargan de proveer funcionalidades para construir los comportamientos ejecutados por el robot. Se debe diseñar la solución final, pero a priori, la Ep-LTM debe tener acceso a todos los componentes de la capa de alto nivel. Además, se debe considerar que una futura implementación de memoria emocional debería interactuar directamente con el hardware del robot. 
+En cuanto a la integración de KnowRob y la Ep-LTM en URF, se cree que se deberá agregar un nuevo módulo al sistema. De acuerdo a la Figura \ref{img:URF}, se debería agregar la Ep-LTM como un componente en la \textit{capa de alto nivel}, pues es donde se manejan las máquinas de estado del robot y el único lugar donde se podrían abstraer los conceptos de evento y episodio. Las capas de menor nivel sólo se encargan de proveer funcionalidades para construir los comportamientos ejecutados por el robot. Se debe diseñar la solución final, pero a priori, la Ep-LTM debe tener acceso a todos los componentes de la \textit{capa de alto nivel}. Además, se debe considerar que una futura implementación de memoria emocional debería interactuar directamente con el hardware del robot. 
 
 
 Finalmente, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema, los analice y almacene recuerdos. Luego se debe implementar una demostración del uso de los datos recopilados.
@@ -93,7 +93,7 @@ La demostración será definida como un conjunto de validaciones que permitan co
 %\item Uso de servicio web para análisis de frases e intenciones, para responder preguntas en lenguaje natural.
 %\end{itemize}
 
-\newpage
+
 \section{Planificación}
 
 Durante el trabajo de título se propone seguir una estrategia incremental de desarrollo de software, que considere cada uno de los objetivos específicos. La demostración es de carácter transversal al proyecto, pues se utilizará como medio de validación de cada parte del trabajo. Considerando la solución propuesta, se tienen las siguientes etapas del proyecto:
@@ -111,7 +111,7 @@ Durante el trabajo de título se propone seguir una estrategia incremental de de
 
 \end{enumerate}
 
-Los tiempos estimados de trabajo para cada una de las tareas anteriores se presentan en la siguiente Carta Gantt. La resolución de los tiempos es a periodos de 15 días.
+Los tiempos estimados de trabajo para cada una de las tareas anteriores se presentan en la siguiente carta Gantt. La resolución de los tiempos es a periodos de 15 días.
 
 \begin{center}
 \scalebox{1.2}[1.0]{
@@ -125,13 +125,13 @@ Los tiempos estimados de trabajo para cada una de las tareas anteriores se prese
 		\titleelement{Nov.}{2}
 		\titleelement{Dic.}{2}
     \end{ganttitle}
-    \ganttbar[color=cyan]{Consultas y Modelos}{0}{2}
-    \ganttbar[color=cyan]{Diseño Consolidación}{1}{3}
-    \ganttbar[color=red]{Ep-LTM en KnowRob}{3}{2}
-    \ganttbar[color=magenta]{Integración en URF}{5}{2}
-    \ganttbar[color=yellow]{Generación de Recuerdos}{6}{3}
-	\ganttbar[color=orange]{Demo y Validación}{3}{6}
-	\ganttbar[color=gray]{Escritura}{1}{8}
+    \ganttbar[color=cyan]{\small Consultas y Modelos}{0}{2}
+    \ganttbar[color=cyan]{\small Algoritmo de Consolidación}{1}{3}
+    \ganttbar[color=red]{\small Ep-LTM en KnowRob}{3}{2}
+    \ganttbar[color=magenta]{\small Integración en URF}{5}{2}
+    \ganttbar[color=yellow]{\small Generación de Recuerdos}{6}{3}
+	\ganttbar[color=orange]{\small Demo y Validación}{3}{6}
+	\ganttbar[color=gray]{\small Escritura}{1}{8}
 \end{gantt}
 %}
 }}
