@@ -1,0 +1,136 @@
+\documentclass[12pt,letterpaper,spanish,oneside]{book}
+
+% formato, lenguaje y encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-nolists, es-lcroman]{babel}
+\usepackage[spanish]{babelbib}
+\usepackage[top=3cm, left=3cm, bottom=3cm, right=2cm, paper=letterpaper]{geometry}
+
+
+% Links y numeracion del PDF
+\usepackage[pdfpagelabels]{hyperref}
+
+% Codigo Fuente
+\usepackage{listings}
+
+% varios
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem} % opciones para itemize 
+
+
+% ------------- Imágenes -------------------------------------- %
+\usepackage[pdftex]{graphicx}	% Para Archivos gráficos         %
+\usepackage{float}				% Para usar H!                   %
+\usepackage[section]{placeins}	% auto \FloatBarrier por sección %
+\usepackage{caption}			% [font=small,labelfont=bf]      %
+\usepackage{subcaption}         % Caption para subfiguras        %
+\usepackage{sidecap}            % Captions al lado               %
+\usepackage{wrapfig}            % Escribir alrededor             %
+\graphicspath{{./img/}}         % Agrega Path para buscar imgs.  %
+% ------------------------------------------------------------- %
+
+
+% = = = = = = = = = = = = = = = = = = = = = = =
+% TODO NOTES
+% = = = = = = = = = = = = = = = = = = = = = = =
+\usepackage[pdftex,dvipsnames,table]{xcolor}  % Coloured text etc.
+\usepackage{xargs} % Use more than one optional parameter in a new commands
+%\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\setlength{\marginparwidth}{0.5in}
+% = = = = = = = = = = = = = = = = = = = = = = =
+
+\setlength{\parskip}{6pt}
+
+
+\hypersetup{
+    colorlinks,
+    linkcolor={black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+
+%Para la Carta Gantt
+\usepackage{gantt}
+\usepackage{tikz}
+
+\definecolor{Gray}{gray}{0.9}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\center % Center everything on the page
+ 
+\ \\[-1cm]
+\includegraphics[height=3cm]{./figures/escudoU2014.pdf}\\[0.5cm]
+\textsc{\LARGE Universidad de Chile}\\[0cm]
+\textsc{\large Departamento de Ingeniería Eléctrica}\\
+\textsc{\large Departamento de Ciencias de la Computación}\\[3cm]
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Diseño e Implementación de Memoria de Largo Plazo para Robots de Servicio}\\[0.1cm] % Title of your document
+\HRule \\[0.5cm]
+
+\textsc{\large Propuesta de Memoria para optar al Título de Ingeniero Civil Eléctrico e Ingeniero Civil en Computación.}\\[1cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autor:}\\
+Matías \textsc{Pavez}\\
+\texttt{\normalsize matias.pavez@ing.uchile.cl} \\
+\texttt{\normalsize +569 9888 9358}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Profesor Guía:} (DIE) \\
+Javier \textsc{Ruiz del Solar}\\
+\texttt{\normalsize jruizd@ing.uchile.cl}
+\end{flushright}
+\end{minipage}\\[1cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft}\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Co-Guía:} (DCC)\\
+Jocelyn \textsc{Simmonds}\\
+\texttt{\normalsize jsimmond@dcc.uchile.cl}
+\end{flushright}
+\end{minipage}\\[2cm]
+{\large Santiago de Chile}\\
+{\large Junio, 2017}
+\vfill
+ 
+\end{titlepage}
+%----------------------------------------------------------------------------------------
+
+% indices
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+\input{./chapters/1_introduccion}
+\input{./chapters/2_memoria}
+\input{./chapters/3_aspectos_tecnicos}
+\input{./chapters/4_metodologia}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,bibliography}
+
+
+\end{document}

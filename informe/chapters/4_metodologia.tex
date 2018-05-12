@@ -1,0 +1,139 @@
+
+\chapter{Metodología}\label{chapter:metodologia}
+
+En este capítulo se presenta la metodología a utilizar para el desarrollo del trabajo de título. En primer lugar se presentan las alternativas de solución evaluadas para el proyecto, haciendo énfasis en la factibilidad de la propuesta. Para luego, describir la planificación de tareas a realizar durante el segundo periodo del proceso, sustentadas en las soluciones propuestas. Finalmente, se presenta una carta gantt con los periodos de trabajo estimados.
+
+
+%\section{Requerimientos para un robot doméstico}
+%
+%\todo[inline]{Sobre los requerimientos en específico para robots domésticos}
+%
+%Para entender el alcance del trabajo, en cuanto a qué es lo que se espera del sistema, a continuación se listan algunas capacidades de los robots domésticos. Un robot de compañía y asistencia tiene, pero no se limita a las siguientes tareas:
+%\begin{itemize}[topsep=0pt]
+%\setlength\itemsep{0.2em}
+%\item Interacción amistosa con humanos.
+%\item Ayudar a recordar y organizar tareas.
+%\item Cooperar con la realización de un procedimiento.
+%\item Guiar y seguir a personas.
+%\item Recordar información y entidades.
+%\end{itemize}
+%\bigskip
+%
+%Algunas tareas que robots domésticos de tipo mayordomo deben ejecutar son:
+%\begin{itemize}[topsep=0pt]
+%\setlength\itemsep{0.2em}
+%\item Ofrecer comida y bebestibles.
+%\item Preparación de comida.
+%\item Ordenar y limpiar el hogar.
+%\end{itemize}
+%\bigskip
+
+%\subsubsection{Requerimientos para robots domésticos}
+%
+%En términos de LTM, un robot doméstico necesita poder recordar los siguientes conocimientos:
+%
+%... \todo[inline]{tareas de un robot de servicio}
+%\begin{itemize}
+%\item 
+%\end{itemize}
+%
+%... casos de uso e inferencia \cite{Vijayakumar2014}
+%
+%... artificial companion PAG 13 \cite{Vijayakumar2014}
+%
+
+
+\section{Propuesta de Solución}
+
+%Temas a resolver:
+%
+%- modelo de memoria a utilizar
+%- arquitectura
+%- consolidación
+%- base de datos
+%- demostracion 
+%- emociones
+%- inferencia
+
+La primera parte consiste en definir un conjunto de consultas que un robot doméstico debe responder a partir de la memoria. Esto estará basado en los requerimientos mostrados en la Sección \ref{sec:domestic_robots}. Particularmente, el foco del trabajo, será generar una memoria LTM adecuada a las interacciones que realizaría el robot Bender. A partir de las consultas se definirán los modelos semánticos a considerar y sus características. 
+
+El diseño de la memoria LTM estará basado en los 11 requerimientos de diseño mostrados en la sección \ref{sec:ltm_exp}. Además se basará en la taxonomía de la memoria humana, de manera similar a los trabajos desarrollados por Vijayakumar  \cite{Vijayakumar2014} y Sánchez et al. \cite{Sanchez:2015}.
+
+El algoritmo a utilizar para la consolidación de STM en LTM no está claro aún y debe ser estudiado. Esta es la parte más relevante del trabajo, donde se tomarán las decisiones de diseño definitivas. No existe un consenso al respecto en la literatura, pero un primer acercamiento será basado en la propuesta de Sánchez et al.  \cite{Sanchez:2015}, para la definición de episodios, sumado al trabajo de Kelley  \cite{Kelley2014} para la selección de qué eventos almacenar y cómo procesarlos.
+
+Una vez definido el proceso de consolidación, queda definir una arquitectura de software. Se propone basar el desarrollo en el software KnowRob, pues fue diseñado para manejar memoria semántica y procedural, además de proveer funcionalidades para realizar inferencias. Por su estructura, se cree que la Ep-LTM puede ser almacenada como si fuese memoria semántica. Entonces, el desafío se centra en poder agregar el soporte para memoria episódica al sistema. KnowRob ha sido descargado y se ha comprobado el funcionamiento de sus módulos principales.
+
+En cuanto a la integración de KnowRob y la Ep-LTM en URF, se cree que se deberá agregar un nuevo módulo al sistema. De acuerdo a la Figura \ref{img:URF}, se debería agregar la Ep-LTM como un componente en la \textit{capa de alto nivel}, pues es donde se manejan las máquinas de estado del robot y el único lugar donde se podrían abstraer los conceptos de evento y episodio. Las capas de menor nivel sólo se encargan de proveer funcionalidades para construir los comportamientos ejecutados por el robot. Se debe diseñar la solución final, pero a priori, la Ep-LTM debe tener acceso a todos los componentes de la \textit{capa de alto nivel}. Además, se debe considerar que una futura implementación de memoria emocional debería interactuar directamente con el hardware del robot. 
+
+
+Finalmente, se debe implementar un servicio que escuche constantemente los eventos ocurridos en el sistema, los analice y almacene recuerdos. Luego se debe implementar una demostración del uso de los datos recopilados.
+
+No se trabajará en la inferencia de información, sino que sólo se aprovechará de que KnowRob provee herramientas para ello, lo que asegura que en un futuro se podrán agregar inferencias al sistema. La memoria emocional sólo será considerada para la etapa de diseño, pero su implementación no es requerida.
+
+
+La demostración será definida como un conjunto de validaciones que permitan corroborar el funcionamiento del sistema. Por lo tanto, esta será implementada incrementalmente, para validar cada desarrollo del trabajo. Las validaciones más relevantes tienen que ver con la capacidad del sistema para responder las consultas episódicas seleccionadas para robots domésticos.
+
+%\subitem - Consultas episódicas: ``Qué hiciste ayer y cómo?'', ``Qué pasó hace 1 mes?''.
+%\subitem - Consultas semánticas: ``Qué ha cambiado en la habitación?'', ``Describe un humano que conozcas.''.
+
+
+% Una vez definido el proceso de consolidación, se puede implementar el servicio que recopile información constantemente. éste podría acceder a la información que genera el robot durante sus rutinas, una forma de STM básica, mediante sus interfaces ROS.
+
+% Respaldos
+%Capacidad de generar respaldos de la memoria y recuperación de éstos. Mezcla del respaldo con memoria ya existente.
+
+
+%\subsubsection{OTROS}
+%\begin{itemize}
+%\item Visualizador de la memoria e interfaz para facilitar gestión de los recuerdos por parte de un operador.
+%\item Migración de memoria a otros robots.
+%\item Memoria compartida entre robots.
+%\item Uso de memoria emocional para dar personalidad y reflejar estado de ánimo.
+%\item Complementar recopilación de información e inferencia mediante información WEB.
+%\item Uso de servicio web para análisis de frases e intenciones, para responder preguntas en lenguaje natural.
+%\end{itemize}
+
+
+\section{Planificación}
+
+Durante el trabajo de título se propone seguir una estrategia incremental de desarrollo de software, que considere cada uno de los objetivos específicos. La demostración es de carácter transversal al proyecto, pues se utilizará como medio de validación de cada parte del trabajo. Considerando la solución propuesta, se tienen las siguientes etapas del proyecto:
+\begin{enumerate}[topsep=10pt]
+\setlength\itemsep{0.2em}
+\item Definir consultas a responder por un robot doméstico. Seleccionar entidades a ser modeladas, acordes a las consultas.
+
+\item Diseñar el algoritmo de consolidación de STM en LTM.
+
+\item Implementación de componente Ep-LTM para KnowRob.
+
+\item Integración de KnowRob en Bender
+
+\item Servicio para recopilación continua de recuerdos.
+
+\end{enumerate}
+
+Los tiempos estimados de trabajo para cada una de las tareas anteriores se presentan en la siguiente carta Gantt. La resolución de los tiempos es a periodos de 15 días.
+
+\begin{center}
+\scalebox{1.2}[1.0]{
+%\rotatebox{0}{
+\boxed{
+\begin{gantt}{8}{9}
+	\begin{ganttitle}
+		\titleelement{Ago.}{1}
+		\titleelement{Sept.}{2}
+		\titleelement{Oct.}{2}
+		\titleelement{Nov.}{2}
+		\titleelement{Dic.}{2}
+    \end{ganttitle}
+    \ganttbar[color=cyan]{\small Consultas y Modelos}{0}{2}
+    \ganttbar[color=cyan]{\small Algoritmo de Consolidación}{1}{3}
+    \ganttbar[color=red]{\small Ep-LTM en KnowRob}{3}{2}
+    \ganttbar[color=magenta]{\small Integración en URF}{5}{2}
+    \ganttbar[color=yellow]{\small Generación de Recuerdos}{6}{3}
+	\ganttbar[color=orange]{\small Demo y Validación}{3}{6}
+	\ganttbar[color=gray]{\small Escritura}{1}{8}
+\end{gantt}
+%}
+}}
+\end{center}
+
