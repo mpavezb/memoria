@@ -1,0 +1,98 @@
+\documentclass[upright, contnum]{umemoria}
+\deptoA{DEPARTAMENTO DE INGENIERÍA ELÉCTRICA}
+\deptoB{DEPARTAMENTO DE CIENCIAS DE LA COMPUTACIÓN}
+\author{Matías Fernando Pavez Bahamondes}
+\title{Diseño e Implementación de Memoria de Largo Plazo para Robots de Servicio}
+\auspicio{}
+\date{2018}
+\guia{Javier Ruiz del Solar}
+\carrera{INGENIERO CIVIL EN ELÉCTRICO E INGENIERO CIVIL EN COMPUTACIÓN}
+\memoria{MEMORIA PARA OPTAR AL TÍTULO DE INGENIERO CIVIL EN ELÉCTRICO E INGENIERO CIVIL EN COMPUTACIÓN}
+\comision{JOCELYN SIMMONDS WAGEMANN, TODO 2, TODO 3}
+
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babelbib}
+\usepackage{enumitem} % opciones para itemize 
+
+% ------------- Imágenes -------------------------------------- %
+\usepackage[pdftex]{graphicx}	% Para Archivos gráficos         %
+\usepackage{float}				% Para usar H!                   %
+\usepackage[section]{placeins}	% auto \FloatBarrier por sección %
+\usepackage{caption}			% [font=small,labelfont=bf]      %
+\usepackage{subcaption}         % Caption para subfiguras        %
+\usepackage{sidecap}            % Captions al lado               %
+\usepackage{wrapfig}            % Escribir alrededor             %
+\graphicspath{{./figures/}}     % Agrega Path para buscar imgs.  %
+% ------------------------------------------------------------- %
+
+% = = = = = = = = = = = = = = = = = = = = = = =
+% TODO NOTES
+% = = = = = = = = = = = = = = = = = = = = = = =
+\usepackage[pdftex,dvipsnames,table]{xcolor}  % Coloured text etc.
+\usepackage{xargs} % Use more than one optional parameter in a new commands
+%\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\setlength{\marginparwidth}{0.5in}
+% = = = = = = = = = = = = = = = = = = = = = = =
+
+
+\hypersetup{
+	colorlinks,
+	linkcolor={black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+%Para la Carta Gantt
+\usepackage{gantt}
+\usepackage{tikz}
+
+\definecolor{Gray}{gray}{0.9}
+
+
+\usepackage{lipsum}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\begin{abstract}
+\lipsum[1-2]
+\end{abstract}
+
+\begin{dedicatoria}
+Una dedicatoria corta.
+\end{dedicatoria}
+
+\begin{thanks}
+\lipsum[1-2]
+\end{thanks}
+
+\cleardoublepage
+\tableofcontents
+\cleardoublepage
+\listoftables
+\cleardoublepage
+\listoffigures
+
+\mainmatter
+
+\input{./chapters/1_introduccion}
+\input{./chapters/2_memoria}
+\input{./chapters/3_aspectos_tecnicos}
+\input{./chapters/4_metodologia}
+\input{./chapters/0_samples}
+\input{./chapters/_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,bibliography}
+%\bibliographystyle{plain}
+%\bibliography{bibliografia}
+
+\end{document}

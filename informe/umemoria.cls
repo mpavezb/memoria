@@ -33,7 +33,7 @@
 %% Packages necesarios
 \RequirePackage[utf8]{inputenc} %Encoding
 \RequirePackage[top=2cm, left=3cm, bottom=2cm, right=2cm, paper=letterpaper]{geometry} % Margenes
-\RequirePackage{amsmath, amssymb, amsthm, graphicx} % Varios
+\RequirePackage{amsmath, amssymb, amsthm} % Varios
 \RequirePackage[spanish, es-nolists, es-lcroman]{babel} % Lenguaje
 \RequirePackage[pdfpagelabels]{hyperref} % Links y numeracion del PDF
 \RequirePackage{listings} % Codigo Fuente
@@ -147,7 +147,7 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \renewcommand{\maketitle}{
 	\begin{titlepage}
 		\begin{minipage}{1.6cm}
-			\includegraphics[scale=.12]{imagenes/escudoU2014.pdf}
+			\includegraphics[scale=.12]{figures/escudoU2014.pdf}
 		\end{minipage}
 		\begin{minipage}[t]{12cm}
 			UNIVERSIDAD DE CHILE\\FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS\\\MakeUppercase\@deptoA\\\MakeUppercase\@deptoB
