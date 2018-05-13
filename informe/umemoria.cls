@@ -64,8 +64,9 @@
 \begin{flushright}
 \small
 \begin{tabular}{l}
-RESUMEN DE LA MEMORIA PARA OPTAR \\
-AL TÍTULO DE \MakeUppercase\@carrera \\
+RESUMEN DE LA MEMORIA PARA OPTAR AL \\
+TÍTULO DE \MakeUppercase\@carreraA \\
+\MakeUppercase\@carreraB \\
 POR: \MakeUppercase\@author \\
 FECHA: \MakeUppercase\@date\\
 PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
@@ -81,6 +82,7 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \newenvironment{thanks}{\cleardoublepage\chapter*{Agradecimientos}}{\vfill\null}
 \newenvironment{intro}{\addcontentsline{toc}{chapter}{\protect\numberline{}Introducción}\chapter*{Introducción}}{\vfill\null}
 \newenvironment{conclusion}{\addcontentsline{toc}{chapter}{\protect\numberline{}Conclusión}\chapter*{Conclusión}}{\vfill\null}
+\newenvironment{glosario}{\cleardoublepage\chapter*{Glosario}}{\vfill\null}
 
 %% Teoremas, proofs, etc
 \renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\scshape\footnotesize#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse}
@@ -108,10 +110,15 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \newtheorem*{obs}{Observación}
 
 %% Comandos para la portada
-\global\let\@carrera\@empty
-\newcommand{\setcarrera}[1]{\def\@carrera{#1}}
-\let\carrera\setcarrera
-\let\setcarrera\relax
+\global\let\@carreraA\@empty
+\newcommand{\setcarreraA}[1]{\def\@carreraA{#1}}
+\let\carreraA\setcarreraA
+\let\setcarreraA\relax
+
+\global\let\@carreraB\@empty
+\newcommand{\setcarreraB}[1]{\def\@carreraB{#1}}
+\let\carreraB\setcarreraB
+\let\setcarreraB\relax
 
 \global\let\@memoria\@empty
 \newcommand{\setmemoria}[1]{\def\@memoria{#1}}
