@@ -147,7 +147,7 @@ PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
 \renewcommand{\maketitle}{
 	\begin{titlepage}
 		\begin{minipage}{1.6cm}
-			\includegraphics[scale=.12]{figures/escudoU2014.pdf}
+			\includegraphics[scale=.12]{escudoU2014.pdf}
 		\end{minipage}
 		\begin{minipage}[t]{12cm}
 			UNIVERSIDAD DE CHILE\\FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS\\\MakeUppercase\@deptoA\\\MakeUppercase\@deptoB
