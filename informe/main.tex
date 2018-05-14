@@ -5,11 +5,11 @@
 \title{Diseño e Implementación de Memoria de Largo Plazo para Robots de Servicio}
 \auspicio{}
 \date{2018}
-\guia{Javier Ruiz del Solar}
+\guia{Javier Ruiz del Solar, JOCELYN SIMMONDS WAGEMANN}
 \carreraA{INGENIERO CIVIL ELÉCTRICO E}
 \carreraB{INGENIERO CIVIL EN COMPUTACIÓN}
 \memoria{MEMORIA PARA OPTAR AL TÍTULO DE INGENIERO CIVIL ELÉCTRICO E INGENIERO CIVIL EN COMPUTACIÓN}
-\comision{JOCELYN SIMMONDS WAGEMANN, TODO 2, TODO 3}
+\comision{TODO 1, TODO 2, TODO 3}
 
 \usepackage[T1]{fontenc}
 \usepackage[spanish]{babelbib}
@@ -31,8 +31,8 @@
 % = = = = = = = = = = = = = = = = = = = = = = =
 \usepackage[pdftex,dvipsnames,table]{xcolor}  % Coloured text etc.
 \usepackage{xargs} % Use more than one optional parameter in a new commands
-%\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
 \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
 \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
@@ -64,15 +64,15 @@
 \maketitle
 
 \begin{abstract}
-TO DO
+\todo[inline]{Abstract: Escribir al final.}
 \end{abstract}
 
 \begin{dedicatoria}
-TO DO: Una dedicatoria corta
+\todo[inline]{Escribir una dedicatoria corta}
 \end{dedicatoria}
 
 \begin{thanks}
-TO DO
+\todo[inline]{Escribir agradecimientos}
 \end{thanks}
 
 \cleardoublepage
@@ -82,12 +82,15 @@ TO DO
 \cleardoublepage
 \listoffigures
 
+\listoftodos
+
 \mainmatter
 
 \input{./chapters/1_introduccion}
 \input{./chapters/2_teoria}
-\input{./chapters/3_implementacion}
-\input{./chapters/4_resultados}
+\input{./chapters/3_diseno}
+\input{./chapters/4_implementacion}
+\input{./chapters/5_resultados}
 \input{./chapters/_conclusion}
 \input{./chapters/_glosario}
 

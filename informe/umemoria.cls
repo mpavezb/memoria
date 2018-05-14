@@ -69,7 +69,7 @@ TÍTULO DE \MakeUppercase\@carreraA \\
 \MakeUppercase\@carreraB \\
 POR: \MakeUppercase\@author \\
 FECHA: \MakeUppercase\@date\\
-PROF. GUÍA: \foreach \x in \@guia { \MakeUppercase\x }
+PROF. GUÍA: JAVIER RUIZ DEL SOLAR \\Y JOCELYN SIMMONDS WAGEMANN
 \end{tabular}
 \end{flushright}
 \begin{center}
