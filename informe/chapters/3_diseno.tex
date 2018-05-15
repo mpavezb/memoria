@@ -18,11 +18,52 @@
 
 \section{Arquitectura del sistema}
 % - Diseño de episodios según requisitos
+%    - manejo de otros datos
+%    - manejo de ubicación
+%    - streams vs entidades
+%    - diseño de sistema emocional
+%    - manejo de datos historicos
+%    - otros datos para debugging e introspección
+%    - manejo de datos episodicos en hijos
+%    - construcción de padres a partir de los hijos
+%    - Contexto
+%    - Limitantes:
+%       - ubicación y frames
+%       - padres mantienen con mismo frame y mapa de hijos
+%       - contexto: introducción manual? TO DO
+
+% - Diseño de Base de Datos:
+%    - manejo de colecciones y mensajes
+%       - límite de tamaño de datos
+%    - separación de colecciones para optimizar manejo de datos y memoria.
+%       - optimizar queries comunes
+%       - poder bloquear/eliminar colecciones muy pesadas
+%    - episodio
+%    - streams
+%       - funcionalidad de streams. Separación de entidades.
+%       - degradación
+%    - entidades
+%       - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
+%    - otras funcionalidades de interés: bkp, migrate a otro robot, ...
+%    - modificar msg de colección MD5 y poder seguir ocupando la base de datos.
+%    - funcionalidades y limitantes de Mongo y de mongo_ros
+%    - sistema de queries disponibles finalmente.
+
 % - Diseño del servidor LTM según requisitos
+%    - TODO: manejo de contexto
 %    - uso de MongoDB
 %    - Minimizar dependencias
+%    - API ROS: servicios, parámetros, nodos
 %    - Sistema de plugins para agregar cosas específicas a cada robot
+%        - requerimientos para cada plugin
+%        - uso esperado de pluginlib
+%        - flujo de trabajo de cada plugin
 %    - Alcances y trabajo futuro
+%        - reservar ids mientras nodo esté activo.
+%        - posibles funcionalidades de interés: 
+%           - visualizador
+%           - 
+
 % - Plugins a implementar a modo de ejemplo, adecuados al robot bender.
 %    - Smach: consideraciones
 %    - Streams: dar ejemplos: img, sonido, pcl..
