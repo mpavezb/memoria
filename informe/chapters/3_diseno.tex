@@ -1,71 +1,194 @@
 \chapter{Diseño}\label{chapter:diseno}
 
+En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. En primer lugar, se presentan todos los requerimientos para el diseño del sistema. A partir de éstos se elabora un conjunto de validaciones y pruebas que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Finalmente, y a partir de lo anterior, se diseña la arquitectura del sistema: se revisa el diseño de un episodio, el modelo de datos, el diseño del servidor, y el conjunto de complementos a implementar para la validación.
+\unsure[inline]{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
+ 
 
 \section{Requerimientos}
-% - Descripción verbal de requisitos y de donde se obtuvieron.
-% - Listado formal de requerimientos
-%   - episodicos
-%   - emocionales
-%   - historicos
 
-\todo[inline]{Reescribir requerimientos de diseño y validaciones}
+A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto. Primero se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable.
+ 
+\subsection{Definición de los requisitos (Requisitos de Usuario)}
+
+\unsure[inline]{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
+
+\unsure[inline]{Qué tan formal debo ser con la especificación de req. usuario y req. software?? Si soy ultra formal (estilo curso Ing.Soft II) tendría que poner un documento de requisitos en los anexos.. mucha pega sin sentido?. Sólo quiero graduarme :'( }
+%\subsubsection{Requisitos de capacidad}
+%\subsubsection{Requisitos de calidad}
+%\subsubsection{Requisitos de restricción}
+
+El primer conjunto de requisitos se obtiene a partir de los objetivos del proyecto y sus alcances:
+\begin{itemize}
+\item Diseño de LTM (episódica y semántica) para robots de servicio domésticos.
+\item Implementación integrada en Bender, compatible con su sistema.
+\item Dar demostración de funcionalidades introducidas.
+\item Énfasis en diseño de sistema genérico y compatible con más robots.
+\item Memoria emocional debe ser soportada por el diseño, a pesar de no ser implementada.
+\end{itemize}
+
+El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:mem_robotica}. 
+
+El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar la el concepto de relevancia histórica de episodios, similarmente a lo estudiado por CITAR-JUANITO \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
+\todo[inline]{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
+\todo[inline]{El indicador conjunto de relevancias aún no ha sido implementado}
+
+\subsubsection{Alcances del proyecto}
+
+\unsure[inline]{Es necesario hablar sobre cosas que NO SON REQUISITOS??}
+
+Para acotar el diseño, implementación y validaciones, a continuación se presenta un listado requerimientos que no pertenecen al proyecto actual, sino que son considerados como trabajo futuro.
+
+\begin{itemize}
+\item Mecanismos para olvido o represión (en caso de contenido emocional traumático).
+\item Problemas éticos sobre almacenar datos de usuarios.
+\item Inferencia de información a partir de episodios almacenados.
+\item Inferencia de episodios según sucesos previos y posteriores, como lo propuesto por Kelley \cite{Kelley2014} y estudiado en la Sección \ref{}.
+\item Indicador de relevancia por novedad del episodio, basado en similitud con episodios ya existentes. No es de interés, pues se puede abstraer al módulo emocional.
+\item Modificar conversaciones que mantiene el robot con humanos, según los datos episódicos almacenados (e.g., si se está hablando sobre una entidad nueva o ya conocida).
+\item Eliminación automática de datos para liberar recursos de memoria secundaria.
+\end{itemize}
+\todo[inline]{En un principio se gastó tiempo con knowrob y prolog... que hago respecto a esto?? lo agrego al informe??... quito la inferencia de los objetivos secundarios??}
+
+\todo[inline]{Reescribir requerimientos de diseño}
+
+\todo[inline]{Agregar requerimientos basados en las pruebas que sobran}
+
+\subsection{Requerimientos de software}
+
+
 
 
 \section{Validaciones}
-% - Sobre generación de validaciones a partir de requisitos
-% - Listado formal de validaciones basadas en requerimientos
-% - 
 
+A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto.
+
+\todo[inline]{listado formal de validaciones basadas en requerimientos}
+
+ 
 \section{Arquitectura del sistema}
+ 
+ En esta sección se describe la el diseño de la arquitectura del sistema de software implementado, según los requerimientos estudiados anteriormente. En primer lugar se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes a implementar para la validación y demostración del proyecto.
+ 
+ 
+\subsection{Diseño de episodios}
 % - Diseño de episodios según requisitos
-%    - manejo de otros datos
-%    - manejo de ubicación
-%    - streams vs entidades
-%    - diseño de sistema emocional
-%    - manejo de datos historicos
-%    - otros datos para debugging e introspección
+ .
+ 
+\subsubsection{Árboles de episodios}
+%    - Contexto
+% - episodios son únicos.. por mucho que un hijo se parezca a otro.. son distintos
 %    - manejo de datos episodicos en hijos
 %    - construcción de padres a partir de los hijos
-%    - Contexto
+ .
+ 
+\subsubsection{Contexto espacio-temporal}
+%    - manejo de ubicación
+%    - manejo de when
+ .
+
+\subsubsection{Manejo de relevancia emocional}
+%    - diseño de sistema emocional
+ .
+
+\subsubsection{Manejo de relevancia histórica}
+%    - manejo de datos historicos
+ .
+
+\subsubsection{Datos para introspección}
+%    - manejo de otros datos
+%    - otros datos para debugging e introspección
+ .
+
+\subsubsection{Memoria semántica}
+%    - streams vs entidades
+ .
+
+\subsubsection{Limitantes}
 %    - Limitantes:
 %       - ubicación y frames
 %       - padres mantienen con mismo frame y mapa de hijos
 %       - contexto: introducción manual? TO DO
+ .
 
+
+\subsection{Diseño del modelo de datos}
 % - Diseño de Base de Datos:
+ .
+
+\subsubsection{Consideraciones}
 %    - manejo de colecciones y mensajes
 %       - límite de tamaño de datos
 %    - separación de colecciones para optimizar manejo de datos y memoria.
 %       - optimizar queries comunes
 %       - poder bloquear/eliminar colecciones muy pesadas
-%    - episodio
-%    - streams
-%       - funcionalidad de streams. Separación de entidades.
-%       - degradación
-%    - entidades
-%       - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
 %    - otras funcionalidades de interés: bkp, migrate a otro robot, ...
 %    - modificar msg de colección MD5 y poder seguir ocupando la base de datos.
 %    - funcionalidades y limitantes de Mongo y de mongo_ros
 %    - sistema de queries disponibles finalmente.
+ .
 
-% - Diseño del servidor LTM según requisitos
+\subsubsection{Colección de episodios}
+%    - episodio
+%    - mensaje ROS
+ .
+
+\subsubsection{Colecciones de streams}
+%    - streams
+%       - funcionalidad de streams. Separación de entidades.
+%       - degradación
+ .
+
+\subsubsection{Colecciones de entidades}
+%    - entidades
+%       - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
+
+ .
+
+\subsection{Diseño del servidor LTM}
 %    - TODO: manejo de contexto
+ .
+
+\subsubsection{Manejo de episodios}
+% - Diseño del servidor LTM según requisitos
 %    - uso de MongoDB
 %    - Minimizar dependencias
 %    - API ROS: servicios, parámetros, nodos
+ .
+
+\subsubsection{Sistema de plugins}
 %    - Sistema de plugins para agregar cosas específicas a cada robot
 %        - requerimientos para cada plugin
 %        - uso esperado de pluginlib
 %        - flujo de trabajo de cada plugin
+ .
+
+\subsubsection{Alcances y trabajo futuro}
 %    - Alcances y trabajo futuro
 %        - reservar ids mientras nodo esté activo.
 %        - posibles funcionalidades de interés: 
 %           - visualizador
 %           - 
+ .
 
+\subsection{Diseño de plugins e interfaces para demostración}
 % - Plugins a implementar a modo de ejemplo, adecuados al robot bender.
+ .
+
+\subsubsection{Generación de episodios mediante SMACH}
 %    - Smach: consideraciones
+ .
+
+\subsubsection{Plugin para obtener localización del robot}
+ .
+
+\subsubsection{Plugin para obtener emociones del robot}
+ .
+
+\subsubsection{Plugin para streams: Imágenes}
 %    - Streams: dar ejemplos: img, sonido, pcl..
-%    - Emociones y Localización
+ .
+
+\subsubsection{Plugins para entidades}
 %    - Entidades: People, Objects, Robot, Location
+ .
+

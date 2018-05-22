@@ -1,21 +1,17 @@
 \chapter{Marco Teórico}\label{chapter:theory}
 
-\todo[inline]{MARCO TEORICO: MIGRAR DESDE PREINFORME}
+\unsure[inline]{Creo que el marco teórico está muy abultado... tiene sentido separar en dos capítulos: Aspectos teóricos y componentes de software y hardware??}
 
-
-
-%% =============================================================================
+%% =====================================================================
 \section{Memoria robótica a largo plazo}\label{chapter:memory}
-%% =============================================================================
+%% =====================================================================
 
 En este capítulo se revisan los temas y conceptos relevantes para el desarrollo del trabajo. Se formaliza la definición de robot doméstico y sus alcances. Se describe la memoria humana, sus categorías, funcionamiento y procesos cerebrales relevantes. Basando en los temas anteriores, se revisa la relación entre robótica y la memoria humana: se describen los distintos enfoques existentes, las reglas generales para su implementación y los frameworks actuales.
 
 
 \subsection{Robots de servicio domésticos}\label{sec:domestic_robots}
-%% -----------------------------------------------------------------------------
-% - 
-% - 
-% - 
+%% -------------------------------------------------------------------
+
 La Federación Internacional de Robótica (IFR) \cite{IFR} define \textit{robot} como:
 \begin{quotation}
 	``Un mecanismo actuado y programable en dos o más ejes y con un cierto grado de autonomía, que se mueve en su entorno para realizar tareas previstas. En este contexto, autonomía se refiere a la habilidad de realizar tareas previstas, basado en el estado actual y lo sensado, sin intervención humana.''
@@ -55,7 +51,7 @@ Algunas tareas que robots domésticos de tipo mayordomo deben ejecutar son:
 \begin{itemize}[topsep=0pt]
 	\setlength\itemsep{0.2em}
 	\item Ofrecer comida y bebestibles.
-	\item Preparación de comida.
+	\item Preparación de comida.\setcounter{tocdepth}{4}
 	\item Ordenar y limpiar el hogar.
 \end{itemize}
 \bigskip
@@ -68,7 +64,7 @@ El primero de los objetivos específicos del proyecto tiene que ver con la deriv
 % - 
 % - 
 % - 
-\todo[inline]{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
+\improvement[inline]{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
 % \cite{Deutsch2008} 
 
 La memoria es un elemento fundamental para los humanos en su día a día, es parte integral de su existencia. Permite recordar quién, qué, cómo, dónde y cuándo. En términos psicológicos, es la habilidad para para codificar, almacenar y luego obtener información sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el área de la psicología cognitiva con diversas descripciones y modelos teóricos de cada tipo de memoria \cite{Vijayakumar2014}.
@@ -96,7 +92,7 @@ La memoria puede ser dividida en múltiples sistemas de independientes, con func
 	level 4/.style = {basic, thin, align=left, fill=blue!10, text width=10em}
 }
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\begin{tikzpicture}[]
 	
@@ -157,15 +153,10 @@ Se sustenta principalmente en la corteza prefrontal del cerebro. Algunos estudio
 En los humanos esta área presenta gran activación durante procesos de codificación, acceso y manipulación de memorias. %(Postle, 2006). 
 
 
-\subsubsection{Memoria de largo plazo}
-% - 
-% - 
-% - 
+\subsubsection{Memoria de largo plazo explícita}
+
 La LTM se asocia al almacenamiento permanente de información en el cerebro. Se caracteriza por manejar mucha información sobre experiencias y entidades, ser menos detallada y proveer un acceso más lento a los recuerdos, respecto a la STM \cite{Eichenbaum:2008}. Cierta información de la STM eventualmente es transferida a la LTM. De acuerdo a la Figura \ref{img:human_memory}, sus dos principales categorías son la \textit{Memoria Implícita} y la \textit{Memoria Explícita}.
 % algunos creen que no está limitada en su capacidad de almacenar información.
-
-\todo[inline]{subsubsubsection: Memoria explicita}
-%\subsubsection{Memoria Explícita}
 
 La memoria explícita suele ser denominada \textit{memoria consciente} o \textit{memoria declarativa}, pues maneja conocimientos relacionados a hechos y eventos adquiridos de forma consciente. Según las estructuras cerebrales involucradas, se conforma de la \textit{memoria episódica} y de la \textit{memoria semántica}.
 
@@ -178,8 +169,7 @@ Las estructuras cerebrales que soportan la memoria explícita son el hipocampo, 
 Un ejemplo de uso de Ep-LTM es el recuerdo de una graduación escolar, el lugar y la fecha donde ocurrió. La S-LTM podría responder en que consiste una graduación y describir la ropa que se suele ocupar en ellas.
 
 
-\todo[inline]{subsubsubsection: Memoria implicita}
-%\subsubsection{Memoria Implícita}
+\subsubsection{Memoria de largo plazo implícita}
 
 La memoria implícita  abarca la capacidad de aprender habilidades, hábitos y preferencias, caracterizados por ser mejorados o adquiridos sin una recolección consciente. Así, también suele ser denominada \textit{memoria inconsciente} o \textit{memoria no declarativa}, pues comprende acciones que pueden ser realizadas sin pensar en ellas. Ejemplos de esto, son el andar en bicicleta o tocar un instrumento musical.
 
@@ -203,8 +193,8 @@ Existen procesos químicos a nivel cerebral que afectan la consolidación y el d
 Es posible modular ambos procesos. Las experiencias repetidas potencian la consolidación de la memoria, lo que fortalece las conexiones neuronales. Por otro lado, la memoria emocional es capaz de potenciar o deprimir las reacciones químicas requeridas; según los estímulos a los que se enfrente, modifica el nivel de relevancia de los eventos, pudiendo generar memorias muy fuertes y hábitos arraigados. Ejemplos de esto, son la memorización por repetición, los flashbacks y las memorias asociadas a eventos importantes como cumpleaños.
 
  
-\subsection{Memoria y robótica}
-%% -----------------------------------------------------------------------------
+\subsection{Memoria y robótica}\label{sec:mem_robotica}
+%% -------------------------------------------------------------------------
 % - 
 % - 
 % - 
@@ -233,18 +223,13 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la Figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria, sus procesos y el análogo robótico.
 
 
-\todo[inline]{subsubsubsection: Memoria STM}
-%\subsubsection{Memoria STM}
-
+\paragraph{Memoria STM}
 Se relaciona a todos los datos que están actualmente cargados en la memoria primaria de la máquina. Esta memoria es la utilizada para solucionar la tarea actual, es equivalente a los pensamientos del robot y cumple con las características de la STM humana: es volátil, de rápido acceso y limitada en capacidad. También se encuentra presente en todo archivo temporal manejado por el sistema, mientras está en funcionamiento. Así, la estructura equivalente a la cerebral sería principalmente la RAM de la máquina.
 
-
-\todo[inline]{subsubsubsection: Memoria S-LTM}
-%\subsubsection{Memoria S-LTM}
-
+\paragraph{Memoria S-LTM}
 La memoria S-LTM es común y se puede asociar a casi toda fuente de datos estática, no utilizada por las otras memorias. Luego, la S-LTM se sustenta en la memoria secundaria, cumpliendo las características de la LTM humana: es persistente, de acceso costoso y virtualmente ilimitada en capacidad. Algunos ejemplos son:
 \begin{itemize}[topsep=0pt]
-	\setlength\itemsep{0.2em}
+%	\setlength\itemsep{0.2em}
 	\item Bases de datos.
 	\item Directorios con imágenes de personas y objetos conocidos.
 	\item Mapa con descripción del ambiente.
@@ -254,14 +239,10 @@ La memoria S-LTM es común y se puede asociar a casi toda fuente de datos estát
 \end{itemize}
 
 
-\todo[inline]{subsubsubsection: Memoria P-LTM}
-%\subsubsection{Memoria P-LTM}
-
-Este tipo de memoria es comparable a algoritmos predefinidos para realizar acciones, generalmente motoras. 
-
-Algunos ejemplos comparables son: 
+\paragraph{Memoria P-LTM}
+Este tipo de memoria es comparable a algoritmos predefinidos para realizar acciones, generalmente motoras.  Algunos ejemplos comparables son: 
 \begin{itemize}[topsep=0pt]
-	\setlength\itemsep{0.2em}
+%	\setlength\itemsep{0.2em}
 	\item Algoritmos basados en redes neuronales, entrenados para manipular objetos o reconocer patrones.
 	\item Algoritmos entrenados para tareas específicas, cómo la detección de caras o el reconocimiento de voz.
 	\item Controladores basados en puntos de operación para acciones motoras.
@@ -271,9 +252,7 @@ Algunos ejemplos comparables son:
 Las estructuras equivalentes a la versión cerebral serían los archivos con parámetros para cada algoritmo, obtenidos a partir del entrenamiento o ajustados manualmente.
 
 
-\todo[inline]{subsubsubsection: Otros tipos de memoria}
-%\subsubsection{Otros tipos de memoria}
-
+\paragraph{Otros tipos de memoria}
 Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funcionamiento de un software robótico, por lo que no son implementadas de forma explícita, sino que se pueden identificar en los componentes de software descritos anteriormente. Luego, la existencia de tales memorias, no implica la intención de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias sólo son implementados en casos especializados.
 
 
@@ -282,11 +261,11 @@ Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funci
 % - 
 % - 
 % - 
-\todo[inline]{Sobre approaches para crear memorias episódicas.}
+\improvement[inline]{Sobre approaches para crear memorias episódicas.}
 %Han existido diversos intentos por crear memorias episódicas y semánticas. ... tal persona hizo tal cosa .... desde el 2000
 
 
-\todo[inline]{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
+\improvement[inline]{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
 
 La memoria de mayor interés para este proyecto es la Ep-LTM, pues es la que permite generar interacciones humano-robot interesantes y que no sean repetitivas en el tiempo. Para su implementación, es un requisito disponer de S-LTM, pues la Ep-LTM almacena episodios y los cambios ocurridos a las entidades percibidas. La S-LTM almacena los modelos de cada entidad que llegarán a utilizar por la Ep-LTM.
 
@@ -457,8 +436,7 @@ En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modela
 
 Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias Ep-LTM y S-LTM, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir el las dependencias entre si de cada componente y reducir el ancho de banda utilizado para retransmitir la información entre procesos.
 
-
-\todo[inline]{\cite{Pratama2014}}
+\todo[inline]{citar a \cite{Pratama2014}}
 
 
 
@@ -609,8 +587,7 @@ El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser 
 
 El software de Bender está basado en el framework URF. Su arquitectura de software utiliza  ROS para el manejo de componentes de bajo y medio nivel. La capa de alto nivel, escrita en python, se abstrae de ROS y permite la creación de comportamientos complejos mediante máquinas de estado. Todos los módulos que interactúan con sensores y actuadores están implementados en ROS.
 
-
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\textwidth]{bender.png}
 	\caption{\small Robot Bender en competencia RoboCup 2015.}

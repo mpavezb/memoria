@@ -38,7 +38,6 @@
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
-\setlength{\marginparwidth}{0.5in}
 % = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -50,7 +49,11 @@
 }
 
 \usepackage{tikz}
-\usepackage{lipsum}
+
+% Numbering and TOC for: 
+% Chapters(0), Sections(1), subsections(2), subsubsections(3)
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 
 \begin{document}
 
@@ -59,7 +62,6 @@
 
 \begin{abstract}
 \todo[inline]{Abstract: Escribir al final.}
-\lipsum[103-106]
 \end{abstract}
 
 \begin{dedicatoria}
@@ -68,7 +70,6 @@
 
 \begin{thanks}
 \todo[inline]{Escribir agradecimientos}
-\lipsum[3-6]
 \end{thanks}
 
 \cleardoublepage

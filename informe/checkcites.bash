@@ -7,8 +7,9 @@
 #
 #
 
-if [ ! -e main.aux ]; then
+if [ ! -f main.aux ]; then
 	echo "Required file main.aux does not exists. Please compile the project."
+	exit 1
 fi
 
 touch IEEEabrv.bib
