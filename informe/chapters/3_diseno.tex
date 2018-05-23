@@ -28,7 +28,7 @@ El primer conjunto de requisitos se obtiene a partir de los objetivos del proyec
 
 El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:mem_robotica}. 
 
-El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar la el concepto de relevancia histórica de episodios, similarmente a lo estudiado por CITAR-JUANITO \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
+El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar el concepto de relevancia histórica de episodios, similarmente a lo estudiado por XXX \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
 \todo[inline]{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
 \todo[inline]{El indicador conjunto de relevancias aún no ha sido implementado}
 
@@ -55,14 +55,292 @@ Para acotar el diseño, implementación y validaciones, a continuación se prese
 
 \subsection{Requerimientos de software}
 
+A continuación se presenta un listado (semiformal) de requisitos de software, generados a partir de los requisitos de usuario revisados en la sección anterior. Cada requisito de fue reformulado desde su versión difusa, a una descripción más precisa y verificable del requerimiento original. 
+\unsure[inline]{Debo dar excusa sobre la informalidad del formato de presentación de requisitos?? Dan un poco de pena respecto a los visto en ING. Soft II, por ejemplo: link a requisito de usuario.. separación por tipo de requisito.. metadatos del requisito... matriz de trazabilidad... etc}
 
+\paragraph{RS01}
+El sistema debe ser agnóstico respecto a la plataforma objetivo. No se puede asumir que estructuras de datos semánticas serán almacenadas para cada episodio. Debe permitir que usuarios definan las estructuras de datos semánticas a almacenar.
 
+\paragraph{RS02}
+El servidor debe ser implantado en el robot Bender. Debe ser agregado al proceso de instalación y su documentación.Debe ser configurado para ser ejecutado simultáneamente a los otros módulos.
+
+\paragraph{RS03}
+Se deben implementar instancias de cada componente genérico, enfocadas en el robot Bender.
+\begin{itemize}
+	\item Implementación de la interfaz para adquisición de episodios basados en librería SMACH.
+	\item Implementación de memoria semántica adecuada al robot: Información sobre personas y objetos.
+	\item El software dedicado al robot debe ser implementado en paquetes de ROS distintos del utilizado para el servidor LTM.
+\end{itemize}
+
+\paragraph{RS04}
+El servidor debe ser compatible con ROS, mediante una API ROS para acceder a todas sus funcionalidades.
+
+\paragraph{RS05}
+El servidor debe proveer servicios para las operaciones CRUD sobre los episodios manejados.
+
+\paragraph{RS06}
+Los episodios almacenados deben estar conectados bidireccionalmente con los datos semánticos relacionados.
+
+\paragraph{RS07}
+(R1) Episodios deben contener campo What, para almacenar memoria semántica. Ya que la memoria semántica es definida por el usuario, éste campo debe poder almacenar cualquier tipo de información.
+
+\paragraph{RS08}
+(R1) Episodios deben contener campo When, para almacenar tiempos de inicio y finalización del episodio. Debe poder manejar intervalos de tiempo desde segundos a años.
+
+\paragraph{RS09}
+(R1) Episodios deben contener campo Where, para almacenar información sobre la ubicación del robot durante su ocurrencia.
+
+\paragraph{RS10}
+(R2) Episodios deben ser indexados al menos por los campos What, When y Where.
+\todo[inline]{Cómo valido esto?}
+
+\paragraph{RS11}
+(R2) El servidor debe permitir realizar búsquedas de episodios con condiciones sobre la información almacenada para What, When, Where. Las condiciones de búsqueda deben permitir comparaciones {igualdad, mayor que, pertenencia} entre tipos de dato básicos {strings, números, bool}, asociados a los campos del episodio.
+
+\paragraph{RS12}
+(R3) Los episodios pueden crear entidades semánticas o actualizar las ya existentes.
+
+\paragraph{RS13}
+(R4)  Cada episodio ingresado a la memoria es único, a pesar de que existan similitudes con otros episodios.
+
+\paragraph{RS14}
+(R5) A partir de un episodio se puede acceder a episodios padre e hijos.
+
+\paragraph{RS15}
+(R6)  Lecturas de episodios deben mostrar la memoria semántica como se conocía en ese instante. Es decir, resultado de la consulta debe mostrar los campos asociados a entidades, como si nunca más hubieran cambiado.)
+
+\paragraph{RS16}
+(R7) Episodios pueden estar compuestos de sub-episodios.
+
+\paragraph{RS17}
+(R8) Pueden existir episodios simultáneos, y con distintos tiempos de inicio y fin.
+
+\paragraph{RS18}
+(R9) Se deben minimizar las dependencias de módulos de software externos para el funcionamiento del servidor. Particularmente:
+El sistema debe ser implementado en ROS y solamente utilizando las librerías estándar de Python y C++. La única excepción corresponde a la librería para el manejo de la base de datos a utilizar.
+No deben existir dependencias extra para los módulos de memoria semántica definidos por el usuario, ni para la representación de la memoria semántica.
+
+\paragraph{RS19}
+(R9) En caso que ya exista información semántica almacenada, los usuarios deben poder modificar su representación.
+
+\paragraph{RS20}
+(R10) El servidor debe tolerar una alta tasa de generación de eventos, sin degradar el funcionamiento del robot. Específicamente:
+\begin{itemize}
+	\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
+	\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
+	\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
+\end{itemize}
+
+\paragraph{RS21}
+(R11) Costos de operaciones CRUD deben escalar bien, respecto a la cantidad de datos almacenados. Particularmente, el costo en tiempo de las operaciones debe estar acotado en $O(n\ log\ n)$ respecto a la cantidad de episodios almacenados.
+
+\paragraph{RS22}
+Episodios deben tener un indicador numérico de relevancia histórica, el que debe ser degradado automáticamente con el paso del tiempo.
+
+\paragraph{RS23}
+Episodios deben tener, al menos, la siguiente información sobre la emoción del robot asociada al episodio: nombre de la emoción principal asociada, e indicador numérico que identifique la intensidad de la emoción. La estructura de datos y formato utilizado no debe depender de algún software emocional externo.
+
+\paragraph{RS24}
+Episodios deben tener un indicador numérico de relevancia episódica generalizado, que una los subsistemas de relevancia en sólo uno. El indicador debe ser actualizado automáticamente cuando cualquiera de los subindicadores sea actualizado.
+
+\paragraph{RS25}
+El robot Bender no dispone de módulos para el cómputo de emociones. Se deben implementar al menos 3 sistemas de generación de emociones para el robot, los que deben ser utilizados para la demostración.
+
+\paragraph{RS26}
+Episodios deben estar indexados por los siguientes indicadores numéricos de relevancia, sumado a la descripción de la emoción. Se deben poder realizar búsquedas utilizando éstos índices.
+
+\unsure[inline]{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH debe ser lo menos instrusiva posible.}
+
+\unsure[inline]{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH no debe fallar / colgarse / arrojar excepciones por ningún motivo, para no sacrificar el funcionamiento del robot en caso de errores.}
 
 \section{Validaciones}
 
-A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto.
+A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto. Éstas se separan en 4 categorías: 1. Validaciones que se verifican directamente desde el diseño e implementación del sistema, 2. validaciones mediante la ejecución del sistema, 3. validaciones mediante consultas episodicas al servidor, y 4. validaciones mediante pruebas de estrés al servidor.
 
 \todo[inline]{listado formal de validaciones basadas en requerimientos}
+
+VA: Validaciones por diseño e implementación
+[TOO BROAD]
+[OK]
+[PENDING]
+
+VA (RS01) [OK]
+Verificar que el que el proyecto no tiene ninguna dependencia en software propio del robot.
+
+VA (RS01) [OK]
+Verificar que el servidor admite la definición de estructuras de datos genéricas para la información semántica.
+
+VA (RS02) [PENDING]
+Verificar que el sistema LTM se encuentra documentado en la documentación del robot. La documentación debe incluir tutoriales de instalación y uso del sistema.
+
+VA (RS03) [PENDING]
+Verificar que existan implementaciones de entidades semánticas para personas y objetos.
+
+VA (RS03) [OK]
+Verificar que módulos de software implementados sean separados en al menos 2 paquetes de ROS. El primero debe contener el servidor LTM sin ninguna dependencia al robot. El resto debe contener los módulos extra implementados y deben depender del primero.
+
+V (RS07) [OK]
+Verificar que el campo What de un episodio pueda almacenar cualquier estructura de datos que ROS sea capaz de manejar.
+
+V (RS08) [OK]
+Verificar que episodios poseen campo When, para almacenar tiempo de inicio y finalización del episodio
+
+V (RS13) [OK]
+Verificar que cada nuevo episodio disponga de un ID único entre el resto de los episodios ya almacenados.
+
+V (RS18) [OK]
+Verificar que el paquete de ROS que implementa el servidor sólo tenga como dependencias: librerías estándar de C++ y Python, driver de la base de datos, paquetes estándar de ROS.
+
+
+V (RS23) [OK]
+Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.
+
+VB: Validaciones mediante ejecución
+[TOO BROAD]
+[OK]
+[PENDING]
+
+VB (RS02) [PENDING]
+Verificar que el sistema LTM se instala correctamente en conjunto con la instalación del robot.
+
+VB (RS02) [PENDING]
+Verificar que tras iniciar el software base del robot, se encuentre activo el servidor LTM y sus API ROS.
+
+V (RS03) [OK]
+Verificar que servidor almacena episodios generados a partir de la interfaz con SMACH. Se debe verificar que un set de máquinas de estado ejecutadas sea procesado correctamente.
+
+V (RS04) [OK]
+Verificar que el paquete ROS provee herramientas para lanzar el servidor.
+
+V (RS04) [OK]
+Verificar que el servidor provee API ROS para configurar sus parámetros.
+
+V (RS05) [PENDING]
+Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar y borrar episodios. 
+
+V (RS25) [PENDING]
+Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete de ROS dedicado.
+
+VC: Validaciones mediante consultas al servidor
+[TOO BROAD]
+[OK]
+[PENDING]
+
+VA (RS03) [TOO BROAD]
+Consultas relacionadas a entidades de personas y objetos!
+
+V (RS06) [PENDING]
+Obtener un episodio desde el servidor. A partir de él, acceder a datos semánticos definidos. Verificar que se pueda obtener referencia al episodio a partir de los datos semánticos obtenidos.
+
+V (RS06) [PENDING]
+Obtener una entidad desde el servidor. A partir de ella, listar todos los episodios relacionados.
+
+V (RS08) [OK]
+Verificar que el servidor permita almacenar episodios con duraciones de segundos, horas, días y años.
+
+V (RS09) [TOO BROAD]
+Verificar que episodios contengan campo Where. Almacenar episodios utilizando distintas ubicaciones.
+
+V (RS11) [PENDING]
+Test R02: Search: Buscar episodios indexados por W-1.
+Test R03: Search: Buscar episodios indexados por W-2.
+Test R04: Search: Buscar episodios indexados por W-3.
+
+
+V (RS12) [PENDING]
+(R3 Flexibilidad)
+Test R05: Preguntar por datos aprendidos posteriormente.
+A: Interactúa con (a) y lo almacena.
+B: Interactúa con (a) o (b) y aprende dato sobre (a).
+C: Consulta sobre (a) muestra nuevo dato.
+Test R06: Preguntar por datos modificados posteriormente.
+A: Interactúa con (a) y lo almacena.
+B: Interactúa con (a) o (b) y modifica dato sobre (a).
+C: Consulta sobre (a) muestra dato modificado.
+
+
+V (RS14) [OK]
+Obtener un episodio desde el servidor. A partir de sus datos consultar por su episodio padre y episodios hijos.
+
+V (RS15) [PENDING]
+(R6: Perspectiva)
+Test R10: Eventos recordados deben mantener perspectiva de la experiencia original.
+Episodio A: Habla con (a). Almacena que es estudiante de colegio.
+Episodio B: Habla con (a). Almacena que es estudiante de U.
+Recordar A: debe decir que (a) era estudiante de colegio.
+Recordar B: debe decir que (b) era estudiante universitario. 
+
+V (RS16) [OK]
+(R7: Eventos anidados)
+Test R11: Evento A con sub evento B (temporalmente)
+
+V (RS17) [OK]
+(R8: Trasposición de eventos)
+Test R12: Evento A traspuesto con evento B (temporalmente)
+
+
+V (RS19) [PENDING]
+Crear entidad semántica para el test con estructura A. Crear e ingresar M episodios que ocupen la estructura A. Modificar entidad y dejar en estructura B. Ingresar N episodios que utilicen estructura B. Realizar búsquedas de episodios con estructura A y de episodios con estructura B.
+
+
+V (RS22) [PENDING]
+Generar episodios con antigüedades en el rango de 1 segundo hasta 5 años, espaciados por intervalos de horas (para los 24 primeros) y días, para los (365) siguientes y semanas para el resto. Forzar actualización de relevancias, leer todos los episodios y graficar su relevancia histórica, para verificar que es decreciente.
+
+V (RS23) [PENDING]
+Consultar algún episodio de la base de datos. Verificar que dispone de campos de relevancia emocional: Indicador numérico para la intensidad de la emoción, y descripción de la emoción.
+
+V (RS24) [PENDING]
+Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada. 
+Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
+Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
+Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
+
+V (RS25) [PENDING]
+Generar episodios en donde se ocupe cada uno de los módulos generadores de emociones implementados para el robot Bender.
+
+V (RS26) [PENDING]
+Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.
+
+VD: Validaciones de Eficiencia
+[TOO BROAD]
+[OK]
+[PENDING]
+
+VD (RS20)
+Pruebas de eficiencia. Ver (Stachowicz2012), (Vijayakumar2014)
+Test T12: CPU usage while stand by
+Test T13: RAM usage while stand by
+Test T14: CPU usage while processing
+Test T15: RAM usage while processing
+Test T16: Disk bandwidth usage
+Test T17: Eventos almacenados por minuto vs CPU usage.
+Verificar que:
+\begin{itemize}
+\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
+\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
+\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
+\end{itemize}
+
+VE: Validaciones de escalabilidad
+[TOO BROAD]
+[OK]
+[PENDING]
+
+VE (RS21)
+Pruebas de escalabilidad. Ver (Stachowicz2012), (Vijayakumar2014).
+Escalabilidad:
+Test T01: search time vs. \# episodes, based on What
+Test T02: search time vs. \# episodes, based on Where
+Test T03: search time vs. \# episodes, based on When
+Test T04: search time vs. \# episodes, based on What, Where and When
+Test T05: insertion time vs. \# episodes
+Test T06: deletion time vs. \# episodes 
+Test T07: disk usage vs. \# episodes
+Test T08: RAM usage vs. \# episodes
+Test T09: CPU usage vs. \# episodes
+Obs: Puede requerir el desarrollo de un generador de episodios dummy, pero variados.
+Verificar que el costo de operaciones sea O(nlogn)
+
 
  
 \section{Arquitectura del sistema}

@@ -291,11 +291,11 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 	
 	\item Estructura: (R2) Cada evento en conjunto con su contexto espacio-temporal forman una única representación integrada, que debe ser recordada como un todo, en caso de obtener cualquiera de las características del evento.
 	
-	\item Flexibilidad: (R3) La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.
+	\item Flexibilidad: (R3) La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.\todo[inline]{Está OK esta descripción?.. }
 	
 	\item Datos específicos: (R4) La memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación.
 	
-	\item Ep-LTM es LTM y declarativa: (R5) La memoria episódica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, días o años. También es una forma de memoria declarativa; Es posible hablar sobre eventos asociados y acceder a ellos para introspección.
+	\item Ep-LTM es LTM y declarativa: (R5) La memoria episódica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, días o años. También es una forma de memoria declarativa; Es posible hablar sobre eventos asociados y acceder a ellos para introspección.\todo[inline]{Está OK esta descripción?}
 	
 	\item Perspectiva: (R6) La memoria episódica debe lidiar con datos específicos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se tenía en la experiencia original.
 	
@@ -310,6 +310,7 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 \begin{enumerate}[topsep=0pt]
 	\setlength\itemsep{0.2em}
 	\item No intrusivo: (R9) El campo ``Qué'' debe permitir almacenar información variable, organizada en estructuras de datos que no se conocen de antemano y que se ajustan a diversos módulos de procesamiento. Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
+	\improvement[inline]{Reescribir este requisito.. La información variable no es requisito deseable, sino que obligatorio.. sólo la no intrusividad es deseable..}
 	
 	\item Eficiente: (R10) El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot. Es decir, todos los eventos deben ser procesados eventualmente, aún cuando el robot esté ocupando gran parte de sus recursos, y sin generar hambruna de CPU ni ancho de banda (de disco y red) al resto de los procesos.
 	
