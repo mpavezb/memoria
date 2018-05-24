@@ -398,29 +398,129 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 %\paragraph{VE08 (RS21)}: RAM usage vs. \# episodes
 %\paragraph{VE09 (RS21)}: CPU usage vs. \# episodes
 
-
-
  
 \section{Arquitectura del sistema}
  
- En esta sección se describe la el diseño de la arquitectura del sistema de software implementado, según los requerimientos estudiados anteriormente. En primer lugar se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes a implementar para la validación y demostración del proyecto.
+En esta sección se describe la el diseño de la arquitectura del sistema de software implementado, según los requerimientos estudiados anteriormente. En primer lugar se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes a implementar para la validación y demostración del proyecto.
  
  
 \subsection{Diseño de episodios}
-% - Diseño de episodios según requisitos
- .
+
+A continuación presenta el diseño de los episodios para el servidor LTM. 
+\todo[inline]{Describir brevemente el diseño}
+
+\todo[inline]{Agregar listado de mensajes y servicios en los anexos.}
+
+\subsubsection{Formato y representación}
+
+% SOBRE ELECCIÓN DE MENSAJES DE ROS
+Se decidió utilizar mensajes de ROS para la representación de episodios. Esto se justifica en la amplia gama de mensajes base que provee ROS, los que permiten construir un mensaje adecuado a cualquier necesidad. Además, utilizando éste sistema de mensajes, se evita definir una formato de información particular para la representación episódica, y la comunicación de episodios mediante la API ROS del servidor se simplifica. Más aún, como se explicará en más detalle en la Sección \ref{}, el driver para MongoDB a utilizar permite almacenar cualquier estructura de datos, mientras ésta esté encapsulada en un mensaje ROS.
+
+% SOBRE UNICIDAD
+El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para esto, el mensaje ROS debe contener un id único para identificar el episodio. El servidor debe encargarse de que cada nuevo episodio cuente con un identificador único.
+
+% SOBRE CAMPO DE TAGS
+Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste campo corresponde a un vector de \textit{strings} y permite almacenar descripciones breves de la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
+
+Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le agregan los siguientes campos:
+\begin{itemize}
+\item Campo \texttt{uint32 uid}: Sirve para indicar el identificador único asignado al episodio.
+\item Campo \texttt{string[] tags}: Vector de tags, para almacenar todos los \textit{tags} asociados al episodio.
+\end{itemize}
+
+\unsure[inline]{Los episodios deben ser indexados por ambos campos... Mejor digo esto en la parte de la base de datos.}
+
  
 \subsubsection{Árboles de episodios}
-%    - Contexto
-% - episodios son únicos.. por mucho que un hijo se parezca a otro.. son distintos
-%    - manejo de datos episodicos en hijos
-%    - construcción de padres a partir de los hijos
- .
+
+\todo[inline]{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
+
+\unsure[inline]{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
+
+% SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
+A partir del requisito de software \hl{(RSXX)}, se debe soportar el concepto de anidación episódica. Este nace de la capacidad para expresar cualquier episodio, en términos de 1 o más sub-episodios más específicos. Para ello, se definen los \textit{árboles de episodios}, utilizando una estructura de datos de árbol: Las hojas contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
+
+% SOBRE TEMPORALIDAD
+Para el árbol episódico, es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. 
+
+% SOBRE MANEJO DE INFORMACIÓN EN PADRES E HIJOS
+Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se decide utilizar una metodología de almacenamiento que no genere redundancia de información. Sólo las hojas del árbol son las encargadas de manejar la información semántica del episodio, lo que potencialmente corresponde a una gran cantidad de información. Asimismo, las hojas son encargadas de manejar la mayor cantidad de información episódica que sea posible. Las estrategias para esto serán explicadas en sus respectivas secciones. Por lo tanto, los nodos del árbol manejan poca información y la mayor parte de sus datos puede ser calculada recursivamente a partir de sus hijos y de manera automática por el servidor.
+
+% SOBRE EL CONTEXTO
+Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos, pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
+
+% SOBRE EL MSG ROS
+Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los ajustes siguientes al mensaje de ROS:
+\begin{itemize}
+\item Campo \texttt{uint32 parent\_id}: Sirve para indicar el campo \texttt{uid} del padre del episodio. Se reserva el valor $0$ de éste campo para representar el padre de un episodio raíz.
+\item Campo \texttt{uint32[] children\_ids}: Vector de \texttt{uid} asociadas a los episodios hijos. No existe condición sobre el orden temporal de los episodios hijos.
+\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
+\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
+\end{itemize}
  
-\subsubsection{Contexto espacio-temporal}
-%    - manejo de ubicación
-%    - manejo de when
- .
+\todo[inline]{Se puede agregar e implementar la condición de que hijos son ordenados por tiempo de inicio}
+ 
+\subsubsection{Contexto temporal: \textit{When}}
+
+% SOBRE LOS REQUISITOS
+De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
+
+\todo[inline]{Revisar o modificar implementación.. no estoy seguro como se están manejando los tiempos para los padres... lo lógico sería no ajustar los tiempos a los de los hijos, pues estos pueden no estar definidos hasta el final!... O agregarlo como limitante.}
+En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al ingresar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes obtenidos al ingresar el episodio, o calcular los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que siempre inician antes y terminan después que ellos.
+
+% SOBRE EL MENSAJE ROS
+Entonces, se crea el mensaje \texttt{When.msg} para almacenar el contexto temporal del episodio, con los siguientes campos:
+\begin{itemize}
+	\item \texttt{time start}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}: Indica el instante en que se inicia el episodio.
+	\item \texttt{time end}: Indica el instante en que finaliza el episodio.
+\end{itemize}
+
+Y el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/When when}\footnote{El dominio \texttt{ltm/} hace referencia al nombre del paquete ROS donde se implementa el servidor y que contiene la definición de todos los mensajes relacionados.}: Se agrega una instancia del mensaje \texttt{When.msg}, para manejar el contexto temporal del episodio.
+\end{itemize}
+
+ 
+\subsubsection{Contexto espacial: \textit{Where}}
+
+% SOBRE LOS REQUISITOS
+De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto espacial (\textit{Where}), es decir, dónde sucedió. 
+
+
+% SOBRE WHERE
+
+Frames, mapa, 2D y robots de servicio.
+Convex hull 2D
+Ejemplo casa vs cocina
+Manejo de campo en padres e hijos.. position se refiere al centroide del convex hull
+Datos de hijos
+
+
+% SOBRE MENSAJE EPISODICO
+Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacio del episodio. Se consideran los siguientes campos:
+\begin{itemize}
+\item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
+\item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
+\item \texttt{string map\_name}: Indica el nombre del mapa utilizado, en el cual se ubican la posición descrita y el sistema de coordenadas elegido. 
+\item \texttt{string location}: Nombre del lugar donde se encontraba el robot al momento del episodio.
+\item \texttt{string area}: Nombre del área en donde se ubica el lugar descrito por \texttt{location}. 
+\item \texttt{geometry\_msgs/Point[] children\_hull}:
+\item \texttt{string[] children\_locations}:
+\item \texttt{string[] children\_areas}:
+\end{itemize}
+
+
+Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+\item \texttt{ltm/Where where}: Se agrega una instancia del mensaje \texttt{Where.msg}, para manejar el contexto espacial del episodio.
+\end{itemize}
+
+
+% SOBRE MENSAJE WHERE
+
+
+% SOBRE MENSAJE WHEN
+
 
 \subsubsection{Manejo de relevancia emocional}
 %    - diseño de sistema emocional
@@ -439,7 +539,7 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 %    - streams vs entidades
  .
 
-\subsubsection{Limitantes}
+\subsubsection{Limitantes y trabajo futuro}
 %    - Limitantes:
 %       - ubicación y frames
 %       - padres mantienen con mismo frame y mapa de hijos
