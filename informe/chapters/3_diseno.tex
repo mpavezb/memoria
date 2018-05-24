@@ -1,8 +1,11 @@
 \chapter{Diseño}\label{chapter:diseno}
 
+
 En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. En primer lugar, se presentan todos los requerimientos para el diseño del sistema. A partir de éstos se elabora un conjunto de validaciones y pruebas que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Finalmente, y a partir de lo anterior, se diseña la arquitectura del sistema: se revisa el diseño de un episodio, el modelo de datos, el diseño del servidor, y el conjunto de complementos a implementar para la validación.
 \unsure[inline]{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
- 
+
+
+\todo[inline]{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
 
 \section{Requerimientos}
 
@@ -125,11 +128,13 @@ No deben existir dependencias extra para los módulos de memoria semántica defi
 
 \paragraph{RS20}
 (R10) El servidor debe tolerar una alta tasa de generación de eventos, sin degradar el funcionamiento del robot. Específicamente:
+\todo[inline]{Esos valores de recursos fueron escogidos al azar!.. deben ser modificados.}
 \begin{itemize}
 	\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
 	\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
 	\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
 \end{itemize}
+
 
 \paragraph{RS21}
 (R11) Costos de operaciones CRUD deben escalar bien, respecto a la cantidad de datos almacenados. Particularmente, el costo en tiempo de las operaciones debe estar acotado en $O(n\ log\ n)$ respecto a la cantidad de episodios almacenados.
@@ -159,95 +164,115 @@ A continuación se presenta un conjunto de validaciones para la implementación 
 
 \todo[inline]{listado formal de validaciones basadas en requerimientos}
 
-VA: Validaciones por diseño e implementación
-[TOO BROAD]
-[OK]
-[PENDING]
-
-VA (RS01) [OK]
+\subsection{Validaciones por diseño e implementación}
+\paragraph{VA01 (RS01)}
+% estado [OK]
 Verificar que el que el proyecto no tiene ninguna dependencia en software propio del robot.
 
-VA (RS01) [OK]
+\paragraph{VA02 (RS01)}
+% estado [OK]
 Verificar que el servidor admite la definición de estructuras de datos genéricas para la información semántica.
 
-VA (RS02) [PENDING]
+\paragraph{VA03 (RS02)}
+% estado [PENDING]
 Verificar que el sistema LTM se encuentra documentado en la documentación del robot. La documentación debe incluir tutoriales de instalación y uso del sistema.
 
-VA (RS03) [PENDING]
+\paragraph{VA04 (RS03)}
+% estado [PENDING]
 Verificar que existan implementaciones de entidades semánticas para personas y objetos.
 
-VA (RS03) [OK]
+\paragraph{VA05 (RS03)}
+% estado [OK]
 Verificar que módulos de software implementados sean separados en al menos 2 paquetes de ROS. El primero debe contener el servidor LTM sin ninguna dependencia al robot. El resto debe contener los módulos extra implementados y deben depender del primero.
 
-V (RS07) [OK]
+\paragraph{VA06 (RS07)}
+% estado [OK]
 Verificar que el campo What de un episodio pueda almacenar cualquier estructura de datos que ROS sea capaz de manejar.
 
-V (RS08) [OK]
+\paragraph{VA07 (RS08)}
+% estado [OK]
 Verificar que episodios poseen campo When, para almacenar tiempo de inicio y finalización del episodio
 
-V (RS13) [OK]
+\paragraph{VA08 (RS13)}
+% estado [OK]
 Verificar que cada nuevo episodio disponga de un ID único entre el resto de los episodios ya almacenados.
 
-V (RS18) [OK]
+\paragraph{VA09 (RS18)}
+% estado [OK]
 Verificar que el paquete de ROS que implementa el servidor sólo tenga como dependencias: librerías estándar de C++ y Python, driver de la base de datos, paquetes estándar de ROS.
 
 
-V (RS23) [OK]
+\paragraph{VA10 (RS23)}
+% estado [OK]
 Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.
 
-VB: Validaciones mediante ejecución
-[TOO BROAD]
-[OK]
-[PENDING]
 
-VB (RS02) [PENDING]
+\subsection{Validaciones mediante ejecución}
+
+\paragraph{VB01 (RS02)}
+% estado:  [PENDING]
 Verificar que el sistema LTM se instala correctamente en conjunto con la instalación del robot.
 
-VB (RS02) [PENDING]
+\paragraph{VB02 (RS02)}
+% estado:  [PENDING]
 Verificar que tras iniciar el software base del robot, se encuentre activo el servidor LTM y sus API ROS.
 
-V (RS03) [OK]
+\paragraph{VB03 (RS03)}
+% estado:  [OK]
 Verificar que servidor almacena episodios generados a partir de la interfaz con SMACH. Se debe verificar que un set de máquinas de estado ejecutadas sea procesado correctamente.
 
-V (RS04) [OK]
+\paragraph{VB04 (RS04)}
+% estado:  [OK]
 Verificar que el paquete ROS provee herramientas para lanzar el servidor.
 
-V (RS04) [OK]
+\paragraph{VB05 (RS04)}
+% estado:  [OK]
 Verificar que el servidor provee API ROS para configurar sus parámetros.
 
-V (RS05) [PENDING]
+\paragraph{VB06 (RS05)}
+% estado:  [PENDING]
 Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar y borrar episodios. 
 
-V (RS25) [PENDING]
+\paragraph{VB07 (RS25)}
+% estado:  [PENDING]
 Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete de ROS dedicado.
 
-VC: Validaciones mediante consultas al servidor
-[TOO BROAD]
-[OK]
-[PENDING]
 
-VA (RS03) [TOO BROAD]
+\subsection{Validaciones mediante consultas al servidor}
+
+\paragraph{VC01 (RS03)}
+% estado:  [TOO BROAD]
+\todo{TO DO}
 Consultas relacionadas a entidades de personas y objetos!
 
-V (RS06) [PENDING]
+\paragraph{VC02 (RS06)}
+% estado:  [PENDING]
 Obtener un episodio desde el servidor. A partir de él, acceder a datos semánticos definidos. Verificar que se pueda obtener referencia al episodio a partir de los datos semánticos obtenidos.
 
-V (RS06) [PENDING]
+\paragraph{VC03 (RS06)}
+% estado:  [PENDING]
 Obtener una entidad desde el servidor. A partir de ella, listar todos los episodios relacionados.
 
-V (RS08) [OK]
+\paragraph{VC04 (RS08)}
+% estado:  [OK]
 Verificar que el servidor permita almacenar episodios con duraciones de segundos, horas, días y años.
 
-V (RS09) [TOO BROAD]
+\paragraph{VC05 (RS09)}
+% estado:  [TOO BROAD]
+\todo{TO DO}
 Verificar que episodios contengan campo Where. Almacenar episodios utilizando distintas ubicaciones.
 
-V (RS11) [PENDING]
+\paragraph{VC06 (RS11)}
+% estado:  [PENDING]
+\todo{TO DO}
 Test R02: Search: Buscar episodios indexados por W-1.
 Test R03: Search: Buscar episodios indexados por W-2.
 Test R04: Search: Buscar episodios indexados por W-3.
 
 
-V (RS12) [PENDING]
+\paragraph{VC07 (RS12)}
+% estado:  [PENDING]
+\todo{TO DO}
 (R3 Flexibilidad)
 Test R05: Preguntar por datos aprendidos posteriormente.
 A: Interactúa con (a) y lo almacena.
@@ -259,10 +284,13 @@ B: Interactúa con (a) o (b) y modifica dato sobre (a).
 C: Consulta sobre (a) muestra dato modificado.
 
 
-V (RS14) [OK]
+\paragraph{VC08 (RS14)}
+% estado:  [OK]
 Obtener un episodio desde el servidor. A partir de sus datos consultar por su episodio padre y episodios hijos.
 
-V (RS15) [PENDING]
+\paragraph{VC09 (RS15)}
+% estado:  [PENDING]
+\todo{TO DO}
 (R6: Perspectiva)
 Test R10: Eventos recordados deben mantener perspectiva de la experiencia original.
 Episodio A: Habla con (a). Almacena que es estudiante de colegio.
@@ -270,76 +298,106 @@ Episodio B: Habla con (a). Almacena que es estudiante de U.
 Recordar A: debe decir que (a) era estudiante de colegio.
 Recordar B: debe decir que (b) era estudiante universitario. 
 
-V (RS16) [OK]
-(R7: Eventos anidados)
+\paragraph{VC10 (RS16)}
+% estado:  [OK]
+\todo{TO DO}
 Test R11: Evento A con sub evento B (temporalmente)
 
-V (RS17) [OK]
-(R8: Trasposición de eventos)
-Test R12: Evento A traspuesto con evento B (temporalmente)
 
 
-V (RS19) [PENDING]
+\paragraph{VC11 (RS17)}
+% estado:  [OK]
+Generar dos eventos transpuestos en tiempo (campo \texttt{When}). Verificar que al obtener ambos eventos, sus datos sean correctos y no se haya mezclado la información semántica asociada.
+
+
+\paragraph{VC12 (RS19)}
+% estado:  [PENDING]
 Crear entidad semántica para el test con estructura A. Crear e ingresar M episodios que ocupen la estructura A. Modificar entidad y dejar en estructura B. Ingresar N episodios que utilicen estructura B. Realizar búsquedas de episodios con estructura A y de episodios con estructura B.
 
 
-V (RS22) [PENDING]
+\paragraph{VC13 (RS22)}
+% estado:  [PENDING]
 Generar episodios con antigüedades en el rango de 1 segundo hasta 5 años, espaciados por intervalos de horas (para los 24 primeros) y días, para los (365) siguientes y semanas para el resto. Forzar actualización de relevancias, leer todos los episodios y graficar su relevancia histórica, para verificar que es decreciente.
 
-V (RS23) [PENDING]
+\paragraph{VC14 (RS23)}
+% estado:  [PENDING]
 Consultar algún episodio de la base de datos. Verificar que dispone de campos de relevancia emocional: Indicador numérico para la intensidad de la emoción, y descripción de la emoción.
 
-V (RS24) [PENDING]
-Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada. 
-Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
-Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
-Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
-
-V (RS25) [PENDING]
-Generar episodios en donde se ocupe cada uno de los módulos generadores de emociones implementados para el robot Bender.
-
-V (RS26) [PENDING]
-Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.
-
-VD: Validaciones de Eficiencia
-[TOO BROAD]
-[OK]
-[PENDING]
-
-VD (RS20)
-Pruebas de eficiencia. Ver (Stachowicz2012), (Vijayakumar2014)
-Test T12: CPU usage while stand by
-Test T13: RAM usage while stand by
-Test T14: CPU usage while processing
-Test T15: RAM usage while processing
-Test T16: Disk bandwidth usage
-Test T17: Eventos almacenados por minuto vs CPU usage.
-Verificar que:
+\paragraph{VC15 (RS24)}
+% estado:  [PENDING]
+Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada.
 \begin{itemize}
-\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
-\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
-\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
+\item Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
+\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
+\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
 \end{itemize}
 
-VE: Validaciones de escalabilidad
-[TOO BROAD]
-[OK]
-[PENDING]
+\paragraph{VC16 (RS25)}
+% estado:  [PENDING]
+Generar episodios en donde se ocupe cada uno de los módulos generadores de emociones implementados para el robot Bender.
 
-VE (RS21)
-Pruebas de escalabilidad. Ver (Stachowicz2012), (Vijayakumar2014).
-Escalabilidad:
-Test T01: search time vs. \# episodes, based on What
-Test T02: search time vs. \# episodes, based on Where
-Test T03: search time vs. \# episodes, based on When
-Test T04: search time vs. \# episodes, based on What, Where and When
-Test T05: insertion time vs. \# episodes
-Test T06: deletion time vs. \# episodes 
-Test T07: disk usage vs. \# episodes
-Test T08: RAM usage vs. \# episodes
-Test T09: CPU usage vs. \# episodes
-Obs: Puede requerir el desarrollo de un generador de episodios dummy, pero variados.
-Verificar que el costo de operaciones sea O(nlogn)
+\paragraph{VC17 (RS26)}
+% estado:  [PENDING]
+Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.
+
+\subsection{Validaciones de eficiencia}
+
+\todo[inline]{Reescribir validaciones una vez estas se hayan ejecutado!.}
+
+\todo[inline]{Revisar pruebas de eficiencia de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
+
+\todo[inline]{Escribir en algún lado a que me refiero con estado/funcionamiento base.}
+
+Las siguientes validaciones tienen por objetivo medir la eficiencia del sistema LTM una vez implementado, y se construyen a partir del requisito de software (RS20). Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
+
+Se deben realizar las siguientes mediciones:
+\begin{enumerate}
+\item Uso de CPU y RAM cuando el servidor está en estado base.
+\item Uso de CPU, RAM y ancho de banda de disco, para consultas de búsqueda episódica (simples) a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
+\item Uso de CPU, RAM y ancho de banda de disco, para consultas de búsqueda episódica (complejas) a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
+\item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (sin información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
+\item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (con información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
+\end{enumerate}
+\todo[inline]{hablar sobre simple/complejo es muy subjetivo.}
+
+\paragraph{VD01 (RS20)}
+En primer lugar, se debe validar que en estado base, el uso de CPU y RAM no exceda al 15\% del total disponible para el robot Bender.
+
+\paragraph{VD02 (RS20)}
+Se debe verificar que las operaciones de búsqueda no sobrepasen el uso de recursos en un 10\%, respecto al costo del funcionamiento base. Es decir, se admite hasta un 25\% del uso del total de recursos disponibles para el robot.
+\todo[inline]{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
+
+\paragraph{VD03 (RS20)}
+Verificar que si al menos un 90\% de los recursos de CPU del robot se encuentran ocupados, el servidor LTM entra en modo de bajo consumo. En éste modo, el servidor no puede ocupar más del 5\% de recursos extra a los de su estado base, y todas las consultas deben ser postergadas.
+\todo[inline]{Corregir esto: no tiene sentido postergar consultas de búsqueda.. sólo las de inserción!... (acumular episodios en RAM mientras) por último quitar este requerimiento!.}
+
+
+\subsection{Validaciones de escalabilidad}
+
+Las siguientes conjuntos de validaciones se construyen a partir del requisito de software (RS21). Tienen por objetivo medir el costo de tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos. En cada una se busca validar que la complejidad temporal de las operaciones se comporte de la forma $\mathcal{O}(n\log{}n)$.
+
+\todo[inline]{Revisar pruebas de escalabilidad de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
+
+\todo[inline]{Verificar que complejidad escogida tiene sentido!.}
+
+\begin{itemize}
+\item {\bf VE01 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{What}
+\item {\bf VE02 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{Where}
+\item {\bf VE03 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{When}
+\item {\bf VE04 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{What, When, Where}
+\item {\bf VE05 (RS21)}: Tiempo de inserción vs. cantidad de episodios.
+\item {\bf VE06 (RS21)}: Tiempo de borrado vs. cantidad de episodios.
+\end{itemize}
+\unsure[inline]{Quizás las validaciones de búsqueda tienen más sentido al buscar por el tipo del campo (número, string, bool)}
+\unsure[inline]{Quizás las validaciones de inserción deban ser separadas en casos con pocos-muchos streams-entidades... y caso en vacío... Finalmente todo dependerá de la calidad de la implementación del usuario.. pero tiene sentido validar los plugins que si se implementarán en el robot.}
+\unsure[inline]{Creo que el tiempo de borrado no tiene sentido!, actualización quizás... pero no es una operación común... las operaciones comunes deben ser sólo inserción y búsqueda}
+
+\unsure[inline]{No estoy seguro si tiene sentido agregar validaciones de escalabilidad en el uso de recursos del sistema: CPU, RAM, DISCO}
+%El segundo conjunto estudia el uso de recursos del sistema: CPU, disco y RAM.
+%\paragraph{VE07 (RS21)}: disk usage vs. \# episodes
+%\paragraph{VE08 (RS21)}: RAM usage vs. \# episodes
+%\paragraph{VE09 (RS21)}: CPU usage vs. \# episodes
+
 
 
  
