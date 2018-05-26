@@ -242,8 +242,10 @@ Verificar que existan implementados al menos 3 módulos generadores de emociones
 
 \paragraph{VC01 (RS03)}
 % estado:  [TOO BROAD]
-\todo{TO DO}
 Consultas relacionadas a entidades de personas y objetos!
+
+\todo[inline]{TO DO}
+
 
 \paragraph{VC02 (RS06)}
 % estado:  [PENDING]
@@ -259,20 +261,22 @@ Verificar que el servidor permita almacenar episodios con duraciones de segundos
 
 \paragraph{VC05 (RS09)}
 % estado:  [TOO BROAD]
-\todo{TO DO}
 Verificar que episodios contengan campo Where. Almacenar episodios utilizando distintas ubicaciones.
+
+\todo[inline]{TO DO}
+
 
 \paragraph{VC06 (RS11)}
 % estado:  [PENDING]
-\todo{TO DO}
 Test R02: Search: Buscar episodios indexados por W-1.
 Test R03: Search: Buscar episodios indexados por W-2.
 Test R04: Search: Buscar episodios indexados por W-3.
 
+\todo[inline]{TO DO}
+
 
 \paragraph{VC07 (RS12)}
 % estado:  [PENDING]
-\todo{TO DO}
 (R3 Flexibilidad)
 Test R05: Preguntar por datos aprendidos posteriormente.
 A: Interactúa con (a) y lo almacena.
@@ -283,6 +287,7 @@ A: Interactúa con (a) y lo almacena.
 B: Interactúa con (a) o (b) y modifica dato sobre (a).
 C: Consulta sobre (a) muestra dato modificado.
 
+\todo[inline]{TO DO}
 
 \paragraph{VC08 (RS14)}
 % estado:  [OK]
@@ -290,7 +295,6 @@ Obtener un episodio desde el servidor. A partir de sus datos consultar por su ep
 
 \paragraph{VC09 (RS15)}
 % estado:  [PENDING]
-\todo{TO DO}
 (R6: Perspectiva)
 Test R10: Eventos recordados deben mantener perspectiva de la experiencia original.
 Episodio A: Habla con (a). Almacena que es estudiante de colegio.
@@ -298,10 +302,13 @@ Episodio B: Habla con (a). Almacena que es estudiante de U.
 Recordar A: debe decir que (a) era estudiante de colegio.
 Recordar B: debe decir que (b) era estudiante universitario. 
 
+\todo[inline]{TO DO}
+
 \paragraph{VC10 (RS16)}
 % estado:  [OK]
-\todo{TO DO}
 Test R11: Evento A con sub evento B (temporalmente)
+
+\todo[inline]{TO DO}
 
 
 
@@ -414,14 +421,18 @@ A continuación presenta el diseño de los episodios para el servidor LTM.
 \subsubsection{Formato y representación}
 
 % SOBRE ELECCIÓN DE MENSAJES DE ROS
-Se decidió utilizar mensajes de ROS para la representación de episodios. Esto se justifica en la amplia gama de mensajes base que provee ROS, los que permiten construir un mensaje adecuado a cualquier necesidad. Además, utilizando éste sistema de mensajes, se evita definir una formato de información particular para la representación episódica, y la comunicación de episodios mediante la API ROS del servidor se simplifica. Más aún, como se explicará en más detalle en la Sección \ref{}, el driver para MongoDB a utilizar permite almacenar cualquier estructura de datos, mientras ésta esté encapsulada en un mensaje ROS.
+\paragraph{Mensaje ROS:}
+Se decidió utilizar mensajes de ROS para la representación de episodios. Esto se justifica en la amplia gama de mensajes preconstruidos que provee, los que permiten generar un mensaje adecuado a cualquier necesidad. Además, al utilizar éste sistema de mensajes, se evita definir una formato de información particular para la representación episódica, y la comunicación de episodios mediante la API ROS del servidor se simplifica. Más aún, como se explicará en más detalle en la Sección \ref{}, el driver para MongoDB a utilizar permite almacenar cualquier estructura de datos, mientras ésta esté encapsulada en un mensaje ROS.
 
 % SOBRE UNICIDAD
-El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para esto, el mensaje ROS debe contener un id único para identificar el episodio. El servidor debe encargarse de que cada nuevo episodio cuente con un identificador único.
+\paragraph{Unicidad:}
+El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para esto, el mensaje ROS debe contener un campo que identifique al episodio. El servidor debe encargarse de que cada nuevo episodio cuente con un identificador único.
 
 % SOBRE CAMPO DE TAGS
-Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste campo corresponde a un vector de \textit{strings} y permite almacenar descripciones breves de la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
+\paragraph{Tags:}
+Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste corresponde a un vector de \textit{strings} y permite almacenar descripciones breves sobre la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
 
+\paragraph{Representación:}
 Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le agregan los siguientes campos:
 \begin{itemize}
 \item Campo \texttt{uint32 uid}: Sirve para indicar el identificador único asignado al episodio.
@@ -438,18 +449,23 @@ Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le
 \unsure[inline]{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
 
 % SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
+\paragraph{Anidamiento episódico:}
 A partir del requisito de software \hl{(RSXX)}, se debe soportar el concepto de anidación episódica. Este nace de la capacidad para expresar cualquier episodio, en términos de 1 o más sub-episodios más específicos. Para ello, se definen los \textit{árboles de episodios}, utilizando una estructura de datos de árbol: Las hojas contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
 
 % SOBRE TEMPORALIDAD
+\paragraph{Temporalidad:}
 Para el árbol episódico, es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. 
 
 % SOBRE MANEJO DE INFORMACIÓN EN PADRES E HIJOS
+\paragraph{Estrategia de almacenamiento:}
 Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se decide utilizar una metodología de almacenamiento que no genere redundancia de información. Sólo las hojas del árbol son las encargadas de manejar la información semántica del episodio, lo que potencialmente corresponde a una gran cantidad de información. Asimismo, las hojas son encargadas de manejar la mayor cantidad de información episódica que sea posible. Las estrategias para esto serán explicadas en sus respectivas secciones. Por lo tanto, los nodos del árbol manejan poca información y la mayor parte de sus datos puede ser calculada recursivamente a partir de sus hijos y de manera automática por el servidor.
 
 % SOBRE EL CONTEXTO
+\paragraph{Noción de contexto:}
 Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos, pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
 
 % SOBRE EL MSG ROS
+\paragraph{Representación:}
 Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los ajustes siguientes al mensaje de ROS:
 \begin{itemize}
 \item Campo \texttt{uint32 parent\_id}: Sirve para indicar el campo \texttt{uid} del padre del episodio. Se reserva el valor $0$ de éste campo para representar el padre de un episodio raíz.
@@ -463,12 +479,16 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
 \subsubsection{Contexto temporal: \textit{When}}
 
 % SOBRE LOS REQUISITOS
+\paragraph{Requisitos:}
 De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
 
 \todo[inline]{Revisar o modificar implementación.. no estoy seguro como se están manejando los tiempos para los padres... lo lógico sería no ajustar los tiempos a los de los hijos, pues estos pueden no estar definidos hasta el final!... O agregarlo como limitante.}
-En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al ingresar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes obtenidos al ingresar el episodio, o calcular los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que siempre inician antes y terminan después que ellos.
+% SOBRE MANEJO DE INFORMACIÓN
+\paragraph{Estrategia de almacenamiento:}
+En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
 
 % SOBRE EL MENSAJE ROS
+\paragraph{Representación:}
 Entonces, se crea el mensaje \texttt{When.msg} para almacenar el contexto temporal del episodio, con los siguientes campos:
 \begin{itemize}
 	\item \texttt{time start}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}: Indica el instante en que se inicia el episodio.
@@ -484,20 +504,36 @@ Y el mensaje \texttt{Episode.msg} es modificado como sigue:
 \subsubsection{Contexto espacial: \textit{Where}}
 
 % SOBRE LOS REQUISITOS
-De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto espacial (\textit{Where}), es decir, dónde sucedió. 
+\paragraph{Requisitos:}
+De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto espacial (\textit{Where}), es decir, dónde sucedió. A continuación se explican las decisiones de diseño consideradas.
+
+% SOBRE DURACIÓN DE EPISODIOS Y VECTORES
+\paragraph{Desplazamiento durante episodios:}
+En primer lugar, dependiendo de la duración del episodio, el robot puede haber estado en más de un lugar durante ese tiempo. Esto no es válido sólo para episodios nodo, sino que también para hojas, cuando éstas representan acciones de desplazamiento del robot. Luego, es importante que cada episodio registre cada uno de los lugares en los que ha estado el robot. El listado de lugares debe ser almacenado ordenadamente y con la hora asociada a cada desplazamiento, lo que es importante por dos motivos: permite calcular la secuencia de movimientos para los padres, y permite reconstruir la ruta del robot durante cada episodio. Para ello, la posición del robot puede ser consultada periódicamente en busca de cambios, para almacenar sólo los instantes que indiquen movimiento.
+\todo[inline]{Modificar implementación, para soportar más de 1 lugar semántico y coordenado para hijos.}
 
 
-% SOBRE WHERE
+% SOBRE USO DE AMBAS OPCIONES: Lugares y coordenadas
+\paragraph{Estrategias de almacenamiento:}
+La información espacial puede ser manejada de dos maneras: se pueden almacenar los nombres de los lugares en donde el robot estuvo durante el episodio, o se puede almacenar la ubicación precisa del robot durante el episodio, mediante coordenadas relativas a un sistema coordenado predefinido. La decisión sobre cual sistema utilizar depende mucho del contexto en el cual funciona el robot. Por ejemplo, en el caso de Bender, hay ocasiones en donde sólo es posible conocer su ubicación respecto a un sistema coordenado, mientras que en otras oportunidades, sólo se tiene conocimiento verbal de ésta. Luego, ya que no existe un consenso sobre que opción es la mejor, y para evitar limitar la usabilidad del sistema LTM, se decidió dar soporte a ambas alternativas.
+\unsure[inline]{Todo todo todo debe estar en 3ra persona singular presente??? como hablo de decisiones pasadas??... según esto, corregir todos los párrafos.}
 
-Frames, mapa, 2D y robots de servicio.
-Convex hull 2D
-Ejemplo casa vs cocina
-Manejo de campo en padres e hijos.. position se refiere al centroide del convex hull
-Datos de hijos
+% OPCIÓN SEMÁNTICA
+\paragraph{Estrategia 1 - Descripción:}
+Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser almacenados utilizando vectores de \textit{strings}. Considerando el ambiente en donde puede desempeñarse un robot de servicio doméstico, se decide almacenar esta información en dos niveles de profundidad. El primer nivel corresponde a una descripción específica de la ubicación del robot (ej., ``Comedor''), mientras que el segundo sirve para almacenar el nombre del área donde se encuentra la primera ubicación (ej., ``Casa de John''), junto a otras de similar tamaño semántico. En el caso de los episodios nodo, se ha decidido calcular automáticamente toda esta información, a partir de los episodios hijo.
+\todo[inline]{Crear submensaje para Where.msg, que almacene: location, area, time}
+\todo[inline]{Limitante: En un futuro se podría agregar un 3er nivel de información, para almacenar info ultra específica, por ejemplo: ``al lado de la tele'', ``cerca del refrigerador''..}
 
+% OPCIÓN COORDENADAS
+\paragraph{Estrategia 2 - Coordenadas:}
+Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el proyecto está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto sólo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de ésta.
+\todo[inline]{Modificar implementación para agregar soporte a más de un frame/mapa.}
+\todo[inline]{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
 
 % SOBRE MENSAJE EPISODICO
-Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacio del episodio. Se consideran los siguientes campos:
+\paragraph{Representación:}
+Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
+\change[inline]{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
 \begin{itemize}
 \item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
 \item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
@@ -516,35 +552,136 @@ Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \end{itemize}
 
 
-% SOBRE MENSAJE WHERE
+\subsubsection{Manejo de relevancia generalizada}
 
+% RELEVANCIA GENERALIZADA
+\paragraph{Requisitos:}
 
-% SOBRE MENSAJE WHEN
+% MANEJO DE INDICADORES
+\paragraph{Estrategia de almacenamiento:}
+
+% COMPUTO BASADO EN ALGORITMO X
+\paragraph{Cómputo:}
+
+% MSG ROS
+\paragraph{Representación:}
 
 
 \subsubsection{Manejo de relevancia emocional}
-%    - diseño de sistema emocional
- .
+
+% RELEVANCIA EMOCIONAL
+\paragraph{Requisitos:}
+
+% ABSTRACCIÓN DEL SISTEMA DE EMOCIONES
+% - sobre EMOCIONES VÁLIDAS
+\paragraph{Abstracción del sistema emocional:}
+
+% CAMPOS REQUERIDOS
+\paragraph{Estrategia de almacenamiento:}
+
+% METADATOS
+\paragraph{Metadatos:}
+
+% MSG ROS
+\paragraph{Representación:}
+
 
 \subsubsection{Manejo de relevancia histórica}
-%    - manejo de datos historicos
- .
+
+% SOBRE RELEVANCIA HISTORICA
+\paragraph{Representación:}
+
+% ALMACENAMIENTO
+\paragraph{Estrategia de almacenamiento:}
+
+% MANEJO AUTOMÁTICO DE DATOS HISTÓRICOS
+\paragraph{Manejo automático:}
+
+% MENSAJE ROS
+\paragraph{Representación:}
+
 
 \subsubsection{Datos para introspección}
-%    - manejo de otros datos
+
+% SOBRE RAZONAMIENTO
+\paragraph{Metadatos:}
 %    - otros datos para debugging e introspección
- .
+%    - no es realmente requerido.
+
+% SOBRE CAMPO INFO
+\paragraph{Estrategia de almacenamiento:}
+
+
+% MENSAJE ROS
+\paragraph{Representación:}
+
 
 \subsubsection{Memoria semántica}
-%    - streams vs entidades
- .
+
+% REQUISITOS
+\paragraph{Requisitos:}
+% - what puede contener cualquier dato
+
+% GENERALIZANDO MEMORIA SEMÁNTICA
+\paragraph{Generalización:}
+% - no imponer datos para campo WHAT-
+% - usuario debe poder elegir contenidos
+% - contenidos ligados al campo
+
+% SEPARACIÓN DE CONCEPTOS
+\paragraph{Streams y entidades:}
+
+
+% SOBRE PLUGINS
+\paragraph{Sistema de plugins:}
+
+
+% CAMPOS QUE SOPORTAN A LOS PLUGINS
+\paragraph{Estrategia de almacenamiento}
+
+
+% SOBRE STREAMS
+\paragraph{Datos semánticos - Streams:}
+% - streams son tipos de datos no variables.. no es necesario actualizarlos, pues almacenan la versión real y final de la información
+% - streams sirven para demostraciones..
+% - streams y relación con memoria semántica... son realmente memoria semántica??
+
+
+% SOBRE ENTIDADES
+\paragraph{Datos semánticos - Entidades:}
+% - manejo de datos y relaciones para regla perspectiva
+% - manejo de datos y relaciones para flexibilidad
+.
+
+\todo[inline]{Reescribir tras tener primera implementación razonable}
+
+% MENSAJE ROS
+\paragraph{Representación:}
+
 
 \subsubsection{Limitantes y trabajo futuro}
-%    - Limitantes:
+
+% SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
+
+
+% SOBRE UBICACIÓN
+\todo[inline]{Depende de reimplementación del sistema de ubicación}
+%       - ubicación 2D
 %       - ubicación y frames
+%       - ubicaciones de hojas con sólo un lugar... vs episodios con movimiento.
 %       - padres mantienen con mismo frame y mapa de hijos
+
+% SOBRE CONTEXTO ??
+\todo[inline]{Depende de si quito la definición de contexto como padres de nodos.}
 %       - contexto: introducción manual? TO DO
- .
+
+% SOBRE COMPLETITUD Y LAPSOS EN BLANCO..
+%       - todo dato que es calculado a partir de hijos puede estar incompleto,
+%         debido a que pueden haber lapsos de tiempo en blanco.
+%          - ubicaciones
+%          - relevancias
+%          - what
+%       - Finalmente, todo depende del usuario y que episodios está dispuesto a almacenar.
 
 
 \subsection{Diseño del modelo de datos}
