@@ -38,6 +38,7 @@
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\setlength{\marginparwidth}{0.5in} % mostrar correctamente todos al margen 
 % = = = = = = = = = = = = = = = = = = = = = = =
 
 
@@ -49,6 +50,25 @@
 }
 
 \usepackage{tikz}
+
+%% TITLESEC: Sections formatting
+% -----------------------------------------
+\usepackage{titlesec}
+% title sec is bugged on texlive-full deb. use this to correct it.
+% Source: https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1574052
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% -----------------------------------------
+% less spaced \paragraph sections
+\titlespacing{\paragraph}{0pc}{0.0ex plus .1ex minus .2ex}{1pc}
+%{12pc}{1.5ex plus .1ex minus .2ex}{1pc}
+
+% Fancy chapters.. more on: https://ctan.org/pkg/fncychap
+%Options: Sonny, Lenny, Glenn, Conny, Rejne, Bjarne, Bjornstrup, PetersLenny
+\usepackage[Bjornstrup]{fncychap}
 
 % Numbering and TOC for: 
 % Chapters(0), Sections(1), subsections(2), subsubsections(3)
@@ -72,20 +92,20 @@
 \todo[inline]{Abstract: Escribir al final.}
 \end{abstract}
 
-\begin{dedicatoria}
-\todo[inline]{Escribir una dedicatoria corta}
-\end{dedicatoria}
-
-\begin{thanks}
-\todo[inline]{Escribir agradecimientos}
-\end{thanks}
+%\begin{dedicatoria}
+%\todo[inline]{Escribir una dedicatoria corta}
+%\end{dedicatoria}
+%
+%\begin{thanks}
+%\todo[inline]{Escribir agradecimientos}
+%\end{thanks}
 
 \cleardoublepage
 \tableofcontents
-\cleardoublepage
-\listoftables
-\cleardoublepage
-\listoffigures
+%\cleardoublepage
+%\listoftables
+%\cleardoublepage
+%\listoffigures
 
 \listoftodos
 

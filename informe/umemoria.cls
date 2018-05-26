@@ -64,16 +64,16 @@
 \begin{flushright}
 \small
 \begin{tabular}{l}
-RESUMEN DE LA MEMORIA PARA OPTAR AL \\
-TÍTULO DE \MakeUppercase\@carreraA \\
+{\bfseries RESUMEN DE LA MEMORIA PARA OPTAR AL} \\
+{\bfseries TÍTULO DE:} \MakeUppercase\@carreraA \\
 \MakeUppercase\@carreraB \\
-POR: \MakeUppercase\@author \\
-FECHA: \MakeUppercase\@date\\
-PROF. GUÍA: JAVIER RUIZ DEL SOLAR \\Y JOCELYN SIMMONDS WAGEMANN
+{\bfseries POR:} \MakeUppercase\@author \\
+{\bfseries FECHA:} \MakeUppercase\@date\\
+{\bfseries PROF. GUÍA:} JAVIER RUIZ DEL SOLAR \\Y JOCELYN SIMMONDS WAGEMANN
 \end{tabular}
 \end{flushright}
 \begin{center}
-\MakeUppercase\@title
+\bfseries\MakeUppercase\@title
 \end{center}
 }{\vfill\null}
 
@@ -151,6 +151,7 @@ PROF. GUÍA: JAVIER RUIZ DEL SOLAR \\Y JOCELYN SIMMONDS WAGEMANN
 \let\setauspicio\relax
 
 %%Portada
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
 \renewcommand{\maketitle}{
 	\begin{titlepage}
 		\begin{minipage}{1.6cm}
@@ -160,17 +161,22 @@ PROF. GUÍA: JAVIER RUIZ DEL SOLAR \\Y JOCELYN SIMMONDS WAGEMANN
 			UNIVERSIDAD DE CHILE\\FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS\\\MakeUppercase\@deptoA\\\MakeUppercase\@deptoB
 		\end{minipage}
 
-		\vspace{2cm}
+		\vspace{4cm}
 		\centering
-			\MakeUppercase\@title
+		{
+			\HRule \\[0.5cm]
+			\bfseries 
+			\MakeUppercase\@title \\[0.1cm]
+			\HRule
+		}
 
-		\vspace{1cm}
+		\vspace{2cm}
 			\MakeUppercase\@memoria
 
 		\vspace{1cm}
 			\MakeUppercase\@author
 
-		\vspace{3cm}
+		\vspace{1.5cm}
 			\foreach \x [count=\xi] in \@guia {
 				PROFESOR GUÍA\ifnum\xi>1 \ \xi \fi:\\ \MakeUppercase\x\\
 			}
