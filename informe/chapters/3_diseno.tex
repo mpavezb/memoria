@@ -556,50 +556,107 @@ Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 
 % RELEVANCIA GENERALIZADA
 \paragraph{Requisitos:}
+De acuerdo a los requisitos de software \hl{(RSXX), (RSXX) y (RSXX)}, los episodios deben almacenar información de relevancia episódica. Estos indicadores son importantes al momento de buscar episodios, para poder ordenarlos de acuerdo a una medida de importancia, y así tener una pista sobre cuales enfocar la atención. El sistema debe soportar, al menos, la noción de relevancia histórica y emocional, considerando que en un futuro se podrían agregar otros indicadores de relevancia. También, el sistema debe proveer un indicador generalizado, capaz de representar la relevancia global del episodio, mediante un solo indicador numérico que unifique las sub-relevancias.
+
 
 % MANEJO DE INDICADORES
 \paragraph{Estrategia de almacenamiento:}
+Entonces, se define la siguiente estrategia de almacenamiento. Cada tipo de indicador debe proveer un valor numérico en el rango $[0, 1]$, que represente la importancia del episodio de acuerdo a su perspectiva. Un valor de 0 significa que el episodio no es relevante, mientras que el valor 1 es utilizado para indicar que el episodio es muy importante. Utilizando el formato anterior, se construye el indicador de relevancia generalizada a partir de todas las sub-relevancias definidas para el episodio. Este indicador debe ser actualizado cada vez que una sub-relevancia sea modificada o ingresada.
+
 
 % COMPUTO BASADO EN ALGORITMO X
 \paragraph{Cómputo:}
+Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por \hl{XXX} \cite{} y explicada en la Sección \ref{}.
+\todo[inline]{Escribir más cuando esté implementado}
+
 
 % MSG ROS
 \paragraph{Representación:}
+Luego, se crea un mensaje de tipo \texttt{Relevance.msg}, para almacenar las sub-relevancias del episodio y la relevancia generalizada. El mensaje es creado como sigue:
+\begin{itemize}
+\item TODO
+\end{itemize}
+\todo[inline]{Agregar representación de relevancia generalizada, una vez que sea implementada.}
+
+Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/Relevance relevance}: Se agrega una instancia del mensaje \texttt{Relevance.msg}, para almacenar toda la información relacionada a los indicadores de relevancia del episodio.
+\end{itemize}
 
 
 \subsubsection{Manejo de relevancia emocional}
 
 % RELEVANCIA EMOCIONAL
 \paragraph{Requisitos:}
+El requisito de software \hl{(RSXXX)} exige el manejo del concepto de relevancia emocional, como un medio para almacenar las emociones ``que tiene'' el robot durante un episodio, en conjunto a un indicador de la intensidad de éstas.
+
 
 % ABSTRACCIÓN DEL SISTEMA DE EMOCIONES
 % - sobre EMOCIONES VÁLIDAS
 \paragraph{Abstracción del sistema emocional:}
+Según se revisó en la Sección \ref{}, existen diversas sistemas emocionales para la generación de emociones. No existe una metodología única para el cómputo de emociones, por lo que cada sistema es alimentado con datos diferentes, utilizan algoritmos distintos y proveen salidas distintas. Debido a la generalidad esperada de este proyecto, la forma de representar la emoción es se abstrae del sistema emocional a utilizar. Para esto, en primer lugar se define un conjunto de emociones base, a partir del modelo emocional de Plutchik descrito en la Sección \ref{}, con las que se debe construir la emoción asociada al episodio, mediante una combinación de ellas. Luego, se decidió utilizar un sistema de plugins, para que el usuario defina cómo realizar la asignación desde las salidas de su sistema emocional, a la combinación de emociones base disponibles para un episodio. Es así, como la asignación emocional se puede  abstraer de la implementación y delegar al usuario encargado de la plataforma objetivo.
+
 
 % CAMPOS REQUERIDOS
 \paragraph{Estrategia de almacenamiento:}
+En primer lugar, se define un conjunto de 8 emociones base para la representación emocional (alegría, confianza, miedo, sorpresa, tristeza, disgusto, enfado y anticipación). El diseño considera sólo el almacenamiento de la emoción más importante durante la duración del episodio, la que es asociada a una emoción del conjunto base. Luego, siguiendo el estándar definido para representación de relevancias, se agrega un valor numérico en el rango $[0, 1]$, para  indicar la intensidad de la emoción seleccionada. Para el caso de episodios nodo, el valor emocional es calculado automáticamente a partir de los hijos. Para esto, se utiliza un vector de 8 valores, destinados a cada una de las 8 emociones base, donde se almacena el valor máximo de cada emoción presentado por sus hijos.
 
 % METADATOS
 \paragraph{Metadatos:}
+Además, para simplificar la introspección de episodios a futuro, se decide agregar metadatos para indicar: software emocional utilizado y su versión, conjunto de salidas registradas por el software emocional y sus valores de intensidad. Es importante enfatizar que estos datos sólo deben ser utilizados para introspección y no tienen influencia en el cálculo de ninguna relevancia.
+\todo[inline]{Actualizar esto en caso de modificar metadatos}
 
 % MSG ROS
 \paragraph{Representación:}
+Considerando lo anterior, se crea el mensaje \texttt{EmotionalRelevance.msg}, utilizando los siguientes campos:
+\begin{itemize}
+\item \texttt{int32 emotion}: Valor que hace referencia a una de las 8 emociones base. En el caso de episodios nodo, hace referencia a la emoción con mayor relevancia.
+\item \texttt{float32 value}: Intensidad de la emoción seleccionada. Válido para episodios nodo y hojas.
+\item \texttt{int32[] children\_emotions}: Vector con identificadores de las 8 emociones base. Sólo es utilizado por episodios nodo.
+\item \texttt{float32[] children\_values}: Vector con intensidades de cada una de las 8 emociones base. Sólo es utilizado por episodios nodo.
+\item \texttt{string software}: Metadato. Nombre del sistema emocional utilizado.
+\item \texttt{string software\_version}: Metadato. Versión del sistema emocional utilizado.
+\item \texttt{string[] registered\_emotions}: Metadato. Descripción de emociones encontradas por el software generador de emociones. 
+\item \texttt{float32[] registered\_values}: Metadato. Intensidades de emociones descritas en el campo \texttt{registered\_emotions}.
+\end{itemize}
+
+
+Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/EmotionalRelevance emotional}: Se agrega una instancia del mensaje ROS de tipo \texttt{EmotionalRelevance.msg}, para almacenar la información emocional relativa al episodio.
+\end{itemize}
 
 
 \subsubsection{Manejo de relevancia histórica}
 
 % SOBRE RELEVANCIA HISTORICA
-\paragraph{Representación:}
+\paragraph{Requisitos:}
+El requisito de software \hl{(RSXXX)} exige el manejo del concepto de relevancia histórica, como un medio para indicar la importancia de un episodio, según su edad en la base de datos. 
 
 % ALMACENAMIENTO
 \paragraph{Estrategia de almacenamiento:}
+Siguiendo el estándar definido para representación de relevancias, se utiliza un valor numérico en el rango $[0, 1]$, para  indicar el estado de envejecimiento del episodio. Este valor siempre debe ser inicializado en 1, para decaer hacia 0 con el paso del tiempo.
+
 
 % MANEJO AUTOMÁTICO DE DATOS HISTÓRICOS
-\paragraph{Manejo automático:}
+\paragraph{Actualización automática:}
+El valor de la relevancia debe ser manejado automáticamente por el servidor LTM. Existen diversas formas de actualizar este valor, pero tras una revisión bibliográfica, se decidió utilizar la siguiente estrategia. Se propone disminuir el indicador, según el algoritmo de decaimiento estudiado por XXX en \cite{} y presentado en la Sección \ref{}. Ya que se espera almacenar una gran cantidad de episodios, se propone actualizar el valor cada lapsos cada vez más espaciados en el tiempo (por ejemplo, primero cada 1 día, luego 1 vez a la semana, cada 1 mes, cada 1 año), lo que permite acotar el esfuerzo computacional dedicado a las actualizaciones.
+
+\todo[inline]{Sobre la tasa de decaimiento histórica implementada.}
 
 % MENSAJE ROS
 \paragraph{Representación:}
+Considerando lo anterior, se crea el mensaje \texttt{HistoricalRelevance.msg}, utilizando los siguientes campos:
+\begin{itemize}
+	\item \texttt{float32 value}: Indicador numérico de la relevancia histórica del episodio.
+	\item \texttt{ltm/Date last\_update}\footnote{\texttt{ltm/Date} corresponde a un mensaje ROS auxiliar definido en el paquete \texttt{ltm}, para representar una fecha mediante los campos: día, mes y año.}: Fecha de la última vez que el indicador fue actualizado.
+	\item \texttt{ltm/Date next\_update}: Fecha de la próxima actualización agendada.
+\end{itemize}
 
+Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
+\end{itemize}
 
 \subsubsection{Datos para introspección}
 
