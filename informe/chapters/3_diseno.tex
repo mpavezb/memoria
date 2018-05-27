@@ -476,7 +476,7 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
  
 \todo[inline]{Se puede agregar e implementar la condición de que hijos son ordenados por tiempo de inicio}
  
-\subsubsection{Contexto temporal: \textit{When}}
+\subsubsection{Contexto temporal: \textit{When}}\label{sec:design_ep_when}
 
 % SOBRE LOS REQUISITOS
 \paragraph{Requisitos:}
@@ -551,6 +551,62 @@ Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \item \texttt{ltm/Where where}: Se agrega una instancia del mensaje \texttt{Where.msg}, para manejar el contexto espacial del episodio.
 \end{itemize}
 
+
+\subsubsection{Memoria semántica: \textit{What}}
+
+% REQUISITOS
+\paragraph{Requisitos:}
+De acuerdo a los requisitos de software \hl{(RSXXX), (RSXXX)}, la memoria semántica (\textit{What}) ligada a un episodio permite describir `qué'' sucedió en él. Ésta debe poder  contener cualquier dato, por lo que no es posible establecer de antemano qué información y estructura debe ser utilizada, sino que ésto debe poder ser definido por el usuario. El requisito \hl{(RSXXX)} (regla de flexibilidad episódica) establece que cada episodio debe permitir crear nuevos datos semánticos o actualizar los ya existentes. El requisito \hl{(RSXXX)} (regla de perspectiva episódica) exige que al leer un episodio, éste pueda describir sus datos semánticos asociados, de acuerdo a la misma perspectiva que se tenía de ellos cuando el episodio fue ejecutado.
+
+
+% SEPARACIÓN DE CONCEPTOS
+\paragraph{Streams y entidades:} 
+La memoria semántica maneja entidades conocidas por el robot e información sobre ellas. Por ejemplo, se puede definir la entidad ``persona'' y almacenar datos como su nombre, nacionalidad o la fecha de la última interacción registrada. Sin embargo, existe un tipo de información que no está asociada a alguna entidad en particular, correspondiente a datos en forma de flujos de información (\textit{streams}). Éstos permiten registrar secuencias de imágenes, sonido y otros conceptos basados en flujos de datos percibidos por el robot, especialmente los obtenidos directamente desde sus sensores. Otra característica de los \textit{streams}, es que a diferencia de las entidades, representan datos que no se desea actualizar posteriormente, pues almacenan una imagen de lo percibido en el instante, la que generalmente es invariable. Entonces, se decide separar la memoria semántica en dos componentes, \textit{streams} y entidades, lo que permite diseñar estrategias de procesamiento adecuadas al funcionamiento de cada uno.
+
+
+% GENERALIZANDO MEMORIA SEMÁNTICA
+\paragraph{Generalización:}
+Ya que los contenidos a almacenar deben poder ser definidos por el usuario, se establecen las siguientes decisiones de diseño. En primer lugar, el usuario debe definir que información utilizará, mediante uno o más mensajes de ROS. Segundo, éstos mensajes deben tener un campo para almacenar un identificador único. Los episodios deben tener referencias al tipo del mensaje asociado y a sus identificadores únicos. Similarmente, cada mensaje definido debe tener un campo para almacenar el identificador único de su episodio relacionado. Lo anterior es válido tanto para \textit{streams} como entidades.
+
+\todo[inline]{Episodio almacena tags para describir entidades y cambios?.}
+
+
+% SOBRE PLUGINS
+\paragraph{Sistema de plugins:}
+Se decidió utilizar un sistema basado en \textit{plugins}, para manejar los mensajes ROS definidos por el usuario. El diseño del servidor LTM en la Sección \ref{} especifica que funcionalidades deben ser implementadas por \textit{plugins} destinados a \textit{streams} o entidades. De esta manera, se delega al usuario la implementación de los algoritmos para adquisición de información semántica y procesamiento de ésta.
+
+
+% SOBRE STREAMS
+\paragraph{Datos semánticos - Streams:}
+Los \textit{streams} corresponden a flujos de datos generalmente invariables. Cada episodio puede estar asociado a uno o más \textit{streams}, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin sólo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
+
+Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (por ejemplo, disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
+
+\todo[inline]{IMP: LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
+
+
+% SOBRE ENTIDADES
+\paragraph{Datos semánticos - Entidades:}
+% - manejo de datos y relaciones para regla perspectiva
+% - manejo de datos y relaciones para flexibilidad
+.
+
+\todo[inline]{IMP: Manejo de perspectiva y audit al requerir insertar episodio al medio (temporalmente) de otros ya existentes.}
+
+\todo[inline]{Escribir tras tener primera implementación razonable}
+
+
+% MENSAJE ROS
+\paragraph{Representación:}
+Considerando el diseño anterior, se crea el mensaje \texttt{What.msg} con los siguientes campos:
+\begin{itemize}
+	\item \texttt{string[] streams}: 
+\end{itemize}
+
+El mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}.
+\end{itemize}
 
 \subsubsection{Manejo de relevancia generalizada}
 
@@ -658,92 +714,62 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
 \end{itemize}
 
+
 \subsubsection{Datos para introspección}
 
 % SOBRE RAZONAMIENTO
 \paragraph{Metadatos:}
-%    - otros datos para debugging e introspección
-%    - no es realmente requerido.
-
-% SOBRE CAMPO INFO
-\paragraph{Estrategia de almacenamiento:}
-
+El último conjunto de datos considerado para almacenar junto a cada episodio es denominado \textit{Metadatos}. Éstos no están ligados a algún requerimiento de software, por lo que no son formalmente necesarios, sin embargo, permiten almacenar datos útiles para la implementación LTM, y sirven para conocer información sobre el software utilizado para almacenar cada episodio. Los \textit{Metadatos} tienen como finalidad ser de utilidad al resolver problemas relacionados al software LTM, y para cuando los usuarios deseen conocer el contexto de software sobre el cual fue generado el episodio.
 
 % MENSAJE ROS
 \paragraph{Representación:}
+Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes campos:
+\begin{itemize}
+%\texttt{int32 n\_usages}:     % e.g. 10
+\item \texttt{string source}: Permite un nombre asociado a la fuente del episodio. Por ejemplo, ``smach'', ``json'' o ``dummy''.
+\item \texttt{time creation\_date}: Sirve para indicar la fecha de creación del episodio, la que puede diferir del tiempo indicado en el campo \texttt{When}.
+% \item \texttt{time last\_access}:  Sirve para indicar la fecha del último acceso al episodio.
+\item \texttt{string ltm\_version}: Versión del sistema LTM utilizado. Por ejemplo, ``0.0.0''.
+\item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
+\item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
+\end{itemize}
+\todo[inline]{Corregir campos con los de la versión final.}
 
-
-\subsubsection{Memoria semántica}
-
-% REQUISITOS
-\paragraph{Requisitos:}
-% - what puede contener cualquier dato
-
-% GENERALIZANDO MEMORIA SEMÁNTICA
-\paragraph{Generalización:}
-% - no imponer datos para campo WHAT-
-% - usuario debe poder elegir contenidos
-% - contenidos ligados al campo
-
-% SEPARACIÓN DE CONCEPTOS
-\paragraph{Streams y entidades:}
-
-
-% SOBRE PLUGINS
-\paragraph{Sistema de plugins:}
-
-
-% CAMPOS QUE SOPORTAN A LOS PLUGINS
-\paragraph{Estrategia de almacenamiento}
-
-
-% SOBRE STREAMS
-\paragraph{Datos semánticos - Streams:}
-% - streams son tipos de datos no variables.. no es necesario actualizarlos, pues almacenan la versión real y final de la información
-% - streams sirven para demostraciones..
-% - streams y relación con memoria semántica... son realmente memoria semántica??
-
-
-% SOBRE ENTIDADES
-\paragraph{Datos semánticos - Entidades:}
-% - manejo de datos y relaciones para regla perspectiva
-% - manejo de datos y relaciones para flexibilidad
-.
-
-\todo[inline]{Reescribir tras tener primera implementación razonable}
-
-% MENSAJE ROS
-\paragraph{Representación:}
+Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
+\begin{itemize}
+	\item \texttt{ltm/Info info}: Se agrega una instancia del mensaje \texttt{Info.msg}, para almacenar los metadatos del episodio.
+\end{itemize}
 
 
 \subsubsection{Limitantes y trabajo futuro}
 
 % SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
 
+A continuación se presenta un conjunto de limitantes conocidas del diseño episódico desarrollado, las que pueden ser consideradas como parte del trabajo futuro del proyecto.
+
+% SOBRE COMPLETITUD Y LAPSOS EN BLANCO..
+\paragraph{Ausencia de hijos:} Este problema fue explicado parcialmente en la Sección \ref{sec:design_ep_when}, y aparece con padres cuyo rango temporal no es cubierto completamente por sus hijos. Cómo se verá en la Sección \ref{}, esto puede suceder cuando el usuario decide no almacenar algunos episodios hoja, pues los considera poco relevantes. El efecto de ésto, es que puede haber información no presente en los padres, al calcular sus datos a partir de sus hijos. Particularmente, esto sucede con la información para \textit{When}, \textit{What} y las relevancias episódicas. Se puede argumentar que, ya que el usuario considera que los subepisodios eran irrelevantes, entonces la información perdida también lo es. Sin embargo, por motivos de introspección, puede ser de interés almacenar los datos de \textit{streams} asociados a los periodos temporales perdidos.
+
+\paragraph{Episodios de larga duración:}
+A pesar de que el diseño del servidor permite episodios de duración indefinida, en la práctica, es raro que el robot funcione por periodos prolongados. Luego, los episodios cuyo fin es dar un contexto temporal a un árbol no pueden ser almacenados directamente (por ejemplo, cuando el robot está participando en una competencia de 4 días de duración). A pesar de lo anterior, el diseño permite la introducción manual de episodios de larga duración, sin tener que mantener en funcionamiento el robot durante todo el periodo.
+
+\todo[inline]{IMP: COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
+
 
 % SOBRE UBICACIÓN
 \todo[inline]{Depende de reimplementación del sistema de ubicación}
+
 %       - ubicación 2D
 %       - ubicación y frames
 %       - ubicaciones de hojas con sólo un lugar... vs episodios con movimiento.
 %       - padres mantienen con mismo frame y mapa de hijos
 
-% SOBRE CONTEXTO ??
-\todo[inline]{Depende de si quito la definición de contexto como padres de nodos.}
-%       - contexto: introducción manual? TO DO
-
-% SOBRE COMPLETITUD Y LAPSOS EN BLANCO..
-%       - todo dato que es calculado a partir de hijos puede estar incompleto,
-%         debido a que pueden haber lapsos de tiempo en blanco.
-%          - ubicaciones
-%          - relevancias
-%          - what
-%       - Finalmente, todo depende del usuario y que episodios está dispuesto a almacenar.
-
 
 \subsection{Diseño del modelo de datos}
 % - Diseño de Base de Datos:
  .
+
+
 
 \subsubsection{Consideraciones}
 %    - manejo de colecciones y mensajes
