@@ -2,7 +2,7 @@
 
 
 En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. En primer lugar, se presentan todos los requerimientos para el diseño del sistema. A partir de éstos se elabora un conjunto de validaciones y pruebas que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Finalmente, y a partir de lo anterior, se diseña la arquitectura del sistema: se revisa el diseño de un episodio, el modelo de datos, el diseño del servidor, y el conjunto de complementos a implementar para la validación.
-\unsure[inline]{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
+\todounsure{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
 
 
 \todo[inline]{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
@@ -13,9 +13,9 @@ A continuación se presentan los requisitos de diseño sobre los que se construy
  
 \subsection{Definición de los requisitos (Requisitos de Usuario)}
 
-\unsure[inline]{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
+\todounsure{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
 
-\unsure[inline]{Qué tan formal debo ser con la especificación de req. usuario y req. software?? Si soy ultra formal (estilo curso Ing.Soft II) tendría que poner un documento de requisitos en los anexos.. mucha pega sin sentido?. Sólo quiero graduarme :'( }
+\todounsure{Qué tan formal debo ser con la especificación de req. usuario y req. software?? Si soy ultra formal (estilo curso Ing.Soft II) tendría que poner un documento de requisitos en los anexos.. mucha pega sin sentido?. Sólo quiero graduarme :'( }
 %\subsubsection{Requisitos de capacidad}
 %\subsubsection{Requisitos de calidad}
 %\subsubsection{Requisitos de restricción}
@@ -37,7 +37,7 @@ El sistema de relevancia episódica es importante para habilitar búsquedas de e
 
 \subsubsection{Alcances del proyecto}
 
-\unsure[inline]{Es necesario hablar sobre cosas que NO SON REQUISITOS??}
+\todounsure{Es necesario hablar sobre cosas que NO SON REQUISITOS??}
 
 Para acotar el diseño, implementación y validaciones, a continuación se presenta un listado requerimientos que no pertenecen al proyecto actual, sino que son considerados como trabajo futuro.
 
@@ -59,7 +59,7 @@ Para acotar el diseño, implementación y validaciones, a continuación se prese
 \subsection{Requerimientos de software}
 
 A continuación se presenta un listado (semiformal) de requisitos de software, generados a partir de los requisitos de usuario revisados en la sección anterior. Cada requisito de fue reformulado desde su versión difusa, a una descripción más precisa y verificable del requerimiento original. 
-\unsure[inline]{Debo dar excusa sobre la informalidad del formato de presentación de requisitos?? Dan un poco de pena respecto a los visto en ING. Soft II, por ejemplo: link a requisito de usuario.. separación por tipo de requisito.. metadatos del requisito... matriz de trazabilidad... etc}
+\todounsure{Debo dar excusa sobre la informalidad del formato de presentación de requisitos?? Dan un poco de pena respecto a los visto en ING. Soft II, por ejemplo: link a requisito de usuario.. separación por tipo de requisito.. metadatos del requisito... matriz de trazabilidad... etc}
 
 \paragraph{RS01}
 El sistema debe ser agnóstico respecto a la plataforma objetivo. No se puede asumir que estructuras de datos semánticas serán almacenadas para cada episodio. Debe permitir que usuarios definan las estructuras de datos semánticas a almacenar.
@@ -154,9 +154,9 @@ El robot Bender no dispone de módulos para el cómputo de emociones. Se deben i
 \paragraph{RS26}
 Episodios deben estar indexados por los siguientes indicadores numéricos de relevancia, sumado a la descripción de la emoción. Se deben poder realizar búsquedas utilizando éstos índices.
 
-\unsure[inline]{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH debe ser lo menos instrusiva posible.}
+\todolater{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH debe ser lo menos instrusiva posible.}
 
-\unsure[inline]{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH no debe fallar / colgarse / arrojar excepciones por ningún motivo, para no sacrificar el funcionamiento del robot en caso de errores.}
+\todolater{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH no debe fallar / colgarse / arrojar excepciones por ningún motivo, para no sacrificar el funcionamiento del robot en caso de errores.}
 
 \section{Validaciones}
 
@@ -395,11 +395,11 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 \item {\bf VE05 (RS21)}: Tiempo de inserción vs. cantidad de episodios.
 \item {\bf VE06 (RS21)}: Tiempo de borrado vs. cantidad de episodios.
 \end{itemize}
-\unsure[inline]{Quizás las validaciones de búsqueda tienen más sentido al buscar por el tipo del campo (número, string, bool)}
-\unsure[inline]{Quizás las validaciones de inserción deban ser separadas en casos con pocos-muchos streams-entidades... y caso en vacío... Finalmente todo dependerá de la calidad de la implementación del usuario.. pero tiene sentido validar los plugins que si se implementarán en el robot.}
-\unsure[inline]{Creo que el tiempo de borrado no tiene sentido!, actualización quizás... pero no es una operación común... las operaciones comunes deben ser sólo inserción y búsqueda}
+\todounsure{Quizás las validaciones de búsqueda tienen más sentido al buscar por el tipo del campo (número, string, bool)}
+\todounsure{Quizás las validaciones de inserción deban ser separadas en casos con pocos-muchos streams-entidades... y caso en vacío... Finalmente todo dependerá de la calidad de la implementación del usuario.. pero tiene sentido validar los plugins que si se implementarán en el robot.}
+\todounsure{Creo que el tiempo de borrado no tiene sentido!, actualización quizás... pero no es una operación común... las operaciones comunes deben ser sólo inserción y búsqueda}
 
-\unsure[inline]{No estoy seguro si tiene sentido agregar validaciones de escalabilidad en el uso de recursos del sistema: CPU, RAM, DISCO}
+\todounsure{No estoy seguro si tiene sentido agregar validaciones de escalabilidad en el uso de recursos del sistema: CPU, RAM, DISCO}
 %El segundo conjunto estudia el uso de recursos del sistema: CPU, disco y RAM.
 %\paragraph{VE07 (RS21)}: disk usage vs. \# episodes
 %\paragraph{VE08 (RS21)}: RAM usage vs. \# episodes
@@ -413,10 +413,9 @@ En esta sección se describe la el diseño de la arquitectura del sistema de sof
  
 \subsection{Diseño de episodios}
 
-A continuación presenta el diseño de los episodios para el servidor LTM. 
-\todo[inline]{Describir brevemente el diseño}
+A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol, diseñada para representar el anidamiento episódico. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
 
-\todo[inline]{Agregar listado de mensajes y servicios en los anexos.}
+\todolater{Agregar listado de mensajes y servicios en los anexos.}
 
 \subsubsection{Formato y representación}
 
@@ -439,14 +438,12 @@ Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le
 \item Campo \texttt{string[] tags}: Vector de tags, para almacenar todos los \textit{tags} asociados al episodio.
 \end{itemize}
 
-\unsure[inline]{Los episodios deben ser indexados por ambos campos... Mejor digo esto en la parte de la base de datos.}
-
  
 \subsubsection{Árboles de episodios}
 
-\todo[inline]{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
+\todounsure{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
 
-\unsure[inline]{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
+\todounsure{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
 
 % SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
 \paragraph{Anidamiento episódico:}
@@ -474,7 +471,7 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
 \item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
 \end{itemize}
  
-\todo[inline]{Se puede agregar e implementar la condición de que hijos son ordenados por tiempo de inicio}
+\todoimplementation{Se puede agregar condición de que hijos son ordenados por tiempo de inicio}
  
 \subsubsection{Contexto temporal: \textit{When}}\label{sec:design_ep_when}
 
@@ -482,7 +479,7 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
 \paragraph{Requisitos:}
 De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
 
-\todo[inline]{Revisar o modificar implementación.. no estoy seguro como se están manejando los tiempos para los padres... lo lógico sería no ajustar los tiempos a los de los hijos, pues estos pueden no estar definidos hasta el final!... O agregarlo como limitante.}
+\todoimplementation{Revisar o modificar implementación.. no estoy seguro como se están manejando los tiempos para los padres... lo lógico sería no ajustar los tiempos a los de los hijos, pues estos pueden no estar definidos hasta el final!... O agregarlo como limitante.}
 % SOBRE MANEJO DE INFORMACIÓN
 \paragraph{Estrategia de almacenamiento:}
 En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
@@ -510,30 +507,29 @@ De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar i
 % SOBRE DURACIÓN DE EPISODIOS Y VECTORES
 \paragraph{Desplazamiento durante episodios:}
 En primer lugar, dependiendo de la duración del episodio, el robot puede haber estado en más de un lugar durante ese tiempo. Esto no es válido sólo para episodios nodo, sino que también para hojas, cuando éstas representan acciones de desplazamiento del robot. Luego, es importante que cada episodio registre cada uno de los lugares en los que ha estado el robot. El listado de lugares debe ser almacenado ordenadamente y con la hora asociada a cada desplazamiento, lo que es importante por dos motivos: permite calcular la secuencia de movimientos para los padres, y permite reconstruir la ruta del robot durante cada episodio. Para ello, la posición del robot puede ser consultada periódicamente en busca de cambios, para almacenar sólo los instantes que indiquen movimiento.
-\todo[inline]{Modificar implementación, para soportar más de 1 lugar semántico y coordenado para hijos.}
+\todoimplementation{Soportar más de 1 lugar semántico y coordenado para hijos.}
 
 
 % SOBRE USO DE AMBAS OPCIONES: Lugares y coordenadas
 \paragraph{Estrategias de almacenamiento:}
 La información espacial puede ser manejada de dos maneras: se pueden almacenar los nombres de los lugares en donde el robot estuvo durante el episodio, o se puede almacenar la ubicación precisa del robot durante el episodio, mediante coordenadas relativas a un sistema coordenado predefinido. La decisión sobre cual sistema utilizar depende mucho del contexto en el cual funciona el robot. Por ejemplo, en el caso de Bender, hay ocasiones en donde sólo es posible conocer su ubicación respecto a un sistema coordenado, mientras que en otras oportunidades, sólo se tiene conocimiento verbal de ésta. Luego, ya que no existe un consenso sobre que opción es la mejor, y para evitar limitar la usabilidad del sistema LTM, se decidió dar soporte a ambas alternativas.
-\unsure[inline]{Todo todo todo debe estar en 3ra persona singular presente??? como hablo de decisiones pasadas??... según esto, corregir todos los párrafos.}
+\todounsure{Todo todo todo debe estar en 3ra persona singular presente??? como hablo de decisiones pasadas??... según esto, corregir todos los párrafos.}
 
 % OPCIÓN SEMÁNTICA
 \paragraph{Estrategia 1 - Descripción:}
 Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser almacenados utilizando vectores de \textit{strings}. Considerando el ambiente en donde puede desempeñarse un robot de servicio doméstico, se decide almacenar esta información en dos niveles de profundidad. El primer nivel corresponde a una descripción específica de la ubicación del robot (ej., ``Comedor''), mientras que el segundo sirve para almacenar el nombre del área donde se encuentra la primera ubicación (ej., ``Casa de John''), junto a otras de similar tamaño semántico. En el caso de los episodios nodo, se ha decidido calcular automáticamente toda esta información, a partir de los episodios hijo.
-\todo[inline]{Crear submensaje para Where.msg, que almacene: location, area, time}
-\todo[inline]{Limitante: En un futuro se podría agregar un 3er nivel de información, para almacenar info ultra específica, por ejemplo: ``al lado de la tele'', ``cerca del refrigerador''..}
+\todoimplementation{Crear submensaje para Where.msg, que almacene: location, area, time}
 
 % OPCIÓN COORDENADAS
 \paragraph{Estrategia 2 - Coordenadas:}
 Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el proyecto está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto sólo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de ésta.
-\todo[inline]{Modificar implementación para agregar soporte a más de un frame/mapa.}
-\todo[inline]{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
+\todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
+\todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
 
 % SOBRE MENSAJE EPISODICO
 \paragraph{Representación:}
 Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
-\change[inline]{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
+\todopaused{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
 \begin{itemize}
 \item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
 \item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
@@ -568,7 +564,7 @@ La memoria semántica maneja entidades conocidas por el robot e información sob
 \paragraph{Generalización:}
 Ya que los contenidos a almacenar deben poder ser definidos por el usuario, se establecen las siguientes decisiones de diseño. En primer lugar, el usuario debe definir que información utilizará, mediante uno o más mensajes de ROS. Segundo, éstos mensajes deben tener un campo para almacenar un identificador único. Los episodios deben tener referencias al tipo del mensaje asociado y a sus identificadores únicos. Similarmente, cada mensaje definido debe tener un campo para almacenar el identificador único de su episodio relacionado. Lo anterior es válido tanto para \textit{streams} como entidades.
 
-\todo[inline]{Episodio almacena tags para describir entidades y cambios?.}
+\todopaused{Episodio almacena tags para describir entidades y cambios?.}
 
 
 % SOBRE PLUGINS
@@ -582,7 +578,7 @@ Los \textit{streams} corresponden a flujos de datos generalmente invariables. Ca
 
 Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (por ejemplo, disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
 
-\todo[inline]{IMP: LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
+\todoimplementation{LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
 
 
 % SOBRE ENTIDADES
@@ -591,22 +587,11 @@ Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilac
 % - manejo de datos y relaciones para flexibilidad
 .
 
-\todo[inline]{IMP: Manejo de perspectiva y audit al requerir insertar episodio al medio (temporalmente) de otros ya existentes.}
+\todoimplementation{Manejo de perspectiva y audit al requerir insertar episodio al medio (temporalmente) de otros ya existentes.}
 
-\todo[inline]{Escribir tras tener primera implementación razonable}
+\todopaused{Escribir tras tener primera implementación razonable}
 
 
-% MENSAJE ROS
-\paragraph{Representación:}
-Considerando el diseño anterior, se crea el mensaje \texttt{What.msg} con los siguientes campos:
-\begin{itemize}
-	\item \texttt{string[] streams}: 
-\end{itemize}
-
-El mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}.
-\end{itemize}
 
 \subsubsection{Manejo de relevancia generalizada}
 
@@ -623,7 +608,7 @@ Entonces, se define la siguiente estrategia de almacenamiento. Cada tipo de indi
 % COMPUTO BASADO EN ALGORITMO X
 \paragraph{Cómputo:}
 Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por \hl{XXX} \cite{} y explicada en la Sección \ref{}.
-\todo[inline]{Escribir más cuando esté implementado}
+\todopaused{Escribir más cuando esté implementado}
 
 
 % MSG ROS
@@ -632,7 +617,7 @@ Luego, se crea un mensaje de tipo \texttt{Relevance.msg}, para almacenar las sub
 \begin{itemize}
 \item TODO
 \end{itemize}
-\todo[inline]{Agregar representación de relevancia generalizada, una vez que sea implementada.}
+\todopaused{Agregar representación de relevancia generalizada, una vez que sea implementada.}
 
 Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \begin{itemize}
@@ -660,7 +645,7 @@ En primer lugar, se define un conjunto de 8 emociones base para la representaci�
 % METADATOS
 \paragraph{Metadatos:}
 Además, para simplificar la introspección de episodios a futuro, se decide agregar metadatos para indicar: software emocional utilizado y su versión, conjunto de salidas registradas por el software emocional y sus valores de intensidad. Es importante enfatizar que estos datos sólo deben ser utilizados para introspección y no tienen influencia en el cálculo de ninguna relevancia.
-\todo[inline]{Actualizar esto en caso de modificar metadatos}
+\todolater{Actualizar esto en caso de modificar metadatos}
 
 % MSG ROS
 \paragraph{Representación:}
@@ -698,7 +683,7 @@ Siguiendo el estándar definido para representación de relevancias, se utiliza 
 \paragraph{Actualización automática:}
 El valor de la relevancia debe ser manejado automáticamente por el servidor LTM. Existen diversas formas de actualizar este valor, pero tras una revisión bibliográfica, se decidió utilizar la siguiente estrategia. Se propone disminuir el indicador, según el algoritmo de decaimiento estudiado por XXX en \cite{} y presentado en la Sección \ref{}. Ya que se espera almacenar una gran cantidad de episodios, se propone actualizar el valor cada lapsos cada vez más espaciados en el tiempo (por ejemplo, primero cada 1 día, luego 1 vez a la semana, cada 1 mes, cada 1 año), lo que permite acotar el esfuerzo computacional dedicado a las actualizaciones.
 
-\todo[inline]{Sobre la tasa de decaimiento histórica implementada.}
+\todopaused{Sobre la tasa de decaimiento histórica implementada.}
 
 % MENSAJE ROS
 \paragraph{Representación:}
@@ -733,7 +718,7 @@ Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes
 \item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
 \item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
 \end{itemize}
-\todo[inline]{Corregir campos con los de la versión final.}
+\todolater{Corregir campos con los de la versión final.}
 
 Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
 \begin{itemize}
@@ -753,11 +738,14 @@ A continuación se presenta un conjunto de limitantes conocidas del diseño epis
 \paragraph{Episodios de larga duración:}
 A pesar de que el diseño del servidor permite episodios de duración indefinida, en la práctica, es raro que el robot funcione por periodos prolongados. Luego, los episodios cuyo fin es dar un contexto temporal a un árbol no pueden ser almacenados directamente (por ejemplo, cuando el robot está participando en una competencia de 4 días de duración). A pesar de lo anterior, el diseño permite la introducción manual de episodios de larga duración, sin tener que mantener en funcionamiento el robot durante todo el periodo.
 
-\todo[inline]{IMP: COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
+\todoimplementation{COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
+
+
+\todowrite{Limitante Where: En un futuro se podría agregar un 3er nivel de información, para almacenar info ultra específica, por ejemplo: ``al lado de la tele'', ``cerca del refrigerador''..}
 
 
 % SOBRE UBICACIÓN
-\todo[inline]{Depende de reimplementación del sistema de ubicación}
+\todopaused{Depende de reimplementación del sistema de ubicación}
 
 %       - ubicación 2D
 %       - ubicación y frames
@@ -767,8 +755,12 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 
 \subsection{Diseño del modelo de datos}
 % - Diseño de Base de Datos:
- .
+.
 
+\todowrite{descripción de la sección}
+
+
+\todo[inline]{Los episodios deben ser indexados por ambos campos... Mejor digo esto en la parte de la base de datos.}
 
 
 \subsubsection{Consideraciones}
@@ -786,13 +778,26 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 \subsubsection{Colección de episodios}
 %    - episodio
 %    - mensaje ROS
- .
+
+El mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}.
+\end{itemize}
+
 
 \subsubsection{Colecciones de streams}
 %    - streams
 %       - funcionalidad de streams. Separación de entidades.
 %       - degradación
- .
+
+% MENSAJE ROS
+\paragraph{Representación:}
+Considerando el diseño anterior, se crea el mensaje \texttt{What.msg} con los siguientes campos:
+\begin{itemize}
+	\item \texttt{string[] streams}:
+\end{itemize}
+
+
 
 \subsubsection{Colecciones de entidades}
 %    - entidades

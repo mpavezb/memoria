@@ -33,11 +33,12 @@
 \usepackage{xargs} % Use more than one optional parameter in a new commands
 \usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
 %\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
-\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
-\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
-\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+\newcommand{\todoimplementation}[1]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,inline]{CODE ME: #1}}
+\newcommand{\todopaused}[1]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,inline]{PAUSED: #1}}
+\newcommand{\todounsure}[1]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,inline]{UNSURE: #1}}
+\newcommand{\todolater}[1]{\todo[linecolor=black,backgroundcolor=black!25,bordercolor=black,inline]{LATER: #1}}
+\newcommand{\todoimprove}[1]{\todo[linecolor=yellow,backgroundcolor=yellow!25,bordercolor=yellow,inline]{IMPROVEMENT: #1}}
+\newcommand{\todowrite}[1]{\todo[linecolor=purple,backgroundcolor=purple!25,bordercolor=purple,inline]{WRITE ME: #1}}
 \setlength{\marginparwidth}{0.5in} % mostrar correctamente todos al margen 
 % = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -72,7 +73,7 @@
 
 % Numbering and TOC for: 
 % Chapters(0), Sections(1), subsections(2), subsubsections(3)
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{3}
 
 % highlight

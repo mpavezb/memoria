@@ -1,6 +1,6 @@
 \chapter{Marco Teórico}\label{chapter:theory}
 
-\unsure[inline]{Creo que el marco teórico está muy abultado... tiene sentido separar en dos capítulos: Aspectos teóricos y componentes de software y hardware??}
+\todounsure{Creo que el marco teórico está muy abultado... tiene sentido separar en dos capítulos: Aspectos teóricos y componentes de software y hardware??}
 
 %% =====================================================================
 \section{Memoria robótica a largo plazo}\label{chapter:memory}
@@ -64,7 +64,7 @@ El primero de los objetivos específicos del proyecto tiene que ver con la deriv
 % - 
 % - 
 % - 
-\improvement[inline]{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
+\todoimprove{Poner referencias a todo esto. ... psicoanalisis ... ciencias cognitivas.}
 % \cite{Deutsch2008} 
 
 La memoria es un elemento fundamental para los humanos en su día a día, es parte integral de su existencia. Permite recordar quién, qué, cómo, dónde y cuándo. En términos psicológicos, es la habilidad para para codificar, almacenar y luego obtener información sobre eventos pasados, en el cerebro. Los pensamientos son parte de la memoria de corto plazo, mientras que eventos pasados son almacenados en una memoria de largo plazo. Existen muchos estudios en el área de la psicología cognitiva con diversas descripciones y modelos teóricos de cada tipo de memoria \cite{Vijayakumar2014}.
@@ -261,11 +261,11 @@ Generalmente, tanto STM, S-LTM como P-LTM son un requisito mínimo para el funci
 % - 
 % - 
 % - 
-\improvement[inline]{Sobre approaches para crear memorias episódicas.}
+\todoimprove{Sobre approaches para crear memorias episódicas.}
 %Han existido diversos intentos por crear memorias episódicas y semánticas. ... tal persona hizo tal cosa .... desde el 2000
 
 
-\improvement[inline]{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
+\todoimprove{Sobre los diseños de consolidación utilizados en la literatura.. son pocos :(}
 
 La memoria de mayor interés para este proyecto es la Ep-LTM, pues es la que permite generar interacciones humano-robot interesantes y que no sean repetitivas en el tiempo. Para su implementación, es un requisito disponer de S-LTM, pues la Ep-LTM almacena episodios y los cambios ocurridos a las entidades percibidas. La S-LTM almacena los modelos de cada entidad que llegarán a utilizar por la Ep-LTM.
 
@@ -310,7 +310,7 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 \begin{enumerate}[topsep=0pt]
 	\setlength\itemsep{0.2em}
 	\item No intrusivo: (R9) El campo ``Qué'' debe permitir almacenar información variable, organizada en estructuras de datos que no se conocen de antemano y que se ajustan a diversos módulos de procesamiento. Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
-	\improvement[inline]{Reescribir este requisito.. La información variable no es requisito deseable, sino que obligatorio.. sólo la no intrusividad es deseable..}
+	\todoimprove{Reescribir este requisito.. La información variable no es requisito deseable, sino que obligatorio.. sólo la no intrusividad es deseable..}
 	
 	\item Eficiente: (R10) El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot. Es decir, todos los eventos deben ser procesados eventualmente, aún cuando el robot esté ocupando gran parte de sus recursos, y sin generar hambruna de CPU ni ancho de banda (de disco y red) al resto de los procesos.
 	
@@ -611,5 +611,6 @@ El software de Bender está basado en el framework URF. Su arquitectura de softw
 % - es necesario mostrar otros "approaches" que no se utilizarán??
 % - mostrar sistemas similares LTM?
 % - 
-\unsure[inline]{es esto redundante?}
+.
+\todounsure{es esto redundante?}
 
