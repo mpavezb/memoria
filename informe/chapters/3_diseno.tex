@@ -5,7 +5,7 @@ En este capítulo se revisa el diseño del sistema LTM implementado en el proyec
 \todounsure{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
 
 
-\todo[inline]{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
+\todoimprove{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
 
 \section{Requerimientos}
 
@@ -32,8 +32,8 @@ El primer conjunto de requisitos se obtiene a partir de los objetivos del proyec
 El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:mem_robotica}. 
 
 El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar el concepto de relevancia histórica de episodios, similarmente a lo estudiado por XXX \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
-\todo[inline]{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
-\todo[inline]{El indicador conjunto de relevancias aún no ha sido implementado}
+\todowrite{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
+\todopaused{El indicador conjunto de relevancias aún no ha sido implementado}
 
 \subsubsection{Alcances del proyecto}
 
@@ -50,11 +50,7 @@ Para acotar el diseño, implementación y validaciones, a continuación se prese
 \item Modificar conversaciones que mantiene el robot con humanos, según los datos episódicos almacenados (e.g., si se está hablando sobre una entidad nueva o ya conocida).
 \item Eliminación automática de datos para liberar recursos de memoria secundaria.
 \end{itemize}
-\todo[inline]{En un principio se gastó tiempo con knowrob y prolog... que hago respecto a esto?? lo agrego al informe??... quito la inferencia de los objetivos secundarios??}
-
-\todo[inline]{Reescribir requerimientos de diseño}
-
-\todo[inline]{Agregar requerimientos basados en las pruebas que sobran}
+\todounsure{En un principio se gastó tiempo con knowrob y prolog... que hago respecto a esto?? lo agrego al informe??... quito la inferencia de los objetivos secundarios??... donde escribo esto?}
 
 \subsection{Requerimientos de software}
 
@@ -95,7 +91,7 @@ Los episodios almacenados deben estar conectados bidireccionalmente con los dato
 
 \paragraph{RS10}
 (R2) Episodios deben ser indexados al menos por los campos What, When y Where.
-\todo[inline]{Cómo valido esto?}
+\todounsure{Cómo valido esto?}
 
 \paragraph{RS11}
 (R2) El servidor debe permitir realizar búsquedas de episodios con condiciones sobre la información almacenada para What, When, Where. Las condiciones de búsqueda deben permitir comparaciones {igualdad, mayor que, pertenencia} entre tipos de dato básicos {strings, números, bool}, asociados a los campos del episodio.
@@ -128,7 +124,7 @@ No deben existir dependencias extra para los módulos de memoria semántica defi
 
 \paragraph{RS20}
 (R10) El servidor debe tolerar una alta tasa de generación de eventos, sin degradar el funcionamiento del robot. Específicamente:
-\todo[inline]{Esos valores de recursos fueron escogidos al azar!.. deben ser modificados.}
+\todoimprove{Esos valores de recursos fueron escogidos al azar!.. deben ser modificados.}
 \begin{itemize}
 	\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
 	\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
@@ -162,7 +158,7 @@ Episodios deben estar indexados por los siguientes indicadores numéricos de rel
 
 A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto. Éstas se separan en 4 categorías: 1. Validaciones que se verifican directamente desde el diseño e implementación del sistema, 2. validaciones mediante la ejecución del sistema, 3. validaciones mediante consultas episodicas al servidor, y 4. validaciones mediante pruebas de estrés al servidor.
 
-\todo[inline]{listado formal de validaciones basadas en requerimientos}
+\todoimprove{listado formal de validaciones basadas en requerimientos}
 
 \subsection{Validaciones por diseño e implementación}
 \paragraph{VA01 (RS01)}
@@ -243,8 +239,8 @@ Verificar que existan implementados al menos 3 módulos generadores de emociones
 \paragraph{VC01 (RS03)}
 % estado:  [TOO BROAD]
 Consultas relacionadas a entidades de personas y objetos!
-
-\todo[inline]{TO DO}
+.
+\todowrite{PENDIENTE}
 
 
 \paragraph{VC02 (RS06)}
@@ -262,8 +258,8 @@ Verificar que el servidor permita almacenar episodios con duraciones de segundos
 \paragraph{VC05 (RS09)}
 % estado:  [TOO BROAD]
 Verificar que episodios contengan campo Where. Almacenar episodios utilizando distintas ubicaciones.
-
-\todo[inline]{TO DO}
+.
+\todowrite{PENDIENTE}
 
 
 \paragraph{VC06 (RS11)}
@@ -271,8 +267,8 @@ Verificar que episodios contengan campo Where. Almacenar episodios utilizando di
 Test R02: Search: Buscar episodios indexados por W-1.
 Test R03: Search: Buscar episodios indexados por W-2.
 Test R04: Search: Buscar episodios indexados por W-3.
-
-\todo[inline]{TO DO}
+.
+\todowrite{PENDIENTE}
 
 
 \paragraph{VC07 (RS12)}
@@ -286,8 +282,8 @@ Test R06: Preguntar por datos modificados posteriormente.
 A: Interactúa con (a) y lo almacena.
 B: Interactúa con (a) o (b) y modifica dato sobre (a).
 C: Consulta sobre (a) muestra dato modificado.
-
-\todo[inline]{TO DO}
+.
+\todowrite{PENDIENTE}
 
 \paragraph{VC08 (RS14)}
 % estado:  [OK]
@@ -301,15 +297,14 @@ Episodio A: Habla con (a). Almacena que es estudiante de colegio.
 Episodio B: Habla con (a). Almacena que es estudiante de U.
 Recordar A: debe decir que (a) era estudiante de colegio.
 Recordar B: debe decir que (b) era estudiante universitario. 
-
-\todo[inline]{TO DO}
+.
+\todowrite{PENDIENTE}
 
 \paragraph{VC10 (RS16)}
 % estado:  [OK]
 Test R11: Evento A con sub evento B (temporalmente)
-
-\todo[inline]{TO DO}
-
+.
+\todowrite{PENDIENTE}
 
 
 \paragraph{VC11 (RS17)}
@@ -349,11 +344,11 @@ Generar episodios con distintos índices de relevancia histórica, emocional y g
 
 \subsection{Validaciones de eficiencia}
 
-\todo[inline]{Reescribir validaciones una vez estas se hayan ejecutado!.}
+\todopaused{Reescribir validaciones una vez estas se hayan ejecutado!.}
 
-\todo[inline]{Revisar pruebas de eficiencia de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
+\todoimprove{Revisar pruebas de eficiencia de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
 
-\todo[inline]{Escribir en algún lado a que me refiero con estado/funcionamiento base.}
+\todowrite{Escribir en algún lado a que me refiero con estado/funcionamiento base.}
 
 Las siguientes validaciones tienen por objetivo medir la eficiencia del sistema LTM una vez implementado, y se construyen a partir del requisito de software (RS20). Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
 
@@ -365,27 +360,27 @@ Se deben realizar las siguientes mediciones:
 \item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (sin información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
 \item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (con información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
 \end{enumerate}
-\todo[inline]{hablar sobre simple/complejo es muy subjetivo.}
+\todoimprove{hablar sobre simple/complejo es muy subjetivo.}
 
 \paragraph{VD01 (RS20)}
 En primer lugar, se debe validar que en estado base, el uso de CPU y RAM no exceda al 15\% del total disponible para el robot Bender.
 
 \paragraph{VD02 (RS20)}
 Se debe verificar que las operaciones de búsqueda no sobrepasen el uso de recursos en un 10\%, respecto al costo del funcionamiento base. Es decir, se admite hasta un 25\% del uso del total de recursos disponibles para el robot.
-\todo[inline]{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
+\todoimprove{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
 
 \paragraph{VD03 (RS20)}
 Verificar que si al menos un 90\% de los recursos de CPU del robot se encuentran ocupados, el servidor LTM entra en modo de bajo consumo. En éste modo, el servidor no puede ocupar más del 5\% de recursos extra a los de su estado base, y todas las consultas deben ser postergadas.
-\todo[inline]{Corregir esto: no tiene sentido postergar consultas de búsqueda.. sólo las de inserción!... (acumular episodios en RAM mientras) por último quitar este requerimiento!.}
+\todoimprove{Corregir esto: no tiene sentido postergar consultas de búsqueda.. sólo las de inserción!... (acumular episodios en RAM mientras) por último quitar este requerimiento!.}
 
 
 \subsection{Validaciones de escalabilidad}
 
 Las siguientes conjuntos de validaciones se construyen a partir del requisito de software (RS21). Tienen por objetivo medir el costo de tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos. En cada una se busca validar que la complejidad temporal de las operaciones se comporte de la forma $\mathcal{O}(n\log{}n)$.
 
-\todo[inline]{Revisar pruebas de escalabilidad de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
+\todoimprove{Revisar pruebas de escalabilidad de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
 
-\todo[inline]{Verificar que complejidad escogida tiene sentido!.}
+\todoimprove{Verificar que complejidad escogida tiene sentido!.}
 
 \begin{itemize}
 \item {\bf VE01 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{What}
@@ -405,13 +400,26 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 %\paragraph{VE08 (RS21)}: RAM usage vs. \# episodes
 %\paragraph{VE09 (RS21)}: CPU usage vs. \# episodes
 
- 
+
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 \section{Arquitectura del sistema}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
  
 En esta sección se describe la el diseño de la arquitectura del sistema de software implementado, según los requerimientos estudiados anteriormente. En primer lugar se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes a implementar para la validación y demostración del proyecto.
  
  
+% ==============================================================================
+% ==============================================================================
 \subsection{Diseño de episodios}
+% ==============================================================================
+% ==============================================================================
 
 A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol, diseñada para representar el anidamiento episódico. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
 
@@ -753,59 +761,121 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 %       - padres mantienen con mismo frame y mapa de hijos
 
 
+% ==============================================================================
+% ==============================================================================
 \subsection{Diseño del modelo de datos}
+% ==============================================================================
+% ==============================================================================
 % - Diseño de Base de Datos:
+
+Es esta sección se presentan las decisiones sobre el diseño de la base de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados, \textit{streams} y entidades.
+
+
+\subsubsection{Base de datos}
+
+% SOBRE SELECCIÓN DE MONGO DB
+\paragraph{MongoDB:}
+Según se explicó en la Sección \ref{}, la implementación del sistema LTM requiere el manejo de datos aleatorios, representados mediante mensajes de ROS que debe definir el usuario. Además, el sistema debe permitir modificar la representación de tales mensajes a futuro y soportar el almacenamiento de datos binarios. Por lo tanto, se requiere el uso de una base de datos no relacional, capaz de manejar cualquier mensaje definido en ROS. Para ésto, se decidió utilizar la base de datos no relacional \textit{MongoDB}, presentada en la Sección \ref{}. 
+
+La decisión sobre el uso \textit{MongoDB} se basa en tres razonamientos principales. Primero, el driver ROS para ésta es considerado estable, al menos hasta el año 2023. \textit{MongoDB} es utilizado por la librería \textit{MoveIt} de ROS, de uso extendido en la comunidad, por lo que ya ha sido probada y está disponible en muchos robots de servicio domésticos. Finalmente, \textit{MongoDB} se ocupa actualmente en el robot Bender. Debido a lo anterior, esta elección minimiza problemas de dependencias y compatibilidad a futuro.
+
+\todounsure{Es correcto hablar de drivers??.. debo hablar sobre controladores?..}
+
+
+% SOBRE SEPARACIÓN DE COLECCIONES
+\paragraph{Colecciones:}
+Debido al funcionamiento del driver ROS para \textit{MongoDB}, se asociará una colección distinta para cada mensaje episódico de interés. Particularmente, una colección será destinada al almacenamiento del mensaje \texttt{Episode.msg}, mientras que cada mensaje definido por el usuario será  asociado a una colección distinta. En primera instancia, la base de datos no relacional permitiría almacenar todos los mensajes en la misma colección, pero la separación de cada tipo de dato en colecciones distintas es conveniente debido a lo siguiente. Primero, la separación permite optimizar consultas simples a la base de datos, que no requieran acceder a toda la memoria semántica asociada. Además, mediante la separación se evita propagar problemas al registro de episodios, cuando se presenten fallos en los controladores de memoria semántica que debe implementar el usuario. Finalmente, ya que el sistema debe soportar una cantidad indefinida de mensajes ROS elegidos por el usuario, se evita saturar el registro de episodios con mensajes que, una vez agrupados, superen el límite de tamaño permitido a cada elemento de una colección.
+
+% REQUISITO DE MODIFICACIÓN DE REPRESENTACIÓN
+% modificar msg de colección MD5 y poder seguir ocupando la base de datos.
+% - mongo no tiene problema en modificar representación ...
+% - el driver ROS si.
 .
+\todopaused{Describir cuando esté solucionado.}
 
-\todowrite{descripción de la sección}
-
-
-\todo[inline]{Los episodios deben ser indexados por ambos campos... Mejor digo esto en la parte de la base de datos.}
-
-
-\subsubsection{Consideraciones}
-%    - manejo de colecciones y mensajes
-%       - límite de tamaño de datos
-%    - separación de colecciones para optimizar manejo de datos y memoria.
-%       - optimizar queries comunes
-%       - poder bloquear/eliminar colecciones muy pesadas
-%    - otras funcionalidades de interés: bkp, migrate a otro robot, ...
-%    - modificar msg de colección MD5 y poder seguir ocupando la base de datos.
-%    - funcionalidades y limitantes de Mongo y de mongo_ros
-%    - sistema de queries disponibles finalmente.
- .
 
 \subsubsection{Colección de episodios}
-%    - episodio
-%    - mensaje ROS
 
-El mensaje \texttt{Episode.msg} es modificado como sigue:
+Toda la información episódica, definida por medio del mensaje \texttt{Episode.msg}, será almacenada en la colección \texttt{episodes}.
+
+Debido a los requisitos de software \hl{(RSXX) y (RSXX)}, cada episodio debe ser indexado por todos sus campos disponibles, propuestos en la Sección \ref{}. Sin embargo, por temas prácticos, no es posible indexar todos los datos asociados al campo \textit{What}. En el caso de entidades, queda a criterio del usuario. Mientras que en el caso de \textit{streams}, no tiene sentido indexar cada pixel de una imagen, o cada instante de sonido a almacenar.
+
+
+% SOBRE CONSULTAS QUE DEBE SOPORTAR?
+\todowrite{Sobre consultas episódicas que debe soportar el modelo.}
+
+
+% MODIFICACIÓN DEL MENSAJE ROS
+Una vez definido que los mensajes para \textit{streams} y entidades serán almacenados en colecciones propias, queda la definición del mensaje \texttt{What.msg}, encargado de almacenar las referencias a cada dato semántico relacionado al episodio. Para ello, se modifica el mensaje \texttt{Episode.msg}:
 \begin{itemize}
-	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}.
+	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
 \end{itemize}
+
 
 
 \subsubsection{Colecciones de streams}
-%    - streams
-%       - funcionalidad de streams. Separación de entidades.
-%       - degradación
 
-% MENSAJE ROS
+Según se explicó anteriormente, cada \textit{stream} definido por el usuario es asociado a una colección de \textit{MongoDB} propia. El nombre de la colección debe ser definido por el usuario. 
+
+Ya que los \textit{streams} se consideran datos con sólo una instancia por cada episodio, se decide utilizar el mismo identificador único para ambas estructuras. Así, el episodio identificado por el valor $A$, tendrá asociado un \textit{stream} de cada colección, cada uno con el identificador $A$.
+
+\todoimplementation{Que el server avise si hay colecciones con nombres repetidos.}
+
+Por lo general, los campos de un \textit{stream} no requieren ser indexados, ya que es conveniente almacenarlos como campos binarios. Sin embargo, durante la implementación del \textit{plugin} asociado, el usuario puede decidir añadir metadatos para indexar campos convenientes. La utilidad de ésto, es que permitirá agregar nuevos términos de comparación para las consultas a la base de datos. Luego, se tienen dos formas de acceder a un \textit{stream} en particular; mediante su mensaje episódico asociado, o a través de los metadatos definidos por el usuario.
+
+Utilizando la configuración por defecto de \textit{MongoDB}, el límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Por ejemplo, esto permitiría almacenar $N$ imágenes a color de tamaño $AxB$, o $M$ imágenes en escala de grises del mismo tamaño. Sin embargo, \textit{MongoDB} provee estrategias de almacenamiento que no consideran esa limitante, las que deben ser configuradas por el usuario.
+\todowrite{Corregir comparación de 16MB con cantidad de imágenes. Ojo con formato y serialización.}
+\todoimplementation{Server con warning si mensaje a almacenar pesa más del límite!.}
+
+% - cambio de representación (MD5)
+\todopaused{Sobre la modificación de la estructura del stream... MD5...}
+
+
+
+% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
 \paragraph{Representación:}
-Considerando el diseño anterior, se crea el mensaje \texttt{What.msg} con los siguientes campos:
+Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar referencias a los \textit{streams} almacenados.
 \begin{itemize}
-	\item \texttt{string[] streams}:
+	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
 \end{itemize}
 
-
+\todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
 
 \subsubsection{Colecciones de entidades}
-%    - entidades
-%       - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
 
- .
+Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es  asociado a una colección de \textit{MongoDB} propia. El nombre de ésta debe ser definido por el usuario. 
 
+A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o más instancias de una entidad semántica. Por ejemplo, dada una entidad ``Persona'', durante un mismo episodio se pueden obtener datos (e.g., fecha de última visualización) para las instancias ``Jonh'' y ``Mike'', los que son almacenados en la misma colección, pero en distintas entradas.
+
+\todoimplementation{Escribir cuando esté implementado correctamente.}
+
+\todopaused{Sobre modelo de datos y flexibilidad...}
+\todopaused{Sobre modelo de datos y perspectiva...}
+% - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
+
+% SOBRE CONSULTAS QUE DEBE SOPORTAR?
+\todowrite{Sobre consultas episódicas que debe soportar el modelo.}
+\todopaused{Sobre metadatos}
+\todopaused{Sobre tags definidos en campo What.}
+
+% - cambio de representación (MD5)
+\todopaused{Sobre la modificación de la estructura de entidades... MD5...}
+
+% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
+\paragraph{Representación:}
+% TODO
+
+
+\subsubsection{Limitantes y trabajo futuro}
+% - otras funcionalidades de interés: bkp, migrate a otro robot, ...
+.
+
+
+% ==============================================================================
+% ==============================================================================
 \subsection{Diseño del servidor LTM}
+% ==============================================================================
+% ==============================================================================
 %    - TODO: manejo de contexto
  .
 
@@ -831,7 +901,12 @@ Considerando el diseño anterior, se crea el mensaje \texttt{What.msg} con los s
 %           - 
  .
 
+
+% ==============================================================================
+% ==============================================================================
 \subsection{Diseño de plugins e interfaces para demostración}
+% ==============================================================================
+% ==============================================================================
 % - Plugins a implementar a modo de ejemplo, adecuados al robot bender.
  .
 

@@ -291,11 +291,11 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 	
 	\item Estructura: (R2) Cada evento en conjunto con su contexto espacio-temporal forman una única representación integrada, que debe ser recordada como un todo, en caso de obtener cualquiera de las características del evento.
 	
-	\item Flexibilidad: (R3) La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.\todo[inline]{Está OK esta descripción?.. }
+	\item Flexibilidad: (R3) La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.\todounsure{Está OK esta descripción?.. }
 	
 	\item Datos específicos: (R4) La memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación.
 	
-	\item Ep-LTM es LTM y declarativa: (R5) La memoria episódica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, días o años. También es una forma de memoria declarativa; Es posible hablar sobre eventos asociados y acceder a ellos para introspección.\todo[inline]{Está OK esta descripción?}
+	\item Ep-LTM es LTM y declarativa: (R5) La memoria episódica es una forma de memoria LTM. Puede almacenar recuerdos por segundos, minutos, días o años. También es una forma de memoria declarativa; Es posible hablar sobre eventos asociados y acceder a ellos para introspección.\todounsure{Está OK esta descripción?}
 	
 	\item Perspectiva: (R6) La memoria episódica debe lidiar con datos específicos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se tenía en la experiencia original.
 	
@@ -319,7 +319,7 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 \end{enumerate}
 
 
-\todo[inline]{subsubsubsection: Procesos de consolidación y deterioro}
+\todoimprove{Falta título de subsubsubsection: Procesos de consolidación y deterioro}
 %\subsubsection{Procesos de consolidación y deterioro}
 %
 %- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
@@ -327,6 +327,8 @@ Sin embargo, si existe una aceptación generalizada sobre los requerimientos mí
 %... modelo probabilistico para consolidar y decaer \cite{Dodd2005}
 %... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
 %... reglas de consolidacion \cite{Dodd2005}
+
+\todounsure{Hablar sobre este paper: sueño y postprocesamiento, puede estar demás para el marco teórico...}
 
 En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
 
@@ -437,7 +439,7 @@ En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modela
 
 Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias Ep-LTM y S-LTM, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir el las dependencias entre si de cada componente y reducir el ancho de banda utilizado para retransmitir la información entre procesos.
 
-\todo[inline]{citar a \cite{Pratama2014}}
+\todoimprove{citar a \cite{Pratama2014}}
 
 
 
@@ -472,6 +474,20 @@ La implementación de un sistema de memoria robótica asume que muchos sistemas 
 % - Collections
 % - Datos binarios
 % - consultas
+% 
+% - sobre driver original y versi[ón ROS.
+% - sobre metadatos
+% - serialización del mensaje en blob, utilizando ROS serialization
+% - límite de tamaño de mensajes 16MB
+% - sistema de queries
+% - visualización con Robo3T  
+% - funcionalidades y limitantes de Mongo y de mongo_ros
+% - sobre uso de Mongo en librería MoveIt..
+%      - moveit tiene uso extendido en la comunidad... Mongo ya probada e instalada en muchos robots, especialmente de servicio doméstico con brazos
+%      - Mongo considerado estable y con soporte a futuro (al menos LTS 2023)
+.
+\todowrite{Sobre mongo DB...}
+
 
 \subsection{ROS}
 %% -----------------------------------------------------------------------------
@@ -552,10 +568,10 @@ Todos los módulos de URF son de código libre, a excepción de los algoritmos r
 
 
 %\subsubsection{Concepto de robot-skills}
-\todo[inline]{Sobre concepto de robot skills y cómo permiten acceder a componentes del robot. Serán utilizadas para la demo.}
+\todowrite{Sobre concepto de robot skills y cómo permiten acceder a componentes del robot. Serán utilizadas para la demo.}
 
 
-\todo[inline]{subsubsubsection: Manejo de la información en URF}
+\todoimprove{Falta título de subsubsubsection: Manejo de la información en URF}
 %\subsubsection{Manejo de información en URF}
 
 Si un robot implementa URF, entonces es posible acceder a la información compartida por sus procesos. Cualquier módulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en post-procesamientos, junto al acceso para controlar el hardware.
