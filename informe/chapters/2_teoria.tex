@@ -92,7 +92,7 @@ La memoria puede ser dividida en múltiples sistemas de independientes, con func
 	level 4/.style = {basic, thin, align=left, fill=blue!10, text width=10em}
 }
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
 	\begin{tikzpicture}[]
 	
@@ -336,7 +336,7 @@ La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero r
 
 En la Figura \ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la Ep-LTM como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.4\textwidth]{eventos.png}
 	\caption{\small Ejemplo de una secuencia de eventos. Los cuadros coloreados y blancos indican eventos con poca o mucha relevancia, respectivamente. Los marcadores indican transiciones entre fases de poco y mucho interés. Obtenido de \cite{Kelley2014}.}
@@ -390,13 +390,13 @@ Dood et al. proponen implementar las sensaciones a partir de distintos estímulo
 	\item Nivel de ruido acústico percibido.
 	\item Ausencia o presencia de humanos. Falta de interacción.
 	\item Cumplimiento de objetivos.
-	\item Cumplimiento de expectaciones.
+	\item Cumplimiento de expectativas.
 \end{itemize}
 
 
 Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Figura \ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al. \cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
 	\begin{tabular}{| l | l |}
 		\hline
@@ -557,7 +557,7 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 
 URF está construido sobre ROS y en una estructura de 4 capas. La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no; Es la única capa que contiene sólo código externo. Sobre ella, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar cada robot (módulos de \textit{Hardware} en la Figura \ref{img:URF}). La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción Humano-Robot (sección \textit{ROS modules} del diagrama). Finalmente, existe una capa \textit{de alto nivel} desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos (cuadros \textit{ROS-python interface} y \textit{State Machine} del diagrama).
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{URF.png}
 	\caption{\small Diagrama de UChile ROS Framework utilizado en el robot Bender.}
@@ -586,6 +586,7 @@ También se pueden encontrar especializaciones de memoria LTM semántica. Ejempl
 
 Sin embargo, en URF no existen formas de memoria emocional ni episódica de largo plazo. Luego, toda interacción realizada por los robots está limitada a la información obtenida desde el inicio al término de cada rutina.
 
+\todowrite{Sobre smach utilizado para máquinas de estado de behaviors del robot.}
 
 
 \subsection{Bender}
@@ -604,7 +605,7 @@ El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser 
 
 El software de Bender está basado en el framework URF. Su arquitectura de software utiliza  ROS para el manejo de componentes de bajo y medio nivel. La capa de alto nivel, escrita en python, se abstrae de ROS y permite la creación de comportamientos complejos mediante máquinas de estado. Todos los módulos que interactúan con sensores y actuadores están implementados en ROS.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{bender.png}
 	\caption{\small Robot Bender en competencia RoboCup 2015.}

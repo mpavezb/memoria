@@ -1,17 +1,18 @@
 \chapter{Diseño}\label{chapter:diseno}
 
 
-En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. En primer lugar, se presentan todos los requerimientos para el diseño del sistema. A partir de éstos se elabora un conjunto de validaciones y pruebas que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Finalmente, y a partir de lo anterior, se diseña la arquitectura del sistema: se revisa el diseño de un episodio, el modelo de datos, el diseño del servidor, y el conjunto de complementos a implementar para la validación.
+En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Mediante las siguientes 4 secciones se describe la arquitectura del sistema: Se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
+
 \todounsure{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
 
 
 \todoimprove{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
 
-\section{Requerimientos}
+\section{Requerimientos y validaciones}
 
-A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto. Primero se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable.
+A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto y las validaciones generadas a partir de ellos. Primero se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable. Para concluir, se presenta un conjunto de pruebas que busca validar cada requerimiento expuesto.
  
-\subsection{Definición de los requisitos (Requisitos de Usuario)}
+\subsection{Requisitos de usuario}
 
 \todounsure{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
 
@@ -154,13 +155,13 @@ Episodios deben estar indexados por los siguientes indicadores numéricos de rel
 
 \todolater{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH no debe fallar / colgarse / arrojar excepciones por ningún motivo, para no sacrificar el funcionamiento del robot en caso de errores.}
 
-\section{Validaciones}
+\subsection{Validaciones}
 
-A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto. Éstas se separan en 4 categorías: 1. Validaciones que se verifican directamente desde el diseño e implementación del sistema, 2. validaciones mediante la ejecución del sistema, 3. validaciones mediante consultas episodicas al servidor, y 4. validaciones mediante pruebas de estrés al servidor.
+A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto. Éstas se separan en 5 categorías: 1. Validaciones que se verifican directamente desde el diseño e implementación del sistema, 2. validaciones mediante la ejecución del sistema, 3. validaciones mediante consultas episódicas al servidor, 4. validaciones de eficiencia, y 5. validaciones de escalabilidad.
 
 \todoimprove{listado formal de validaciones basadas en requerimientos}
 
-\subsection{Validaciones por diseño e implementación}
+\subsubsection{Validaciones por diseño e implementación}
 \paragraph{VA01 (RS01)}
 % estado [OK]
 Verificar que el que el proyecto no tiene ninguna dependencia en software propio del robot.
@@ -203,7 +204,7 @@ Verificar que el paquete de ROS que implementa el servidor sólo tenga como depe
 Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.
 
 
-\subsection{Validaciones mediante ejecución}
+\subsubsection{Validaciones mediante ejecución}
 
 \paragraph{VB01 (RS02)}
 % estado:  [PENDING]
@@ -234,7 +235,7 @@ Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar
 Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete de ROS dedicado.
 
 
-\subsection{Validaciones mediante consultas al servidor}
+\subsubsection{Validaciones mediante consultas al servidor}
 
 \paragraph{VC01 (RS03)}
 % estado:  [TOO BROAD]
@@ -342,7 +343,7 @@ Generar episodios en donde se ocupe cada uno de los módulos generadores de emoc
 % estado:  [PENDING]
 Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.
 
-\subsection{Validaciones de eficiencia}
+\subsubsection{Validaciones de eficiencia}
 
 \todopaused{Reescribir validaciones una vez estas se hayan ejecutado!.}
 
@@ -374,7 +375,7 @@ Verificar que si al menos un 90\% de los recursos de CPU del robot se encuentran
 \todoimprove{Corregir esto: no tiene sentido postergar consultas de búsqueda.. sólo las de inserción!... (acumular episodios en RAM mientras) por último quitar este requerimiento!.}
 
 
-\subsection{Validaciones de escalabilidad}
+\subsubsection{Validaciones de escalabilidad}
 
 Las siguientes conjuntos de validaciones se construyen a partir del requisito de software (RS21). Tienen por objetivo medir el costo de tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos. En cada una se busca validar que la complejidad temporal de las operaciones se comporte de la forma $\mathcal{O}(n\log{}n)$.
 
@@ -404,20 +405,7 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 
 % ==============================================================================
 % ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Arquitectura del sistema}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
- 
-En esta sección se describe la el diseño de la arquitectura del sistema de software implementado, según los requerimientos estudiados anteriormente. En primer lugar se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes a implementar para la validación y demostración del proyecto.
- 
- 
-% ==============================================================================
-% ==============================================================================
-\subsection{Diseño de episodios}
+\section{Diseño de episodios}
 % ==============================================================================
 % ==============================================================================
 
@@ -425,7 +413,7 @@ A continuación presentan las decisiones de diseño seguidas para la representac
 
 \todolater{Agregar listado de mensajes y servicios en los anexos.}
 
-\subsubsection{Formato y representación}
+\subsection{Formato y representación}
 
 % SOBRE ELECCIÓN DE MENSAJES DE ROS
 \paragraph{Mensaje ROS:}
@@ -447,7 +435,7 @@ Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le
 \end{itemize}
 
  
-\subsubsection{Árboles de episodios}
+\subsection{Árboles de episodios}
 
 \todounsure{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
 
@@ -481,7 +469,7 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
  
 \todoimplementation{Se puede agregar condición de que hijos son ordenados por tiempo de inicio}
  
-\subsubsection{Contexto temporal: \textit{When}}\label{sec:design_ep_when}
+\subsection{Contexto temporal: \textit{When}}\label{sec:design_ep_when}
 
 % SOBRE LOS REQUISITOS
 \paragraph{Requisitos:}
@@ -506,7 +494,7 @@ Y el mensaje \texttt{Episode.msg} es modificado como sigue:
 \end{itemize}
 
  
-\subsubsection{Contexto espacial: \textit{Where}}
+\subsection{Contexto espacial: \textit{Where}}
 
 % SOBRE LOS REQUISITOS
 \paragraph{Requisitos:}
@@ -556,7 +544,7 @@ Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \end{itemize}
 
 
-\subsubsection{Memoria semántica: \textit{What}}
+\subsection{Memoria semántica: \textit{What}}
 
 % REQUISITOS
 \paragraph{Requisitos:}
@@ -601,7 +589,7 @@ Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilac
 
 
 
-\subsubsection{Manejo de relevancia generalizada}
+\subsection{Manejo de relevancia generalizada}
 
 % RELEVANCIA GENERALIZADA
 \paragraph{Requisitos:}
@@ -633,7 +621,7 @@ Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \end{itemize}
 
 
-\subsubsection{Manejo de relevancia emocional}
+\subsection{Manejo de relevancia emocional}
 
 % RELEVANCIA EMOCIONAL
 \paragraph{Requisitos:}
@@ -676,7 +664,7 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \end{itemize}
 
 
-\subsubsection{Manejo de relevancia histórica}
+\subsection{Manejo de relevancia histórica}
 
 % SOBRE RELEVANCIA HISTORICA
 \paragraph{Requisitos:}
@@ -708,7 +696,7 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \end{itemize}
 
 
-\subsubsection{Datos para introspección}
+\subsection{Datos para introspección}
 
 % SOBRE RAZONAMIENTO
 \paragraph{Metadatos:}
@@ -734,7 +722,7 @@ Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
 \end{itemize}
 
 
-\subsubsection{Limitantes y trabajo futuro}
+\subsection{Limitantes y trabajo futuro}
 
 % SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
 
@@ -763,7 +751,7 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 
 % ==============================================================================
 % ==============================================================================
-\subsection{Diseño del modelo de datos}
+\section{Diseño del modelo de datos}
 % ==============================================================================
 % ==============================================================================
 % - Diseño de Base de Datos:
@@ -771,7 +759,7 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 Es esta sección se presentan las decisiones sobre el diseño de la base de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados, \textit{streams} y entidades.
 
 
-\subsubsection{Base de datos}
+\subsection{Base de datos}
 
 % SOBRE SELECCIÓN DE MONGO DB
 \paragraph{MongoDB:}
@@ -794,7 +782,7 @@ Debido al funcionamiento del driver ROS para \textit{MongoDB}, se asociará una 
 \todopaused{Describir cuando esté solucionado.}
 
 
-\subsubsection{Colección de episodios}
+\subsection{Colección de episodios}
 
 Toda la información episódica, definida por medio del mensaje \texttt{Episode.msg}, será almacenada en la colección \texttt{episodes}.
 
@@ -813,7 +801,7 @@ Una vez definido que los mensajes para \textit{streams} y entidades serán almac
 
 
 
-\subsubsection{Colecciones de streams}
+\subsection{Colecciones de streams}
 
 Según se explicó anteriormente, cada \textit{stream} definido por el usuario es asociado a una colección de \textit{MongoDB} propia. El nombre de la colección debe ser definido por el usuario. 
 
@@ -841,7 +829,7 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 
 \todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
 
-\subsubsection{Colecciones de entidades}
+\subsection{Colecciones de entidades}
 
 Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es  asociado a una colección de \textit{MongoDB} propia. El nombre de ésta debe ser definido por el usuario. 
 
@@ -866,34 +854,48 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % TODO
 
 
-\subsubsection{Limitantes y trabajo futuro}
+\subsection{Limitantes y trabajo futuro}
 % - otras funcionalidades de interés: bkp, migrate a otro robot, ...
+
+% - metadatos de arreglos... por el driver ROS...
+
+% - cosa MD5
+
 .
 
 
 % ==============================================================================
 % ==============================================================================
-\subsection{Diseño del servidor LTM}
+\section{Diseño del servidor LTM}
 % ==============================================================================
 % ==============================================================================
 %    - TODO: manejo de contexto
  .
+ 
+% revisar requerimientos software asociados.
 
-\subsubsection{Manejo de episodios}
+\subsection{Manejo de episodios}
 % - Diseño del servidor LTM según requisitos
-%    - uso de MongoDB
-%    - Minimizar dependencias
-%    - API ROS: servicios, parámetros, nodos
- .
+% - uso de MongoDB
+% - Minimizar dependencias
+% - API ROS: servicios, parámetros, nodos
+% - parámetros (dar énfasis en la implementación)
+% - estrategia de actualización episódica... branching.. etc.
+.
 
-\subsubsection{Sistema de plugins}
-%    - Sistema de plugins para agregar cosas específicas a cada robot
-%        - requerimientos para cada plugin
-%        - uso esperado de pluginlib
-%        - flujo de trabajo de cada plugin
- .
+\subsection{Sistema de plugins}
+% - Sistema de plugins para agregar cosas específicas a cada robot
+%    - where, emociones, streams y entidades.
 
-\subsubsection{Alcances y trabajo futuro}
+%    - sobre información disponible para cada plugin
+%    - requerimientos para cada plugin
+%    - uso esperado de pluginlib
+%    - flujo de trabajo de cada plugin
+%    - se recomienda que sólo estén en funcionamiento cuando hay episodios registrados pendientes.
+%    - sobre estabilidad de plugins.
+.
+
+\subsection{Alcances y trabajo futuro}
 %    - Alcances y trabajo futuro
 %        - reservar ids mientras nodo esté activo.
 %        - posibles funcionalidades de interés: 
@@ -904,27 +906,147 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 
 % ==============================================================================
 % ==============================================================================
-\subsection{Diseño de plugins e interfaces para demostración}
+\section{Diseño de módulos específicos para Bender}
 % ==============================================================================
 % ==============================================================================
-% - Plugins a implementar a modo de ejemplo, adecuados al robot bender.
- .
 
-\subsubsection{Generación de episodios mediante SMACH}
-%    - Smach: consideraciones
- .
+Según especifica el requisito de software \hl{(RSXX)}, el proyecto debe ser integrado al robot Bender, con una demostración de las capacidades del sistema LTM. Para esto, se deben implementar módulos de software que permitan recolectar todos los datos episódicos requeridos por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de streams y entidades a partir de la memoria de trabajo. 
 
-\subsubsection{Plugin para obtener localización del robot}
- .
+Cada uno de los módulos presentados a continuación cumple una doble funcionalidad. En primer lugar, cumplen con el requisito del diseño de componentes orientados a robots de servicio doméstico, enfocados en el robot Bender. Y además, sirven como ejemplo para el diseño e implementación de nuevas funcionalidades requeridas a futuro para otras plataformas.
 
-\subsubsection{Plugin para obtener emociones del robot}
- .
 
-\subsubsection{Plugin para streams: Imágenes}
-%    - Streams: dar ejemplos: img, sonido, pcl..
- .
+\subsection{Recolección de episodios: SMACH}
 
-\subsubsection{Plugins para entidades}
-%    - Entidades: People, Objects, Robot, Location
- .
+\paragraph{SMACH:}
+El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección \ref{}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos. A través de SMACH, en Bender se implementan capacidades como la interacción continuada con humanos y la resolución de tareas en el hogar. 
+
+\paragraph{Información episódica:}
+A partir de SMACH se puede obtener parte del conocimiento episódico requerido para la definición de un episodio. Desde el punto de vista de sus transiciones, las máquinas de estado están estructuradas en forma de grafo, estableciendo un inicio y fin temporal para cada estado. Conceptualmente, las máquinas se estructuran en forma de árboles, donde cada maquina de estado puede ser contenida por otra, lo que representa el anidamiento episódico. Luego, SMACH provee una forma de conocimiento episódico, capaz de representar información temporal (\textit{When}) y las relaciones de anidamiento episódico (referencias padre-hijo). Finalmente, ya que cada máquina de estado está asociada a una capacidad o contexto, se puede utilizar esa información para obtener los \textit{tags} requeridos para marcar cada episodio.
+
+\paragraph{Funcionamiento:}
+La interfaz episódica diseñada tiene 2 etapas importantes. En primer lugar, el durante la programación de la máquina, el desarrollador debe indicar que estados considera almacenar como episodio, en caso que sean ejecutados. Además, se deben para cada estado marcado, se debe indicar una lista de \textit{tags} que describan brevemente el estado. La segunda etapa ocurre durante el funcionamiento de la máquina de estado; Al inicio de cada estado, la interfaz debe registrar el episodio en el servidor e indicar el identificador de su estado padre, para recibir el identificador generado para tal estado. Al fin de cada episodio, debe notificar el cierre al servidor, para que éste ejecute las rutinas de recopilación de datos y almacene el episodio.
+
+
+\paragraph{Estabilidad de la implementación:}
+La ejecución ininterrumpida de SMACH durante una rutina crucial para el desempeño del robot. Si la librería deja de funcionar repentinamente o se detiene continuamente, el robot se detendrá o tomará mucho tiempo en realizar sus tareas, lo que durante una competencia puede tener pésimas consecuencias para el equipo. Es por esto, que la implementación de la interfaz entre el servidor LTM y SMACH debe ser estable. Particularmente, es de vital importancia que el funcionamiento de SMACH no se vea afectado por la implementación, independientemente de si ésta tiene problemas en su ejecución. 
+
+
+\paragraph{Intrusividad:}
+Por otro lado, la implementación debe minimizar las modificaciones a la librería SMACH y a las máquinas de estado ya implementadas. En primer lugar, si se modifica la librería SMACH, el equipo tendrá que agregar una copia de ésta y mantenerla a futuro, para lo que no hay personal ni tiempo suficiente. Segundo, el robot dispone de muchas máquinas de estado, las que deberán ser actualizadas para agregar la funcionalidad de la interfaz episódica. Por lo tanto, se toman las siguientes decisiones:
+\begin{itemize}
+\item La librería SMACH no puede ser modificada para la implementación de la interfaz.
+\item Las modificaciones a las máquinas de estado deben ser mínimas y opcionales. Esto permitirá ir agregando soporte LTM de manera gradual al robot.
+\end{itemize}
+
+
+
+\subsection{Recolección de dato episódico: \textit{Where}}
+
+% SOBRE plugin
+Según el diseño del servidor LTM, la información episódica \textit{Where} debe ser obtenida a través de un plugin especializado para ello. Entonces, se debe implementar un plugin para Bender, capaz de proveer la posición del robot durante un periodo de tiempo, según los requerimientos especificados en la Sección \ref{}.
+
+% SOBRE: Funcionamiento del plugin
+% - recopilación constante de posicionamiento del robot.
+% - provee listado de poses dado tiempos de inicio, fin de episodio.
+% - sólo recopila información cuando hay episodios registrados.
+
+% SOBRE: Plugin con información Dummy
+% - motivación... sirve para simulación, sin requerir que el robot funcione realmente.
+% - generación de posiciones aleatorias en un rango determinado.
+% - provee lugares aleatorios.
+
+% SOBRE: Interfaz con robot Bender.
+\todoimplementation{Plugin Where en Bender.}
+
+
+
+\subsection{Recolección de dato episódico: Emociones}
+
+% SOBRE: plugin
+% - sobre diseño del server asociado.
+% - sobre lo que debe proveer el plugin.
+
+% SOBRE: requerimientos del server
+% - recopilación de emociones .. buffer
+% - provee emoción más fuerte del periodo.
+% - rellenar metadatos 
+% - sólo recopilar info si hay episodios registrados.
+
+% SOBRE: plugin dummy
+% - motivación  ... robot no dispone de emociones! también deben ser implementadas. Sirve para testing.
+% - generación de datos dummy
+
+% SOBRE: Interfaz con robot Bender.
+\todoimplementation{Plugin Where en Bender.}
+.
+
+\subsection{Plugin para streams: Imágenes}
+
+% SOBRE: plugin
+
+
+% - memoria de trabajo a memoria semántica
+% - por qué elección del pluign... demostración y visualización.. la mejor descripción la da una imagen.
+
+% SOBRE: requerimientos del server
+% - sobre marcar inicio, fin
+% - sobre definición de colección
+% - sobre manejo de la colección: CRUD
+% - sobre API ROS asociada.
+
+% SOBRE: Funcionamiento
+% - estrtategia de procesamiento
+% - buffer
+% - periodicidad
+% - ... revisar implementación ...
+
+% SOBRE: plugin dummy
+% - motivación.. sirve para simulación y pruebas, sin tener acceso al robot.
+% - generación de stream de imágenes a partir de un video
+
+% SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
+% - sobre eso, siguiendo estrategia definida.
+% - otros de interés: sonido, pcl..
+
+.
+
+\subsection{Plugins para entidades}
+.
+\todopaused{Requiere implementación funcional de plugin para entidades.}
+
+% SOBRE: plugin
+% - % memoria de trabajo a memoria semántica
+% - por qué elección del pluign.. entidades importantes para robots de servicio domésticos.
+% - % - Entidades: People, Objects, Robot, Location
+
+% SOBRE: requerimientos del server
+% - sobre marcar inicio, fin
+% - sobre definición de colecciones
+% - sobre manejo de la colección: CRUD
+% - sobre API ROS asociada.
+
+% SOBRE: Funcionamiento
+% - estrtategia de procesamiento
+% - buffer
+% - periodicidad
+% - ... revisar implementación ...
+
+% SOBRE: plugin dummy
+% - motivación.. sirve para simulación y pruebas, sin tener acceso al robot.
+% - generación de stream de imágenes a partir de un video
+
+% SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
+% - sobre eso, siguiendo estrategia definida.
+
+
+
+
+
+
+
+
+
+
+
+
 
