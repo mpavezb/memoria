@@ -883,10 +883,13 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % - estrategia de actualización episódica... branching.. etc.
 .
 
+\subsubsection{Interfaz episódica}
+% - proveer tiempo y anidamiento
+% - permite notificar a los otros componentes para la recopilación de información episódica
+
 \subsection{Sistema de plugins}
 % - Sistema de plugins para agregar cosas específicas a cada robot
 %    - where, emociones, streams y entidades.
-
 %    - sobre información disponible para cada plugin
 %    - requerimientos para cada plugin
 %    - uso esperado de pluginlib
@@ -894,6 +897,34 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 %    - se recomienda que sólo estén en funcionamiento cuando hay episodios registrados pendientes.
 %    - sobre estabilidad de plugins.
 .
+
+\subsubsection{Plugin: \textit{Where}}
+% SOBRE: Funcionamiento recomendado del plugin
+% - recopilación constante de posicionamiento del robot.
+% - provee listado de poses dado tiempos de inicio, fin de episodio.
+% - sólo recopila información cuando hay episodios registrados.
+
+
+\subsubsection{Plugin: Emociones}
+
+% SOBRE: funcionamiento recomendado del plugin
+% - recopilación de emociones .. buffer
+% - provee emoción más fuerte del periodo.
+% - rellenar metadatos 
+% - sólo recopilar info si hay episodios registrados.
+
+
+\subsubsection{Plugin: \textit{Streams}}
+
+% SOBRE: requerimientos del server
+% - sobre marcar inicio, fin
+% - sobre definición de colección
+% - sobre manejo de la colección: CRUD
+% - sobre API ROS asociada.
+
+
+\subsubsection{Plugin: Entidades}
+
 
 \subsection{Alcances y trabajo futuro}
 %    - Alcances y trabajo futuro
@@ -943,19 +974,13 @@ Por otro lado, la implementación debe minimizar las modificaciones a la librer�
 \subsection{Recolección de dato episódico: \textit{Where}}
 
 % SOBRE plugin
-Según el diseño del servidor LTM, la información episódica \textit{Where} debe ser obtenida a través de un plugin especializado para ello. Entonces, se debe implementar un plugin para Bender, capaz de proveer la posición del robot durante un periodo de tiempo, según los requerimientos especificados en la Sección \ref{}.
-
-% SOBRE: Funcionamiento del plugin
-% - recopilación constante de posicionamiento del robot.
-% - provee listado de poses dado tiempos de inicio, fin de episodio.
-% - sólo recopila información cuando hay episodios registrados.
+Se debe implementar un plugin para Bender capaz de proveer la posición del robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. Por motivos prácticos, se consideran dos versiones a implementar, una con información falsa, y otra capaz de obtener datos reales desde el robot.
 
 % SOBRE: Plugin con información Dummy
-% - motivación... sirve para simulación, sin requerir que el robot funcione realmente.
-% - generación de posiciones aleatorias en un rango determinado.
-% - provee lugares aleatorios.
+La versión ``de prueba'' debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \texttt{Where.msg}. La motivación para esto, es poder realizar pruebas durante la implementación del sistema y poder ejecutar validaciones que no precisen de la ubicación real del robot. Además, el plugin permite minimizar el uso del robot real para la implementación y validación del proyecto, pues el robot es un recurso compartido en el equipo de trabajo y su uso implica costos altos en términos de tiempo.
 
 % SOBRE: Interfaz con robot Bender.
+La segunda versión debe ser integrada en el software del robot, a través de la API para la obtención de su ubicación. Se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{}. El plugin deberá recopilar información periódicamente para cada uno de los campos del mensaje \texttt{Where.msg}. Se deberá proveer un listado ordenado temporalmente de las ubicaciones recopiladas, cuando el servidor notifique el término del episodio. Para disminuir el uso de recursos, solamente se deben recopilar posiciones cuando hayan episodios registrados como pendientes en el servidor.
 \todoimplementation{Plugin Where en Bender.}
 
 
@@ -963,30 +988,31 @@ Según el diseño del servidor LTM, la información episódica \textit{Where} de
 \subsection{Recolección de dato episódico: Emociones}
 
 % SOBRE: plugin
-% - sobre diseño del server asociado.
-% - sobre lo que debe proveer el plugin.
-
-% SOBRE: requerimientos del server
-% - recopilación de emociones .. buffer
-% - provee emoción más fuerte del periodo.
-% - rellenar metadatos 
-% - sólo recopilar info si hay episodios registrados.
+El siguiente plugin a implementar está encargado de proveer las emociones registradas por el robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. En este caso, también se consideran dos versiones a implementar, una que provee datos falsos, y otra capaz de obtener datos reales desde el robot. Ambas versiones deben recopilar datos para cada uno de los campos del mensaje \texttt{Emotion.msg}.
 
 % SOBRE: plugin dummy
-% - motivación  ... robot no dispone de emociones! también deben ser implementadas. Sirve para testing.
-% - generación de datos dummy
+La versión ``de prueba'' debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \texttt{EmotionalRelevance.msg}. Similarmente al plugin para el campo \textit{Where}, este plugin permite realizar pruebas durante la implementación del sistema y ejecutar validaciones que no precisen de la emoción real del robot, mientras se minimiza el uso del robot. Sin embargo, la razón principal para su implementación es que actualmente el robot no cuenta con un sistema de emociones.
 
 % SOBRE: Interfaz con robot Bender.
-\todoimplementation{Plugin Where en Bender.}
-.
+La segunda versión debe ser integrada con el software del robot, una vez que se haya implementado el sistema emocional en el robot. Para ésto, se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{}. El plugin deberá recopilar información periódicamente sobre las emociones del robot. Una vez que el servidor notifique la finalización del episodio, el plugin debe proveer un mensaje \texttt{Emotion.msg} asociado a la emoción más intensa durante la duración de éste. Además, para disminuir el uso de recursos, solamente se debe recopilar información cuando hayan episodios registrados como pendientes en el servidor.
+
+\todopaused{Hablar sobre el diseño de módulos emocionales para el robot}
+\subsubsection{Modulo emocional: A}
+\subsubsection{Modulo emocional: B}
+\subsubsection{Modulo emocional: C}
+\subsubsection{Modulo emocional: servidor de emociones}
+
 
 \subsection{Plugin para streams: Imágenes}
 
 % SOBRE: plugin
-
-
-% - memoria de trabajo a memoria semántica
+% - plugin encargado de recolectar streams desde la memoria de trabajo del robot, para transformarlos en memoria semántica.
+% - 
 % - por qué elección del pluign... demostración y visualización.. la mejor descripción la da una imagen.
+
+
+\todoimplementation{Proveer plugin agnóstico al robot, configurable a través de parámetros.}
+
 
 % SOBRE: requerimientos del server
 % - sobre marcar inicio, fin
