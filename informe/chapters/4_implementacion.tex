@@ -1,40 +1,85 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-\todowrite{Descripción del capítulo}
+Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo \ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se muestran los mensajes episódicos sobre los que se construye el proyecto. En tercer lugar, se presentan módulos de software desarrollados para acelerar la implementación y validación del proyecto. Luego, se presenta la implementación del servidor LTM, junto a los módulos encargados de generar información episódica ficticia y los encargados de recolectar datos desde el robot. Finalmente, se muestra la integración del sistema en Bender.
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Estructura del software e instalación}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+
+Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describe la estructura elegida para el servidor LTM y los plugins para recolección de información episódica, junto al proceso de instalación del cada componente.
+
+\subsection{Dependencias}
+
+% MongoDB y warehouse_ros_mongo
+% packate aún no está disponible en canal oficial para ROS kinetic, debe ser descargado desde su repositorio oficial: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}
 
 
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Estructura del software}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% sobre packages ROS
+\subsection{Paquete ROS: \texttt{ltm}}
+% server
+% Interfaz episódica en SMACH
 % sobre separación de conceptos .. 
-% - package solo server
-% - package para ejemplos y tutoriales
-% - repositorios GITHUB
-% - dependencias: MongoDB
+% repositorios públicos, mantenidos en cuenta del autor del proyecto.
+\url{https://github.com/mpavezb/ltm}
+
+
+\subsection{Paquete ROS: \texttt{ltm\_samples}}
+% Plugins episódicos para información ficticia
+% contiene implementaciones que no son ...
+% repositorios públicos, mantenidos en cuenta del autor del proyecto.
+\url{https://github.com/mpavezb/ltm\_samples}
+
+\todoimplementation{Separar en más packages???}
+
+
+\subsection{Detalles del software}
+
+\todowrite{Incluir figura con diagrama de funcionamiento del server - robot.}
+
+\todowrite{Ver en que puntos se pueden agregar diagramas y figuras explicativas.}
+
+\todowrite{Incluir tabla con Líneas de código por lenguaje... ver memoria de IAN. Usar comando: \texttt{\$ cloc ltm ltm\_samples}}
+
+
+\subsection{Documentación}
+
 .
-\todowrite{Agregar referencia al github de cada package y tutoriales respectivos.}
+\url{https://github.com/mpavezb/ltm} archivo \texttt{README.md}.
+% información sobre instalación y tutoriales de uso del sistema.
+\todoimplementation{Completar tutoriales o quitarlos del informe.}
 
 
-
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-\section{Episodios}
+\section{Mensajes episódicos}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 % - mostrar MSG ROS implementados
 % - incluir MSGs para plugins
-.
+
+En ésta sección se muestran los mensajes ROS implementados para manejar el concepto de episodios, los que son la base sobre la que se construye el sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
+
+\todounsure{Pongo código fuente de todos los mensajes definidos?.. los pongo en los anexos?.. }
+\lstset{style=/Style/ROS/MSG}
+
+% \ref{lst:episode.msg}
+\lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
+\lstinputlisting[caption=ltm/When.msg]{code/msg/When.msg}
+\lstinputlisting[caption=ltm/Where.msg]{code/msg/Where.msg}
+\lstinputlisting[caption=ltm/What.msg]{code/msg/What.msg}
+\lstinputlisting[caption=ltm/Info.msg]{code/msg/Info.msg}
+\lstinputlisting[caption=ltm/Relevance.msg]{code/msg/Relevance.msg}
+\lstinputlisting[caption=ltm/EmotionalRelevance.msg]{code/msg/EmotionalRelevance.msg}
+\lstinputlisting[caption=ltm/HistoricalRelevance.msg]{code/msg/HistoricalRelevance.msg}
 
 % ==============================================================================
 % ==============================================================================
@@ -111,7 +156,11 @@
 % - srv implementados
 % - Servicios que provee
 
-.
+\lstinputlisting[caption=ltm/RegisterEpisode.srv]{code/srv/RegisterEpisode.srv}
+\lstinputlisting[caption=ltm/AddEpisode.srv]{code/srv/AddEpisode.srv}
+\lstinputlisting[caption=ltm/GetEpisode.srv]{code/srv/GetEpisode.srv}
+\lstinputlisting[caption=ltm/UpdateTree.srv]{code/srv/UpdateTree.srv}
+
 
 \subsubsection{Consultas episódicas}
 % - consultas episódicas
@@ -123,6 +172,7 @@
 .
 
 \subsubsection{Launchfiles}
+
 
 
 % ==============================================================================
@@ -310,21 +360,3 @@
 % - Entidades
 
 .
-
-
-
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Documentación}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-
-.
-
-
-% INSTALACION
-% TUTORIALES

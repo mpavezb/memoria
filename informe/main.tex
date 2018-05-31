@@ -11,77 +11,7 @@
 \memoria{MEMORIA PARA OPTAR AL TÍTULO DE INGENIERO CIVIL ELÉCTRICO E INGENIERO CIVIL EN COMPUTACIÓN}
 \comision{TODO 1, TODO 2, TODO 3}
 
-\usepackage[T1]{fontenc}
-\usepackage[spanish]{babelbib}
-\usepackage{enumitem} % opciones para itemize 
-
-% ------------- Imágenes -------------------------------------- %
-\usepackage[pdftex]{graphicx}	% Para Archivos gráficos         %
-\usepackage{float}				% Para usar H!                   %
-\usepackage[section]{placeins}	% auto \FloatBarrier por sección %
-\usepackage{caption}			% [font=small,labelfont=bf]      %
-\usepackage{subcaption}         % Caption para subfiguras        %
-\usepackage{sidecap}            % Captions al lado               %
-\usepackage{wrapfig}            % Escribir alrededor             %
-\graphicspath{{./figures/}}     % Agrega Path para buscar imgs.  %
-% ------------------------------------------------------------- %
-
-% = = = = = = = = = = = = = = = = = = = = = = =
-% TODO NOTES
-% = = = = = = = = = = = = = = = = = = = = = = =
-\usepackage[pdftex,dvipsnames,table]{xcolor}  % Coloured text etc.
-\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
-\newcommand{\todoimplementation}[1]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,inline]{CODE ME: #1}}
-\newcommand{\todopaused}[1]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,inline]{PAUSED: #1}}
-\newcommand{\todounsure}[1]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,inline]{UNSURE: #1}}
-\newcommand{\todolater}[1]{\todo[linecolor=black,backgroundcolor=black!25,bordercolor=black,inline]{LATER: #1}}
-\newcommand{\todoimprove}[1]{\todo[linecolor=yellow,backgroundcolor=yellow!25,bordercolor=yellow,inline]{IMPROVEMENT: #1}}
-\newcommand{\todowrite}[1]{\todo[linecolor=purple,backgroundcolor=purple!25,bordercolor=purple,inline]{WRITE ME: #1}}
-\setlength{\marginparwidth}{0.5in} % mostrar correctamente todos al margen 
-% = = = = = = = = = = = = = = = = = = = = = = =
-
-
-\hypersetup{
-	colorlinks,
-	linkcolor={black},
-	citecolor={blue!50!black},
-	urlcolor={blue!80!black}
-}
-
-\usepackage{tikz}
-
-%% TITLESEC: Sections formatting
-% -----------------------------------------
-\usepackage{titlesec}
-% title sec is bugged on texlive-full deb. use this to correct it.
-% Source: https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1574052
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
-\patchcmd{\ttlh@hang}{\noindent}{}{}{}
-\makeatother
-% -----------------------------------------
-% less spaced \paragraph sections
-\titlespacing{\paragraph}{0pc}{0.0ex plus .1ex minus .2ex}{1pc}
-%{12pc}{1.5ex plus .1ex minus .2ex}{1pc}
-
-% Fancy chapters.. more on: https://ctan.org/pkg/fncychap
-%Options: Sonny, Lenny, Glenn, Conny, Rejne, Bjarne, Bjornstrup, PetersLenny
-\usepackage[Bjornstrup]{fncychap}
-
-% Numbering and TOC for: 
-% Chapters(0), Sections(1), subsections(2), subsubsections(3)
-\setcounter{tocdepth}{2}
-\setcounter{secnumdepth}{3}
-
-% highlight
-\usepackage{soul}
-%\setulcolor{red}
-%\sethlcolor{blue}
-%\renewcommand\ul[1]{#1} % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-%\renewcommand\hl[1]{#1} % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+\input{config.tex}
 
 \begin{document}
 
@@ -106,6 +36,8 @@
 \listoftables
 \cleardoublepage
 \listoffigures
+\cleardoublepage
+\lstlistoflistings
 
 \listoftodos
 

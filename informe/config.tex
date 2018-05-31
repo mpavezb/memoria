@@ -1,0 +1,223 @@
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babelbib}
+\usepackage{enumitem} % opciones para itemize 
+
+% ------------- Imágenes -------------------------------------- %
+\usepackage[pdftex]{graphicx}	% Para Archivos gráficos         %
+\usepackage{float}				% Para usar H!                   %
+\usepackage[section]{placeins}	% auto \FloatBarrier por sección %
+\usepackage{caption}			% [font=small,labelfont=bf]      %
+\usepackage{subcaption}         % Caption para subfiguras        %
+\usepackage{sidecap}            % Captions al lado               %
+\usepackage{wrapfig}            % Escribir alrededor             %
+\graphicspath{{./figures/}}     % Agrega Path para buscar imgs.  %
+% ------------------------------------------------------------- %
+
+% = = = = = = = = = = = = = = = = = = = = = = =
+% TODO NOTES
+% = = = = = = = = = = = = = = = = = = = = = = =
+\usepackage[pdftex,dvipsnames,table]{xcolor}  % Coloured text etc.
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny,disable]{todonotes}
+\newcommand{\todoimplementation}[1]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,inline]{CODE ME: #1}}
+\newcommand{\todopaused}[1]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,inline]{PAUSED: #1}}
+\newcommand{\todounsure}[1]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,inline]{UNSURE: #1}}
+\newcommand{\todolater}[1]{\todo[linecolor=black,backgroundcolor=black!25,bordercolor=black,inline]{LATER: #1}}
+\newcommand{\todoimprove}[1]{\todo[linecolor=yellow,backgroundcolor=yellow!25,bordercolor=yellow,inline]{IMPROVEMENT: #1}}
+\newcommand{\todowrite}[1]{\todo[linecolor=purple,backgroundcolor=purple!25,bordercolor=purple,inline]{WRITE ME: #1}}
+\setlength{\marginparwidth}{0.5in} % mostrar correctamente todos al margen 
+% = = = = = = = = = = = = = = = = = = = = = = =
+
+
+\hypersetup{
+	colorlinks,
+	linkcolor={black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+\usepackage{tikz}
+
+%% TITLESEC: Sections formatting
+% -----------------------------------------
+\usepackage{titlesec}
+% title sec is bugged on texlive-full deb. use this to correct it.
+% Source: https://bugs.launchpad.net/ubuntu/+source/texlive-extra/+bug/1574052
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% -----------------------------------------
+% less spaced \paragraph sections
+\titlespacing{\paragraph}{0pc}{0.0ex plus .1ex minus .2ex}{1pc}
+%{12pc}{1.5ex plus .1ex minus .2ex}{1pc}
+
+% Fancy chapters.. more on: https://ctan.org/pkg/fncychap
+%Options: Sonny, Lenny, Glenn, Conny, Rejne, Bjarne, Bjornstrup, PetersLenny
+\usepackage[Bjornstrup]{fncychap}
+
+% Numbering and TOC for: 
+% Chapters(0), Sections(1), subsections(2), subsubsections(3)
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+% highlight
+\usepackage{soul}
+%\setulcolor{red}
+%\sethlcolor{blue}
+%\renewcommand\ul[1]{#1} % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+%\renewcommand\hl[1]{#1} % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+%%----- Colores --------------------------------------------------%
+%\usepackage{color}												%
+%\usepackage{colortbl}											%
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}			%
+%\definecolor{gray}{rgb}{0.51,0.51,0.51}							%
+%\definecolor{dkgreen}{rgb}{0,0.6,0}								%
+%\definecolor{mauve}{rgb}{0.58,0,0.82}							%
+%%----------------------------------------------------------------%
+
+
+% -------------------------------------------------------------------- %
+% ----- LISTINGS ----------------------------------------------------- %
+% -------------------------------------------------------------------- %
+\usepackage{listingsutf8}
+
+\renewcommand{\lstlistingname}{C\'odigo}
+\renewcommand{\lstlistlistingname}{Listado de \lstlistingname s}
+
+% ---------------------------------------------------------%
+% --------------- LENGUAJES -------------------------------%
+% ---------------------------------------------------------%
+
+% --- XML de ROS ----------->
+\lstdefinelanguage{/XML/ROS}{
+	sensitive=false,
+	morestring=[b]",
+	%morestring=[s]{>}{<},
+	morecomment=[s]{<!--}{-->},
+	morecomment=[s]{<?}{?>},
+	morekeywords={master, include, launch, node, param, rosparam, group, machine, arg} % list of attributes
+}
+
+% --- YAML de ROS ----------->
+\lstdefinelanguage{/YAML/ROS}{
+	sensitive=false,
+	morecomment=[l]{\#}
+}
+
+% --- MSG de ROS ----------->
+\lstdefinelanguage{/ROS/MSG}{
+	sensitive=true,
+	morecomment=[l]{\#},
+	morekeywords={
+		uint32, uint8, string, float32, int32, bool,
+		ltm, What, When, Where, Info, Date, Episode,
+		Relevance, EmotionalRelevance, HistoricalRelevance, 
+		geometry\_msgs,Point,time
+	}
+}
+
+
+% --------------------------------------------------------%
+% --------------- ESTILOS  -------------------------------%
+% --------------------------------------------------------%
+\lstdefinestyle{/Style/code}{
+	%
+	% ---- structure ----
+	%title=\lstname,                    % show filename of files of title
+	caption=\lstname,                   % also try caption instead
+	captionpos=t,                       % caption-position to bottom
+	basicstyle=\scriptsize\ttfamily,    % \footnotesize
+	columns=fullflexible,               % %fixed
+	tabsize=2,
+	aboveskip={1.5\baselineskip},
+	%
+	% ---- numbers ----
+	numbers=left,
+	stepnumber=1,
+	numbersep=5pt,                      % distance(line-numbers, code)
+	numberstyle=\tiny\color{gray},      % for line-numbers	
+	%
+	% ---- shows ----
+	showspaces=false,                   % spaces with particular underscores
+	showstringspaces=false,             % underline spaces within strings
+	showtabs=false,                     % tabs with particular underscores
+	frame=false,                        % adds a frame around the code 
+	%                                   % false, tb, shadowbox, single, lines
+	%
+	% ---- color ----
+	backgroundcolor=\color{white},
+	rulecolor=\color{black},
+	%
+	% ---- break ----
+	breakatwhitespace=false,            % automatic breaks should only happen at whitespace
+	breaklines=true,                    % automatic line breaking
+	%                                   % Simbolo mostrado para el breakline
+	prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+	%
+	% ---- Extras ----
+	%escapeinside={\%*}{*)},         	% LaTeX within your code
+	extendedchars=true,
+	inputencoding=utf8/latin1 			% Tildes
+}
+
+\lstdefinestyle{/Style/C}{
+	language=C,
+	keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+	identifierstyle=\ttfamily,
+	commentstyle=\color[rgb]{0.133,0.545,0.133},
+	stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+	style=/Style/code
+}
+\lstdefinestyle{/Style/C++}{
+	language=C++,
+	keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+	identifierstyle=\ttfamily,
+	commentstyle=\color[rgb]{0.133,0.545,0.133},
+	stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+	style=/Style/code
+}
+\lstdefinestyle{/Style/XML/ROS}{
+	language=/XML/ROS,
+	stringstyle=\color{WildStrawberry},
+	identifierstyle=\color{RoyalPurple},
+	keywordstyle=\color{Emerald},
+	%commentstyle=\color{Purple},	de los <? ?>
+	commentstyle=\color{Blue},
+	style=/Style/code
+}
+\lstdefinestyle{/Style/sh}{
+	language=sh,
+	stringstyle=\color{WildStrawberry},
+	identifierstyle=\color{RoyalPurple},
+	keywordstyle=\color{red},
+	commentstyle=\color{Blue},
+	style=/Style/code
+}
+\lstdefinestyle{/Style/yaml/ROS}{
+	language=/YAML/ROS,
+	stringstyle=\color{Black},
+	identifierstyle=\color{Black},
+	keywordstyle=\color{Black},
+	commentstyle=\color{Blue},
+	style=/Style/code
+}
+
+\lstdefinestyle{/Style/ROS/MSG}{
+	language=/ROS/MSG,
+	stringstyle=\color{Black},
+	identifierstyle=\color{Black},
+	keywordstyle=\bf\color{Orange},
+	commentstyle=\color{Gray},
+	style=/Style/code
+}
+
+% custom caption for listings
+\usepackage{caption}
+\DeclareCaptionFont{listingfont}{\color{white}}
+\DeclareCaptionFont{listinglabelfont}{\bf\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=listinglabelfont,textfont=listingfont}
