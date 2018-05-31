@@ -12,12 +12,60 @@ Es éste capítulo se describe la implementación del proyecto, a partir de las 
 % ==============================================================================
 % ==============================================================================
 
-Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describe la estructura elegida para el servidor LTM y los plugins para recolección de información episódica, junto al proceso de instalación del cada componente.
+Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del proyecto, la estructura elegida para el servidor LTM, y la estructura para los plugins encargados de la recolección de información episódica.
 
 \subsection{Dependencias}
 
-% MongoDB y warehouse_ros_mongo
-% packate aún no está disponible en canal oficial para ROS kinetic, debe ser descargado desde su repositorio oficial: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}
+A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Éstas se dividen en las siguientes categorías: de sistema, del lenguaje C++, del lenguaje Python y de ROS.
+
+\todoimprove{Añadir versión de cada dependencia.}
+
+\subsubsection{Sistema}
+
+El proyecto fue desarrollado en Linux, Ubuntu 16.04, utilizando la distribución \textit{kinetic} de ROS, la que cuenta con soporte hasta Abril del año 2021. A pesar de lo anterior, el sistema debería ser compatible con versiones más recientes de ROS y Ubuntu, siempre que existan las dependencias mostradas en las siguientes secciones. A continuación se muestra el listado de paquetes extra, requeridos para el funcionamiento del proyecto.
+
+\begin{itemize}
+\item {\bfseries mongodb-server}: Paquete de software que contiene el servidor de MongoDB para Ubuntu 16.04.
+\end{itemize}
+
+
+\subsubsection{Dependencias C++}
+
+El servidor fue implementado completamente utilizando C++, bajo el estándar C++03, que es soportado por la mayoría de los compiladores actuales y es el utilizado por defecto en ROS kinetic. A continuación se listan las dependencias de C++ utilizadas para la implementación del servidor.
+
+\begin{itemize}
+	\item {\bfseries mongo-cxx-driver}: Driver oficial para mongodb en C++. Más información en su repositorio oficial: \url{https://github.com/mongodb/mongo-cxx-driver.git}. 
+	\item {\bfseries Boost Geometry}: Utilizado para el cómputo de la envoltura convexa y para el cálculo del centroide de un polígono.
+\end{itemize}
+
+
+\subsubsection{Dependencias Python}
+
+Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Ya que el servidor está completamente implementado en C++, las siguientes dependencias son sólo para los módulos específicos para la integración con Bender.
+
+\begin{itemize}
+\item {\bfseries cv2}: Librería OpenCV 2. Utilizada para insertar imágenes ficticias en entidades. 
+\item {\bfseries faker}: Librería utilizada para la generación de datos ficticios para entidades. Más información en su web oficial: \url{https://github.com/joke2k/faker}.
+\end{itemize}
+
+\todoimplementation{Mover JSON loader fuera del package principal?}
+
+\subsubsection{Dependencias ROS}
+
+A continuación se listan las dependencias de paquetes ROS utilizados para la implementación del servidor.
+\begin{itemize}
+	\item Suite estándar de mensajes y servicios: std\_srvs, std\_msgs, geometry\_msgs, sensor\_msgs.
+	\item {\bfseries pluginlib}: Librería estándar para la implementación de plugins en ROS.
+	\item {\bfseries warehouse\_ros\_mongo}: Interfaz ROS para el almacenamiento de mensajes en MongoDB. Es una librería estándar, pero por errores al actualizar versiones de ROS, el paquete aún no está disponible en el canal oficial para ROS kinetic. Más información en el repositorio oficial: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}.
+\end{itemize}
+
+Las siguientes dependencias extra, son paquetes ROS utilizados para la implementación de componentes específicas para el robot Bender.
+\begin{itemize}
+\item {\bfseries smach, smach\_ros}: Librería SMACH. Utilizada para la implementación de la interfaz episódica con máquinas de estado.
+\item {\bfseries cv\_bridge}: Interfaz ROS con librería OpenCV. Utilizado para el manejo de imágenes en los plugins.
+\end{itemize}
+\todopaused{Actualizar dependencias tras integración.}
+
 
 
 \subsection{Paquete ROS: \texttt{ltm}}

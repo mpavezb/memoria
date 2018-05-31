@@ -413,6 +413,8 @@ A continuación presentan las decisiones de diseño seguidas para la representac
 
 \todolater{Agregar listado de mensajes y servicios en los anexos.}
 
+\todowrite{Agregar diagrama explicando anidamiento, transposición.}
+
 \subsection{Formato y representación}
 
 % SOBRE ELECCIÓN DE MENSAJES DE ROS
@@ -855,13 +857,14 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 
 
 \subsection{Limitantes y trabajo futuro}
+
+El modelo de datos descrito está diseñado para satisfacer los requerimientos de software del proyecto, sin embargo, los siguientes aspectos no son cubiertos por el diseño y se consideran trabajo futuro.
+
+\todowrite{Identificar más limitantes}
 % - otras funcionalidades de interés: bkp, migrate a otro robot, ...
-
 % - metadatos de arreglos... por el driver ROS...
-
 % - cosa MD5
 
-.
 
 
 % ==============================================================================
@@ -870,8 +873,9 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % ==============================================================================
 % ==============================================================================
 %    - TODO: manejo de contexto
- .
- 
+.
+\todowrite{Escribir descripción de la sección.}
+
 % revisar requerimientos software asociados.
 
 \subsection{Manejo de episodios}
@@ -903,7 +907,7 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % - recopilación constante de posicionamiento del robot.
 % - provee listado de poses dado tiempos de inicio, fin de episodio.
 % - sólo recopila información cuando hay episodios registrados.
-
+.
 
 \subsubsection{Plugin: Emociones}
 
@@ -912,7 +916,7 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % - provee emoción más fuerte del periodo.
 % - rellenar metadatos 
 % - sólo recopilar info si hay episodios registrados.
-
+.
 
 \subsubsection{Plugin: \textit{Streams}}
 
@@ -921,9 +925,16 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % - sobre definición de colección
 % - sobre manejo de la colección: CRUD
 % - sobre API ROS asociada.
-
+.
 
 \subsubsection{Plugin: Entidades}
+
+% SOBRE: requerimientos del server
+% - sobre marcar inicio, fin
+% - sobre definición de colecciones
+% - sobre manejo de la colección: CRUD
+% - sobre API ROS asociada.
+.
 
 
 \subsection{Alcances y trabajo futuro}
@@ -1006,50 +1017,33 @@ La segunda versión debe ser integrada con el software del robot, una vez que se
 \subsection{Plugin para streams: Imágenes}
 
 % SOBRE: plugin
-% - plugin encargado de recolectar streams desde la memoria de trabajo del robot, para transformarlos en memoria semántica.
-% - 
-% - por qué elección del pluign... demostración y visualización.. la mejor descripción la da una imagen.
-
+Para los plugins encargados de proveer streams de datos se escogió la recopilación solamente de imágenes. Bender dispone de variados datos en su memoria de trabajo que son candidatos para ser almacenados en la memoria semántica, como por ejemplo: el sonido percibido en su micrófono, las nubes de puntos 3D percibidas por su sensor de profundidad, o los posiciones de sus efectores. Sin embargo, el almacenamiento de imágenes es muy útil, pues sirve para la demostración final, permite visualizar lo sucedido en el episodio, y la implementación puede servir para otras plataformas, pues las cámaras de video son un sensor muy común en las plataformas robóticas domésticas. Por motivos prácticos, se consideran dos versiones a implementar, una con información ficticia y otra que recopila datos desde el robot real.
 
 \todoimplementation{Proveer plugin agnóstico al robot, configurable a través de parámetros.}
 
-
-% SOBRE: requerimientos del server
-% - sobre marcar inicio, fin
-% - sobre definición de colección
-% - sobre manejo de la colección: CRUD
-% - sobre API ROS asociada.
-
-% SOBRE: Funcionamiento
-% - estrtategia de procesamiento
-% - buffer
-% - periodicidad
+Se utilizará la estrategia de funcionamiento propuesta en la Sección \ref{}, mediante el uso de un \textit{buffer} para almacenar las últimas imágenes percibidas. Luego, el plugin deberá entregar un vector con las imágenes asociadas al lapso episódico requerido. Además, el plugin deberá proveer una API para insertar, buscar, actualizar y borrar mensajes de la colección.
 % - ... revisar implementación ...
 
 % SOBRE: plugin dummy
-% - motivación.. sirve para simulación y pruebas, sin tener acceso al robot.
-% - generación de stream de imágenes a partir de un video
+La ``versión de prueba'' debe proveer imágenes obtenidas a partir de un archivo de video. Análogamente a los plugins anteriores, la motivación para esto, es poder acelerar la implementación del proyecto y poder ejecutar validaciones sin requerir el robot real.
 
 % SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
-% - sobre eso, siguiendo estrategia definida.
-% - otros de interés: sonido, pcl..
+La segunda versión debe ser integrada en el software robot, utilizando la API ROS para leer imágenes desde sus cámaras de video.
 
-.
 
 \subsection{Plugins para entidades}
-.
+
+Para los plugins encargados de definir entidades y recopilar sus cambios durante un episodio, se escogieron las entidades de ``Persona'' y ``Objeto''. Ésta selección fue realizada, pues son las entidades más utilizadas por el robot Bender, y probablemente las más significativas para todo robot de servicio doméstico. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Lugar'' y del ``Robot''. De manera similar al caso de los streams, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
+
 \todopaused{Requiere implementación funcional de plugin para entidades.}
 
-% SOBRE: plugin
-% - % memoria de trabajo a memoria semántica
-% - por qué elección del pluign.. entidades importantes para robots de servicio domésticos.
-% - % - Entidades: People, Objects, Robot, Location
 
 % SOBRE: requerimientos del server
 % - sobre marcar inicio, fin
 % - sobre definición de colecciones
 % - sobre manejo de la colección: CRUD
 % - sobre API ROS asociada.
+
 
 % SOBRE: Funcionamiento
 % - estrtategia de procesamiento

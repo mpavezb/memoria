@@ -503,27 +503,9 @@ ROS \cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que f
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
-%\todo[inline]{Más información sobre ROS. Lo que sea relevante para la implementación y el diseño.}
-
-%\subsubsection{Nodo}
-%
-%Mensajes y master
-%
-%\subsubsection{Tópicos}
-%
-%\subsubsection{Servicios}
-%
-%\subsubsection{Servidor de parámetros}
-%
-%\subsubsection{Launch}
-
-%\subsubsection{Herramientas}
-
-%\subsubsection{Actionlib}
-
-
 \subsubsection{Conceptos}
 % - distribuciones
+% - master
 % - mensajes
 % - tópicos
 % - servicios
@@ -531,6 +513,8 @@ Fue originalmente creado por la organización WillowGarage en el 2008, y manteni
 % - nodo
 % - transporte de información: RED, tcp/udp 
 % - package y dependencias
+.
+\todowrite{Agregar diagramas funcionamiento ROS??}
 
 \subsubsection{Herramientas}
 % - roslaunch
@@ -538,6 +522,7 @@ Fue originalmente creado por la organización WillowGarage en el 2008, y manteni
 % - rosbag (probablemente se ocupará para test suite)
 % - pluginlib: muy utilizada. dependencia confiable y mantención
 % - warehouse_ros_mongo. Utilizada también por MoveIt, por dependencia confiable y mantención
+.
 
 
 \subsection{Smach}
@@ -545,10 +530,11 @@ Fue originalmente creado por la organización WillowGarage en el 2008, y manteni
 % - Overview
 % - Sobre su uso común
 % - Ejemplos de máquinas de estado y sus alcances
+.
+\todowrite{Agregar diagrama con ejemplo de máquina de estado: desde smach\_viewer}
 
 \subsection{UChile ROS Framework}
 %% -----------------------------------------------------------------------------
-% - copiar cosas del preinforme
 % - módulos de interés
 % - funcionando completamente en ROS. 
 % - sobre módulo uchile_knowledge de bajo nivel
@@ -563,6 +549,8 @@ URF está construido sobre ROS y en una estructura de 4 capas. La primera capa c
 	\caption{\small Diagrama de UChile ROS Framework utilizado en el robot Bender.}
 	\label{img:URF}
 \end{figure}
+
+\todoimprove{Figura en español}
 
 Todos los módulos de URF son de código libre, a excepción de los algoritmos relacionados con percepción y la interfaz de alto nivel. El código se almacena públicamente en la organización \textit{uchile-robotics} en GitHub\footnote{Organización \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
 
