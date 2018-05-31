@@ -69,6 +69,8 @@ Las siguientes dependencias extra, son paquetes ROS utilizados para la implement
 
 
 \subsection{Paquete ROS: \texttt{ltm}}
+
+
 % server
 % Interfaz episódica en SMACH
 % sobre separación de conceptos .. 
@@ -82,7 +84,7 @@ Las siguientes dependencias extra, son paquetes ROS utilizados para la implement
 % repositorios públicos, mantenidos en cuenta del autor del proyecto.
 \url{https://github.com/mpavezb/ltm\_samples}
 
-\todoimplementation{Separar en más packages???}
+\todoimplementation{Separar en más packages???.. uno con cosas ficticias y ejemplos.. otro con plugins para bender}
 
 
 \subsection{Detalles del software}
@@ -96,9 +98,10 @@ Las siguientes dependencias extra, son paquetes ROS utilizados para la implement
 
 \subsection{Documentación}
 
-.
-\url{https://github.com/mpavezb/ltm} archivo \texttt{README.md}.
-% información sobre instalación y tutoriales de uso del sistema.
+El software desarrollado para el servidor (paquete \texttt{ltm}), junto a los plugins de ejemplo para recopilación de información ficticia (paquete \texttt{ltm\_samples}), se encuentra documentado en el archivo \texttt{README.md} de repositorio de software ubicado en \url{https://github.com/mpavezb/ltm}.
+
+La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a un tutorial sobre el uso del servidor y la elaboración de plugins.
+
 \todoimplementation{Completar tutoriales o quitarlos del informe.}
 
 
@@ -111,15 +114,16 @@ Las siguientes dependencias extra, son paquetes ROS utilizados para la implement
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-% - mostrar MSG ROS implementados
-% - incluir MSGs para plugins
 
 En ésta sección se muestran los mensajes ROS implementados para manejar el concepto de episodios, los que son la base sobre la que se construye el sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
 
-\todounsure{Pongo código fuente de todos los mensajes definidos?.. los pongo en los anexos?.. }
-\lstset{style=/Style/ROS/MSG}
+\todounsure{Pongo código fuente de todos los mensajes definidos?.. los pongo en los anexos?.. son 3 páginas de sólo código!!}
+
 
 % \ref{lst:episode.msg}
+\subsection{Mensajes definidos por el servidor}
+
+\lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
 \lstinputlisting[caption=ltm/When.msg]{code/msg/When.msg}
 \lstinputlisting[caption=ltm/Where.msg]{code/msg/Where.msg}
@@ -128,6 +132,18 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 \lstinputlisting[caption=ltm/Relevance.msg]{code/msg/Relevance.msg}
 \lstinputlisting[caption=ltm/EmotionalRelevance.msg]{code/msg/EmotionalRelevance.msg}
 \lstinputlisting[caption=ltm/HistoricalRelevance.msg]{code/msg/HistoricalRelevance.msg}
+
+\subsection{Mensajes definidos por los plugins para Bender}
+
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm\_samples/ImageStream.msg]{code/msg/ImageStream.msg}
+\lstinputlisting[caption=ltm\_samples/PersonEntity.msg]{code/msg/PersonEntity.msg}
+\lstinputlisting[caption=ltm\_samples/PersonState.msg]{code/msg/PersonState.msg}
+\lstinputlisting[caption=ltm\_samples/ObjectEntity.msg]{code/msg/ObjectEntity.msg}
+\lstinputlisting[caption=ltm\_samples/ObjectState.msg]{code/msg/ObjectState.msg}
+%\lstinputlisting[caption=ltm\_samples/PlaceEntity.msg]{code/msg/PlaceEntity.msg}
+%\lstinputlisting[caption=ltm\_samples/RobotEntity.msg]{code/msg/RobotEntity.msg}
+%\lstinputlisting[caption=ltm\_samples/RobotState.msg]{code/msg/RobotState.msg}
 
 % ==============================================================================
 % ==============================================================================
@@ -204,6 +220,7 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 % - srv implementados
 % - Servicios que provee
 
+\lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/RegisterEpisode.srv]{code/srv/RegisterEpisode.srv}
 \lstinputlisting[caption=ltm/AddEpisode.srv]{code/srv/AddEpisode.srv}
 \lstinputlisting[caption=ltm/GetEpisode.srv]{code/srv/GetEpisode.srv}
@@ -218,6 +235,9 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 \subsubsection{Configuración mediante ROS}
 
 .
+\lstset{style=/Style/yaml/ROS}
+\lstinputlisting[caption=server.yaml]{code/config/server.yaml}
+\todounsure{Listing en los anexos??}
 
 \subsubsection{Launchfiles}
 
@@ -283,6 +303,8 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 % - buffer
 % - configurable
 % - Registro en pluginlib y configuración en el server
+
+\lstinputlisting[caption=ltm\_samples/ImageStreamSrv.srv]{code/srv/ImageStreamSrv.srv}
 
 .
 

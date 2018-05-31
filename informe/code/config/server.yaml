@@ -1,0 +1,77 @@
+# Sample configuration file for the LTM server.
+#
+# It loads all plugins defined in this package
+# - EmotionPlugin
+# - LocationPlugin
+# - ImageStreamPlugin
+# - PeopleEntityPlugin, ObjectsEntityPlugin, RobotEntityPlugin, LocationEntityPlugin
+
+
+# Server parameters
+db:          "ltm_db"
+collection:  "episodes"
+host:        "localhost"
+port:         27017
+timeout:      60.0
+
+
+# LTM plugins and parameters.
+# Each plugin must define the pluginlib class and its parameters
+plugins:
+
+  # Emotion Engine plugin
+  emotion:
+    # Class to load through pluginlib
+    class: "ltm_samples::EmotionPlugin"
+
+  # Robot location plugin
+  location:
+    # Class to load through pluginlib
+    class: "ltm_samples::LocationPlugin"
+
+  # Stream plugins
+  streams:
+    # List of names to consider. 
+    # For each name, you must declare its class and ROS parameters.
+    include: ["image"]
+
+    # ImageStream
+    image:
+      class: "ltm_samples::ImageStreamPlugin"
+      type: "images"
+      collection: "image_streams"
+      topic: "/robot/fake/sensors/camera/image_raw"
+      buffer_frequency: 3.0
+      buffer_size: 100
+
+  # Entity plugins
+  entities:
+    # List of names to consider. 
+    # For each name, you must declare its class and ROS parameters.
+    # include: ["people", "objects", "robot", "location"]
+    include: ["people", "objects"]
+
+    # PeopleEntityPlugin
+    people:
+      class: "ltm_samples::PeopleEntityPlugin"
+      type: "people"
+      collection: "person_entities"
+
+    # ObjectsEntityPlugin
+    objects:
+      class: "ltm_samples::ObjectsEntityPlugin"
+      type: "objects"
+      collection: "object_entities"
+
+    # RobotEntityPlugin
+    robot:
+      class: "ltm_samples::RobotEntityPlugin"
+      type: "robot"
+      collection: "robot_entity"
+
+    # LocationEntityPlugin
+    location:
+      class: "ltm_samples::LocationEntityPlugin"
+      type: "location"
+      collection: "location_entities"
+

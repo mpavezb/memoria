@@ -88,39 +88,6 @@
 \renewcommand{\lstlistingname}{C\'odigo}
 \renewcommand{\lstlistlistingname}{Listado de \lstlistingname s}
 
-% ---------------------------------------------------------%
-% --------------- LENGUAJES -------------------------------%
-% ---------------------------------------------------------%
-
-% --- XML de ROS ----------->
-\lstdefinelanguage{/XML/ROS}{
-	sensitive=false,
-	morestring=[b]",
-	%morestring=[s]{>}{<},
-	morecomment=[s]{<!--}{-->},
-	morecomment=[s]{<?}{?>},
-	morekeywords={master, include, launch, node, param, rosparam, group, machine, arg} % list of attributes
-}
-
-% --- YAML de ROS ----------->
-\lstdefinelanguage{/YAML/ROS}{
-	sensitive=false,
-	morecomment=[l]{\#}
-}
-
-% --- MSG de ROS ----------->
-\lstdefinelanguage{/ROS/MSG}{
-	sensitive=true,
-	morecomment=[l]{\#},
-	morekeywords={
-		uint32, uint8, string, float32, int32, bool,
-		ltm, What, When, Where, Info, Date, Episode,
-		Relevance, EmotionalRelevance, HistoricalRelevance, 
-		geometry\_msgs,Point,time
-	}
-}
-
-
 % --------------------------------------------------------%
 % --------------- ESTILOS  -------------------------------%
 % --------------------------------------------------------%
@@ -180,6 +147,17 @@
 	stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
 	style=/Style/code
 }
+
+% --- XML de ROS ----------->
+\lstdefinelanguage{/XML/ROS}{
+	sensitive=false,
+	morestring=[b]",
+	%morestring=[s]{>}{<},
+	morecomment=[s]{<!--}{-->},
+	morecomment=[s]{<?}{?>},
+	morekeywords={master, include, launch, node, param, rosparam, group, machine, arg} % list of attributes
+}
+
 \lstdefinestyle{/Style/XML/ROS}{
 	language=/XML/ROS,
 	stringstyle=\color{WildStrawberry},
@@ -197,20 +175,52 @@
 	commentstyle=\color{Blue},
 	style=/Style/code
 }
+
+
+% --- YAML de ROS ----------->
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+\lstdefinelanguage{/YAML/ROS}{
+    sensitive=false,
+    morestring=[b]",
+    morestring=[b]',
+    moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},
+    morecomment=[l]{\#}
+}
 \lstdefinestyle{/Style/yaml/ROS}{
 	language=/YAML/ROS,
-	stringstyle=\color{Black},
+	stringstyle=\color{Green},
 	identifierstyle=\color{Black},
-	keywordstyle=\color{Black},
-	commentstyle=\color{Blue},
+	keywordstyle=\color{Red},
+	commentstyle=\color{Gray},
 	style=/Style/code
 }
 
+
+% colores disponibles: https://en.wikibooks.org/wiki/LaTeX/Colors
+% --- MSG de ROS ----------->
+\lstdefinelanguage{/ROS/MSG}{
+	%	alsodigit={-},
+	alsoletter={},
+	sensitive=true,
+	comment=[l]{\#},
+	keywords=[1]{
+		uint32, uint8, string, float32, int32, bool, time,
+		geometry\_msgs,Point,sensor\_msgs,Image
+	},
+	keywords=[2]{
+		ltm, ltm\_samples, What, When, Where, Episode,
+		Info, Date, Relevance, EmotionalRelevance, HistoricalRelevance
+	},
+	%otherkeywords={---,=}
+}
 \lstdefinestyle{/Style/ROS/MSG}{
 	language=/ROS/MSG,
-	stringstyle=\color{Black},
+	stringstyle=\color{Green},
 	identifierstyle=\color{Black},
-	keywordstyle=\bf\color{Orange},
+	keywordstyle=[1]\bf\color{Red},
+	keywordstyle=[2]\bf\color{Blue},
 	commentstyle=\color{Gray},
 	style=/Style/code
 }
