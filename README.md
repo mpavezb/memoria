@@ -9,10 +9,13 @@
 - Universidad de Chile, Departamento de Ingeniería Eléctrica, Departamento de Ciencias de la Computación.
 
 
-### Repositorio de Software
+### Repositorios de Software Asociados
 
 - ROS package: [ltm](https://github.com/mpavezb/ltm)
+- ROS package: [ltm_addons](https://github.com/mpavezb/ltm_addons)
 - ROS package: [ltm_samples](https://github.com/mpavezb/ltm_samples)
+- ROS package: [bender_ltm](https://github.com/uchile-robotics/bender_ltm)
+- ROS package: [bender_emotion](https://github.com/uchile-robotics/bender_emotion)
 
 
 ### Versiones PDF
