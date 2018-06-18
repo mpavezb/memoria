@@ -9,6 +9,7 @@
 
 
 rm -f *.log
+rm -f *.lol
 rm -f *.aux
 rm -f *.out
 rm -f *.toc

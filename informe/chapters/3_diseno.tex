@@ -12,7 +12,7 @@ En este capítulo se revisa el diseño del sistema LTM implementado en el proyec
 
 A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto y las validaciones generadas a partir de ellos. Primero se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable. Para concluir, se presenta un conjunto de pruebas que busca validar cada requerimiento expuesto.
  
-\subsection{Requisitos de usuario}
+\subsection{Requisitos del proyecto}
 
 \todounsure{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
 
@@ -30,7 +30,7 @@ El primer conjunto de requisitos se obtiene a partir de los objetivos del proyec
 \item Memoria emocional debe ser soportada por el diseño, a pesar de no ser implementada.
 \end{itemize}
 
-El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:mem_robotica}. 
+El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:robotic_memory}. 
 
 El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar el concepto de relevancia histórica de episodios, similarmente a lo estudiado por XXX \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
 \todowrite{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
@@ -53,353 +53,14 @@ Para acotar el diseño, implementación y validaciones, a continuación se prese
 \end{itemize}
 \todounsure{En un principio se gastó tiempo con knowrob y prolog... que hago respecto a esto?? lo agrego al informe??... quito la inferencia de los objetivos secundarios??... donde escribo esto?}
 
-\subsection{Requerimientos de software}
+\subsection{Requerimientos de sistema}
 
-A continuación se presenta un listado (semiformal) de requisitos de software, generados a partir de los requisitos de usuario revisados en la sección anterior. Cada requisito de fue reformulado desde su versión difusa, a una descripción más precisa y verificable del requerimiento original. 
-\todounsure{Debo dar excusa sobre la informalidad del formato de presentación de requisitos?? Dan un poco de pena respecto a los visto en ING. Soft II, por ejemplo: link a requisito de usuario.. separación por tipo de requisito.. metadatos del requisito... matriz de trazabilidad... etc}
+\todowrite{Formalizar metadatos de requisitos de sistema, usuario, validaciones.}
 
-\paragraph{RS01}
-El sistema debe ser agnóstico respecto a la plataforma objetivo. No se puede asumir que estructuras de datos semánticas serán almacenadas para cada episodio. Debe permitir que usuarios definan las estructuras de datos semánticas a almacenar.
-
-\paragraph{RS02}
-El servidor debe ser implantado en el robot Bender. Debe ser agregado al proceso de instalación y su documentación.Debe ser configurado para ser ejecutado simultáneamente a los otros módulos.
-
-\paragraph{RS03}
-Se deben implementar instancias de cada componente genérico, enfocadas en el robot Bender.
-\begin{itemize}
-	\item Implementación de la interfaz para adquisición de episodios basados en librería SMACH.
-	\item Implementación de memoria semántica adecuada al robot: Información sobre personas y objetos.
-	\item El software dedicado al robot debe ser implementado en paquetes de ROS distintos del utilizado para el servidor LTM.
-\end{itemize}
-
-\paragraph{RS04}
-El servidor debe ser compatible con ROS, mediante una API ROS para acceder a todas sus funcionalidades.
-
-\paragraph{RS05}
-El servidor debe proveer servicios para las operaciones CRUD sobre los episodios manejados.
-
-\paragraph{RS06}
-Los episodios almacenados deben estar conectados bidireccionalmente con los datos semánticos relacionados.
-
-\paragraph{RS07}
-(R1) Episodios deben contener campo What, para almacenar memoria semántica. Ya que la memoria semántica es definida por el usuario, éste campo debe poder almacenar cualquier tipo de información.
-
-\paragraph{RS08}
-(R1) Episodios deben contener campo When, para almacenar tiempos de inicio y finalización del episodio. Debe poder manejar intervalos de tiempo desde segundos a años.
-
-\paragraph{RS09}
-(R1) Episodios deben contener campo Where, para almacenar información sobre la ubicación del robot durante su ocurrencia.
-
-\paragraph{RS10}
-(R2) Episodios deben ser indexados al menos por los campos What, When y Where.
-\todounsure{Cómo valido esto?}
-
-\paragraph{RS11}
-(R2) El servidor debe permitir realizar búsquedas de episodios con condiciones sobre la información almacenada para What, When, Where. Las condiciones de búsqueda deben permitir comparaciones {igualdad, mayor que, pertenencia} entre tipos de dato básicos {strings, números, bool}, asociados a los campos del episodio.
-
-\paragraph{RS12}
-(R3) Los episodios pueden crear entidades semánticas o actualizar las ya existentes.
-
-\paragraph{RS13}
-(R4)  Cada episodio ingresado a la memoria es único, a pesar de que existan similitudes con otros episodios.
-
-\paragraph{RS14}
-(R5) A partir de un episodio se puede acceder a episodios padre e hijos.
-
-\paragraph{RS15}
-(R6)  Lecturas de episodios deben mostrar la memoria semántica como se conocía en ese instante. Es decir, resultado de la consulta debe mostrar los campos asociados a entidades, como si nunca más hubieran cambiado.)
-
-\paragraph{RS16}
-(R7) Episodios pueden estar compuestos de sub-episodios.
-
-\paragraph{RS17}
-(R8) Pueden existir episodios simultáneos, y con distintos tiempos de inicio y fin.
-
-\paragraph{RS18}
-(R9) Se deben minimizar las dependencias de módulos de software externos para el funcionamiento del servidor. Particularmente:
-El sistema debe ser implementado en ROS y solamente utilizando las librerías estándar de Python y C++. La única excepción corresponde a la librería para el manejo de la base de datos a utilizar.
-No deben existir dependencias extra para los módulos de memoria semántica definidos por el usuario, ni para la representación de la memoria semántica.
-
-\paragraph{RS19}
-(R9) En caso que ya exista información semántica almacenada, los usuarios deben poder modificar su representación.
-
-\paragraph{RS20}
-(R10) El servidor debe tolerar una alta tasa de generación de eventos, sin degradar el funcionamiento del robot. Específicamente:
-\todoimprove{Esos valores de recursos fueron escogidos al azar!.. deben ser modificados.}
-\begin{itemize}
-	\item El funcionamiento base del sistema, es decir, con el servidor en ejecución y sin consultas funcionando, no debe exceder el uso del 15\% del CPU y 15\% de RAM del la plataforma objetivo.
-	\item Debe poder manejar al menos la generación de 10 eventos simultáneamente, sin exceder un aumento en el uso de recursos de un 10\%, relativo al costo de su funcionamiento base.
-	\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
-\end{itemize}
-
-
-\paragraph{RS21}
-(R11) Costos de operaciones CRUD deben escalar bien, respecto a la cantidad de datos almacenados. Particularmente, el costo en tiempo de las operaciones debe estar acotado en $O(n\ log\ n)$ respecto a la cantidad de episodios almacenados.
-
-\paragraph{RS22}
-Episodios deben tener un indicador numérico de relevancia histórica, el que debe ser degradado automáticamente con el paso del tiempo.
-
-\paragraph{RS23}
-Episodios deben tener, al menos, la siguiente información sobre la emoción del robot asociada al episodio: nombre de la emoción principal asociada, e indicador numérico que identifique la intensidad de la emoción. La estructura de datos y formato utilizado no debe depender de algún software emocional externo.
-
-\paragraph{RS24}
-Episodios deben tener un indicador numérico de relevancia episódica generalizado, que una los subsistemas de relevancia en sólo uno. El indicador debe ser actualizado automáticamente cuando cualquiera de los subindicadores sea actualizado.
-
-\paragraph{RS25}
-El robot Bender no dispone de módulos para el cómputo de emociones. Se deben implementar al menos 3 sistemas de generación de emociones para el robot, los que deben ser utilizados para la demostración.
-
-\paragraph{RS26}
-Episodios deben estar indexados por los siguientes indicadores numéricos de relevancia, sumado a la descripción de la emoción. Se deben poder realizar búsquedas utilizando éstos índices.
-
-\todolater{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH debe ser lo menos instrusiva posible.}
-
-\todolater{Requisito sobre que la implementación de la interfaz episódica implementada en SMACH no debe fallar / colgarse / arrojar excepciones por ningún motivo, para no sacrificar el funcionamiento del robot en caso de errores.}
 
 \subsection{Validaciones}
 
-A continuación se presenta un conjunto de validaciones para la implementación del sistema. Éstas son generadas directamente desde los requisitos planteados anteriormente, y además sirven como guía para el diseño e implementación del proyecto. Éstas se separan en 5 categorías: 1. Validaciones que se verifican directamente desde el diseño e implementación del sistema, 2. validaciones mediante la ejecución del sistema, 3. validaciones mediante consultas episódicas al servidor, 4. validaciones de eficiencia, y 5. validaciones de escalabilidad.
 
-\todoimprove{listado formal de validaciones basadas en requerimientos}
-
-\subsubsection{Validaciones por diseño e implementación}
-\paragraph{VA01 (RS01)}
-% estado [OK]
-Verificar que el que el proyecto no tiene ninguna dependencia en software propio del robot.
-
-\paragraph{VA02 (RS01)}
-% estado [OK]
-Verificar que el servidor admite la definición de estructuras de datos genéricas para la información semántica.
-
-\paragraph{VA03 (RS02)}
-% estado [PENDING]
-Verificar que el sistema LTM se encuentra documentado en la documentación del robot. La documentación debe incluir tutoriales de instalación y uso del sistema.
-
-\paragraph{VA04 (RS03)}
-% estado [PENDING]
-Verificar que existan implementaciones de entidades semánticas para personas y objetos.
-
-\paragraph{VA05 (RS03)}
-% estado [OK]
-Verificar que módulos de software implementados sean separados en al menos 2 paquetes de ROS. El primero debe contener el servidor LTM sin ninguna dependencia al robot. El resto debe contener los módulos extra implementados y deben depender del primero.
-
-\paragraph{VA06 (RS07)}
-% estado [OK]
-Verificar que el campo What de un episodio pueda almacenar cualquier estructura de datos que ROS sea capaz de manejar.
-
-\paragraph{VA07 (RS08)}
-% estado [OK]
-Verificar que episodios poseen campo When, para almacenar tiempo de inicio y finalización del episodio
-
-\paragraph{VA08 (RS13)}
-% estado [OK]
-Verificar que cada nuevo episodio disponga de un ID único entre el resto de los episodios ya almacenados.
-
-\paragraph{VA09 (RS18)}
-% estado [OK]
-Verificar que el paquete de ROS que implementa el servidor sólo tenga como dependencias: librerías estándar de C++ y Python, driver de la base de datos, paquetes estándar de ROS.
-
-
-\paragraph{VA10 (RS23)}
-% estado [OK]
-Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.
-
-
-\subsubsection{Validaciones mediante ejecución}
-
-\paragraph{VB01 (RS02)}
-% estado:  [PENDING]
-Verificar que el sistema LTM se instala correctamente en conjunto con la instalación del robot.
-
-\paragraph{VB02 (RS02)}
-% estado:  [PENDING]
-Verificar que tras iniciar el software base del robot, se encuentre activo el servidor LTM y sus API ROS.
-
-\paragraph{VB03 (RS03)}
-% estado:  [OK]
-Verificar que servidor almacena episodios generados a partir de la interfaz con SMACH. Se debe verificar que un set de máquinas de estado ejecutadas sea procesado correctamente.
-
-\paragraph{VB04 (RS04)}
-% estado:  [OK]
-Verificar que el paquete ROS provee herramientas para lanzar el servidor.
-
-\paragraph{VB05 (RS04)}
-% estado:  [OK]
-Verificar que el servidor provee API ROS para configurar sus parámetros.
-
-\paragraph{VB06 (RS05)}
-% estado:  [PENDING]
-Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar y borrar episodios. 
-
-\paragraph{VB07 (RS25)}
-% estado:  [PENDING]
-Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete de ROS dedicado.
-
-
-\subsubsection{Validaciones mediante consultas al servidor}
-
-\paragraph{VC01 (RS03)}
-% estado:  [TOO BROAD]
-Consultas relacionadas a entidades de personas y objetos!
-.
-\todowrite{PENDIENTE}
-
-
-\paragraph{VC02 (RS06)}
-% estado:  [PENDING]
-Obtener un episodio desde el servidor. A partir de él, acceder a datos semánticos definidos. Verificar que se pueda obtener referencia al episodio a partir de los datos semánticos obtenidos.
-
-\paragraph{VC03 (RS06)}
-% estado:  [PENDING]
-Obtener una entidad desde el servidor. A partir de ella, listar todos los episodios relacionados.
-
-\paragraph{VC04 (RS08)}
-% estado:  [OK]
-Verificar que el servidor permita almacenar episodios con duraciones de segundos, horas, días y años.
-
-\paragraph{VC05 (RS09)}
-% estado:  [TOO BROAD]
-Verificar que episodios contengan campo Where. Almacenar episodios utilizando distintas ubicaciones.
-.
-\todowrite{PENDIENTE}
-
-
-\paragraph{VC06 (RS11)}
-% estado:  [PENDING]
-Test R02: Search: Buscar episodios indexados por W-1.
-Test R03: Search: Buscar episodios indexados por W-2.
-Test R04: Search: Buscar episodios indexados por W-3.
-.
-\todowrite{PENDIENTE}
-
-
-\paragraph{VC07 (RS12)}
-% estado:  [PENDING]
-(R3 Flexibilidad)
-Test R05: Preguntar por datos aprendidos posteriormente.
-A: Interactúa con (a) y lo almacena.
-B: Interactúa con (a) o (b) y aprende dato sobre (a).
-C: Consulta sobre (a) muestra nuevo dato.
-Test R06: Preguntar por datos modificados posteriormente.
-A: Interactúa con (a) y lo almacena.
-B: Interactúa con (a) o (b) y modifica dato sobre (a).
-C: Consulta sobre (a) muestra dato modificado.
-.
-\todowrite{PENDIENTE}
-
-\paragraph{VC08 (RS14)}
-% estado:  [OK]
-Obtener un episodio desde el servidor. A partir de sus datos consultar por su episodio padre y episodios hijos.
-
-\paragraph{VC09 (RS15)}
-% estado:  [PENDING]
-(R6: Perspectiva)
-Test R10: Eventos recordados deben mantener perspectiva de la experiencia original.
-Episodio A: Habla con (a). Almacena que es estudiante de colegio.
-Episodio B: Habla con (a). Almacena que es estudiante de U.
-Recordar A: debe decir que (a) era estudiante de colegio.
-Recordar B: debe decir que (b) era estudiante universitario. 
-.
-\todowrite{PENDIENTE}
-
-\paragraph{VC10 (RS16)}
-% estado:  [OK]
-Test R11: Evento A con sub evento B (temporalmente)
-.
-\todowrite{PENDIENTE}
-
-
-\paragraph{VC11 (RS17)}
-% estado:  [OK]
-Generar dos eventos transpuestos en tiempo (campo \texttt{When}). Verificar que al obtener ambos eventos, sus datos sean correctos y no se haya mezclado la información semántica asociada.
-
-
-\paragraph{VC12 (RS19)}
-% estado:  [PENDING]
-Crear entidad semántica para el test con estructura A. Crear e ingresar M episodios que ocupen la estructura A. Modificar entidad y dejar en estructura B. Ingresar N episodios que utilicen estructura B. Realizar búsquedas de episodios con estructura A y de episodios con estructura B.
-
-
-\paragraph{VC13 (RS22)}
-% estado:  [PENDING]
-Generar episodios con antigüedades en el rango de 1 segundo hasta 5 años, espaciados por intervalos de horas (para los 24 primeros) y días, para los (365) siguientes y semanas para el resto. Forzar actualización de relevancias, leer todos los episodios y graficar su relevancia histórica, para verificar que es decreciente.
-
-\paragraph{VC14 (RS23)}
-% estado:  [PENDING]
-Consultar algún episodio de la base de datos. Verificar que dispone de campos de relevancia emocional: Indicador numérico para la intensidad de la emoción, y descripción de la emoción.
-
-\paragraph{VC15 (RS24)}
-% estado:  [PENDING]
-Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada.
-\begin{itemize}
-\item Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
-\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
-\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
-\end{itemize}
-
-\paragraph{VC16 (RS25)}
-% estado:  [PENDING]
-Generar episodios en donde se ocupe cada uno de los módulos generadores de emociones implementados para el robot Bender.
-
-\paragraph{VC17 (RS26)}
-% estado:  [PENDING]
-Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.
-
-\subsubsection{Validaciones de eficiencia}
-
-\todopaused{Reescribir validaciones una vez estas se hayan ejecutado!.}
-
-\todoimprove{Revisar pruebas de eficiencia de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
-
-\todowrite{Escribir en algún lado a que me refiero con estado/funcionamiento base.}
-
-Las siguientes validaciones tienen por objetivo medir la eficiencia del sistema LTM una vez implementado, y se construyen a partir del requisito de software (RS20). Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
-
-Se deben realizar las siguientes mediciones:
-\begin{enumerate}
-\item Uso de CPU y RAM cuando el servidor está en estado base.
-\item Uso de CPU, RAM y ancho de banda de disco, para consultas de búsqueda episódica (simples) a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
-\item Uso de CPU, RAM y ancho de banda de disco, para consultas de búsqueda episódica (complejas) a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
-\item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (sin información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
-\item Uso de CPU, RAM y ancho de banda de disco, para servicio de ingreso de episodios (con información semántica), a tasas de \{0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}[Hz].
-\end{enumerate}
-\todoimprove{hablar sobre simple/complejo es muy subjetivo.}
-
-\paragraph{VD01 (RS20)}
-En primer lugar, se debe validar que en estado base, el uso de CPU y RAM no exceda al 15\% del total disponible para el robot Bender.
-
-\paragraph{VD02 (RS20)}
-Se debe verificar que las operaciones de búsqueda no sobrepasen el uso de recursos en un 10\%, respecto al costo del funcionamiento base. Es decir, se admite hasta un 25\% del uso del total de recursos disponibles para el robot.
-\todoimprove{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
-
-\paragraph{VD03 (RS20)}
-Verificar que si al menos un 90\% de los recursos de CPU del robot se encuentran ocupados, el servidor LTM entra en modo de bajo consumo. En éste modo, el servidor no puede ocupar más del 5\% de recursos extra a los de su estado base, y todas las consultas deben ser postergadas.
-\todoimprove{Corregir esto: no tiene sentido postergar consultas de búsqueda.. sólo las de inserción!... (acumular episodios en RAM mientras) por último quitar este requerimiento!.}
-
-
-\subsubsection{Validaciones de escalabilidad}
-
-Las siguientes conjuntos de validaciones se construyen a partir del requisito de software (RS21). Tienen por objetivo medir el costo de tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos. En cada una se busca validar que la complejidad temporal de las operaciones se comporte de la forma $\mathcal{O}(n\log{}n)$.
-
-\todoimprove{Revisar pruebas de escalabilidad de Stachowicz \cite{Stachowicz2012}, y Vijayakumar \cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
-
-\todoimprove{Verificar que complejidad escogida tiene sentido!.}
-
-\begin{itemize}
-\item {\bf VE01 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{What}
-\item {\bf VE02 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{Where}
-\item {\bf VE03 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{When}
-\item {\bf VE04 (RS21)}: Tiempo de búsqueda vs. cantidad de episodios, según el campo \textit{What, When, Where}
-\item {\bf VE05 (RS21)}: Tiempo de inserción vs. cantidad de episodios.
-\item {\bf VE06 (RS21)}: Tiempo de borrado vs. cantidad de episodios.
-\end{itemize}
-\todounsure{Quizás las validaciones de búsqueda tienen más sentido al buscar por el tipo del campo (número, string, bool)}
-\todounsure{Quizás las validaciones de inserción deban ser separadas en casos con pocos-muchos streams-entidades... y caso en vacío... Finalmente todo dependerá de la calidad de la implementación del usuario.. pero tiene sentido validar los plugins que si se implementarán en el robot.}
-\todounsure{Creo que el tiempo de borrado no tiene sentido!, actualización quizás... pero no es una operación común... las operaciones comunes deben ser sólo inserción y búsqueda}
-
-\todounsure{No estoy seguro si tiene sentido agregar validaciones de escalabilidad en el uso de recursos del sistema: CPU, RAM, DISCO}
-%El segundo conjunto estudia el uso de recursos del sistema: CPU, disco y RAM.
-%\paragraph{VE07 (RS21)}: disk usage vs. \# episodes
-%\paragraph{VE08 (RS21)}: RAM usage vs. \# episodes
-%\paragraph{VE09 (RS21)}: CPU usage vs. \# episodes
 
 
 
@@ -408,6 +69,9 @@ Las siguientes conjuntos de validaciones se construyen a partir del requisito de
 \section{Diseño de episodios}
 % ==============================================================================
 % ==============================================================================
+
+\todowrite{AGREGAR DIAGRAMA GENERAL DEL SISTEMA... DB -- LTM -- PLUGINS -- USER}
+\todowrite{AGREGAR DIAGRAMA DE COMPONENTES y comunicación}
 
 A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol, diseñada para representar el anidamiento episódico. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
 
@@ -429,19 +93,13 @@ El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para es
 \paragraph{Tags:}
 Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste corresponde a un vector de \textit{strings} y permite almacenar descripciones breves sobre la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
 
-\paragraph{Representación:}
-Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le agregan los siguientes campos:
-\begin{itemize}
-\item Campo \texttt{uint32 uid}: Sirve para indicar el identificador único asignado al episodio.
-\item Campo \texttt{string[] tags}: Vector de tags, para almacenar todos los \textit{tags} asociados al episodio.
-\end{itemize}
-
  
 \subsection{Árboles de episodios}
 
 \todounsure{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
 
 \todounsure{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
+\todowrite{Nodo == Nodo interno}
 
 % SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
 \paragraph{Anidamiento episódico:}
@@ -459,15 +117,6 @@ Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se
 \paragraph{Noción de contexto:}
 Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos, pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
 
-% SOBRE EL MSG ROS
-\paragraph{Representación:}
-Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los ajustes siguientes al mensaje de ROS:
-\begin{itemize}
-\item Campo \texttt{uint32 parent\_id}: Sirve para indicar el campo \texttt{uid} del padre del episodio. Se reserva el valor $0$ de éste campo para representar el padre de un episodio raíz.
-\item Campo \texttt{uint32[] children\_ids}: Vector de \texttt{uid} asociadas a los episodios hijos. No existe condición sobre el orden temporal de los episodios hijos.
-\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
-\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
-\end{itemize}
  
 \todoimplementation{Se puede agregar condición de que hijos son ordenados por tiempo de inicio}
  
@@ -482,18 +131,6 @@ De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar i
 \paragraph{Estrategia de almacenamiento:}
 En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
 
-% SOBRE EL MENSAJE ROS
-\paragraph{Representación:}
-Entonces, se crea el mensaje \texttt{When.msg} para almacenar el contexto temporal del episodio, con los siguientes campos:
-\begin{itemize}
-	\item \texttt{time start}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}: Indica el instante en que se inicia el episodio.
-	\item \texttt{time end}: Indica el instante en que finaliza el episodio.
-\end{itemize}
-
-Y el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/When when}\footnote{El dominio \texttt{ltm/} hace referencia al nombre del paquete ROS donde se implementa el servidor y que contiene la definición de todos los mensajes relacionados.}: Se agrega una instancia del mensaje \texttt{When.msg}, para manejar el contexto temporal del episodio.
-\end{itemize}
 
  
 \subsection{Contexto espacial: \textit{Where}}
@@ -523,27 +160,6 @@ Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser
 Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el proyecto está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto sólo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de ésta.
 \todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
 \todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
-
-% SOBRE MENSAJE EPISODICO
-\paragraph{Representación:}
-Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
-\todopaused{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
-\begin{itemize}
-\item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
-\item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
-\item \texttt{string map\_name}: Indica el nombre del mapa utilizado, en el cual se ubican la posición descrita y el sistema de coordenadas elegido. 
-\item \texttt{string location}: Nombre del lugar donde se encontraba el robot al momento del episodio.
-\item \texttt{string area}: Nombre del área en donde se ubica el lugar descrito por \texttt{location}. 
-\item \texttt{geometry\_msgs/Point[] children\_hull}:
-\item \texttt{string[] children\_locations}:
-\item \texttt{string[] children\_areas}:
-\end{itemize}
-
-
-Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-\item \texttt{ltm/Where where}: Se agrega una instancia del mensaje \texttt{Where.msg}, para manejar el contexto espacial del episodio.
-\end{itemize}
 
 
 \subsection{Memoria semántica: \textit{What}}
@@ -609,19 +225,6 @@ Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por l
 \todopaused{Escribir más cuando esté implementado}
 
 
-% MSG ROS
-\paragraph{Representación:}
-Luego, se crea un mensaje de tipo \texttt{Relevance.msg}, para almacenar las sub-relevancias del episodio y la relevancia generalizada. El mensaje es creado como sigue:
-\begin{itemize}
-\item TODO
-\end{itemize}
-\todopaused{Agregar representación de relevancia generalizada, una vez que sea implementada.}
-
-Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/Relevance relevance}: Se agrega una instancia del mensaje \texttt{Relevance.msg}, para almacenar toda la información relacionada a los indicadores de relevancia del episodio.
-\end{itemize}
-
 
 \subsection{Relevancia emocional}
 
@@ -645,25 +248,6 @@ En primer lugar, se define un conjunto de 8 emociones base para la representaci�
 Además, para simplificar la introspección de episodios a futuro, se decide agregar metadatos para indicar: software emocional utilizado y su versión, conjunto de salidas registradas por el software emocional y sus valores de intensidad. Es importante enfatizar que estos datos sólo deben ser utilizados para introspección y no tienen influencia en el cálculo de ninguna relevancia.
 \todolater{Actualizar esto en caso de modificar metadatos}
 
-% MSG ROS
-\paragraph{Representación:}
-Considerando lo anterior, se crea el mensaje \texttt{EmotionalRelevance.msg}, utilizando los siguientes campos:
-\begin{itemize}
-\item \texttt{int32 emotion}: Valor que hace referencia a una de las 8 emociones base. En el caso de episodios nodo, hace referencia a la emoción con mayor relevancia.
-\item \texttt{float32 value}: Intensidad de la emoción seleccionada. Válido para episodios nodo y hojas.
-\item \texttt{int32[] children\_emotions}: Vector con identificadores de las 8 emociones base. Sólo es utilizado por episodios nodo.
-\item \texttt{float32[] children\_values}: Vector con intensidades de cada una de las 8 emociones base. Sólo es utilizado por episodios nodo.
-\item \texttt{string software}: Metadato. Nombre del sistema emocional utilizado.
-\item \texttt{string software\_version}: Metadato. Versión del sistema emocional utilizado.
-\item \texttt{string[] registered\_emotions}: Metadato. Descripción de emociones encontradas por el software generador de emociones. 
-\item \texttt{float32[] registered\_values}: Metadato. Intensidades de emociones descritas en el campo \texttt{registered\_emotions}.
-\end{itemize}
-
-
-Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/EmotionalRelevance emotional}: Se agrega una instancia del mensaje ROS de tipo \texttt{EmotionalRelevance.msg}, para almacenar la información emocional relativa al episodio.
-\end{itemize}
 
 
 \subsection{Relevancia histórica}
@@ -683,19 +267,6 @@ El valor de la relevancia debe ser manejado automáticamente por el servidor LTM
 
 \todopaused{Sobre la tasa de decaimiento histórica implementada.}
 
-% MENSAJE ROS
-\paragraph{Representación:}
-Considerando lo anterior, se crea el mensaje \texttt{HistoricalRelevance.msg}, utilizando los siguientes campos:
-\begin{itemize}
-	\item \texttt{float32 value}: Indicador numérico de la relevancia histórica del episodio.
-	\item \texttt{ltm/Date last\_update}\footnote{\texttt{ltm/Date} corresponde a un mensaje ROS auxiliar definido en el paquete \texttt{ltm}, para representar una fecha mediante los campos: día, mes y año.}: Fecha de la última vez que el indicador fue actualizado.
-	\item \texttt{ltm/Date next\_update}: Fecha de la próxima actualización agendada.
-\end{itemize}
-
-Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
-\end{itemize}
 
 
 \subsection{Datos para introspección}
@@ -704,24 +275,6 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \paragraph{Metadatos:}
 El último conjunto de datos considerado para almacenar junto a cada episodio es denominado \textit{Metadatos}. Éstos no están ligados a algún requerimiento de software, por lo que no son formalmente necesarios, sin embargo, permiten almacenar datos útiles para la implementación LTM, y sirven para conocer información sobre el software utilizado para almacenar cada episodio. Los \textit{Metadatos} tienen como finalidad ser de utilidad al resolver problemas relacionados al software LTM, y para cuando los usuarios deseen conocer el contexto de software sobre el cual fue generado el episodio.
 
-% MENSAJE ROS
-\paragraph{Representación:}
-Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes campos:
-\begin{itemize}
-%\texttt{int32 n\_usages}:     % e.g. 10
-\item \texttt{string source}: Permite un nombre asociado a la fuente del episodio. Por ejemplo, ``smach'', ``json'' o ``dummy''.
-\item \texttt{time creation\_date}: Sirve para indicar la fecha de creación del episodio, la que puede diferir del tiempo indicado en el campo \texttt{When}.
-% \item \texttt{time last\_access}:  Sirve para indicar la fecha del último acceso al episodio.
-\item \texttt{string ltm\_version}: Versión del sistema LTM utilizado. Por ejemplo, ``0.0.0''.
-\item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
-\item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
-\end{itemize}
-\todolater{Corregir campos con los de la versión final.}
-
-Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
-\begin{itemize}
-	\item \texttt{ltm/Info info}: Se agrega una instancia del mensaje \texttt{Info.msg}, para almacenar los metadatos del episodio.
-\end{itemize}
 
 
 \subsection{Limitantes y trabajo futuro}
@@ -795,13 +348,6 @@ Debido a los requisitos de software \hl{(RSXX) y (RSXX)}, cada episodio debe ser
 \todowrite{Sobre consultas episódicas que debe soportar el modelo.}
 
 
-% MODIFICACIÓN DEL MENSAJE ROS
-Una vez definido que los mensajes para \textit{streams} y entidades serán almacenados en colecciones propias, queda la definición del mensaje \texttt{What.msg}, encargado de almacenar las referencias a cada dato semántico relacionado al episodio. Para ello, se modifica el mensaje \texttt{Episode.msg}:
-\begin{itemize}
-	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
-\end{itemize}
-
-
 
 \subsection{Colecciones de streams}
 
@@ -820,16 +366,6 @@ Utilizando la configuración por defecto de \textit{MongoDB}, el límite de tama
 % - cambio de representación (MD5)
 \todopaused{Sobre la modificación de la estructura del stream... MD5...}
 
-
-
-% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
-\paragraph{Representación:}
-Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar referencias a los \textit{streams} almacenados.
-\begin{itemize}
-	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
-\end{itemize}
-
-\todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
 
 \subsection{Colecciones de entidades}
 
@@ -851,9 +387,7 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 % - cambio de representación (MD5)
 \todopaused{Sobre la modificación de la estructura de entidades... MD5...}
 
-% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
-\paragraph{Representación:}
-% TODO
+
 
 
 \subsection{Limitantes y trabajo futuro}

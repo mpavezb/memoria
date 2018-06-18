@@ -132,27 +132,154 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 % \ref{lst:episode.msg}
 \subsection{Mensajes definidos por el servidor}
 
+\paragraph{Representación:}
+Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le agregan los siguientes campos:
+\begin{itemize}
+	\item Campo \texttt{uint32 uid}: Sirve para indicar el identificador único asignado al episodio.
+	\item Campo \texttt{string[] tags}: Vector de tags, para almacenar todos los \textit{tags} asociados al episodio.
+\end{itemize}
+
+% SOBRE EL MSG ROS
+\paragraph{Representación:}
+Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los ajustes siguientes al mensaje de ROS:
+\begin{itemize}
+	\item Campo \texttt{uint32 parent\_id}: Sirve para indicar el campo \texttt{uid} del padre del episodio. Se reserva el valor $0$ de éste campo para representar el padre de un episodio raíz.
+	\item Campo \texttt{uint32[] children\_ids}: Vector de \texttt{uid} asociadas a los episodios hijos. No existe condición sobre el orden temporal de los episodios hijos.
+	\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
+	\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
+\end{itemize}
+
+% SOBRE EL MENSAJE ROS
+\paragraph{Representación:}
+Entonces, se crea el mensaje \texttt{When.msg} para almacenar el contexto temporal del episodio, con los siguientes campos:
+\begin{itemize}
+	\item \texttt{time start}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}: Indica el instante en que se inicia el episodio.
+	\item \texttt{time end}: Indica el instante en que finaliza el episodio.
+\end{itemize}
+
+Y el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/When when}\footnote{El dominio \texttt{ltm/} hace referencia al nombre del paquete ROS donde se implementa el servidor y que contiene la definición de todos los mensajes relacionados.}: Se agrega una instancia del mensaje \texttt{When.msg}, para manejar el contexto temporal del episodio.
+\end{itemize}
+
+
+% SOBRE MENSAJE EPISODICO
+\paragraph{Representación:}
+Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
+\todopaused{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
+\begin{itemize}
+	\item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
+	\item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
+	\item \texttt{string map\_name}: Indica el nombre del mapa utilizado, en el cual se ubican la posición descrita y el sistema de coordenadas elegido. 
+	\item \texttt{string location}: Nombre del lugar donde se encontraba el robot al momento del episodio.
+	\item \texttt{string area}: Nombre del área en donde se ubica el lugar descrito por \texttt{location}. 
+	\item \texttt{geometry\_msgs/Point[] children\_hull}:
+	\item \texttt{string[] children\_locations}:
+	\item \texttt{string[] children\_areas}:
+\end{itemize}
+
+
+Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/Where where}: Se agrega una instancia del mensaje \texttt{Where.msg}, para manejar el contexto espacial del episodio.
+\end{itemize}
+
+% MSG ROS
+\paragraph{Representación:}
+Luego, se crea un mensaje de tipo \texttt{Relevance.msg}, para almacenar las sub-relevancias del episodio y la relevancia generalizada. El mensaje es creado como sigue:
+\begin{itemize}
+	\item TODO
+\end{itemize}
+\todopaused{Agregar representación de relevancia generalizada, una vez que sea implementada.}
+
+
+Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/Relevance relevance}: Se agrega una instancia del mensaje \texttt{Relevance.msg}, para almacenar toda la información relacionada a los indicadores de relevancia del episodio.
+\end{itemize}
+
+% MSG ROS
+\paragraph{Representación:}
+Considerando lo anterior, se crea el mensaje \texttt{EmotionalRelevance.msg}, utilizando los siguientes campos:
+\begin{itemize}
+	\item \texttt{int32 emotion}: Valor que hace referencia a una de las 8 emociones base. En el caso de episodios nodo, hace referencia a la emoción con mayor relevancia.
+	\item \texttt{float32 value}: Intensidad de la emoción seleccionada. Válido para episodios nodo y hojas.
+	\item \texttt{int32[] children\_emotions}: Vector con identificadores de las 8 emociones base. Sólo es utilizado por episodios nodo.
+	\item \texttt{float32[] children\_values}: Vector con intensidades de cada una de las 8 emociones base. Sólo es utilizado por episodios nodo.
+	\item \texttt{string software}: Metadato. Nombre del sistema emocional utilizado.
+	\item \texttt{string software\_version}: Metadato. Versión del sistema emocional utilizado.
+	\item \texttt{string[] registered\_emotions}: Metadato. Descripción de emociones encontradas por el software generador de emociones. 
+	\item \texttt{float32[] registered\_values}: Metadato. Intensidades de emociones descritas en el campo \texttt{registered\_emotions}.
+\end{itemize}
+
+
+Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/EmotionalRelevance emotional}: Se agrega una instancia del mensaje ROS de tipo \texttt{EmotionalRelevance.msg}, para almacenar la información emocional relativa al episodio.
+\end{itemize}
+
+% MENSAJE ROS
+\paragraph{Representación:}
+Considerando lo anterior, se crea el mensaje \texttt{HistoricalRelevance.msg}, utilizando los siguientes campos:
+\begin{itemize}
+	\item \texttt{float32 value}: Indicador numérico de la relevancia histórica del episodio.
+	\item \texttt{ltm/Date last\_update}\footnote{\texttt{ltm/Date} corresponde a un mensaje ROS auxiliar definido en el paquete \texttt{ltm}, para representar una fecha mediante los campos: día, mes y año.}: Fecha de la última vez que el indicador fue actualizado.
+	\item \texttt{ltm/Date next\_update}: Fecha de la próxima actualización agendada.
+\end{itemize}
+
+Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
+\begin{itemize}
+	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
+\end{itemize}
+
+% MENSAJE ROS
+\paragraph{Representación:}
+Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes campos:
+\begin{itemize}
+	%\texttt{int32 n\_usages}:     % e.g. 10
+	\item \texttt{string source}: Permite un nombre asociado a la fuente del episodio. Por ejemplo, ``smach'', ``json'' o ``dummy''.
+	\item \texttt{time creation\_date}: Sirve para indicar la fecha de creación del episodio, la que puede diferir del tiempo indicado en el campo \texttt{When}.
+	% \item \texttt{time last\_access}:  Sirve para indicar la fecha del último acceso al episodio.
+	\item \texttt{string ltm\_version}: Versión del sistema LTM utilizado. Por ejemplo, ``0.0.0''.
+	\item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
+	\item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
+\end{itemize}
+\todolater{Corregir campos con los de la versión final.}
+
+Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
+\begin{itemize}
+	\item \texttt{ltm/Info info}: Se agrega una instancia del mensaje \texttt{Info.msg}, para almacenar los metadatos del episodio.
+\end{itemize}
+
+% MODIFICACIÓN DEL MENSAJE ROS
+Una vez definido que los mensajes para \textit{streams} y entidades serán almacenados en colecciones propias, queda la definición del mensaje \texttt{What.msg}, encargado de almacenar las referencias a cada dato semántico relacionado al episodio. Para ello, se modifica el mensaje \texttt{Episode.msg}:
+\begin{itemize}
+	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
+\end{itemize}
+
+% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
+\paragraph{Representación:}
+Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar referencias a los \textit{streams} almacenados.
+\begin{itemize}
+	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
+\end{itemize}
+
+\todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
+
+% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
+\paragraph{Representación:}
+% TODO
+
+
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
-\lstinputlisting[caption=ltm/When.msg]{code/msg/When.msg}
-\lstinputlisting[caption=ltm/Where.msg]{code/msg/Where.msg}
-\lstinputlisting[caption=ltm/What.msg]{code/msg/What.msg}
-\lstinputlisting[caption=ltm/Info.msg]{code/msg/Info.msg}
-\lstinputlisting[caption=ltm/Relevance.msg]{code/msg/Relevance.msg}
-\lstinputlisting[caption=ltm/EmotionalRelevance.msg]{code/msg/EmotionalRelevance.msg}
-\lstinputlisting[caption=ltm/HistoricalRelevance.msg]{code/msg/HistoricalRelevance.msg}
 
 \subsection{Mensajes definidos por los plugins para Bender}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm\_samples/ImageStream.msg]{code/msg/ImageStream.msg}
 \lstinputlisting[caption=ltm\_samples/PersonEntity.msg]{code/msg/PersonEntity.msg}
-\lstinputlisting[caption=ltm\_samples/PersonState.msg]{code/msg/PersonState.msg}
 \lstinputlisting[caption=ltm\_samples/ObjectEntity.msg]{code/msg/ObjectEntity.msg}
-\lstinputlisting[caption=ltm\_samples/ObjectState.msg]{code/msg/ObjectState.msg}
-%\lstinputlisting[caption=ltm\_samples/PlaceEntity.msg]{code/msg/PlaceEntity.msg}
-%\lstinputlisting[caption=ltm\_samples/RobotEntity.msg]{code/msg/RobotEntity.msg}
-%\lstinputlisting[caption=ltm\_samples/RobotState.msg]{code/msg/RobotState.msg}
 
 % ==============================================================================
 % ==============================================================================
@@ -241,11 +368,6 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 % - srv implementados
 % - Servicios que provee
 
-\lstset{style=/Style/ROS/MSG}
-\lstinputlisting[caption=ltm/RegisterEpisode.srv]{code/srv/RegisterEpisode.srv}
-\lstinputlisting[caption=ltm/AddEpisode.srv]{code/srv/AddEpisode.srv}
-\lstinputlisting[caption=ltm/GetEpisode.srv]{code/srv/GetEpisode.srv}
-\lstinputlisting[caption=ltm/UpdateTree.srv]{code/srv/UpdateTree.srv}
 
 
 \subsubsection{Consultas episódicas}
@@ -392,6 +514,8 @@ En ésta sección se muestran los mensajes ROS implementados para manejar el con
 % - REVISAR MATCH CON DISEÑO ESCRITO
 .
 \todopaused{Escribir cuando esté implementado}
+
+\todowrite{PONERSE EN EL LUGAR DE NO ALCANZAR A IMPLEMENTAR EN BENDER... PERO DEJAR PROPUESTA...}
 
 
 % ==============================================================================
