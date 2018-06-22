@@ -317,14 +317,8 @@ A continuación se presenta una revisión de sistemas LTM basados en la memoria 
 
 \subsubsection{Frameworks LTM}
 
-%\paragraph{MINERVA 2 (1988):} \cite{Douglas1988}
-%\cite{Jockel2008}
-%  MINERVA 2 [18] focus on schema abstraction, recognition, and frequency judgments and is best described as an existence proof: MINERVA 2 proves that it is possible to account for many aspects of memory for individual experiences (i.e., episodic memory) and memory for abstract concepts (i.e., generic or semantic memory) within a single system. MINERVA 2 does not prove that there is only a single system; rather, it proves it can be done.
-%In MINERVA 2, an item is represented as a vector of features in which each component is represented by the numbers 1, 0, or -1. Memory for an episode (e.g., for learning of a list of words) is a set of encoded vectors, with each event (word) being represented in a separate memory vector. The global similarity of a test item to a memory trace is determined by the sum of the product of each fea- ture in a probe vector and the feature in the corresponding position in the memory trace vector divided by the number of features for which either the probe or the memory trace are nonzero. Accordingly MIN- ERVA 2 has to compare a test item to all items in memory. In this model each item will be stored in an continually growing matrix of memory traces. Together with the implausible presumption that a biological memory increases linearly, prototype and exemplar stimuli theory are not capable to model and explain human sensitivity to changing frequency of occurence and the influence of the sample size [19]. Adaptability to robotics seemed to be questionable.
-
 \paragraph{SOAR-EM (2004):} 
 % Más info en: Sanchez:2015 , Stachowicz2012 , Deutsch2008
-
 % About
 Nuxoll y Laird \cite{Nuxoll2004ACM} presentaron SOAR-EM, una extensión con memoria episódica para la arquitectura SOAR \cite{LAIRD19871}. Ellos desarrollaron un sistema similar a PACMAN, donde la máquina debe moverse a través de una grilla para buscar ``comida'' lo más rápido posible. Utilizaron la memoria episódica para dar apoyo en la planificación de los movimientos del agente, mostrando que aquellos equipados con memoria episódica tienen un mejor desempeños que los que carecen de ella. 
 
@@ -334,82 +328,70 @@ En SOAR-EM un episodio es creado con datos de la STM por cada acción del agente
 
 \paragraph{ISAC (2005):}
 % Más info en: Sanchez:2015 , Stachowicz2012 , Deutsch2008
-
 En el año 2005 Ratanaswasd et al. \cite{Ratanaswasd2005} agregan memoria episódica al robot humanoide ISAC (Intelligent Soft Arm Control), enfocado en la manipulación de objetos. Los episodios son almacenados por su fecha y hora, combinados con todos los contenidos semánticos que aparecen en ese lapso. Luego, estos son recolectados para soportar la toma de decisiones en la planificación de trayectorias robóticas, bajo la suposición de que siempre existirá un episodio lo suficientemente similar a la situación actual. Más tarde, Dodd y Guitierrez \cite{Dodd2005} incorporaron 2 sistemas de relevancia episódica, para optimizar la búsqueda y eliminación de eventos según su intensidad; Incorporaron el sistema emocional de ISAC, para asignar una relevancia emocional a cada episodio. E incorporaron el concepto de relevancia histórica, donde eventos recientes son más importantes que los pasados, y experiencias novedosas tienen mayor puntaje que las comunes.
 
 Los datos almacenados cubren el Qué, Cuándo y Dónde requeridos por Clayton \cite{CLAYTON20092330}. Sin embargo, el diseño no provee la flexibilidad esperada en un sistema de memoria episódica:  Delimita los episodios por cambios en los objetivos generales de planificación del robot. No soporta el traslape ni la anidación de eventos. Y no queda claro si es suficientemente eficiente o escalable para cumplir con los requerimientos de un sistema episódico \cite{Stachowicz2012}.
 
+\paragraph{EPIROME (2008):} 
+% Más información en: \cite{Sanchez:2015}, Stachowicz2012
 
-%\paragraph{LIDA (2006):}\cite{Feinstone2006}
-%\cite{Jockel2008}
-% The Learning IDA (LIDA) architecture incorporates six major ar- tificial intelligence software technologies: the copycat architecture, sparse distributed memory, pandemonium theory, the schema mech- anism, the behavior net model, and the sub-sumption architecture [24]. LIDA is an extension for the Intelligent Distribution Agent (IDA) — which is a referred to as “conscious” software agent — by perceptual–, episodic–, and procedural–learning capabilities. It was created as model of human cognition that could be used to suggest possible answers to questions about the human mind. The authors designed and developed a practical application that could act like a human detailer, a person who negotiates with sailors about new jobs who are near the end of their current tours of duty. A percept in the LIDA architecture can be thought of as a set of elements of an ontology that are relevant to the stimulus. They or- ganise this information into a binary vector, where each field of one or more bits represents an element of the ontology [24]. A cue (the binary vector) will be used to query the content-addressable memo- ries, autobiographical memory (ABM) and transient episodic mem- ory (TEM). Both are based closely on Kanerva’s sparse distributed memory (SDM) [25], as already mentioned in the Sec. 1. A similar- ity between SDM circuits and those of the cerebellar cortex are noted by [11]. Unfortunately, in this approach the whole domain must be specified within an ontology ex ante. It is limited to the domain of providing new jobs to sailors.
+TASER es un robot de servicio enfocado a ambientes reales de oficina \cite{Jockel2007}. Jockel et al. proponen el uso de memoria episódica para apoyar con tareas y evitar trabajo innecesario. Por ejemplo, al revisar oficinas para ayudar buscando personas, podría evitar las que usualmente están vacías. Para ello, Jockel et al. desarrollaron el framework EPIROME \cite{Jockel2007,Jockel2008}. Sus simulaciones mostraron que los agentes con memoria episódica se adaptan más rápido a nuevas situaciones que aquellos que carecen de ella.
 
+A partir sus características \cite{Jockel2007,Jockel2008}, EPIROME no cumple con los requerimientos de un sistema de memoria episódica \cite{Stachowicz2012}: No dispone de almacenamiento de largo plazo, mecanismos de recolección de episodios, ni representaciones de los eventos almacenados.
 
-\paragraph{EPIROME (2008):} \cite{Jockel2008}
+\paragraph{ALIZ-E (2014):}
+ALIZ-E (Adaptative Strategies for Sustainable Long-Term Social Interaction) es un sistema cognitivo enfocado en la interacción natural con niños. Soniya Vijayakumar desarrolló una extensión de memoria episódica para ALIZ-E, basado en el funcionamiento de la memoria humana \cite{Vijayakumar2014}.  Su diseño está basado en requerimientos similares a los propuestos por Stachowicz \cite{Stachowicz2012}. Su módulo construye episodios en formato RDF (Resource Description Framework), a partir de los archivos de \textit{log} que genera el sistema tras cada interacción.
 
-%\cite{Sanchez:2015}
-%Jockel et al. [10] proposed EPIROME, a framework to develop and investigate high-level episodic memory mechanisms applied in the domain of service robotics, enabling their service robot TASER to collect autobiographical memories to improve action planning based on past experiences. A model of episodic memory for autonomous agents and its implementation was presented by Deutsch et al. [11]. This model was derived from theories from psychology and neuro-psychoanalysis, and their simulation showed that agents with the episodic memory adapt faster to new situations than memory-less agents.
-
-%Stachowicz2012
-% Episodic Memory in EPIROME: TASER is a service robot targeted at dynamic, real-world office environments [18]. Sample tasks proposed for such an environment include deliv- ering messages to project group members. Jockel et al. argue that an episodic memory module which continuously stores experience could help in solving such tasks or in avoiding unnecessary overhead in task execution. For example, if expe- rience indicated that usually there is nobody in the server room to whom a message could be delivered, this room would be excluded from places where the robot would look. To this end, Jockel et al. propose the EPIROME framework [18], [19]. It provides a software module developed in an ob- ject-oriented programming language in which event objects can be generated and further processed. Events generated during a robot run can be visualized. It is planned for EPIROME to add long-term storage and retrieval functionality to it. Two different possible approaches are mentioned in [18], [19]. EPIROME differs from other approaches in that events are typed, and arranged in a hierarchy. This hierarchy is modeled as a hierarchy of interfaces and classes in an ob- ject-oriented programming language. It consists of two layers. One is the domain-independent layer which is a static part of EPIROME and contains four interfaces: A (root) Event interface and and three subinterfaces of the latter (CommandE- vent, PerceptionalEvent, ExecutiveEvent). The domain-dependent layer contains interfaces and classes derived from one of these three types.
-%In its current state [18], [19], EPIROME clearly does not fulfil requirements for an episodic-like memory system. Neither have long-term storage or retrieval mechanisms been detailed yet, nor representations of stored events or episodes. Nevertheless, it is interesting to note EPIROME’s event type hierarchy as a newapproach towards a conceptual understanding ofexperience generated during robot runs. This could potentially be useful in several respects (if integrated with corresponding modules): To allow deliberate reasoning about events, to engage in dialogue about events, or simply for more focused retrieval strategies from a memory store. A major drawback of this approach, how- ever, results from the fact that the hierarchy must be specified in terms of interfaces and classes in an object-oriented program- ming language. Furthermore, the hierarchy must be defined a priori, and will thus always be static.
+Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esperados para su plataforma objetivo. Sin embargo, no aborda el diseño de metodologías para adquisición de episodios, ni la definición de información semántica, pues se enfoca en adaptar los archivos de \textit{log} preexistentes. Por otro lado, propone un caso de uso interesante para un robot social, a través de la adaptación de sus frases, según la información episódica almacenada, p.e., cambiando la frase ``Estoy feliz de verte'' a ``Estoy feliz de verte \textit{nuevamente}''. 
 
 
-%\paragraph{Tecuci (2005):}
-% D. Tecuci, “A generic episodic memory module,” University of Texas at Austin, Tech. Rep., 2005.D. Tecuci, “A generic episodic memory module,” University of Texas at Austin, Tech. Rep., 2005.
-% Deutsch2008
-%Tecici framework: Complejo. EM, no olvido ni emociones
-%The work of Tecuci [24] addresses the organization of a generic EM model, the maintenance due to changes, and the retrieval of stored memories. New episodes are interpreted on the basis of expectations the system has of what will happen. SM is used for encoding of episodes and provides general knowledge about the application domain like per- formable actions or perceivable goals. Episodes are grouped by “memory organization packets” and are organized in a similarity network. Both deliberate and spontaneous retrieval is considered. A limitation of this model is that no forgetting mechanism is implemented and the tight coupling of memories with emotions is not considered.
+\paragraph{Bender:}
+El año 2015 Sanchez et al. diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto) \cite{Sanchez:2015}. Este primer acercamiento es descrito en detalle en la Sección \ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
 
-%\paragraph{Ho et al. (2009):}\cite{Ho2009}
-% Deutsch2008
-%The goal of the work of Ho and Dautenhahn [26], [27] is to build a generic memory control architecture for autonomous agents to survive in a virtual environment. The agents have various physiological variables which have to be kept within a certain range. If one of the internal physiological variable gets out of its bound, an event reconstruction process is triggered. It is searched in the agents’ autobiographical history for situations satisfying the agents’ current internal needs. Events as series of situations can be reconstructed by re- executing actions. This model of an EM is only applicable for navigation problems where agents have to find a “best path”. No forgetting mechanism is implemented and emotions and semantic memories are not considered.
-
-%\cite{Sanchez:2015}
-%In their work in [13], Ho et al. proposed a memory model for a long-term artificial companion, which migrates among virtual and robot platforms based on the context of interactions with the human user. The long-term memory contains episodic events that are chronologically sequenced and derived from the companion's interaction history, both with the environment and the user.
-
-
-\paragraph{SONIA (2014):}\cite{Vijayakumar2014}
-% %... diseno explicado de SONIA en RDF 
-
-\paragraph{Robot Bender:} \cite{Sanchez:2015}
-%... modelo de contexto FELIX
+\todounsure{Es necesario escribir más al respecto.}
 
 
 \paragraph{Otros trabajos:}
-Existen otros esfuerzos en equipar robots con memoria episódica,  por ejemplo, Rity \cite{Kuppuswamy2006}, Homer \cite{Vere1990}, BIRON \cite{Spexard2008} y personajes de historias virtuales \cite{Brom2007}. De manera similar a los trabajos descritos anteriormente, la mayoría de estos sistemas ha sido diseñado para satisfacer un contexto particular, por lo que no son útiles para el diseño de nuevos sistemas cognitivos robóticos \cite{Stachowicz2012}.
+Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, MINERVA2 \cite{Douglas1988}, LIDA \cite{Feinstone2006}, Rity \cite{Kuppuswamy2006}, Homer \cite{Vere1990}, BIRON \cite{Spexard2008} y personajes de historias virtuales \cite{Brom2007}. De manera similar a los trabajos descritos anteriormente, la mayoría de estos sistemas ha sido diseñado para satisfacer un contexto particular, por lo que no son útiles para el diseño de nuevos sistemas cognitivos robóticos \cite{Stachowicz2012}.
+
+% - \cite{Pratama2014} ??
+% - MINERVA 2 (1988) \cite{Douglas1988}.  Más información en \cite{Jockel2008}.
+% - LIDA (2006) \cite{Feinstone2006} % Más información: \cite{Jockel2008}
+% - Tecuci (2005)  % Más información: Deutsch2008
+% D. Tecuci, “A generic episodic memory module,” University of Texas at Austin, Tech. Rep., 2005.D. Tecuci, “A generic episodic memory module,” University of Texas at Austin, Tech. Rep., 2005.
+
+
+
 
 \todoimprove{Agregar tabla indicando pros/cons de cada sistema LTM}
 
 
-%\subsubsection{Procesos de consolidación y deterioro}
+\subsubsection{Procesos de consolidación y deterioro}
 
 %%- algunos solo procuran desarrollar reglas sobre como actualizar los pesos de aprendizaje
-%%- dejar de aprender (sorprenderse al ser mayor)
-%%... olvidar cosas.. si no se implementa, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
+% - dejar de aprender (sorprenderse al ser mayor)
+% - si no se implementa olvido, entonces la busqueda de informacion seria cada vez mas compleja. \cite{Deutsch2008}
 
 
 %\todounsure{Hablar sobre este paper: sueño y postprocesamiento, puede estar demás para el marco teórico...}
 
-%En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
-%
-%La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no sólo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
-%
-%En la Figura \ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la memoria episódica como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
-%
-%\begin{figure}[!h]
-%	\centering
-%	\includegraphics[width=0.4\textwidth]{eventos.png}
-%	\caption{\small Ejemplo de una secuencia de eventos. Los cuadros coloreados y blancos indican eventos con poca o mucha relevancia, respectivamente. Los marcadores indican transiciones entre fases de poco y mucho interés. Obtenido de \cite{Kelley2014}.}
-%	\label{img:sleep_eventos}
-%\end{figure}
+En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley \cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
+
+La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no sólo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
+
+En la Figura \ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la memoria episódica como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{eventos.png}
+	\caption{\small Ejemplo de una secuencia de eventos. Los cuadros coloreados y blancos indican eventos con poca o mucha relevancia, respectivamente. Los marcadores indican transiciones entre fases de poco y mucho interés. Obtenido de \cite{Kelley2014}.}
+	\label{img:sleep_eventos}
+\end{figure}
 
 %Ejemplo:
 %At some location (cue), something big and orange (Tiger) moved from left to right resulting in pain (event)
 
-%Abstraccion de episodios de manera declarativa simbolica... permite mejorar tiempos de busqueda
-
-%Además, este diseño permite que el sistema cambie su opinión sobre un evento, mediante aprendizaje reforzado. Si se repiten eventos, pero la consecuencia deja de ser la misma, entonces el sistema se acostumbra.
+Además, este diseño permite que el sistema cambie su opinión sobre un evento, mediante aprendizaje reforzado. Si se repiten eventos, pero la consecuencia deja de ser la misma, entonces el sistema se acostumbra.
 
 
 \subsubsection{Aspectos fuera del alcance del proyecto}\label{sec:otros_aspectos}
@@ -423,22 +405,7 @@ En \cite{KimMinJoo2016}, Kim et al. plantean el uso de Deep Learning para modela
 
 Thorsten et al. \cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias episódica y semántica, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir las dependencias entre cada componente y el ancho de banda utilizado para retransmitir la información entre procesos.
 
-%\cite{Sanchez:2015}
-% In [14] Winkler et al. proposed CRAMm, a memory management system that can record comprehensive and informative memories without slowing down the operation of a PR2 robot. CRAMm also offers a query interface that allows the robot to retrieve the kinds of information stated above. 
-
-\todoimprove{CASO: LTM para modificar diálogos del robot con la gente. \cite{Vijayakumar2014}}
-\todoimprove{CASO: Trabajo de \cite{Pratama2014}??}
-\todoimprove{CASO: Inferencia de Información \cite{Kelley2014}, otras citas...}
-\todoimprove{CASO: CRAM, inferencia y memoria prodecural: \cite{Winkler2014}}
-\todoimprove{CASO: Memoria prodecural: \cite{Salgado2012}}
-
-\todounsure{Agregar más casos??: sirve para reforzar bibliografía y para detallar el trabajo futuro (tengo algunos anotados en los GDocs y en mendeley).}
-
-%% Trabajo futuro \cite{Nuxoll2007}
-% - Notar episodios novedosos o repetidos
-% - Virtual sensing: Uso de información sensorial almacenada para apoyar en tareas actuales.
-% - Predicción de efectos de acciones propias o de otros eventos.
-% - Manejo de objetivos a largo plazo.
+La memoria de largo plazo procedural es estudiada por Salgado et al. \cite{Salgado2012}, donde demuestran que a través de ella se puede mejorar el desempeño del robot en tareas repetitivas. En 2014 Winkler et al. desarrollaron CRAMm \cite{Winkler2014}, un sistema para el manejo de memoria semántica y procedural basado en KnowRob \cite{Tenorth2013}, con el fin de dar soporte a las tareas de manipulación de su plataforma robótica. Mediante CRAMm, el robot puede tener conocimiento de los objetos del entorno, sus posiciones habituales y las rutinas de manipulación apropiadas para cada caso. Por ejemplo, puede saber que la leche es un objeto perecible, por lo que probablemente pueda ser encontrada en el refrigerador, más aún, CRAMm provee procedimientos para abrir ese contenedor y obtener el objeto.
 
 
 %% =====================================================================

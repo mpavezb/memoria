@@ -51,10 +51,10 @@ La memoria a largo plazo es una habilidad cognitiva esencial para que un humano 
 
 Durante la última década han habido algunos intentos de implementar LTM en robots sociales, sin embargo, no existe una solución estándar y aún quedan muchas consultas sin responder \cite{ltm_in_robocup}.
 
-La LTM, al ser una capacidad esencial para robots sociales, es esperable que sea agregada en el corto plazo como uno de los requisitos para RoboCup@Home. Más aún, dado el enfoque de las plataformas disponibles, Bender cómo robot mayordomo y Maqui cómo robot social, se espera que ambos posean capacidades avanzadas de interacción con los humanos, para lo que se requiere una LTM.
+La LTM, al ser una capacidad esencial para robots sociales, es esperable que sea agregada en el corto plazo como uno de los requisitos para RoboCup@Home. Más aún, dado el enfoque de las plataformas disponibles, Bender cómo robot mayordomo y Maqui cómo robot social, se espera que ambos posean capacidades avanzadas de interacción con los humanos, para lo que se requiere este tipo de memoria.
 
 
-\subsection{Un primer acercamiento}
+\subsection{Un primer acercamiento}\label{sec:primer_acercamiento}
 
 El año 2015 se desarrolló una LTM episódica para el robot Bender, orientada a la interacción con personas y objetos \cite{Sanchez:2015}. El trabajo consideraba métodos para almacenar, adquirir y manejar la información episódica, sumado a un proceso simple de consolidación de memoria.
 
@@ -68,12 +68,16 @@ Actualmente la memoria desarrollada no está operativa, ni es factible habilitar
 
 Por otro lado, suponiendo que lo anterior estuviese solucionado, aún existen los siguientes problemas:
 \begin{itemize}
-	\item Sólo considera 2 modelos semánticos: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen.
+	\item El sistema implementado requiere una pauta específica de interacción con el usuario, y no queda claro que la implementación sea no intrusiva o adaptable a las rutinas de interacción del robot. 
+	\item El modelo de datos propuesto es estático y no queda claro como puede ser modificado para manejar otras estructuras semánticas.
+	\item El diseño no se ajusta a los requerimientos mínimos para un sistema episódico, como los propuestos por Stachowicz \cite{Stachowicz2012}.
+	\item Sólo considera 2 modelos semánticos: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen. Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de los modelos (como nombre, hobbies, trabajo o edad, para el caso específico de un humano).
 	\item A pesar de considerar un modelo para objetos, en la práctica no se integró con los módulos relacionados que recopilan la información, por lo que realmente la memoria sólo funciona para entidades de tipo Persona.
-	\item Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de los modelos (como nombre, hobbies, trabajo o edad, para el caso específico de un humano).
 	\item La consolidación de memoria STM a LTM sólo considera la primera interacción con cada entidad, por lo que no existe actualización de los datos.
-	\item Hay una restricción en los modelos y características a almacenar, respecto a la información que el robot es realmente capaz de obtener.
+	\item No existen pruebas de escalabilidad ni eficiencia de la implementación. El trabajo sólo presenta una evaluación subjetiva del sistema: A partir de un conjunto de preguntas predefinidas, el robot hace 5 consultas al usuario, para luego responder 5 consultas hechas por el usuario. Tras la interacción, el usuario responde una encuesta sobre la calidad percibida de la interacción. Por lo tanto, 
 \end{itemize}
+
+En resumen, se considera que el sistema implementado es incompleto, no ajustado a los requerimientos reales de un sistema episódico. Más importante aún, se cree el trabajo no se ajustaba a las necesidades del equipo UChile Homebreakers, pues no existió una integración real del sistema a las rutinas de comportamiento del robot, por lo que el sistema fue olvidado.
 
 \subsection{Oportunidad}
 
