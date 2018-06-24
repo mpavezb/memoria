@@ -270,7 +270,7 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 %% =====================================================================
 %% =====================================================================
 
-\todounsure{Omitir esta sección??.. creo que no aporta mucho y no tengo citas al respecto.}
+\todounsure{Omitir esta subsección 2.3.2 ?? creo que no aporta mucho y no tengo citas al respecto.}
 
 Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la Figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria, sus procesos y el análogo robótico.
 
@@ -348,7 +348,7 @@ Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esper
 \paragraph{Bender:}
 El año 2015 Sanchez et al. diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto) \cite{Sanchez:2015}. Este primer acercamiento es descrito en detalle en la Sección \ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
 
-\todounsure{Es necesario escribir más al respecto.}
+\todounsure{Es necesario escribir más al respecto??}
 
 
 \paragraph{Otros trabajos:}
@@ -441,36 +441,37 @@ Esta sección presenta en detalle el marco teórico requerido para el diseño de
 
 La implementación de un sistema de memoria episódica no puede ser completamente separada de la memoria semántica. La primera almacena eventos y su contexto espacio-temporal, a la vez que la otra almacena información sobre cada entidad del episodio. Así, es posible recordar información de un objeto y su evolución histórica ligada a los eventos almacenados.
 
-De acuerdo a lo estudiado en la Sección \ref{sec:revision_LTM}, no existe un consenso sobre los contenidos, el formato o las herramientas para implementar una memoria episódica. Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para su diseño \cite{Vijayakumar2014,Ho2009,Jockel2008}. Particularmente, Stachowicz, en su trabajo del año 2012 \cite{Stachowicz2012}, deriva un conjunto de 11 requisitos mínimos para la construcción de una memoria episódica, a partir de características cognitivas de sistemas episódicos naturales, extendidas con propiedades deseables desde un punto de vista técnico. Estos requisitos $(\mathcal{R}_{1},\ldots,\mathcal{R}_{11})$, descritos a continuación, permiten dar una base para el diseño del software del proyecto.
+De acuerdo a lo estudiado en la Sección \ref{sec:revision_LTM}, no existe un consenso sobre los contenidos, el formato o las herramientas para implementar una memoria episódica. Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para su diseño \cite{Vijayakumar2014,Ho2009,Jockel2008}. Particularmente, Stachowicz en su trabajo del año 2012 \cite{Stachowicz2012} deriva un conjunto de 11 requisitos mínimos para la construcción de una memoria episódica, a partir de características cognitivas de sistemas episódicos naturales, extendidas con propiedades deseables desde un punto de vista técnico. Estos requisitos $(\mathcal{R}_{1},\ldots,\mathcal{R}_{11})$, descritos a continuación, permiten dar una base para el diseño del software del proyecto.
 
 
 \subsubsection{Aspectos de diseño requeridos:}
 %% =====================================================================
 
+
 \begin{itemize}[topsep=0pt]
 	\setlength\itemsep{0.2em}
-	\item ($\mathcal{R}_{1}$) {\bfseries Contenido:}
+	\item \RStachowicz{1} {\bfseries Contenido:}
 	La información de eventos pasados debe ser recolectada e indexada respecto a su contexto espacio-temporal: Qué, dónde y cuándo pasó. El campo ``Qué'' debe permitir almacenar información variable, organizada en estructuras de datos que no se conocen de antemano y que se ajustan a diversos módulos de procesamiento. 
 	
-	\item ($\mathcal{R}_{2}$) {\bfseries Estructura:}
+	\item \RStachowicz{2} {\bfseries Estructura:}
 	Cada evento en conjunto con su contexto espacio-temporal forman una única representación integrada, que debe ser recolectada como un todo, en caso de recolectar cualquiera de las características del evento.
 	
-	\item ($\mathcal{R}_{3}$) {\bfseries Flexibilidad:}
+	\item \RStachowicz{3} {\bfseries Flexibilidad:}
 	La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.
 	
-	\item ($\mathcal{R}_{4}$) {\bfseries Unicidad:}
+	\item \RStachowicz{4} {\bfseries Unicidad:}
 	La memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación. Es decir, cada episodio es único y no puede ser generalizado o entrenado a partir de una secuencia de episodios.
 	
-	\item ($\mathcal{R}_{5}$) {\bfseries Introspección:}
+	\item \RStachowicz{5} {\bfseries Introspección:}
 	Recuerdos episódicos pueden ser almacenados por periodos de segundos, minutos, días o años. Es posible hablar sobre eventos asociados y acceder a ellos para introspección.
 	
-	\item ($\mathcal{R}_{6}$) {\bfseries Perspectiva:}
+	\item \RStachowicz{6} {\bfseries Perspectiva:}
 	La memoria episódica debe lidiar con datos específicos al evento, lo que implica una perspectiva. Es decir, eventos recordados deben mantener la misma perspectiva que se tenía en la experiencia original \cite{CLAYTON20092330}. Por otro lado, la memoria semántica generalmente se puede abstraer de la perspectiva y aspectos situacionales.
 	
-	\item ($\mathcal{R}_{7}$) {\bfseries Anidamiento:}
+	\item \RStachowicz{7} {\bfseries Anidamiento:}
 	Los eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, pueden ocurrir eventos dentro del lapso temporal de otro, ambos asociados al mismo contexto episódico.
 	
-	\item ($\mathcal{R}_{8}$) {\bfseries Transposición:}
+	\item \RStachowicz{8} {\bfseries Transposición:}
 	Los eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, un evento A puede iniciar antes B, pero terminar durante la vida de B.
 	
 \end{itemize}
@@ -480,13 +481,13 @@ De acuerdo a lo estudiado en la Sección \ref{sec:revision_LTM}, no existe un co
 
 \begin{itemize}[topsep=0pt]
 	\setlength\itemsep{0.2em}
-	\item ($\mathcal{R}_{9}$) {\bfseries No intrusivo:}
+	\item \RStachowicz{9} {\bfseries No intrusivo:}
 	Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
 	
-	\item ($\mathcal{R}_{10}$) {\bfseries Eficiente:}
+	\item \RStachowicz{10} {\bfseries Eficiente:}
 	El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot. Es decir, todos los eventos deben ser procesados eventualmente, aún cuando el robot esté ocupando gran parte de sus recursos, y sin generar hambruna de CPU ni de ancho de banda (de disco y red) al resto de los procesos.
 	
-	\item ($\mathcal{R}_{11}$) {\bfseries Escalable:}
+	\item \RStachowicz{11} {\bfseries Escalable:}
 	Los costos asociados al manejo de la información (agregar, eliminar, actualizar y buscar datos) en la memoria deben escalar bien, respecto a la cantidad de datos almacenados. La memoria debe mantener los costos acotados, dentro de un rango que no entorpezca su uso.
 	
 \end{itemize}
@@ -495,7 +496,7 @@ De acuerdo a lo estudiado en la Sección \ref{sec:revision_LTM}, no existe un co
 %% =====================================================================
 %% =====================================================================
 %% =====================================================================
-\subsection{Modulación de procesos cognitivos}
+\subsection{Modulación de procesos cognitivos}\label{sec:theoty-modulation}
 %% =====================================================================
 %% =====================================================================
 %% =====================================================================

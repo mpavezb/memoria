@@ -1,85 +1,113 @@
 \chapter{Diseño}\label{chapter:diseno}
 
-
 En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Mediante las siguientes 4 secciones se describe la arquitectura del sistema: Se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
-
-\todounsure{Es correcto hablar de plugins?.. o debo usar ``complementos''?}
-
 
 \todoimprove{Modificar ocurrencias de campos What, When, Where por versiones \texttt{What, When, Where}} 
 
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
 \section{Requerimientos y validaciones}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto y las validaciones generadas a partir de ellos. Primero se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable. Para concluir, se presenta un conjunto de pruebas que busca validar cada requerimiento expuesto.
- 
+
+%% =============================================================================
+%% =============================================================================
+%% ============================================================================= 
 \subsection{Requisitos del proyecto}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
-\todounsure{Está bien hablar sobre ``requisitos de usuario''??.. en realidad casi todos fueron inventados por mi durante la propuesta!! Yo soy mi propio cliente O.O ... }
-
-\todounsure{Qué tan formal debo ser con la especificación de req. usuario y req. software?? Si soy ultra formal (estilo curso Ing.Soft II) tendría que poner un documento de requisitos en los anexos.. mucha pega sin sentido?. Sólo quiero graduarme :'( }
-%\subsubsection{Requisitos de capacidad}
-%\subsubsection{Requisitos de calidad}
-%\subsubsection{Requisitos de restricción}
-
-El primer conjunto de requisitos se obtiene a partir de los objetivos del proyecto y sus alcances:
+El primer conjunto de requisitos se deriva a partir de los objetivos del proyecto y sus alcances, presentados en la Sección \ref{sec:objetivos}.
 \begin{itemize}
-\item Diseño de LTM (episódica y semántica) para robots de servicio domésticos.
-\item Implementación integrada en Bender, compatible con su sistema.
-\item Dar demostración de funcionalidades introducidas.
-\item Énfasis en diseño de sistema genérico y compatible con más robots.
-\item Memoria emocional debe ser soportada por el diseño, a pesar de no ser implementada.
+\item \RPlabelDef{1} Diseño de memoria de largo plazo episódica y semántica para robots de servicio domésticos, basado en los 11 requerimientos para una memoria episódica planteados por Stachowicz \cite{Stachowicz2012} y presentados en la Sección \ref{sec:ltm_exp}.
+\item \RPlabelDef{2} Diseño debe considerar la modulación de los procesos cognitivos mediante memoria emocional.
+\item \RPlabelDef{3} El diseño del sistema debe soportar el concepto de relevancia histórica.
+\item \RPlabelDef{4} Además, los episodios deben manejar un indicador de relevancia generalizada, que encapsule todos los demás indicadores en sólo uno.
+\item \RPlabelDef{5} Diseño del sistema debe ser agnóstico del robot a utilizar.
+\item \RPlabelDef{6} El proyecto debe ser integrado en Bender, de manera no invasiva.
 \end{itemize}
 
-El siguiente conjunto de requisitos corresponde a los 11 requerimientos para una memoria EpLTM planteados por Stachowicz\cite{Stachowicz2012} y presentados en la Sección \ref{sec:robotic_memory}. 
 
-El sistema de relevancia episódica es importante para habilitar búsquedas de episodios según su importancia. En primer lugar, el sistema debe soportar el concepto de relevancia histórica de episodios, similarmente a lo estudiado por XXX \cite{} y presentado en la sección \ref{}. En cuanto a la relevancia emocional, el sistema debe permitir indexar episodios mediante este concepto. Además, se debe considerar que existen diversos sistemas de manejo de emociones, y el diseño no debe ser restrictivo respecto a ello. Finalmente, los episodios deben manejar un indicador de relevancia, que encapsule todos los demás indicadores en solo uno.
-\todowrite{Al parecer, en el marco teórico no se habla sobre la relevancia histórica ni las metodologías para unir las relevancias.}
-\todopaused{El indicador conjunto de relevancias aún no ha sido implementado}
-
-\subsubsection{Alcances del proyecto}
-
-\todounsure{Es necesario hablar sobre cosas que NO SON REQUISITOS??}
-
-Para acotar el diseño, implementación y validaciones, a continuación se presenta un listado requerimientos que no pertenecen al proyecto actual, sino que son considerados como trabajo futuro.
-
-\begin{itemize}
-\item Mecanismos para olvido o represión (en caso de contenido emocional traumático).
-\item Problemas éticos sobre almacenar datos de usuarios.
-\item Inferencia de información a partir de episodios almacenados.
-\item Inferencia de episodios según sucesos previos y posteriores, como lo propuesto por Kelley \cite{Kelley2014} y estudiado en la Sección \ref{}.
-\item Indicador de relevancia por novedad del episodio, basado en similitud con episodios ya existentes. No es de interés, pues se puede abstraer al módulo emocional.
-\item Modificar conversaciones que mantiene el robot con humanos, según los datos episódicos almacenados (e.g., si se está hablando sobre una entidad nueva o ya conocida).
-\item Eliminación automática de datos para liberar recursos de memoria secundaria.
-\end{itemize}
-\todounsure{En un principio se gastó tiempo con knowrob y prolog... que hago respecto a esto?? lo agrego al informe??... quito la inferencia de los objetivos secundarios??... donde escribo esto?}
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Requerimientos de sistema}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
-\todowrite{Formalizar metadatos de requisitos de sistema, usuario, validaciones.}
+Se desarrolló un documento (semiformal) de requisitos del sistema, derivados a partir de los requisitos de proyecto revisados en la sección anterior. Cada requisito de proyecto fue reformulado desde su versión difusa, uno o más requisitos de sistema precisos y verificables. El listado de puede ser encontrado en el Apéndice de Diseño, en la Sección \ref{appendix:req-sistema}.
 
+El documento consta de 26 requisitos de sistema, cada una indicado por un prefijo y numeración de la forma \RSlabel{XX}. Cada uno indica su requisito de proyecto asociado. En el Apéndice \ref{chapter:appendix_a}, la Figura \ref{img:trazabilidad} muestra la matriz de trazabilidad de los requisitos de proyecto y sistema definidos.
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Validaciones}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
+
+También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del proyecto, y sus resultados son presentados y estudiados en el Capítulo \ref{chapter:results}. El listado completo se encuentra en el Apéndice de Diseño, en la Sección \ref{appendix:validations}.
+
+Las validaciones fueron separadas en 5 categorías: 
+\begin{enumerate}
+	\item \Vlabel{A}{XX} Se verifican directamente desde el diseño e implementación del sistema.
+	\item \Vlabel{B}{XX} Verificadas mediante la ejecución del sistema.
+	\item \Vlabel{C}{XX} Validaciones de consultas LTM al servidor.
+	\item \Vlabel{D}{XX} Validaciones de eficiencia
+	\item \Vlabel{E}{XX} Validaciones de escalabilidad.
+\end{enumerate}
+
+El documento consta de alrededor de 35 validaciones, cada una indicada por un prefijo y numeración de la forma {\bfseries VTXX} (V: Validación, T: Tipo, XX: numeración). Cada validación indica su requisito de sistema asociado. En las Figuras \ref{img:trazabilidad-VA}-\ref{img:trazabilidad-VB}-\ref{img:trazabilidad-VC} se presentan matrices con el mapeo entre requisitos de sistema y las validaciones definidas.
+
+Las validaciones \Vlabel{D}{XX} tienen por objetivo medir la eficiencia del sistema, una vez integrado en Bender. Se construyen a partir del requisito de sistema \RSlabel{15}. Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
+
+Las validaciones \Vlabel{E}{XX} se construyen a partir del requisito de software \RSlabel{16}. Tienen por objetivo medir el costo en tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos.
 
 
+%% =============================================================================
+%% =============================================================================
 
+%% =============================================================================
+%% =============================================================================
 
+%% =============================================================================
+%% =============================================================================
 
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \section{Diseño de episodios}
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
-\todowrite{AGREGAR DIAGRAMA GENERAL DEL SISTEMA... DB -- LTM -- PLUGINS -- USER}
-\todowrite{AGREGAR DIAGRAMA DE COMPONENTES y comunicación}
+A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol que soporta sus anidamientos. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
 
-A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol, diseñada para representar el anidamiento episódico. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
+\todoimprove{AGREGAR DIAGRAMA GENERAL DEL SISTEMA... DB -- LTM -- PLUGINS -- USER}
+\todoimprove{Agregar diagrama explicando anidamiento, transposición.}
 
-\todolater{Agregar listado de mensajes y servicios en los anexos.}
-
-\todowrite{Agregar diagrama explicando anidamiento, transposición.}
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Formato y representación}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE ELECCIÓN DE MENSAJES DE ROS
 \paragraph{Mensaje ROS:}
@@ -94,7 +122,13 @@ El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para es
 Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste corresponde a un vector de \textit{strings} y permite almacenar descripciones breves sobre la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
 
  
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Árboles de episodios}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 \todounsure{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
 
@@ -120,7 +154,13 @@ Es importante enfatizar que no basta que un episodio esté embebido temporalment
  
 \todoimplementation{Se puede agregar condición de que hijos son ordenados por tiempo de inicio}
  
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Contexto temporal: \textit{When}}\label{sec:design_ep_when}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE LOS REQUISITOS
 \paragraph{Requisitos:}
@@ -132,8 +172,13 @@ De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar i
 En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
 
 
- 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Contexto espacial: \textit{Where}}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE LOS REQUISITOS
 \paragraph{Requisitos:}
@@ -161,8 +206,13 @@ Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vec
 \todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
 \todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Memoria semántica: \textit{What}}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % REQUISITOS
 \paragraph{Requisitos:}
@@ -206,8 +256,13 @@ Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilac
 \todopaused{Escribir tras tener primera implementación razonable}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Relevancia generalizada}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % RELEVANCIA GENERALIZADA
 \paragraph{Requisitos:}
@@ -225,8 +280,13 @@ Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por l
 \todopaused{Escribir más cuando esté implementado}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Relevancia emocional}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % RELEVANCIA EMOCIONAL
 \paragraph{Requisitos:}
@@ -249,8 +309,13 @@ Además, para simplificar la introspección de episodios a futuro, se decide agr
 \todolater{Actualizar esto en caso de modificar metadatos}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Relevancia histórica}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE RELEVANCIA HISTORICA
 \paragraph{Requisitos:}
@@ -268,16 +333,26 @@ El valor de la relevancia debe ser manejado automáticamente por el servidor LTM
 \todopaused{Sobre la tasa de decaimiento histórica implementada.}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Datos para introspección}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE RAZONAMIENTO
 \paragraph{Metadatos:}
 El último conjunto de datos considerado para almacenar junto a cada episodio es denominado \textit{Metadatos}. Éstos no están ligados a algún requerimiento de software, por lo que no son formalmente necesarios, sin embargo, permiten almacenar datos útiles para la implementación LTM, y sirven para conocer información sobre el software utilizado para almacenar cada episodio. Los \textit{Metadatos} tienen como finalidad ser de utilidad al resolver problemas relacionados al software LTM, y para cuando los usuarios deseen conocer el contexto de software sobre el cual fue generado el episodio.
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Limitantes y trabajo futuro}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
 
@@ -304,17 +379,34 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 %       - padres mantienen con mismo frame y mapa de hijos
 
 
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \section{Diseño del modelo de datos}
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 % - Diseño de Base de Datos:
 
 Es esta sección se presentan las decisiones sobre el diseño de la base de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados, \textit{streams} y entidades.
 
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Base de datos}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE SELECCIÓN DE MONGO DB
 \paragraph{MongoDB:}
@@ -337,7 +429,13 @@ Debido al funcionamiento del driver ROS para \textit{MongoDB}, se asociará una 
 \todopaused{Describir cuando esté solucionado.}
 
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Colección de episodios}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 Toda la información episódica, definida por medio del mensaje \texttt{Episode.msg}, será almacenada en la colección \texttt{episodes}.
 
@@ -348,8 +446,13 @@ Debido a los requisitos de software \hl{(RSXX) y (RSXX)}, cada episodio debe ser
 \todowrite{Sobre consultas episódicas que debe soportar el modelo.}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Colecciones de streams}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 Según se explicó anteriormente, cada \textit{stream} definido por el usuario es asociado a una colección de \textit{MongoDB} propia. El nombre de la colección debe ser definido por el usuario. 
 
@@ -367,7 +470,13 @@ Utilizando la configuración por defecto de \textit{MongoDB}, el límite de tama
 \todopaused{Sobre la modificación de la estructura del stream... MD5...}
 
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Colecciones de entidades}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es  asociado a una colección de \textit{MongoDB} propia. El nombre de ésta debe ser definido por el usuario. 
 
@@ -389,8 +498,13 @@ A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o
 
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Limitantes y trabajo futuro}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 El modelo de datos descrito está diseñado para satisfacer los requerimientos de software del proyecto, sin embargo, los siguientes aspectos no son cubiertos por el diseño y se consideran trabajo futuro.
 
@@ -400,19 +514,35 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 % - cosa MD5
 
 
+%% =============================================================================
+%% =============================================================================
 
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \section{Diseño del servidor LTM}
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 %    - TODO: manejo de contexto
 .
 \todowrite{Escribir descripción de la sección.}
 
 % revisar requerimientos software asociados.
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Manejo de episodios}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 % - Diseño del servidor LTM según requisitos
 % - uso de MongoDB
 % - Minimizar dependencias
@@ -422,10 +552,18 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 .
 
 \subsubsection{Interfaz episódica}
+%% =============================================================================
 % - proveer tiempo y anidamiento
 % - permite notificar a los otros componentes para la recopilación de información episódica
 
+
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Sistema de plugins}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 % - Sistema de plugins para agregar cosas específicas a cada robot
 %    - where, emociones, streams y entidades.
 %    - sobre información disponible para cada plugin
@@ -437,6 +575,7 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 .
 
 \subsubsection{Plugin: \textit{Where}}
+%% =============================================================================
 % SOBRE: Funcionamiento recomendado del plugin
 % - recopilación constante de posicionamiento del robot.
 % - provee listado de poses dado tiempos de inicio, fin de episodio.
@@ -444,6 +583,7 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 .
 
 \subsubsection{Plugin: Emociones}
+%% =============================================================================
 
 % SOBRE: funcionamiento recomendado del plugin
 % - recopilación de emociones .. buffer
@@ -453,6 +593,7 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 .
 
 \subsubsection{Plugin: \textit{Streams}}
+%% =============================================================================
 
 % SOBRE: requerimientos del server
 % - sobre marcar inicio, fin
@@ -462,6 +603,7 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 .
 
 \subsubsection{Plugin: Entidades}
+%% =============================================================================
 
 % SOBRE: requerimientos del server
 % - sobre marcar inicio, fin
@@ -470,8 +612,13 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 % - sobre API ROS asociada.
 .
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Alcances y trabajo futuro}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 %    - Alcances y trabajo futuro
 %        - reservar ids mientras nodo esté activo.
 %        - posibles funcionalidades de interés: 
@@ -479,19 +626,34 @@ El modelo de datos descrito está diseñado para satisfacer los requerimientos d
 %           - 
  .
 
+%% =============================================================================
+%% =============================================================================
 
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \section{Diseño de módulos específicos para Bender}
-% ==============================================================================
-% ==============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 Según especifica el requisito de software \hl{(RSXX)}, el proyecto debe ser integrado al robot Bender, con una demostración de las capacidades del sistema LTM. Para esto, se deben implementar módulos de software que permitan recolectar todos los datos episódicos requeridos por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de streams y entidades a partir de la memoria de trabajo. 
 
 Cada uno de los módulos presentados a continuación cumple una doble funcionalidad. En primer lugar, cumplen con el requisito del diseño de componentes orientados a robots de servicio doméstico, enfocados en el robot Bender. Y además, sirven como ejemplo para el diseño e implementación de nuevas funcionalidades requeridas a futuro para otras plataformas.
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Recolección de episodios: SMACH}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 \paragraph{SMACH:}
 El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección \ref{}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos. A través de SMACH, en Bender se implementan capacidades como la interacción continuada con humanos y la resolución de tareas en el hogar. 
@@ -515,8 +677,13 @@ Por otro lado, la implementación debe minimizar las modificaciones a la librer�
 \end{itemize}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Recolección de dato episódico: \textit{Where}}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE plugin
 Se debe implementar un plugin para Bender capaz de proveer la posición del robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. Por motivos prácticos, se consideran dos versiones a implementar, una con información falsa, y otra capaz de obtener datos reales desde el robot.
@@ -529,8 +696,13 @@ La segunda versión debe ser integrada en el software del robot, a través de la
 \todoimplementation{Plugin Where en Bender.}
 
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Recolección de dato episódico: Emociones}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 
 % SOBRE: plugin
 El siguiente plugin a implementar está encargado de proveer las emociones registradas por el robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. En este caso, también se consideran dos versiones a implementar, una que provee datos falsos, y otra capaz de obtener datos reales desde el robot. Ambas versiones deben recopilar datos para cada uno de los campos del mensaje \texttt{Emotion.msg}.
@@ -542,13 +714,28 @@ La versión ``de prueba'' debe proveer datos generados aleatoriamente para cada 
 La segunda versión debe ser integrada con el software del robot, una vez que se haya implementado el sistema emocional en el robot. Para ésto, se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{}. El plugin deberá recopilar información periódicamente sobre las emociones del robot. Una vez que el servidor notifique la finalización del episodio, el plugin debe proveer un mensaje \texttt{Emotion.msg} asociado a la emoción más intensa durante la duración de éste. Además, para disminuir el uso de recursos, solamente se debe recopilar información cuando hayan episodios registrados como pendientes en el servidor.
 
 \todopaused{Hablar sobre el diseño de módulos emocionales para el robot}
+
 \subsubsection{Modulo emocional: A}
+%% =============================================================================
+
 \subsubsection{Modulo emocional: B}
+%% =============================================================================
+
 \subsubsection{Modulo emocional: C}
+%% =============================================================================
+
 \subsubsection{Modulo emocional: servidor de emociones}
+%% =============================================================================
 
 
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Plugin para streams: Imágenes}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
+
 
 % SOBRE: plugin
 Para los plugins encargados de proveer streams de datos se escogió la recopilación solamente de imágenes. Bender dispone de variados datos en su memoria de trabajo que son candidatos para ser almacenados en la memoria semántica, como por ejemplo: el sonido percibido en su micrófono, las nubes de puntos 3D percibidas por su sensor de profundidad, o los posiciones de sus efectores. Sin embargo, el almacenamiento de imágenes es muy útil, pues sirve para la demostración final, permite visualizar lo sucedido en el episodio, y la implementación puede servir para otras plataformas, pues las cámaras de video son un sensor muy común en las plataformas robóticas domésticas. Por motivos prácticos, se consideran dos versiones a implementar, una con información ficticia y otra que recopila datos desde el robot real.
@@ -564,8 +751,14 @@ La ``versión de prueba'' debe proveer imágenes obtenidas a partir de un archiv
 % SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
 La segunda versión debe ser integrada en el software robot, utilizando la API ROS para leer imágenes desde sus cámaras de video.
 
-
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
 \subsection{Plugins para entidades}
+%% =============================================================================
+%% =============================================================================
+%% =============================================================================
+%% =====================================================================================
 
 Para los plugins encargados de definir entidades y recopilar sus cambios durante un episodio, se escogieron las entidades de ``Persona'' y ``Objeto''. Ésta selección fue realizada, pues son las entidades más utilizadas por el robot Bender, y probablemente las más significativas para todo robot de servicio doméstico. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Lugar'' y del ``Robot''. De manera similar al caso de los streams, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
 
