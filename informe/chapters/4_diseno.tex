@@ -110,15 +110,15 @@ A continuación presentan las decisiones de diseño seguidas para la representac
 %% =============================================================================
 
 % SOBRE ELECCIÓN DE MENSAJES DE ROS
-\paragraph{Mensaje ROS:}
-Se decidió utilizar mensajes de ROS para la representación de episodios. Esto se justifica en la amplia gama de mensajes preconstruidos que provee, los que permiten generar un mensaje adecuado a cualquier necesidad. Además, al utilizar éste sistema de mensajes, se evita definir una formato de información particular para la representación episódica, y la comunicación de episodios mediante la API ROS del servidor se simplifica. Más aún, como se explicará en más detalle en la Sección \ref{}, el driver para MongoDB a utilizar permite almacenar cualquier estructura de datos, mientras ésta esté encapsulada en un mensaje ROS.
+\ltmconcept{Mensaje ROS}
+Se decidió utilizar mensajes de ROS para la representación de episodios. Esto se justifica en la amplia gama de mensajes preconstruidos que provee, los que permiten generar un mensaje adecuado a cualquier necesidad. Además, al utilizar éste sistema de mensajes se evita definir una formato de información particular para la representación episódica, y la comunicación de episodios mediante la API ROS del servidor se simplifica. Más aún, como se explica en la Sección \ref{sec:mongodb}, la interfaz ROS para MongoDB permite almacenar cualquier estructura de datos, mientras ésta esté encapsulada en un mensaje ROS.
 
 % SOBRE UNICIDAD
-\paragraph{Unicidad:}
-El requisito de software \hl{(RSXX)} exige que cada episodio sea único. Para esto, el mensaje ROS debe contener un campo que identifique al episodio. El servidor debe encargarse de que cada nuevo episodio cuente con un identificador único.
+\ltmconcept{Unicidad}
+El requisito de sistema \RSlabel{08} exige que cada episodio sea único. Para esto, el mensaje ROS debe contener un campo que identifique al episodio. El servidor debe encargarse de que cada nuevo episodio cuente con un identificador único.
 
 % SOBRE CAMPO DE TAGS
-\paragraph{Tags:}
+\ltmconcept{Tags}
 Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye un campo de \textit{tags}. Éste corresponde a un vector de \textit{strings} y permite almacenar descripciones breves sobre la naturaleza del episodio. Por ejemplo, un episodio podría contener los siguientes \textit{tags}: ``cumpleaños'', ``fiesta'', ``atender invitados'' y ``torta''.
 
  
@@ -130,30 +130,24 @@ Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye
 %% =============================================================================
 %% =============================================================================
 
-\todounsure{Quitar manejo de contexto del trabajo??... no se si vale la pena que el server maneje ese concepto. Puede ser trabajo futuro.}
-
-\todounsure{Es correcto hablar de hojas y nodos??... Debo buscar una palabra más adecuada para nodos que no son hojas??.. o debo explicitar que en adelante, cualquier referencia a nodo se refiere a eso. Suena raro hablar de ``padres''.}
-\todowrite{Nodo == Nodo interno}
-
 % SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
-\paragraph{Anidamiento episódico:}
-A partir del requisito de software \hl{(RSXX)}, se debe soportar el concepto de anidación episódica. Este nace de la capacidad para expresar cualquier episodio, en términos de 1 o más sub-episodios más específicos. Para ello, se definen los \textit{árboles de episodios}, utilizando una estructura de datos de árbol: Las hojas contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
+\ltmconcept{Anidamiento episódico}
+A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe soportar el concepto de anidación episódica. Esto permite expresar cualquier episodio en términos de 1 o más sub-episodios más específicos. Para ello, se definen los \textit{árboles de episodios}, utilizando una estructura de datos de árbol: Los nodos externos (en adelante, \textit{hojas}) contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
 
 % SOBRE TEMPORALIDAD
-\paragraph{Temporalidad:}
-Para el árbol episódico, es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. 
+\ltmconcept{Temporalidad}
+Para el árbol episódico es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. 
 
 % SOBRE MANEJO DE INFORMACIÓN EN PADRES E HIJOS
-\paragraph{Estrategia de almacenamiento:}
-Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se decide utilizar una metodología de almacenamiento que no genere redundancia de información. Sólo las hojas del árbol son las encargadas de manejar la información semántica del episodio, lo que potencialmente corresponde a una gran cantidad de información. Asimismo, las hojas son encargadas de manejar la mayor cantidad de información episódica que sea posible. Las estrategias para esto serán explicadas en sus respectivas secciones. Por lo tanto, los nodos del árbol manejan poca información y la mayor parte de sus datos puede ser calculada recursivamente a partir de sus hijos y de manera automática por el servidor.
+\ltmconcept{Estrategia de almacenamiento}
+Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se decide utilizar una metodología de almacenamiento que no genere redundancia de información. Sólo las hojas del árbol son las encargadas de manejar la información semántica del episodio, lo que potencialmente corresponde a una gran cantidad de información. Asimismo, las hojas son encargadas de manejar la mayor cantidad de información episódica que sea posible. Las estrategias para esto serán explicadas en sus respectivas secciones. Por lo tanto, los nodos internos del árbol (en adelante, \textit{nodos}) manejan poca información y la mayor parte de sus datos puede ser calculada recursivamente a partir de sus hijos y de manera automática por el servidor.
 
 % SOBRE EL CONTEXTO
-\paragraph{Noción de contexto:}
-Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos, pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
+\ltmconcept{Noción de contexto}
+Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos (ver \RSlabel{12}), pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
 
- 
-\todoimplementation{Se puede agregar condición de que hijos son ordenados por tiempo de inicio}
- 
+
+
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -163,13 +157,12 @@ Es importante enfatizar que no basta que un episodio esté embebido temporalment
 %% =============================================================================
 
 % SOBRE LOS REQUISITOS
-\paragraph{Requisitos:}
-De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
+\ltmconcept{Requisitos}
+De acuerdo al requisito \RSlabel{03}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
 
-\todoimplementation{Revisar o modificar implementación.. no estoy seguro como se están manejando los tiempos para los padres... lo lógico sería no ajustar los tiempos a los de los hijos, pues estos pueden no estar definidos hasta el final!... O agregarlo como limitante.}
 % SOBRE MANEJO DE INFORMACIÓN
-\paragraph{Estrategia de almacenamiento:}
-En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los \hl{nodos}, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
+\ltmconcept{Estrategia de almacenamiento}
+En el caso de las hojas, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los nodos, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
 
 
 %% =============================================================================
@@ -181,30 +174,27 @@ En el caso de las hojas del árbol, basta utilizar los instantes de tiempo obten
 %% =============================================================================
 
 % SOBRE LOS REQUISITOS
-\paragraph{Requisitos:}
-De acuerdo al requisito de software \hl{(RSXX)}, los episodios deben almacenar información que indique su contexto espacial (\textit{Where}), es decir, dónde sucedió. A continuación se explican las decisiones de diseño consideradas.
+\ltmconcept{Requisitos}
+De acuerdo al requisito \RSlabel{04}, los episodios deben almacenar información que indique su contexto espacial (\textit{Where}), es decir, dónde sucedió. A continuación se explican las decisiones de diseño consideradas.
 
 % SOBRE DURACIÓN DE EPISODIOS Y VECTORES
-\paragraph{Desplazamiento durante episodios:}
+\ltmconcept{Desplazamiento durante episodios}
 En primer lugar, dependiendo de la duración del episodio, el robot puede haber estado en más de un lugar durante ese tiempo. Esto no es válido sólo para episodios nodo, sino que también para hojas, cuando éstas representan acciones de desplazamiento del robot. Luego, es importante que cada episodio registre cada uno de los lugares en los que ha estado el robot. El listado de lugares debe ser almacenado ordenadamente y con la hora asociada a cada desplazamiento, lo que es importante por dos motivos: permite calcular la secuencia de movimientos para los padres, y permite reconstruir la ruta del robot durante cada episodio. Para ello, la posición del robot puede ser consultada periódicamente en busca de cambios, para almacenar sólo los instantes que indiquen movimiento.
-\todoimplementation{Soportar más de 1 lugar semántico y coordenado para hijos.}
 
 
 % SOBRE USO DE AMBAS OPCIONES: Lugares y coordenadas
-\paragraph{Estrategias de almacenamiento:}
-La información espacial puede ser manejada de dos maneras: se pueden almacenar los nombres de los lugares en donde el robot estuvo durante el episodio, o se puede almacenar la ubicación precisa del robot durante el episodio, mediante coordenadas relativas a un sistema coordenado predefinido. La decisión sobre cual sistema utilizar depende mucho del contexto en el cual funciona el robot. Por ejemplo, en el caso de Bender, hay ocasiones en donde sólo es posible conocer su ubicación respecto a un sistema coordenado, mientras que en otras oportunidades, sólo se tiene conocimiento verbal de ésta. Luego, ya que no existe un consenso sobre que opción es la mejor, y para evitar limitar la usabilidad del sistema LTM, se decidió dar soporte a ambas alternativas.
-\todounsure{Todo todo todo debe estar en 3ra persona singular presente??? como hablo de decisiones pasadas??... según esto, corregir todos los párrafos.}
+\ltmconcept{Estrategias de almacenamiento}
+La información espacial puede ser manejada de dos maneras: se pueden almacenar los nombres de los lugares en donde el robot estuvo durante el episodio, o se puede almacenar la ubicación precisa del robot durante el episodio, mediante posiciones relativas a un sistema coordenado predefinido. La decisión sobre cual sistema utilizar depende mucho del contexto en el cual funciona el robot. Por ejemplo, en el caso de Bender, hay ocasiones en donde sólo es posible conocer su ubicación respecto a un sistema coordenado, mientras que en otras oportunidades, sólo se tiene conocimiento verbal de ésta. Luego, ya que no existe un consenso sobre que opción es la mejor, y para evitar limitar la usabilidad del sistema LTM, se decide dar soporte a ambas alternativas.
+
 
 % OPCIÓN SEMÁNTICA
-\paragraph{Estrategia 1 - Descripción:}
+\ltmconcept{Estrategia 1 - Descripción}
 Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser almacenados utilizando vectores de \textit{strings}. Considerando el ambiente en donde puede desempeñarse un robot de servicio doméstico, se decide almacenar esta información en dos niveles de profundidad. El primer nivel corresponde a una descripción específica de la ubicación del robot (ej., ``Comedor''), mientras que el segundo sirve para almacenar el nombre del área donde se encuentra la primera ubicación (ej., ``Casa de John''), junto a otras de similar tamaño semántico. En el caso de los episodios nodo, se ha decidido calcular automáticamente toda esta información, a partir de los episodios hijo.
-\todoimplementation{Crear submensaje para Where.msg, que almacene: location, area, time}
 
 % OPCIÓN COORDENADAS
-\paragraph{Estrategia 2 - Coordenadas:}
+\ltmconcept{Estrategia 2 - Coordenadas}
 Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el proyecto está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto sólo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de ésta.
-\todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
-\todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
+
 
 %% =============================================================================
 %% =============================================================================
@@ -215,45 +205,41 @@ Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vec
 %% =============================================================================
 
 % REQUISITOS
-\paragraph{Requisitos:}
-De acuerdo a los requisitos de software \hl{(RSXXX), (RSXXX)}, la memoria semántica (\textit{What}) ligada a un episodio permite describir `qué'' sucedió en él. Ésta debe poder  contener cualquier dato, por lo que no es posible establecer de antemano qué información y estructura debe ser utilizada, sino que ésto debe poder ser definido por el usuario. El requisito \hl{(RSXXX)} (regla de flexibilidad episódica) establece que cada episodio debe permitir crear nuevos datos semánticos o actualizar los ya existentes. El requisito \hl{(RSXXX)} (regla de perspectiva episódica) exige que al leer un episodio, éste pueda describir sus datos semánticos asociados, de acuerdo a la misma perspectiva que se tenía de ellos cuando el episodio fue ejecutado.
-
+\ltmconcept{Requisitos}
+De acuerdo a los requisitos \RSlabel{01}, \RSlabel{02}, la memoria semántica (\textit{What}) ligada a un episodio permite describir `qué'' sucedió en él. Ésta debe poder  contener cualquier dato, por lo que no es posible establecer de antemano qué información y estructura debe ser utilizada, sino que ésto debe poder ser definido por el usuario. El requisito \RSlabel{07} (regla de flexibilidad episódica) establece que cada episodio debe permitir crear nuevos datos semánticos o actualizar los ya existentes. El requisito \RSlabel{10} (regla de perspectiva episódica) exige que al leer un episodio, éste pueda describir sus datos semánticos asociados, de acuerdo a la misma perspectiva que se tenía de ellos cuando el episodio fue ejecutado.
 
 % SEPARACIÓN DE CONCEPTOS
-\paragraph{Streams y entidades:} 
-La memoria semántica maneja entidades conocidas por el robot e información sobre ellas. Por ejemplo, se puede definir la entidad ``persona'' y almacenar datos como su nombre, nacionalidad o la fecha de la última interacción registrada. Sin embargo, existe un tipo de información que no está asociada a alguna entidad en particular, correspondiente a datos en forma de flujos de información (\textit{streams}). Éstos permiten registrar secuencias de imágenes, sonido y otros conceptos basados en flujos de datos percibidos por el robot, especialmente los obtenidos directamente desde sus sensores. Otra característica de los \textit{streams}, es que a diferencia de las entidades, representan datos que no se desea actualizar posteriormente, pues almacenan una imagen de lo percibido en el instante, la que generalmente es invariable. Entonces, se decide separar la memoria semántica en dos componentes, \textit{streams} y entidades, lo que permite diseñar estrategias de procesamiento adecuadas al funcionamiento de cada uno.
-
+\ltmconcept{Streams y entidades}
+La memoria semántica maneja entidades conocidas por el robot e información sobre ellas. Por ejemplo, se puede definir la entidad ``persona'' y almacenar datos como su nombre, nacionalidad o la fecha de la última interacción registrada. Sin embargo, existe un tipo de información que no está asociada a alguna entidad en particular, correspondiente a datos en forma de flujos de información (\textit{streams}). Éstos permiten registrar secuencias de imágenes, sonido y otros conceptos basados en flujos de datos percibidos por el robot, especialmente los obtenidos directamente desde sus sensores. Otra característica de los \textit{streams}, es que a diferencia de las entidades, representan datos que no se desea actualizar posteriormente, pues almacenan una fotografía de lo percibido en el instante, la que generalmente es invariable. Entonces, se decide separar la memoria semántica en dos componentes, \textit{streams} y entidades, lo que permite diseñar estrategias de procesamiento adecuadas al funcionamiento de cada uno.
 
 % GENERALIZANDO MEMORIA SEMÁNTICA
-\paragraph{Generalización:}
-Ya que los contenidos a almacenar deben poder ser definidos por el usuario, se establecen las siguientes decisiones de diseño. En primer lugar, el usuario debe definir que información utilizará, mediante uno o más mensajes de ROS. Segundo, éstos mensajes deben tener un campo para almacenar un identificador único. Los episodios deben tener referencias al tipo del mensaje asociado y a sus identificadores únicos. Similarmente, cada mensaje definido debe tener un campo para almacenar el identificador único de su episodio relacionado. Lo anterior es válido tanto para \textit{streams} como entidades.
-
-\todopaused{Episodio almacena tags para describir entidades y cambios?.}
-
+\ltmconcept{Generalización}
+Ya que los contenidos a almacenar deben poder ser definidos por el usuario, se establecen las siguientes decisiones de diseño. En primer lugar, el usuario debe definir que información utilizará, mediante uno o más mensajes de ROS. Segundo, a partir del requisito \RSlabel{18}, debe haber una conexión bidireccional entre los mensajes y los episodios, esto es válido tanto para \textit{streams} como entidades:
+\begin{itemize}
+\item Mensajes deben tener una referencia al identificador del episodio relacionado.
+\item Mensajes deben definir un campo para almacenar su identificador único, el que debe ser utilizado por el episodio.
+\end{itemize}
 
 % SOBRE PLUGINS
-\paragraph{Sistema de plugins:}
-Se decidió utilizar un sistema basado en \textit{plugins}, para manejar los mensajes ROS definidos por el usuario. El diseño del servidor LTM en la Sección \ref{} especifica que funcionalidades deben ser implementadas por \textit{plugins} destinados a \textit{streams} o entidades. De esta manera, se delega al usuario la implementación de los algoritmos para adquisición de información semántica y procesamiento de ésta.
-
+\ltmconcept{Sistema de plugins}
+Se decidió utilizar un sistema basado en \textit{plugins} para manejar los mensajes ROS definidos por el usuario. De esta manera, se delega al usuario la implementación de los algoritmos para adquisición de la  información semántica y procesamiento de ésta. El diseño del servidor LTM en la Sección \ref{} especifica que funcionalidades deben ser implementadas por \textit{plugins} destinados a \textit{streams} o entidades. 
 
 % SOBRE STREAMS
-\paragraph{Datos semánticos - Streams:}
-Los \textit{streams} corresponden a flujos de datos generalmente invariables. Cada episodio puede estar asociado a uno o más \textit{streams}, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin sólo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
+\ltmconcept{Datos semánticos - Streams}
+Los \textit{streams} corresponden a flujos de datos generalmente invariables, que no están ligados a un episodio particular. Estos se relacionan a un episodio según sus tiempos de inicio y fin. Cada episodio puede estar asociado a uno o más \textit{streams}, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin sólo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
 
 Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (por ejemplo, disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
 
-\todoimplementation{LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
-
-
 % SOBRE ENTIDADES
-\paragraph{Datos semánticos - Entidades:}
-% - manejo de datos y relaciones para regla perspectiva
-% - manejo de datos y relaciones para flexibilidad
-.
+\ltmconcept{Datos semánticos - Entidades}
+El usuario debe definir cada tipo de entidad disponible a través un mensaje ROS. Cada tipo (p.e., ``persona'') puede tener muchas instancias (p.e., ``Carl'' y ``Lenny''). A diferencia de los \textit{streams}, las entidades manejan datos modificables, lo que introduce dos condiciones:
+\begin{itemize}
+\item Su modelo de datos debe soportar el requisito \RSlabel{07} al crear nuevas instancias o modificar una ya existente.
+\item El modelo de datos debe soportar el requisito \RSlabel{10}, por lo que cada episodio debe almacenar referencias a las instancias modificadas y los cambios aplicados.
+\end{itemize}
+De manera similar a los \textit{streams}, las instancias de una entidad y sus modificaciones no están ligadas a un episodio particular, sino que a los episodios activos durante el registro la modificación. Entonces, es posible registrar cambios a entidades y \textit{streams} a pesar de no haber episodios activos.
 
-\todoimplementation{Manejo de perspectiva y audit al requerir insertar episodio al medio (temporalmente) de otros ya existentes.}
-
-\todopaused{Escribir tras tener primera implementación razonable}
+\todoimprove{Diagrama explicando diseño de streams y entidades...  ocurren paralelamente a episodios, pero se relacionan por sus instantes de tiempo.}
 
 
 %% =============================================================================
@@ -265,19 +251,16 @@ Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilac
 %% =============================================================================
 
 % RELEVANCIA GENERALIZADA
-\paragraph{Requisitos:}
-De acuerdo a los requisitos de software \hl{(RSXX), (RSXX) y (RSXX)}, los episodios deben almacenar información de relevancia episódica. Estos indicadores son importantes al momento de buscar episodios, para poder ordenarlos de acuerdo a una medida de importancia, y así tener una pista sobre cuales enfocar la atención. El sistema debe soportar, al menos, la noción de relevancia histórica y emocional, considerando que en un futuro se podrían agregar otros indicadores de relevancia. También, el sistema debe proveer un indicador generalizado, capaz de representar la relevancia global del episodio, mediante un solo indicador numérico que unifique las sub-relevancias.
-
+\ltmconcept{Requisitos}
+De acuerdo a los requisitos \RSlabel{19}-\RSlabel{20}-\RSlabel{21}, los episodios deben almacenar información de relevancia episódica. Estos indicadores son importantes al momento de buscar episodios, para poder ordenarlos de acuerdo a una medida de importancia, y así tener una pista sobre cuales enfocar la atención. El sistema debe soportar, al menos, la noción de relevancia histórica y emocional, considerando que en un futuro se podrían agregar otros indicadores de relevancia. También, el sistema debe proveer un indicador generalizado, capaz de representar la relevancia global del episodio, mediante un solo indicador numérico que unifique las sub-relevancias.
 
 % MANEJO DE INDICADORES
-\paragraph{Estrategia de almacenamiento:}
+\ltmconcept{Estrategia de almacenamiento}
 Entonces, se define la siguiente estrategia de almacenamiento. Cada tipo de indicador debe proveer un valor numérico en el rango $[0, 1]$, que represente la importancia del episodio de acuerdo a su perspectiva. Un valor de 0 significa que el episodio no es relevante, mientras que el valor 1 es utilizado para indicar que el episodio es muy importante. Utilizando el formato anterior, se construye el indicador de relevancia generalizada a partir de todas las sub-relevancias definidas para el episodio. Este indicador debe ser actualizado cada vez que una sub-relevancia sea modificada o ingresada.
 
-
 % COMPUTO BASADO EN ALGORITMO X
-\paragraph{Cómputo:}
-Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por \hl{XXX} \cite{} y explicada en la Sección \ref{}.
-\todopaused{Escribir más cuando esté implementado}
+\ltmconcept{Cómputo}
+Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por Dood et al y explicada en la Sección \ref{sec:theory-modulation}.
 
 
 %% =============================================================================
@@ -289,24 +272,26 @@ Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por l
 %% =============================================================================
 
 % RELEVANCIA EMOCIONAL
-\paragraph{Requisitos:}
-El requisito de software \hl{(RSXXX)} exige el manejo del concepto de relevancia emocional, como un medio para almacenar las emociones ``que tiene'' el robot durante un episodio, en conjunto a un indicador de la intensidad de éstas.
+\ltmconcept{Requisitos}
+El requisito de software \RSlabel{19} exige el manejo del concepto de relevancia emocional, como un medio para almacenar las emociones ``que siente'' el robot durante un episodio, en conjunto a un indicador de la intensidad de éstas.
 
 
 % ABSTRACCIÓN DEL SISTEMA DE EMOCIONES
-% - sobre EMOCIONES VÁLIDAS
-\paragraph{Abstracción del sistema emocional:}
-Según se revisó en la Sección \ref{}, existen diversas sistemas emocionales para la generación de emociones. No existe una metodología única para el cómputo de emociones, por lo que cada sistema es alimentado con datos diferentes, utilizan algoritmos distintos y proveen salidas distintas. Debido a la generalidad esperada de este proyecto, la forma de representar la emoción es se abstrae del sistema emocional a utilizar. Para esto, en primer lugar se define un conjunto de emociones base, a partir del modelo emocional de Plutchik descrito en la Sección \ref{}, con las que se debe construir la emoción asociada al episodio, mediante una combinación de ellas. Luego, se decidió utilizar un sistema de plugins, para que el usuario defina cómo realizar la asignación desde las salidas de su sistema emocional, a la combinación de emociones base disponibles para un episodio. Es así, como la asignación emocional se puede  abstraer de la implementación y delegar al usuario encargado de la plataforma objetivo.
-
+\ltmconcept{Abstracción del sistema emocional}
+Según se revisó en la Sección \ref{sec:theory-modulation}, existen diversos sistemas para la generación de emociones y no existe una metodología única para su implementación: Cada sistema es alimentado con datos diferentes, utilizan algoritmos distintos y proveen salidas distintas. Debido a la generalidad esperada para el proyecto, se propone la siguiente estrategia para la abstracción del sistema emocional a utilizar, que permite delegar la implementación al usuario:
+\begin{itemize}
+\item Se define un conjunto de 8 emociones base, a partir de las emociones primarias propuestas por Plutchik (Ver Sección \ref{sec:theory-modulation}).
+\item Se debe almacenar el nivel de intensidad percibido durante un episodio, para cada una de las 8 emociones.
+\item Se utilizará un sistema de plugins, donde el usuario debe implementar el mapeo entre las salidas de su sistema emocional, a la combinación de emociones base disponibles para un episodio.
+\end{itemize}
 
 % CAMPOS REQUERIDOS
-\paragraph{Estrategia de almacenamiento:}
-En primer lugar, se define un conjunto de 8 emociones base para la representación emocional (alegría, confianza, miedo, sorpresa, tristeza, disgusto, enfado y anticipación). El diseño considera sólo el almacenamiento de la emoción más importante durante la duración del episodio, la que es asociada a una emoción del conjunto base. Luego, siguiendo el estándar definido para representación de relevancias, se agrega un valor numérico en el rango $[0, 1]$, para  indicar la intensidad de la emoción seleccionada. Para el caso de episodios nodo, el valor emocional es calculado automáticamente a partir de los hijos. Para esto, se utiliza un vector de 8 valores, destinados a cada una de las 8 emociones base, donde se almacena el valor máximo de cada emoción presentado por sus hijos.
+\ltmconcept{Estrategia de almacenamiento}
+Las 8 emociones definidas deben seguir el estándar definido para la representación de relevancias, con valores en el rango $[0, 1]$ indicando la intensidad asociada. La relevancia emocional de cada episodio se asocia a la emoción cuya intensidad sea la de mayor valor. Para el caso de episodios nodo, el registro emocional es calculado automáticamente a partir de los hijos, almacenando los valores máximos para cada emoción.
 
 % METADATOS
-\paragraph{Metadatos:}
-Además, para simplificar la introspección de episodios a futuro, se decide agregar metadatos para indicar: software emocional utilizado y su versión, conjunto de salidas registradas por el software emocional y sus valores de intensidad. Es importante enfatizar que estos datos sólo deben ser utilizados para introspección y no tienen influencia en el cálculo de ninguna relevancia.
-\todolater{Actualizar esto en caso de modificar metadatos}
+\ltmconcept{Metadatos}
+Además, para simplificar la introspección de episodios a futuro, se decide agregar metadatos que indican el software emocional utilizado y su versión. Es importante enfatizar que cada metadato sólo debe ser utilizado para introspección y no tienen influencia en el cálculo de las relevancias.
 
 
 %% =============================================================================
@@ -318,19 +303,16 @@ Además, para simplificar la introspección de episodios a futuro, se decide agr
 %% =============================================================================
 
 % SOBRE RELEVANCIA HISTORICA
-\paragraph{Requisitos:}
-El requisito de software \hl{(RSXXX)} exige el manejo del concepto de relevancia histórica, como un medio para indicar la importancia de un episodio, según su edad en la base de datos. 
+\ltmconcept{Requisitos}
+El requisito \RSlabel{20} exige el manejo del concepto de relevancia histórica, como un medio para indicar la importancia de un episodio, según su edad en la base de datos. 
 
 % ALMACENAMIENTO
-\paragraph{Estrategia de almacenamiento:}
-Siguiendo el estándar definido para representación de relevancias, se utiliza un valor numérico en el rango $[0, 1]$, para  indicar el estado de envejecimiento del episodio. Este valor siempre debe ser inicializado en 1, para decaer hacia 0 con el paso del tiempo.
-
+\ltmconcept{Estrategia de almacenamiento}
+Siguiendo el estándar definido para representación de relevancias, se utiliza un valor numérico en el rango $[0, 1]$, que indica el estado de envejecimiento del episodio. Este valor siempre debe ser inicializado en 1, para decaer hacia 0 con el paso del tiempo.
 
 % MANEJO AUTOMÁTICO DE DATOS HISTÓRICOS
-\paragraph{Actualización automática:}
-El valor de la relevancia debe ser manejado automáticamente por el servidor LTM. Existen diversas formas de actualizar este valor, pero tras una revisión bibliográfica, se decidió utilizar la siguiente estrategia. Se propone disminuir el indicador, según el algoritmo de decaimiento estudiado por XXX en \cite{} y presentado en la Sección \ref{}. Ya que se espera almacenar una gran cantidad de episodios, se propone actualizar el valor cada lapsos cada vez más espaciados en el tiempo (por ejemplo, primero cada 1 día, luego 1 vez a la semana, cada 1 mes, cada 1 año), lo que permite acotar el esfuerzo computacional dedicado a las actualizaciones.
-
-\todopaused{Sobre la tasa de decaimiento histórica implementada.}
+\ltmconcept{Actualización automática}
+El valor de la relevancia debe ser manejado automáticamente por el servidor LTM. Se propone disminuir el indicador, según el algoritmo de decaimiento presentado por Dood et al. (ver Sección \ref{sec:theory-modulation}). Ya que se espera almacenar una gran cantidad de episodios, se propone discretizar la función de decaimiento. Los episodios deben ser actualizados en lapsos cada vez más espaciados en el tiempo (por ejemplo, primero cada 1 día, luego 1 vez a la semana, cada 1 mes, cada 1 año), lo que permite acotar el esfuerzo computacional dedicado a las actualizaciones.
 
 
 %% =============================================================================
@@ -342,8 +324,8 @@ El valor de la relevancia debe ser manejado automáticamente por el servidor LTM
 %% =============================================================================
 
 % SOBRE RAZONAMIENTO
-\paragraph{Metadatos:}
-El último conjunto de datos considerado para almacenar junto a cada episodio es denominado \textit{Metadatos}. Éstos no están ligados a algún requerimiento de software, por lo que no son formalmente necesarios, sin embargo, permiten almacenar datos útiles para la implementación LTM, y sirven para conocer información sobre el software utilizado para almacenar cada episodio. Los \textit{Metadatos} tienen como finalidad ser de utilidad al resolver problemas relacionados al software LTM, y para cuando los usuarios deseen conocer el contexto de software sobre el cual fue generado el episodio.
+\ltmconcept{Metadatos}
+El último conjunto de datos considerado para un episodio es denominado \textit{Metadatos}. Éstos no están ligados a algún requerimiento de software, por lo que no son formalmente necesarios, sin embargo, permiten almacenar datos útiles para la implementación LTM, y sirven para conocer información sobre el software utilizado durante el almacenamiento de cada episodio. Los \textit{Metadatos} tienen como finalidad ser de utilidad al resolver problemas relacionados al software LTM, y para cuando los usuarios deseen conocer el contexto de software sobre el cual fue generado el episodio.
 
 
 %% =============================================================================
@@ -355,28 +337,14 @@ El último conjunto de datos considerado para almacenar junto a cada episodio es
 %% =============================================================================
 
 % SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
-
 A continuación se presenta un conjunto de limitantes conocidas del diseño episódico desarrollado, las que pueden ser consideradas como parte del trabajo futuro del proyecto.
 
 % SOBRE COMPLETITUD Y LAPSOS EN BLANCO..
-\paragraph{Ausencia de hijos:} Este problema fue explicado parcialmente en la Sección \ref{sec:design_ep_when}, y aparece con padres cuyo rango temporal no es cubierto completamente por sus hijos. Cómo se verá en la Sección \ref{}, esto puede suceder cuando el usuario decide no almacenar algunos episodios hoja, pues los considera poco relevantes. El efecto de ésto, es que puede haber información no presente en los padres, al calcular sus datos a partir de sus hijos. Particularmente, esto sucede con la información para \textit{When}, \textit{What} y las relevancias episódicas. Se puede argumentar que, ya que el usuario considera que los subepisodios eran irrelevantes, entonces la información perdida también lo es. Sin embargo, por motivos de introspección, puede ser de interés almacenar los datos de \textit{streams} asociados a los periodos temporales perdidos.
+\ltmconcept{Ausencia de hijos}
+Este problema fue explicado parcialmente en la Sección \ref{sec:design_ep_when}, y aparece con padres cuyo rango temporal no es cubierto completamente por sus hijos. Esto puede suceder cuando el usuario decide no almacenar algunos episodios hoja, pues los considera poco relevantes. El efecto de ésto, es que los padres podrían contar con información incompleta al calcular datos a partir de sus hijos. Se puede argumentar que, ya que el usuario considera que los subepisodios eran irrelevantes, entonces la información perdida también lo es. Sin embargo, por motivos de introspección, puede ser de interés almacenar los datos de \textit{streams} asociados a los periodos temporales perdidos.
 
-\paragraph{Episodios de larga duración:}
-A pesar de que el diseño del servidor permite episodios de duración indefinida, en la práctica, es raro que el robot funcione por periodos prolongados. Luego, los episodios cuyo fin es dar un contexto temporal a un árbol no pueden ser almacenados directamente (por ejemplo, cuando el robot está participando en una competencia de 4 días de duración). A pesar de lo anterior, el diseño permite la introducción manual de episodios de larga duración, sin tener que mantener en funcionamiento el robot durante todo el periodo.
-
-\todoimplementation{COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
-
-
-\todowrite{Limitante Where: En un futuro se podría agregar un 3er nivel de información, para almacenar info ultra específica, por ejemplo: ``al lado de la tele'', ``cerca del refrigerador''..}
-
-
-% SOBRE UBICACIÓN
-\todopaused{Depende de reimplementación del sistema de ubicación}
-
-%       - ubicación 2D
-%       - ubicación y frames
-%       - ubicaciones de hojas con sólo un lugar... vs episodios con movimiento.
-%       - padres mantienen con mismo frame y mapa de hijos
+\ltmconcept{Episodios de larga duración}
+A pesar de que el diseño del servidor permite episodios de duración indefinida, en la práctica es raro que el robot funcione por periodos prolongados. Luego, los episodios cuyo fin es dar un contexto temporal a un árbol episódico no pueden ser almacenados directamente (por ejemplo, cuando el robot está participando en una competencia de 4 días de duración). A pesar de lo anterior, el diseño permite la introducción manual de episodios de larga duración, sin tener que mantener en funcionamiento el robot durante todo el periodo.
 
 
 %% =============================================================================
@@ -395,9 +363,8 @@ A pesar de que el diseño del servidor permite episodios de duración indefinida
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-% - Diseño de Base de Datos:
 
-Es esta sección se presentan las decisiones sobre el diseño de la base de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados, \textit{streams} y entidades.
+Es esta sección se presentan las decisiones sobre el diseño de la base de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados: \textit{streams} y entidades.
 
 
 %% =============================================================================
@@ -409,25 +376,24 @@ Es esta sección se presentan las decisiones sobre el diseño de la base de dato
 %% =============================================================================
 
 % SOBRE SELECCIÓN DE MONGO DB
-\paragraph{MongoDB:}
-Según se explicó en la Sección \ref{}, la implementación del sistema LTM requiere el manejo de datos aleatorios, representados mediante mensajes de ROS que debe definir el usuario. Además, el sistema debe permitir modificar la representación de tales mensajes a futuro y soportar el almacenamiento de datos binarios. Por lo tanto, se requiere el uso de una base de datos no relacional, capaz de manejar cualquier mensaje definido en ROS. Para ésto, se decidió utilizar la base de datos no relacional \textit{MongoDB}, presentada en la Sección \ref{}. 
+\ltmconcept{MongoDB}
+De acuerdo al diseño de los mensajes episódicos, la implementación del sistema LTM requiere el manejo de datos aleatorios, representados mediante mensajes de ROS que debe definir el usuario. Además, el sistema debe permitir modificar la representación de tales mensajes a futuro y soportar el almacenamiento de datos binarios. Se decidió utilizar la base de datos no relacional \textit{MongoDB}, presentada en la Sección \ref{sec:mongodb}. 
 
-La decisión sobre el uso \textit{MongoDB} se basa en tres razonamientos principales. Primero, el driver ROS para ésta es considerado estable, al menos hasta el año 2023. \textit{MongoDB} es utilizado por la librería \textit{MoveIt} de ROS, de uso extendido en la comunidad, por lo que ya ha sido probada y está disponible en muchos robots de servicio domésticos. Finalmente, \textit{MongoDB} se ocupa actualmente en el robot Bender. Debido a lo anterior, esta elección minimiza problemas de dependencias y compatibilidad a futuro.
-
-\todounsure{Es correcto hablar de drivers??.. debo hablar sobre controladores?..}
+La decisión sobre el uso \textit{MongoDB} se basa en tres razonamientos principales. Primero, el la interfaz ROS para ésta es considerada estable, al menos hasta el año 2023. \textit{MongoDB} ya es de uso extendido en la comunidad, por lo que ya ha sido probada y está disponible en muchos robots de servicio domésticos, evitando agregar dependencias extra a tales proyectos. Finalmente, \textit{MongoDB} se ocupa actualmente en el robot Bender. Debido a lo anterior, esta elección minimiza problemas de dependencias y compatibilidad a futuro.
 
 
 % SOBRE SEPARACIÓN DE COLECCIONES
-\paragraph{Colecciones:}
-Debido al funcionamiento del driver ROS para \textit{MongoDB}, se asociará una colección distinta para cada mensaje episódico de interés. Particularmente, una colección será destinada al almacenamiento del mensaje \texttt{Episode.msg}, mientras que cada mensaje definido por el usuario será  asociado a una colección distinta. En primera instancia, la base de datos no relacional permitiría almacenar todos los mensajes en la misma colección, pero la separación de cada tipo de dato en colecciones distintas es conveniente debido a lo siguiente. Primero, la separación permite optimizar consultas simples a la base de datos, que no requieran acceder a toda la memoria semántica asociada. Además, mediante la separación se evita propagar problemas al registro de episodios, cuando se presenten fallos en los controladores de memoria semántica que debe implementar el usuario. Finalmente, ya que el sistema debe soportar una cantidad indefinida de mensajes ROS elegidos por el usuario, se evita saturar el registro de episodios con mensajes que, una vez agrupados, superen el límite de tamaño permitido a cada elemento de una colección.
+\ltmconcept{Colecciones}
+Debido al funcionamiento de \texttt{warehouse\_ros\_mongo}, cada mensaje ROS debe ser asociado a una colección distinta. Particularmente, una colección será destinada al almacenamiento del episodios, mientras que cada mensaje definido por el usuario será asociado a una colección distinta. En primera instancia, la base de datos no relacional permitiría almacenar todos los mensajes en la misma colección, pero la separación de cada tipo de dato en colecciones diferentes es conveniente por las siguientes razones:
+\begin{itemize}
+\item La separación permite optimizar consultas simples a la base de datos, que no requieran acceder a toda la memoria semántica asociada.
+\item Mediante la separación se evita propagar problemas al registro de episodios, cuando se presenten fallos en los plugins de memoria semántica implementados por el usuario.
+\item Ya que el sistema debe soportar una cantidad indefinida de mensajes ROS elegidos por el usuario, se evita saturar el registro de episodios con mensajes que, una vez agrupados, superen el límite de tamaño (16MB) permitido a cada elemento de una colección.
+\end{itemize}
 
 % REQUISITO DE MODIFICACIÓN DE REPRESENTACIÓN
-% modificar msg de colección MD5 y poder seguir ocupando la base de datos.
-% - mongo no tiene problema en modificar representación ...
-% - el driver ROS si.
-.
-\todopaused{Describir cuando esté solucionado.}
-
+\ltmconcept{Modificación de mensajes semánticos}
+El requisito \RSlabel{14} especifica que el servidor debe permitir modificar la representación de los mensajes episódicos almacenados. Esto puede suceder porque el usuario decide agregar/quitar campos al mensaje, o porque una dependencia del mensaje fue actualizada. La implementación debe soportar la migración desde la estructura antigua a la nueva.
 
 %% =============================================================================
 %% =============================================================================
@@ -437,13 +403,9 @@ Debido al funcionamiento del driver ROS para \textit{MongoDB}, se asociará una 
 %% =============================================================================
 %% =============================================================================
 
-Toda la información episódica, definida por medio del mensaje \texttt{Episode.msg}, será almacenada en la colección \texttt{episodes}.
+Todos los episodios, definidos por su mensaje ROS, serán almacenados en la colección \texttt{episodes}.
 
-Debido a los requisitos de software \hl{(RSXX) y (RSXX)}, cada episodio debe ser indexado por todos sus campos disponibles, propuestos en la Sección \ref{}. Sin embargo, por temas prácticos, no es posible indexar todos los datos asociados al campo \textit{What}. En el caso de entidades, queda a criterio del usuario. Mientras que en el caso de \textit{streams}, no tiene sentido indexar cada pixel de una imagen, o cada instante de sonido a almacenar.
-
-
-% SOBRE CONSULTAS QUE DEBE SOPORTAR?
-\todowrite{Sobre consultas episódicas que debe soportar el modelo.}
+De acuerdo a los requisitos \RSlabel{05} y \RSlabel{22}, cada episodio debe ser indexado al menos por los campos \textit{What}, \textit{When}, \textit{Where}, las relevancias emocionales y sus campos internos. En el caso de \textit{What}, las entidades y \textit{streams} también deben ser indexados, y queda a criterio del usuario cuales campos son de interés para cada concepto. Por lo general un \textit{stream} no debe indexar sus campos, pues no tiene sentido realizar búsquedas sobre cada pixel de una imagen, o cada instante de una muestra de sonido.
 
 
 %% =============================================================================
@@ -454,20 +416,16 @@ Debido a los requisitos de software \hl{(RSXX) y (RSXX)}, cada episodio debe ser
 %% =============================================================================
 %% =============================================================================
 
-Según se explicó anteriormente, cada \textit{stream} definido por el usuario es asociado a una colección de \textit{MongoDB} propia. El nombre de la colección debe ser definido por el usuario. 
+\ltmconcept{Colección}
+Según se explicó anteriormente, cada \textit{stream} definido por el usuario es asociado a una colección de \textit{MongoDB} propia. El nombre de cada colección lleva el prefijo \texttt{stream:}, seguido de un identificador definido por el usuario.
 
-Ya que los \textit{streams} se consideran datos con sólo una instancia por cada episodio, se decide utilizar el mismo identificador único para ambas estructuras. Así, el episodio identificado por el valor $A$, tendrá asociado un \textit{stream} de cada colección, cada uno con el identificador $A$.
-
-\todoimplementation{Que el server avise si hay colecciones con nombres repetidos.}
-
+\ltmconcept{Indexado}
 Por lo general, los campos de un \textit{stream} no requieren ser indexados, ya que es conveniente almacenarlos como campos binarios. Sin embargo, durante la implementación del \textit{plugin} asociado, el usuario puede decidir añadir metadatos para indexar campos convenientes. La utilidad de ésto, es que permitirá agregar nuevos términos de comparación para las consultas a la base de datos. Luego, se tienen dos formas de acceder a un \textit{stream} en particular; mediante su mensaje episódico asociado, o a través de los metadatos definidos por el usuario.
 
-Utilizando la configuración por defecto de \textit{MongoDB}, el límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Por ejemplo, esto permitiría almacenar $N$ imágenes a color de tamaño $AxB$, o $M$ imágenes en escala de grises del mismo tamaño. Sin embargo, \textit{MongoDB} provee estrategias de almacenamiento que no consideran esa limitante, las que deben ser configuradas por el usuario.
-\todowrite{Corregir comparación de 16MB con cantidad de imágenes. Ojo con formato y serialización.}
-\todoimplementation{Server con warning si mensaje a almacenar pesa más del límite!.}
+\ltmconcept{Tamaño del mensaje}
+El límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Según se describe en la Sección  \ref{sec:mongodb}, \textit{MongoDB} provee estrategias de almacenamiento para evitar este límite, las que deben ser configuradas manualmente por el usuario.
 
-% - cambio de representación (MD5)
-\todopaused{Sobre la modificación de la estructura del stream... MD5...}
+\todoimprove{Por ejemplo, esto permitiría almacenar hasta $N$ imágenes a color de cierto tamaño, o $M$ de ellas en escala de grises.}
 
 
 %% =============================================================================
@@ -478,41 +436,52 @@ Utilizando la configuración por defecto de \textit{MongoDB}, el límite de tama
 %% =============================================================================
 %% =============================================================================
 
-Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es  asociado a una colección de \textit{MongoDB} propia. El nombre de ésta debe ser definido por el usuario. 
+\ltmconcept{Colección}
+Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es asociado a una colección de \textit{MongoDB} propia. El nombre de cada colección lleva el prefijo \texttt{entity:}, seguido de un identificador definido por el usuario. 
 
-A diferencia de los \textit{streams}, cada episodio puede estar asociado a una o más instancias de una entidad semántica. Por ejemplo, dada una entidad ``Persona'', durante un mismo episodio se pueden obtener datos (e.g., fecha de última visualización) para las instancias ``Jonh'' y ``Mike'', los que son almacenados en la misma colección, pero en distintas entradas.
+\ltmconcept{Indexado}
+Se delega al usuario la definición de los campos de interés para el indexado de su mensaje. Estos campos estarán disponibles para realizar consultas episódicas al servidor.
 
-\todoimplementation{Escribir cuando esté implementado correctamente.}
+\ltmconcept{Flexibilidad}
+El modelo debe considerar un identificador único para indicar la instancia de cada entidad. Así, cuando un episodio registra actualizaciones de una instancia particular, modifica su entrada en la colección correspondiente.
 
-\todopaused{Sobre modelo de datos y flexibilidad...}
-\todopaused{Sobre modelo de datos y perspectiva...}
-% - cómo cumplir reglas sobre flexibilidad y perspectiva. Audit trail.
-
-% SOBRE CONSULTAS QUE DEBE SOPORTAR?
-\todowrite{Sobre consultas episódicas que debe soportar el modelo.}
-\todopaused{Sobre metadatos}
-\todopaused{Sobre tags definidos en campo What.}
-
-% - cambio de representación (MD5)
-\todopaused{Sobre la modificación de la estructura de entidades... MD5...}
-
+\ltmconcept{Perspectiva}
+Para soportar este concepto se requiere poder reconstruir el estado de una instancia en cada instante de tiempo desde su creación. Este es un requisito común para una base de datos, denominado \textit{Audit Trail}. La solución propuesta para el problema es la siguiente:
+\begin{itemize}
+\item Por cada entidad (mensaje ROS), se deben mantener 2 colecciones en la base de datos.
+\item Las primera colección almacena un historial de modificaciones a cada instancia de la entidad. Cada entrada debe indicar el tiempo de ocurrencia, tener referencias a los episodios asociados e indicar los cambios registrados.
+\item La otra colección almacena el estado actual de cada instancia de la entidad, lo que es equivalente a aplicar su historial de cambios desde el comienzo. Esta colección tiene el propósito de agilizar consultas que sólo requieran los conocimientos actuales de cada instancia.
+\end{itemize}
+Ya que \texttt{warehouse\_ros\_mongo} sólo permite almacenar un tipo de mensaje ROS por colección, la destinada a almacenar los cambios es subdividida en dos colecciones:
+\begin{itemize}
+\item La primera almacena un mensaje ROS del mismo tipo que la entidad, y sirve para indicar los cambios registrados. Su nombre utiliza el prefijo \texttt{entity:} y el sufijo \texttt{.trail}.
+\item La segunda almacena un mensaje ROS con los metadatos necesarios para mantener el historial. Su nombre utiliza el prefijo \texttt{entity:} y el sufijo \texttt{.meta}.
+\end{itemize}
 
 
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Limitantes y trabajo futuro}
+\subsection{Consultas al modelo}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
 
-El modelo de datos descrito está diseñado para satisfacer los requerimientos de software del proyecto, sin embargo, los siguientes aspectos no son cubiertos por el diseño y se consideran trabajo futuro.
+\ltmconcept{Requisitos}
+De acuerdo a los requisitos \RSlabel{06} y \RSlabel{17}, el modelo debe soportar operaciones CRUD sobre los episodios y mensajes semánticos almacenados. Las operaciones deben permitir filtrar los episodios mediante condiciones de \{igualdad, mayor/menor que, pertenencia a arreglos\} sobre los campos indexados. Se debe dar soporte para comparaciones entre los siguientes tipos de dato primitivos de ROS: \{\texttt{bool}, \texttt{int}, \texttt{float}, \texttt{string}\} y condiciones de pertenencia a arreglos de esos tipos.
 
-\todowrite{Identificar más limitantes}
-% - otras funcionalidades de interés: bkp, migrate a otro robot, ...
-% - metadatos de arreglos... por el driver ROS...
-% - cosa MD5
+A continuación se describe la estrategia de procesamiento para las consultas CRUD requeridas.
 
+\subsubsection{Operaciones de inserción (Create)}
+
+
+\subsubsection{Operaciones de lectura (Read)}
+
+
+\subsubsection{Operaciones de actualización (Update)}
+
+
+\subsubsection{Operaciones de eliminación (Delete)}
 
 %% =============================================================================
 %% =============================================================================
@@ -655,7 +624,7 @@ Cada uno de los módulos presentados a continuación cumple una doble funcionali
 %% =============================================================================
 %% =============================================================================
 
-\paragraph{SMACH:}
+\ltmconcept{SMACH}
 El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección \ref{}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos. A través de SMACH, en Bender se implementan capacidades como la interacción continuada con humanos y la resolución de tareas en el hogar. 
 
 \paragraph{Información episódica:}

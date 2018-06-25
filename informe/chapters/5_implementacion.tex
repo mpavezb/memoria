@@ -148,6 +148,7 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
 	\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
 	\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
 \end{itemize}
+\todoimplementation{Optimización: condición de que hijos son ordenados por tiempo de inicio}
 
 % SOBRE EL MENSAJE ROS
 \paragraph{Representación:}
@@ -177,7 +178,11 @@ Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para al
 	\item \texttt{string[] children\_locations}:
 	\item \texttt{string[] children\_areas}:
 \end{itemize}
-
+\todoimplementation{Crear submensaje para Where.msg, que almacene: location, area, time}
+\todoimplementation{Soportar más de 1 lugar semántico y coordenado para hijos.}
+\todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
+\todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
+\todoimplementation{Limitantes Where: + de una posición.... Frames únicos por árbol}
 
 Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \begin{itemize}
@@ -211,12 +216,13 @@ Considerando lo anterior, se crea el mensaje \texttt{EmotionalRelevance.msg}, ut
 	\item \texttt{string[] registered\_emotions}: Metadato. Descripción de emociones encontradas por el software generador de emociones. 
 	\item \texttt{float32[] registered\_values}: Metadato. Intensidades de emociones descritas en el campo \texttt{registered\_emotions}.
 \end{itemize}
-
+\todoimplementation{8 emociones son requeridas!}
 
 Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \begin{itemize}
 	\item \texttt{ltm/EmotionalRelevance emotional}: Se agrega una instancia del mensaje ROS de tipo \texttt{EmotionalRelevance.msg}, para almacenar la información emocional relativa al episodio.
 \end{itemize}
+
 
 % MENSAJE ROS
 \paragraph{Representación:}
@@ -231,6 +237,7 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \begin{itemize}
 	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
 \end{itemize}
+\todopaused{Sobre la tasa de decaimiento histórica implementada.}
 
 % MENSAJE ROS
 \paragraph{Representación:}
@@ -256,6 +263,8 @@ Una vez definido que los mensajes para \textit{streams} y entidades serán almac
 \begin{itemize}
 	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
 \end{itemize}
+\todoimplementation{Mensajes definidos por usuario deben poseer un campo con metadatos, manejados por el server.}
+\todoimplementation{LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
 
 % REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
 \paragraph{Representación:}
@@ -263,6 +272,7 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 \begin{itemize}
 	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
 \end{itemize}
+\todoimplementation{Mensajes definidos por usuario deben poseer un campo con metadatos, manejados por el server.}
 
 \todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
 
@@ -270,6 +280,19 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 \paragraph{Representación:}
 % TODO
 
+\todoimplementation{COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
+
+
+\todoimplementation{Modificación de la estructura de mensajes semánticos}
+% modificar msg de colección MD5 y poder seguir ocupando la base de datos.
+% - mongo no tiene problema en modificar representación ...
+% - el driver ROS si.
+
+\todoimplementation{Prefijo \texttt{stream:} y \texttt{entity:} para colecciones}
+\todoimplementation{Server con warning si mensaje a almacenar pesa más del límite!.}
+\todowrite{Es labor del usuario definir el merge del historial.}
+
+\todoimplementation{Condiciones de búsqueda para cada tipo de dato primitivo en ROS.}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
