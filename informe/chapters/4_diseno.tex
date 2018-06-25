@@ -222,11 +222,18 @@ Ya que los contenidos a almacenar deben poder ser definidos por el usuario, se e
 
 % SOBRE PLUGINS
 \ltmconcept{Sistema de plugins}
-Se decidió utilizar un sistema basado en \textit{plugins} para manejar los mensajes ROS definidos por el usuario. De esta manera, se delega al usuario la implementación de los algoritmos para adquisición de la  información semántica y procesamiento de ésta. El diseño del servidor LTM en la Sección \ref{} especifica que funcionalidades deben ser implementadas por \textit{plugins} destinados a \textit{streams} o entidades. 
+Se decidió utilizar un sistema basado en \textit{plugins} para manejar los mensajes ROS definidos por el usuario. De esta manera, se delega al usuario la implementación de los algoritmos para adquisición de la  información semántica y procesamiento de ésta. El diseño del servidor LTM en la Sección \ref{sec:design-server} especifica que funcionalidades deben ser implementadas por \textit{plugins} destinados a \textit{streams} o entidades. 
 
 % SOBRE STREAMS
 \ltmconcept{Datos semánticos - Streams}
-Los \textit{streams} corresponden a flujos de datos generalmente invariables, que no están ligados a un episodio particular. Estos se relacionan a un episodio según sus tiempos de inicio y fin. Cada episodio puede estar asociado a uno o más \textit{streams}, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin sólo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
+Los \textit{streams} corresponden a flujos de datos generalmente invariables, relacionados a un episodio según sus tiempos de inicio y fin. Existen 3 metodologías para almacenar los \textit{streams}, con ventajas y desventajas. En cada caso, no se requiere almacenar datos cuando no hay episodios activos:
+\begin{enumerate}
+	\item Cada \textit{stream} contiene sólo 1 dato semántico, por lo que no tiene duración y es asociado a un instante de tiempo. Esta estrategia es ideal funcionalmente, pero ya que la tasa de mensajes a almacenar puede ser alta, en la práctica esta solución es costosa en términos de consultas a la base de datos.
+	\item Mantener 1 \textit{stream} por cada episodio, con tiempos de inicio y fin idénticos a los del episodio relacionado. Tiene la desventaja de almacenar información duplicada cuando existe traslape temporal de episodios.
+	\item Similar a la estrategia anterior, pero subdividiendo el \textit{stream} cuando hay traslape de episodios. Evita la duplicación de información, pero complica la mantención de la base de datos.
+\end{enumerate}
+
+Para acotar el trabajo, y bajo la suposición de que en la práctica existen pocos episodios traslapados, se escoge la segunda estrategia. Entonces, cada episodio puede estar asociado a un \textit{stream} de cada tipo, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin sólo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
 
 Según la cantidad de \textit{plugins} a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (por ejemplo, disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
 
@@ -237,7 +244,8 @@ El usuario debe definir cada tipo de entidad disponible a través un mensaje ROS
 \item Su modelo de datos debe soportar el requisito \RSlabel{07} al crear nuevas instancias o modificar una ya existente.
 \item El modelo de datos debe soportar el requisito \RSlabel{10}, por lo que cada episodio debe almacenar referencias a las instancias modificadas y los cambios aplicados.
 \end{itemize}
-De manera similar a los \textit{streams}, las instancias de una entidad y sus modificaciones no están ligadas a un episodio particular, sino que a los episodios activos durante el registro la modificación. Entonces, es posible registrar cambios a entidades y \textit{streams} a pesar de no haber episodios activos.
+
+Las instancias de una entidad y sus modificaciones no están ligadas a un episodio particular, sino que a los episodios activos durante el registro la modificación. Entonces, es posible registrar cambios a entidades a pesar de no haber episodios activos.
 
 \todoimprove{Diagrama explicando diseño de streams y entidades...  ocurren paralelamente a episodios, pero se relacionan por sus instantes de tiempo.}
 
@@ -439,9 +447,6 @@ El límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que im
 \ltmconcept{Colección}
 Cada mensaje ROS definido por el usuario, para representar una entidad de la memoria semántica, es asociado a una colección de \textit{MongoDB} propia. El nombre de cada colección lleva el prefijo \texttt{entity:}, seguido de un identificador definido por el usuario. 
 
-\ltmconcept{Indexado}
-Se delega al usuario la definición de los campos de interés para el indexado de su mensaje. Estos campos estarán disponibles para realizar consultas episódicas al servidor.
-
 \ltmconcept{Flexibilidad}
 El modelo debe considerar un identificador único para indicar la instancia de cada entidad. Así, cuando un episodio registra actualizaciones de una instancia particular, modifica su entrada en la colección correspondiente.
 
@@ -458,6 +463,9 @@ Ya que \texttt{warehouse\_ros\_mongo} sólo permite almacenar un tipo de mensaje
 \item La segunda almacena un mensaje ROS con los metadatos necesarios para mantener el historial. Su nombre utiliza el prefijo \texttt{entity:} y el sufijo \texttt{.meta}.
 \end{itemize}
 
+\ltmconcept{Indexado}
+Se delega al usuario la definición de los campos de interés para el indexado de su mensaje. Estos campos estarán disponibles para realizar consultas episódicas al servidor. Sin embargo, para enriquecer las búsquedas de episodios, los metadatos del registro histórico deben tener vectores con los nombres de los campos modificados, campos creados, y campos eliminados. Los 3 vectores deben estar indexados.
+
 
 %% =============================================================================
 %% =============================================================================
@@ -470,18 +478,86 @@ Ya que \texttt{warehouse\_ros\_mongo} sólo permite almacenar un tipo de mensaje
 \ltmconcept{Requisitos}
 De acuerdo a los requisitos \RSlabel{06} y \RSlabel{17}, el modelo debe soportar operaciones CRUD sobre los episodios y mensajes semánticos almacenados. Las operaciones deben permitir filtrar los episodios mediante condiciones de \{igualdad, mayor/menor que, pertenencia a arreglos\} sobre los campos indexados. Se debe dar soporte para comparaciones entre los siguientes tipos de dato primitivos de ROS: \{\texttt{bool}, \texttt{int}, \texttt{float}, \texttt{string}\} y condiciones de pertenencia a arreglos de esos tipos.
 
-A continuación se describe la estrategia de procesamiento para las consultas CRUD requeridas.
+A continuación se describe la estrategia de procesamiento para las consultas CRUD que debe soportar el sistema. En cada caso se enfatizan las reglas a seguir para mantener la consistencia del modelo de datos.
 
 \subsubsection{Operaciones de inserción (Create)}
+%% =============================================================================
 
+\ltmconcept{Episodios}
+La inserción de episodios se hace en un proceso de dos etapas:
+\begin{enumerate}
+\item  Al inicio del episodio se declara la creación de este al servidor, el que proveerá un identificador disponible para su registro. Si el usuario indica que se trata de un episodio hoja, el servidor notifica a los plugins relacionados para que recopilen la información episódica y semántica requerida.
+\item  Al finalizar el episodio, el usuario debe indicar las referencias al padre e hijos conocidos. Éste proceso notifica a los plugins para que finalicen la recopilación de información y se almacenen el mensaje episódico y del \textit{stream} asociado.
+\end{enumerate}
+Tras la inserción del episodio, se deben actualizar todos los padres, hasta llegar a la raíz.
+
+Los requisitos no lo exigen, pero en caso de dar soporte para la inserción de episodios pasados, no se deben ejecutar los plugins episódicos ni semánticos. La información sobre relevancia emocional y posición debe ser entregada por el usuario. El \textit{stream} debe ser insertado manualmente por el usuario. Se deben registrar automáticamente las entidades que calcen con el lapso de tiempo designado. Análogamente, se debe actualizar el árbol episódico, hasta llegar a la raíz.
+
+\ltmconcept{Streams}
+Para la inserción de \textit{streams} se debe indicar el episodio asociado e incluir la referencia del \textit{stream} al episodio. En caso de ya existir un \textit{stream} del mismo tipo asociado al episodio, se sobreescribe la referencia y se elimina el antiguo de su colección. Además, es necesario que los tiempos de inicio y fin del mensaje estén dentro de los límites temporales definidos por el episodio.
+
+\ltmconcept{Entidades}
+Los requisitos de flexibilidad \RSlabel{07} y perspectiva \RSlabel{10} dos operaciones de inserción sobre entidades: Creación de una nueva instancia. Modificación de una instancia ya existente, mediante la inserción de un nuevo registro en el historial. Ambas operaciones son requeridas para registros obtenidos en el instante actual. Ya que la creación de una nueva instancia se puede ver como un caso particular de modificación, sólo se detallará la estrategia del último caso:
+\begin{itemize}
+\item El nuevo registro debe indicar la fecha de creación, un identificador único del historial y una referencia a la instancia que modifica/crea.
+\item Se debe modificar/crear la instancia en la colección que mantiene los datos actualizados.
+\item La inserción del registro sólo debe almacenar los datos que fueron modificados, agregados o eliminados. La información que se mantuvo estática no debe ser registrada.
+\item Se deben agregar referencias bidireccionales a los episodios cuyo lapso de vida contenga al registro.
+\end{itemize}
+
+No es necesario dar soporte para crear nuevos registros del historial de entidades, asociados a un tiempo pasado. En caso de hacerlo, se debe seguir una estrategia similar a la anterior, pero además modificando recursivamente los registros adyacentes (temporalmente), para mantener la consistencia del historial.
+
+\ltmconcept{API ROS} Las operaciones de inserción de \textit{streams} y entidades son manejadas directamente por los plugins, por lo que no es necesario proveer una API para ello. Por otro lado, si se requiere una API para las operaciones de registro episódico e inserción.
 
 \subsubsection{Operaciones de lectura (Read)}
+%% =============================================================================
+
+Se debe proveer una API ROS para la lectura de episodios y datos semánticos, a partir de sus datos indexados.
+
+% SOBRE PREGUNTAS A RESPONDER!
+\todopaused{(READ)Operation: Escribir más cuando implementación funcional esté completa.}
+
+\ltmconcept{Episodios}
+
+
+\ltmconcept{Streams}
+
+
+\ltmconcept{Entidades}
 
 
 \subsubsection{Operaciones de actualización (Update)}
+%% =============================================================================
+
+\ltmconcept{Episodios}
+De acuerdo al requisito \RSlabel{08} (más detalle en \RStachowicz{4}), los episodios y son únicos y sólo tienen una instancia para ser aprendidos. Entonces, a pesar de ser útil, no es necesario proveer servicios para la actualización de episodios. En el caso de hacerlo, se deben modificar todos los nodos padres, hasta llegar a la raíz. En caso de modificar el intervalo de tiempo, se deben actualizar las referencias bidireccionales con las entidades ya existentes. Al acortar el intervalo de tiempo, se debe modificar el \textit{stream} asociado, para eliminar mensajes sobrantes.
+
+\ltmconcept{Streams} De la misma manera, ya que los \textit{streams} hacen referencia a datos estáticos, no es necesario proveer esta funcionalidad para ellos. Sólo tiene sentido actualizar el intervalo de tiempo del mensaje, cuando el de su episodio relacionado sea modificado.
+
+\ltmconcept{Entidades}
+Por otro lado, el requisito de flexibilidad \RSlabel{07} exige que las entidades deban soportar operaciones de actualización. Éstas ya son manejadas por el modelo de datos mediante inserciones en las 3 colecciones correspondientes a la entidad, por lo que no hay necesidad de proveer una API con esta funcionalidad.
+
+En caso de proveer una API para actualizar mensajes del historial, las reglas son las siguientes: Se deben modificar recursivamente los registros adyacentes del historial, para considerar los cambios. Se debe actualizar la colección que mantiene la imagen actual de la instancia. Se deben actualizar las referencias bidireccionales con los episodios que ocurrieron en ese lapso de tiempo.
+
+\ltmconcept{API ROS} 
+Como se revisó, no es un requisito proveer servicios ROS para la actualización de los episodios y la memoria semántica. De todas formas, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro del proyecto.
 
 
 \subsubsection{Operaciones de eliminación (Delete)}
+%% =============================================================================
+
+A partir de los requisitos de sistema, no es necesario proveer operaciones de eliminación de mensajes episódicos. Sin embargo, esta operación puede ser de utilidad para pruebas o liberación de memoria.
+
+\ltmconcept{Episodios} En el caso de eliminar un episodio, se deben quitar sus referencias de las entidades y eliminar el \textit{stream} relacionado. Además, se deben actualizar todos los padres hasta llegar a la raíz, para quitar la información asociada al hijo modificado.
+
+\ltmconcept{Streams}
+Al eliminar un \textit{stream} se debe quitar su referencia del episodio relacionado.
+
+\ltmconcept{Entidades}
+Al eliminar algún mensaje del historial de una entidad, se deben quitar sus referencias de los episodios relacionados, es decir, todo episodio cuyo periodo de vida contenga el instante asociado al mensaje. Se debe quitar el registro del historial y actualizar los historiales adyacentes para mantener su consistencia. Se deben recalcular los datos asociados a la entidad actual.
+
+\ltmconcept{API ROS} 
+No es necesario proveer una API ROS para la eliminación de información episódica o semántica. Sin embargo, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro del proyecto.
 
 %% =============================================================================
 %% =============================================================================
@@ -495,15 +571,12 @@ A continuación se describe la estrategia de procesamiento para las consultas CR
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\section{Diseño del servidor LTM}
+\section{Diseño del servidor LTM}\label{sec:design-server}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-%    - TODO: manejo de contexto
-.
-\todowrite{Escribir descripción de la sección.}
 
-% revisar requerimientos software asociados.
+
 
 %% =============================================================================
 %% =============================================================================
@@ -519,11 +592,6 @@ A continuación se describe la estrategia de procesamiento para las consultas CR
 % - parámetros (dar énfasis en la implementación)
 % - estrategia de actualización episódica... branching.. etc.
 .
-
-\subsubsection{Interfaz episódica}
-%% =============================================================================
-% - proveer tiempo y anidamiento
-% - permite notificar a los otros componentes para la recopilación de información episódica
 
 
 %% =============================================================================

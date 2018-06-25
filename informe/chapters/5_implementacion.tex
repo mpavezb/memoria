@@ -1,5 +1,12 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
+\todo[inline]{======================================================\\
+======================================================\\
+================== ESCRIBIENDO - NO REVISAR ================\\
+======================================================\\
+======================================================\\
+}
+
 Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo \ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se muestran los mensajes episódicos sobre los que se construye el proyecto. En tercer lugar, se presentan módulos de software desarrollados para acelerar la implementación y validación del proyecto. Luego, se presenta la implementación del servidor LTM, junto a los módulos encargados de generar información episódica ficticia y los encargados de recolectar datos desde el robot. Finalmente, se muestra la integración del sistema en Bender.
 
 % ==============================================================================
@@ -293,6 +300,7 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 \todowrite{Es labor del usuario definir el merge del historial.}
 
 \todoimplementation{Condiciones de búsqueda para cada tipo de dato primitivo en ROS.}
+\todoimplementation{Quitar Update service para episodios,streams y entidades.}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
