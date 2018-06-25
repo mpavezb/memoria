@@ -168,7 +168,7 @@ En el caso de las hojas, basta utilizar los instantes de tiempo obtenidos al ini
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Contexto espacial: \textit{Where}}
+\subsection{Contexto espacial: \textit{Where}}\label{sec:design_ep_where}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -199,7 +199,7 @@ Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vec
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Memoria semántica: \textit{What}}
+\subsection{Memoria semántica: \textit{What}}\label{sec:design_ep_what}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -274,7 +274,7 @@ Este proyecto sólo considera dos sub-indicadores, histórico y emocional, por l
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Relevancia emocional}
+\subsection{Relevancia emocional}\label{sec:design_ep_rel_emo}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -305,7 +305,7 @@ Además, para simplificar la introspección de episodios a futuro, se decide agr
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Relevancia histórica}
+\subsection{Relevancia histórica}\label{sec:design_ep_rel_hist}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -680,7 +680,7 @@ No es necesario proveer una API ROS para la eliminación de información episód
 %% =============================================================================
 %% =============================================================================
 
-Según especifica el requisito de software \hl{(RSXX)}, el proyecto debe ser integrado al robot Bender, con una demostración de las capacidades del sistema LTM. Para esto, se deben implementar módulos de software que permitan recolectar todos los datos episódicos requeridos por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de streams y entidades a partir de la memoria de trabajo. 
+Según especifican los requisitos \RSlabel{25} y \RSlabel{26}, el proyecto debe ser integrado al robot Bender. Para esto, se debe implementar un módulo que permita recolectar episodios desde SMACH, e implementaciones de cada plugin requerido por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de streams y entidades a partir de la memoria de trabajo de Bender. 
 
 Cada uno de los módulos presentados a continuación cumple una doble funcionalidad. En primer lugar, cumplen con el requisito del diseño de componentes orientados a robots de servicio doméstico, enfocados en el robot Bender. Y además, sirven como ejemplo para el diseño e implementación de nuevas funcionalidades requeridas a futuro para otras plataformas.
 
@@ -693,20 +693,18 @@ Cada uno de los módulos presentados a continuación cumple una doble funcionali
 %% =============================================================================
 
 \ltmconcept{SMACH}
-El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección \ref{}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos. A través de SMACH, en Bender se implementan capacidades como la interacción continuada con humanos y la resolución de tareas en el hogar. 
+El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección \ref{sec:URF}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos.
 
-\paragraph{Información episódica:}
+\ltmconcept{Información episódica}
 A partir de SMACH se puede obtener parte del conocimiento episódico requerido para la definición de un episodio. Desde el punto de vista de sus transiciones, las máquinas de estado están estructuradas en forma de grafo, estableciendo un inicio y fin temporal para cada estado. Conceptualmente, las máquinas se estructuran en forma de árboles, donde cada maquina de estado puede ser contenida por otra, lo que representa el anidamiento episódico. Luego, SMACH provee una forma de conocimiento episódico, capaz de representar información temporal (\textit{When}) y las relaciones de anidamiento episódico (referencias padre-hijo). Finalmente, ya que cada máquina de estado está asociada a una capacidad o contexto, se puede utilizar esa información para obtener los \textit{tags} requeridos para marcar cada episodio.
 
-\paragraph{Funcionamiento:}
-La interfaz episódica diseñada tiene 2 etapas importantes. En primer lugar, el durante la programación de la máquina, el desarrollador debe indicar que estados considera almacenar como episodio, en caso que sean ejecutados. Además, se deben para cada estado marcado, se debe indicar una lista de \textit{tags} que describan brevemente el estado. La segunda etapa ocurre durante el funcionamiento de la máquina de estado; Al inicio de cada estado, la interfaz debe registrar el episodio en el servidor e indicar el identificador de su estado padre, para recibir el identificador generado para tal estado. Al fin de cada episodio, debe notificar el cierre al servidor, para que éste ejecute las rutinas de recopilación de datos y almacene el episodio.
+\ltmconcept{Funcionamiento}
+La interfaz episódica diseñada tiene 2 etapas importantes. En primer lugar, el durante la programación de la máquina, el desarrollador debe indicar que estados considera almacenar como episodio, en caso que sean ejecutados. Además, para cada estado marcado se debe indicar una lista de \textit{tags} que describan brevemente el estado. La segunda etapa ocurre durante el funcionamiento de la máquina de estado, y realiza las tareas de registrar e insertar el episodio en el servidor.
 
+\ltmconcept{Estabilidad de la implementación}
+La ejecución ininterrumpida de SMACH durante una rutina es crucial para el desempeño del robot. Si la librería deja de funcionar repentinamente o se detiene continuamente, el robot se detendrá o tomará mucho tiempo en realizar sus tareas, lo que durante una competencia puede tener pésimas consecuencias para el equipo. Es por esto, que la implementación de la interfaz entre el servidor LTM y SMACH debe ser estable. Particularmente, es de vital importancia que el funcionamiento de SMACH no se vea afectado por la implementación, independientemente de si ésta tiene problemas en su ejecución. 
 
-\paragraph{Estabilidad de la implementación:}
-La ejecución ininterrumpida de SMACH durante una rutina crucial para el desempeño del robot. Si la librería deja de funcionar repentinamente o se detiene continuamente, el robot se detendrá o tomará mucho tiempo en realizar sus tareas, lo que durante una competencia puede tener pésimas consecuencias para el equipo. Es por esto, que la implementación de la interfaz entre el servidor LTM y SMACH debe ser estable. Particularmente, es de vital importancia que el funcionamiento de SMACH no se vea afectado por la implementación, independientemente de si ésta tiene problemas en su ejecución. 
-
-
-\paragraph{Intrusividad:}
+\ltmconcept{Intrusividad}
 Por otro lado, la implementación debe minimizar las modificaciones a la librería SMACH y a las máquinas de estado ya implementadas. En primer lugar, si se modifica la librería SMACH, el equipo tendrá que agregar una copia de ésta y mantenerla a futuro, para lo que no hay personal ni tiempo suficiente. Segundo, el robot dispone de muchas máquinas de estado, las que deberán ser actualizadas para agregar la funcionalidad de la interfaz episódica. Por lo tanto, se toman las siguientes decisiones:
 \begin{itemize}
 \item La librería SMACH no puede ser modificada para la implementación de la interfaz.
@@ -722,15 +720,14 @@ Por otro lado, la implementación debe minimizar las modificaciones a la librer�
 %% =============================================================================
 %% =============================================================================
 
-% SOBRE plugin
-Se debe implementar un plugin para Bender capaz de proveer la posición del robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. Por motivos prácticos, se consideran dos versiones a implementar, una con información falsa, y otra capaz de obtener datos reales desde el robot.
+\ltmconcept{Propuesta}
+Se debe implementar un plugin para Bender capaz de proveer la posición del robot durante cada episodio, según los requerimientos especificados en la Sección  \ref{sec:design-server}. Por motivos prácticos, se consideran dos versiones a implementar, una con información falsa, y otra capaz de obtener datos reales desde el robot.
 
-% SOBRE: Plugin con información Dummy
-La versión ``de prueba'' debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \texttt{Where.msg}. La motivación para esto, es poder realizar pruebas durante la implementación del sistema y poder ejecutar validaciones que no precisen de la ubicación real del robot. Además, el plugin permite minimizar el uso del robot real para la implementación y validación del proyecto, pues el robot es un recurso compartido en el equipo de trabajo y su uso implica costos altos en términos de tiempo.
+\ltmconcept{Versión de prueba} 
+Debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \textit{Where}. La motivación para esto, es poder realizar pruebas durante la implementación del sistema y poder ejecutar validaciones que no precisen de la ubicación real del robot. Además, el plugin permite minimizar el uso del robot real para la implementación y validación del proyecto, pues el robot es un recurso compartido en el equipo de trabajo y su uso implica costos altos en términos de tiempo.
 
-% SOBRE: Interfaz con robot Bender.
-La segunda versión debe ser integrada en el software del robot, a través de la API para la obtención de su ubicación. Se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{}. El plugin deberá recopilar información periódicamente para cada uno de los campos del mensaje \texttt{Where.msg}. Se deberá proveer un listado ordenado temporalmente de las ubicaciones recopiladas, cuando el servidor notifique el término del episodio. Para disminuir el uso de recursos, solamente se deben recopilar posiciones cuando hayan episodios registrados como pendientes en el servidor.
-\todoimplementation{Plugin Where en Bender.}
+\ltmconcept{Versión en Bender}
+Debe ser integrada en el software del robot, a través de la API para la obtención de su ubicación. Se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{sec:design_ep_where}. El plugin deberá recopilar información periódicamente para cada uno de los campos del mensaje \textit{Where}. Se deberá proveer un listado temporalmente ordenado de las ubicaciones recopiladas. Para disminuir el uso de recursos, solamente se deben recopilar posiciones cuando hayan episodios registrados como activos en el servidor.
 
 
 %% =============================================================================
@@ -741,28 +738,26 @@ La segunda versión debe ser integrada en el software del robot, a través de la
 %% =============================================================================
 %% =============================================================================
 
-% SOBRE: plugin
-El siguiente plugin a implementar está encargado de proveer las emociones registradas por el robot durante cada episodio, según los requerimientos especificados en la Sección \ref{}. En este caso, también se consideran dos versiones a implementar, una que provee datos falsos, y otra capaz de obtener datos reales desde el robot. Ambas versiones deben recopilar datos para cada uno de los campos del mensaje \texttt{Emotion.msg}.
+\ltmconcept{Propuesta}
+Este plugin está encargado de proveer las emociones registradas por el robot durante cada episodio, según los requerimientos especificados en la Sección \ref{sec:design-server}. En este caso, también se consideran dos versiones a implementar, una que provee datos falsos, y otra capaz de obtener datos reales desde el robot. Ambas versiones deben recopilar datos para cada uno de los campos del mensaje emocional.
 
-% SOBRE: plugin dummy
-La versión ``de prueba'' debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \texttt{EmotionalRelevance.msg}. Similarmente al plugin para el campo \textit{Where}, este plugin permite realizar pruebas durante la implementación del sistema y ejecutar validaciones que no precisen de la emoción real del robot, mientras se minimiza el uso del robot. Sin embargo, la razón principal para su implementación es que actualmente el robot no cuenta con un sistema de emociones.
+\ltmconcept{Versión de prueba}
+Debe proveer datos generados aleatoriamente para cada uno de los campos emocionales. Similarmente al plugin para \textit{Where}, éste permite realizar pruebas durante la implementación del sistema y ejecutar validaciones que no precisen de la emoción real del robot, mientras se minimiza el uso del robot. Sin embargo, la razón principal para su implementación es que actualmente el robot no cuenta con un sistema de emociones.
 
-% SOBRE: Interfaz con robot Bender.
-La segunda versión debe ser integrada con el software del robot, una vez que se haya implementado el sistema emocional en el robot. Para ésto, se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{}. El plugin deberá recopilar información periódicamente sobre las emociones del robot. Una vez que el servidor notifique la finalización del episodio, el plugin debe proveer un mensaje \texttt{Emotion.msg} asociado a la emoción más intensa durante la duración de éste. Además, para disminuir el uso de recursos, solamente se debe recopilar información cuando hayan episodios registrados como pendientes en el servidor.
+\ltmconcept{Versión en Bender}
+Esta versión debe ser integrada con el software del robot, una vez que se haya implementado el sistema emocional. Para ésto, se utilizará la estrategia de funcionamiento recomendada en la Sección \ref{sec:design_ep_rel_emo}. El plugin deberá recopilar información periódicamente sobre las emociones del robot. Una vez que el servidor notifique la finalización del episodio, el plugin debe proveer un mensaje emocional con los valores máximos percibidos para cada entidad. Además, para disminuir el uso de recursos, solamente se debe recopilar información cuando hayan episodios registrados como activos en el servidor.
 
-\todopaused{Hablar sobre el diseño de módulos emocionales para el robot}
-
-\subsubsection{Modulo emocional: A}
-%% =============================================================================
-
-\subsubsection{Modulo emocional: B}
-%% =============================================================================
-
-\subsubsection{Modulo emocional: C}
-%% =============================================================================
-
-\subsubsection{Modulo emocional: servidor de emociones}
-%% =============================================================================
+%\subsubsection{Modulo emocional: A}
+%%% =============================================================================
+%
+%\subsubsection{Modulo emocional: B}
+%%% =============================================================================
+%
+%\subsubsection{Modulo emocional: C}
+%%% =============================================================================
+%
+%\subsubsection{Modulo emocional: servidor de emociones}
+%%% =============================================================================
 
 
 %% =============================================================================
@@ -773,20 +768,17 @@ La segunda versión debe ser integrada con el software del robot, una vez que se
 %% =============================================================================
 %% =============================================================================
 
+\ltmconcept{Propuesta}
+Para los plugins encargados de proveer streams de datos se escogió solamente la recopilación de imágenes. Bender dispone de variados datos en su memoria de trabajo que son candidatos para ser almacenados en la memoria semántica, como por ejemplo: el sonido percibido en su micrófono, las nubes de puntos 3D percibidas por su sensor de profundidad, o los posiciones de sus efectores. Sin embargo, el almacenamiento de imágenes es muy útil, pues sirve para la demostración final, permite visualizar lo sucedido en el episodio, y la implementación puede servir para otras plataformas, pues las cámaras de video son un sensor muy común en las plataformas robóticas domésticas. Por motivos prácticos, se consideran dos versiones a implementar, una con información ficticia y otra que recopila datos desde el robot real.
 
-% SOBRE: plugin
-Para los plugins encargados de proveer streams de datos se escogió la recopilación solamente de imágenes. Bender dispone de variados datos en su memoria de trabajo que son candidatos para ser almacenados en la memoria semántica, como por ejemplo: el sonido percibido en su micrófono, las nubes de puntos 3D percibidas por su sensor de profundidad, o los posiciones de sus efectores. Sin embargo, el almacenamiento de imágenes es muy útil, pues sirve para la demostración final, permite visualizar lo sucedido en el episodio, y la implementación puede servir para otras plataformas, pues las cámaras de video son un sensor muy común en las plataformas robóticas domésticas. Por motivos prácticos, se consideran dos versiones a implementar, una con información ficticia y otra que recopila datos desde el robot real.
+\ltmconcept{Estrategia}
+Se utilizará la estrategia de funcionamiento propuesta en la Sección \ref{sec:design_ep_what}, mediante el uso de un \textit{buffer} para almacenar las últimas imágenes percibidas. Luego, el plugin deberá entregar un vector con las imágenes asociadas al lapso episódico requerido.
 
-\todoimplementation{Proveer plugin agnóstico al robot, configurable a través de parámetros.}
+\ltmconcept{Versión de prueba}
+Debe proveer imágenes obtenidas a partir de un archivo de video. Análogamente a los plugins anteriores, la motivación para esto, es poder acelerar la implementación del proyecto y poder ejecutar validaciones sin requerir el robot real.
 
-Se utilizará la estrategia de funcionamiento propuesta en la Sección \ref{}, mediante el uso de un \textit{buffer} para almacenar las últimas imágenes percibidas. Luego, el plugin deberá entregar un vector con las imágenes asociadas al lapso episódico requerido. Además, el plugin deberá proveer una API para insertar, buscar, actualizar y borrar mensajes de la colección.
-% - ... revisar implementación ...
-
-% SOBRE: plugin dummy
-La ``versión de prueba'' debe proveer imágenes obtenidas a partir de un archivo de video. Análogamente a los plugins anteriores, la motivación para esto, es poder acelerar la implementación del proyecto y poder ejecutar validaciones sin requerir el robot real.
-
-% SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
-La segunda versión debe ser integrada en el software robot, utilizando la API ROS para leer imágenes desde sus cámaras de video.
+\ltmconcept{Versión en Bender}
+La segunda versión debe ser integrada en el software robot, utilizando su API ROS para leer imágenes desde sus cámaras de video.
 
 %% =============================================================================
 %% =============================================================================
@@ -797,30 +789,19 @@ La segunda versión debe ser integrada en el software robot, utilizando la API R
 %% =============================================================================
 %% =====================================================================================
 
-Para los plugins encargados de definir entidades y recopilar sus cambios durante un episodio, se escogieron las entidades de ``Persona'' y ``Objeto''. Ésta selección fue realizada, pues son las entidades más utilizadas por el robot Bender, y probablemente las más significativas para todo robot de servicio doméstico. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Lugar'' y del ``Robot''. De manera similar al caso de los streams, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
+\ltmconcept{Propuesta}
+Se decidió implementar entidades de ``Persona'' y ``Objeto'', pues son las entidades más utilizadas por el robot Bender, y probablemente las más significativas para todo robot de servicio doméstico. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Lugar'' y ``Robot''. De manera similar al caso de los streams, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
 
-\todopaused{Requiere implementación funcional de plugin para entidades.}
+\ltmconcept{Estrategia}
+Se utilizará la estrategia de funcionamiento propuesta en la Sección \ref{sec:design_ep_what}. Para ello, el plugin se debe subscribir a notificaciones sobre cambios en las entidades conocidas. Luego, se deben registrar los cambios percibidos en el historial de la colección, a pesar de que no hayan episodios activos.
+
+\ltmconcept{Versión de prueba}
+Se debe implementar un nodo que publique mensajes aleatorios sobre las entidades definidas. El plugin debe subscribirse al tópico asociado, para almacenar registros de las entidades.
+
+\ltmconcept{Versión en Bender}
+Se debe implementar un módulo capaz de notificar cambios en las entidades conocidas por el robot, a partir de sus módulos de percepción disponibles. El plugin se debe suscribir al tópico asociado.
 
 
-% SOBRE: requerimientos del server
-% - sobre marcar inicio, fin
-% - sobre definición de colecciones
-% - sobre manejo de la colección: CRUD
-% - sobre API ROS asociada.
-
-
-% SOBRE: Funcionamiento
-% - estrtategia de procesamiento
-% - buffer
-% - periodicidad
-% - ... revisar implementación ...
-
-% SOBRE: plugin dummy
-% - motivación.. sirve para simulación y pruebas, sin tener acceso al robot.
-% - generación de stream de imágenes a partir de un video
-
-% SOBRE Plugin a partir de cámara de cabeza.. una o dos cámaras...
-% - sobre eso, siguiendo estrategia definida.
 
 
 
