@@ -95,11 +95,11 @@ La memoria puede ser dividida en múltiples sistemas de independientes, con func
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 \tikzset{
 	basic/.style  = {draw, drop shadow, font=\sffamily, rectangle},
-	root/.style   = {basic, rounded corners=2pt, text width=10em, very thick, align=center, fill=gray!5},
+	root/.style   = {basic, rounded corners=2pt, text width=10em, very thick, align=center, fill=gray!10},
 	level 1/.style = {sibling distance=20mm},
-	level 2/.style = {basic, rounded corners=6pt, thin,align=center, fill=red!10, text width=8em},
-	level 3/.style = {basic, rounded corners=2pt, thin, align=center, fill=gray!10, text width=6.5em},
-	level 4/.style = {basic, thin, align=left, fill=blue!10, text width=10em}
+	level 2/.style = {basic, rounded corners=6pt, thick,align=center, fill=gray!20, text width=8em},
+	level 3/.style = {basic, rounded corners=2pt, thick, align=center, fill=gray!10, text width=6.5em},
+	level 4/.style = {basic, thin, align=left, fill=gray!5, text width=10em}
 }
 
 \begin{figure}[!h]
@@ -317,7 +317,7 @@ A continuación se presenta una revisión de sistemas LTM basados en la memoria 
 
 \subsubsection{Frameworks LTM}
 
-\paragraph{SOAR-EM (2004):} 
+\ltmconcept{SOAR-EM (2004)} 
 % Más info en: Sanchez:2015 , Stachowicz2012 , Deutsch2008
 % About
 Nuxoll y Laird~\cite{Nuxoll2004ACM} presentaron SOAR-EM, una extensión con memoria episódica para la arquitectura SOAR~\cite{LAIRD19871}. Ellos desarrollaron un sistema similar a PACMAN, donde la máquina debe moverse a través de una grilla para buscar ``comida'' lo más rápido posible. Utilizaron la memoria episódica para dar apoyo en la planificación de los movimientos del agente, mostrando que aquellos equipados con memoria episódica tienen un mejor desempeños que los que carecen de ella. 
@@ -326,32 +326,29 @@ Nuxoll y Laird~\cite{Nuxoll2004ACM} presentaron SOAR-EM, una extensión con memo
 En SOAR-EM un episodio es creado con datos de la STM por cada acción del agente, los que pueden ser recolectados a partir de una pista episódica. Sin embargo, más adelante se mostró que el mecanismo de recolección es ineficiente y difícil de optimizar~\cite{Nuxoll2007}. Por otro lado, el trabajo no considera aspectos como el olvido episódico, ni la interacción de emociones con la memoria a largo plazo.
 
 
-\paragraph{ISAC (2005):}
+\ltmconcept{ISAC (2005)}
 % Más info en: Sanchez:2015 , Stachowicz2012 , Deutsch2008
 En el año 2005 Ratanaswasd et al.~\cite{Ratanaswasd2005} agregan memoria episódica al robot humanoide ISAC (Intelligent Soft Arm Control), enfocado en la manipulación de objetos. Los episodios son almacenados por su fecha y hora, combinados con todos los contenidos semánticos que aparecen en ese lapso. Luego, estos son recolectados para soportar la toma de decisiones en la planificación de trayectorias robóticas, bajo la suposición de que siempre existirá un episodio lo suficientemente similar a la situación actual. Más tarde, Dodd y Guitierrez~\cite{Dodd2005} incorporaron 2 sistemas de relevancia episódica, para optimizar la búsqueda y eliminación de eventos según su intensidad; Incorporaron el sistema emocional de ISAC, para asignar una relevancia emocional a cada episodio. E incorporaron el concepto de relevancia histórica, donde eventos recientes son más importantes que los pasados, y experiencias novedosas tienen mayor puntaje que las comunes.
 
 Los datos almacenados cubren el Qué, Cuándo y Dónde requeridos por Clayton~\cite{CLAYTON20092330}. Sin embargo, el diseño no provee la flexibilidad esperada en un sistema de memoria episódica:  Delimita los episodios por cambios en los objetivos generales de planificación del robot. No soporta el traslape ni la anidación de eventos. Y no queda claro si es suficientemente eficiente o escalable para cumplir con los requerimientos de un sistema episódico~\cite{Stachowicz2012}.
 
-\paragraph{EPIROME (2008):} 
+\ltmconcept{EPIROME (2008)} 
 % Más información en:~\cite{Sanchez:2015}, Stachowicz2012
-
 TASER es un robot de servicio enfocado a ambientes reales de oficina~\cite{Jockel2007}. Jockel et al. proponen el uso de memoria episódica para apoyar con tareas y evitar trabajo innecesario. Por ejemplo, al revisar oficinas para ayudar buscando personas, podría evitar las que usualmente están vacías. Para ello, Jockel et al. desarrollaron el framework EPIROME~\cite{Jockel2007,Jockel2008}. Sus simulaciones mostraron que los agentes con memoria episódica se adaptan más rápido a nuevas situaciones que aquellos que carecen de ella.
 
 A partir sus características~\cite{Jockel2007,Jockel2008}, EPIROME no cumple con los requerimientos de un sistema de memoria episódica~\cite{Stachowicz2012}: No dispone de almacenamiento de largo plazo, mecanismos de recolección de episodios, ni representaciones de los eventos almacenados.
 
-\paragraph{ALIZ-E (2014):}
+\ltmconcept{ALIZ-E (2014)}
 ALIZ-E (Adaptative Strategies for Sustainable Long-Term Social Interaction) es un sistema cognitivo enfocado en la interacción natural con niños. Soniya Vijayakumar desarrolló una extensión de memoria episódica para ALIZ-E, basado en el funcionamiento de la memoria humana~\cite{Vijayakumar2014}.  Su diseño está basado en requerimientos similares a los propuestos por Stachowicz~\cite{Stachowicz2012}. Su módulo construye episodios en formato RDF (Resource Description Framework), a partir de los archivos de \textit{log} que genera el sistema tras cada interacción.
 
 Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esperados para su plataforma objetivo. Sin embargo, no aborda el diseño de metodologías para adquisición de episodios, ni la definición de información semántica, pues se enfoca en adaptar los archivos de \textit{log} preexistentes. Por otro lado, propone un caso de uso interesante para un robot social, a través de la adaptación de sus frases, según la información episódica almacenada, p.e., cambiando la frase ``Estoy feliz de verte'' a ``Estoy feliz de verte \textit{nuevamente}''. 
 
 
-\paragraph{Bender:}
+\ltmconcept{Bender}
 El año 2015 Sanchez et al. diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto)~\cite{Sanchez:2015}. Este primer acercamiento es descrito en detalle en la Sección \ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
 
-\todounsure{Es necesario escribir más al respecto??}
 
-
-\paragraph{Otros trabajos:}
+\ltmconcept{Otros trabajos}
 Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, MINERVA2~\cite{Douglas1988}, LIDA~\cite{Feinstone2006}, Rity~\cite{Kuppuswamy2006}, Homer~\cite{Vere1990}, BIRON~\cite{Spexard2008} y personajes de historias virtuales~\cite{Brom2007}. De manera similar a los trabajos descritos anteriormente, la mayoría de estos sistemas ha sido diseñado para satisfacer un contexto particular, por lo que no son útiles para el diseño de nuevos sistemas cognitivos robóticos~\cite{Stachowicz2012}.
 
 % -~\cite{Pratama2014} ??
@@ -553,12 +550,15 @@ En el año 1980 Plutchik presenta la Rueda de las Emociones~\cite{plutchik1980},
 \begin{figure}[!ht]
 	\centering
 %	\includegraphics[width=0.7\textwidth]{plutchik-wheel.png}
+\resizebox{0.75\textwidth}{!}{%
 \begin{tikzpicture}[x=1.375cm,y=1.375cm]
 \foreach \r in {4,3}
   \draw [dashed] circle [radius=\r];
 
+%  {green!50!black, green!75!brown, yellow!50!white, orange, red, magenta, blue, blue!50!cyan}
+
 \foreach \c [count=\i from 0] in  
-  {green!50!black, green!75!brown, yellow!50!white, orange, red, magenta, blue, blue!50!cyan}{
+  {gray!85!green, gray!85!brown, gray!85!yellow, gray!85!orange, gray!85!red, gray!85!magenta, gray!85!blue, gray!85!cyan}{
   \foreach \s [count=\j from 0] in {25,50,75,100}{
     \begin{scope}[rotate=\i*45]
       \clip (0,0) -- (22.5:2)
@@ -592,6 +592,8 @@ En el año 1980 Plutchik presenta la Rueda de las Emociones~\cite{plutchik1980},
     at (\i*45-22.5:4.75) {\emotion};
 
 \end{tikzpicture}
+}
+
 	\caption{\small Rueda de las Emociones de Plutchik. Propone 8 emociones primarias de carácter bipolar y 3 niveles de intensidad. Cada emoción compleja se componen de sus 2 emociones primarias adyacentes.}
 	\label{img:plutchik}
 \end{figure}
