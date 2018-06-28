@@ -1,31 +1,13 @@
 \chapter{Aspectos Técnicos}\label{chapter:technical}
 
-En este capítulo se describen los aspectos técnicos necesarios para comprender el diseño e implementación del proyecto. Primero, se presentan los componentes de software y hardware utilizados. Luego, se revisan algoritmos y conceptos computacionales utilizados en el trabajo.
+En este capítulo se describen los componente de software y hardware utilizados para comprender el diseño e implementación del proyecto: Se revisan los conceptos utilizados sobre el framework robótico ROS. Se hace una revisión breve de la base de datos MongoDB. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Y finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
 
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
+\todowrite{TERMINAR ESTO... QUITAR SECCION GRANDE..}
 
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\section{Componentes de software y hardware}
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-
-A continuación se describen los componentes de software y hardware utilizados para el diseño e implementación del proyecto: Se hace una revisión breve de la base de datos MongoDB. Se revisan los conceptos utilizados sobre el framework robótico ROS. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Y finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
-
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-\subsection{ROS}
+\section{ROS}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -34,7 +16,7 @@ ROS~\cite{ROS:2009}, acrónimo para Robot Operating System, es un proyecto que f
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y es mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS, mantenido por la comunidad, y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
-\subsubsection{Intraestructura}
+\subsection{Intraestructura}
 %% =============================================================================
 
 \paragraph{Nodo}
@@ -48,7 +30,7 @@ Una distribución es un conjunto versionado de paquetes ROS. Su propósito es pe
 
 \paragraph{Lenguajes de programación} ROS provee librerías oficiales para escribir nodos en los lenguajes C++ (\texttt{roscpp}\footnote{Documentación oficial de \texttt{roscpp}: \url{http://wiki.ros.org/roscpp}.}), Python (\texttt{rospy}\footnote{Documentación oficial de \texttt{rospy}: \url{http://wiki.ros.org/rospy}.}) y Common Lisp (\texttt{roslisp}\footnote{Documentación oficial de \texttt{roslisp}: \url{http://wiki.ros.org/roslisp}.}), junto a librerías experimentales para otros lenguajes.
 
-\subsubsection{Comunicación}
+\subsection{Comunicación}
 %% =============================================================================
 
 \paragraph{ROS master} Es el servidor central de ROS y provee servicios de registro al resto de los nodos. Mantiene una lista de los tópicos, servicios y parámetros disponibles, que han registrado los nodos activos. Su principal funcionalidad es permitir que cada nodo pueda encontrar a los otros. Una vez establecida la comunicación, los nodos se comunican en una red P2P\footnote{En una red P2P (peer-to-peer) los participantes se comunican total o parcialmente sin requerir un servidor intermediario.}. Comúnmente la comunicación en ROS se realiza mediante el protocolo HTTP, bajo un transporte TCP, sin embargo, los nodos pueden ser configurados para utilizar un transporte basado en UDP. Por lo tanto, ROS permite el manejo de nodos de manera distribuida, siempre que cada máquina tenga acceso a la red del computador ejecutando el ROS master.
@@ -71,7 +53,7 @@ Una distribución es un conjunto versionado de paquetes ROS. Su propósito es pe
 \paragraph{Servidor de parámetros} ROS provee un servidor para almacenar, modificar y obtener parámetros compartidos entre los nodos. Éstos permiten la configuración del programa sin tener que recompilar el código, y funcionan como el estándar para el manejo de parámetros. La configuración por defecto puede ser especificada en archivos usando el formato YAML.
 
 
-\subsubsection{Herramientas}
+\subsection{Herramientas}
 %% =============================================================================
 
 \paragraph{Pluginlib} Es un paquete oficial de ROS\footnote{Documentación oficial de \texttt{pluginlib}: \url{http://wiki.ros.org/pluginlib}.} que provee herramientas para escribir y cargar plugins dinámicamente en nodos C++. La librería permite delegar la implementación de funcionalidades específicas a los usuarios. El nodo que ocupará el plugin debe definir una clase abstracta a ser implementada. Mientras que los paquetes proveedores deben registrar las librerías con sus implementaciones, para que los plugins queden disponibles en el sistema.
@@ -85,14 +67,14 @@ Una distribución es un conjunto versionado de paquetes ROS. Su propósito es pe
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{MongoDB}\label{sec:mongodb}
+\section{MongoDB}\label{sec:mongodb}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-
-\subsubsection{Conceptos:}
 
 MongoDB es una base de datos no relacional orientada a documentos tipo JSON, donde los campos pueden variar de documento a documento y la estructura de datos puede ser modificada en el tiempo~\cite{MongoDB}. MongoDB está diseñada para funcionar de manera distribuida, proveer alta disponibilidad, escalamiento horizontal y distribución geográfica. Es una base de datos gratis y de código libre, publicada bajo la licencia GNU AGPL.
+
+\subsection{Conceptos:}
 
 MongoDB representa documentos JSON en un formato binario denominado BSON. BSON extiende JSON a través de nuevos tipos de datos, introduce campos ordenados y está diseñado para proveer eficiencia al codificar y decodificar la información en distintos lenguajes. 
 
@@ -102,7 +84,7 @@ MongoDB provee drivers para diversos lenguajes de programación, entre ellos C++
 
 En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. Este límite puede ser removido al modificar el algoritmo de almacenamiento a GridFS, que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
 
-\subsubsection{Interfaz ROS:}
+\subsection{Interfaz ROS:}
 
 MongoDB es una de las dependencias de \textit{MoveIt!}\footnote{Documentación oficial de MoveIt!: \url{https://moveit.ros.org/}.}, librería estándar utilizada para la manipulación de objetos, de uso extendido en la comunidad robótica. Por lo tanto, MongoDB ya está instalada y funcionando en muchos robots de servicio basados en ROS. 
 
@@ -114,7 +96,7 @@ El equipo desarrollador de MoveIt! y sus paquetes ROS relacionados mantiene el p
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{SMACH}
+\section{SMACH}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -126,7 +108,6 @@ SMACH es una librería en Python para la creación y ejecución de máquinas de 
 	\includegraphics[width=0.8\textwidth]{smach-sample.png}
 	\caption{\small Ejemplo de máquina de estado construida en SMACH para la representación de una rutina de carga automática de baterías. Obtenido desde la documentación oficial.}
 	\label{img:SMACH-sample}
-	\todounsure{Es necesario poner la figura en español??}
 \end{figure}
 
 
@@ -136,21 +117,21 @@ En SMACH una maquina de estado está compuesta por un conjunto de estados y sus 
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{UChile ROS Framework}\label{sec:URF}
+\section{UChile ROS Framework}\label{sec:URF}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-
-\subsubsection{Conceptos}
 
 UChile ROS Framework (URF) hace referencia al sistema de software desarrollado en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, para sus robots de servicio. El sistema cuenta con 10 años de desarrollo y está orientado a cumplir los requisitos de la competencia RoboCup en su categoría @Home.
 
-URF está construido sobre ROS y en una estructura de 4 capas:
+\subsection{Conceptos}
+
+URF está construido sobre ROS y utiliza una estructura de 4 capas:
 \begin{enumerate}
 \item La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
 \item  Sobre la primera capa se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar cada robot (módulos de \textit{Hardware} en la Figura \ref{img:URF}).
 \item La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción Humano-Robot (sección \textit{Módulos ROS} del diagrama).
-\item La última capa \textit{de alto nivel} es desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, y es utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH (cuadros \textit{Interfaz ROS-python} y \textit{State Machine} del diagrama).
+\item La última capa de alto nivel es desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, y es utilizada para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH (cuadros \textit{Interfaz ROS-python} y \textit{Máquinas de Estado} del diagrama).
 \end{enumerate}
 
 \begin{figure}[!h]
@@ -163,7 +144,7 @@ URF está construido sobre ROS y en una estructura de 4 capas:
 Todos los módulos de URF son de código libre, a excepción de los algoritmos relacionados con percepción y la interfaz de alto nivel. El código se almacena públicamente en la organización \textit{uchile-robotics} en GitHub\footnote{Organización \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
 
 
-\subsubsection{Memoria a corto y largo plazo}
+\subsection{Memoria a corto y largo plazo}
 %% =============================================================================
 
 En un robot implementado sobre URF es posible acceder a la información compartida por sus procesos. Cualquier módulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en post-procesamientos, junto al acceso para controlar el hardware.
@@ -182,7 +163,7 @@ Sin embargo, en URF no existen formas de memoria emocional ni episódica de larg
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Bender}
+\section{Bender}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -199,38 +180,13 @@ El software de Bender está basado en el framework URF. Su arquitectura de softw
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.4\textwidth]{bender.png}
-	\caption{\small Robot Bender en competencia RoboCup@Home 2015.}
+	\caption{\small Robot Bender en una prueba de la competencia RoboCup@Home del año 2015.}
 	\label{img:bender}
 \end{figure}
 
 \todoimprove{Sobre la cantidad de paquetes ROS, nodos, tópicos y mensajes disponibles.}
 \todoimprove{API a ocupar para acceder a datos del robot.}
 
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-\section{Algoritmos y conceptos computacionales}
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-\todounsure{TODA ESTA SECCIÓN PODRÍA SER ELIMINADA....????}
-\todounsure{convex hull}
-\todounsure{procesamiento de imágenes: degradación de streams}
-\todounsure{Algs utilizados para emociones implementadas en robot}
-\todounsure{Sistemas de coordenadas?? Frames?}
 
 
 
