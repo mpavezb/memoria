@@ -5,7 +5,10 @@
 \todowrite{Sobre paper escrito... conocimiento adquirido para promover LTM en @Home}
 %También se considera que es la oportunidad de promover la inclusión de desafios basados en LTM en la liga @Home, a partir de los resultados de este trabajo. Así, el desarrollo de LTMs y capacidades asociadas dejaría de ser postergado y pasaría a ser una prioridad para los equipos de la competencia.
 
-\todowrite{Sobre tiempo gastado en KnowRob, Prolog y Java.. app 2 meses.}
+
+Cómo se estudia en la Sección \ref{sec:robotic_memory}, existen pocos trabajos LTM e implementaciones disponibles. De ellos, o no consideran memoria episódica, semántica y emocional en su diseño, o no están disponibles para la comunidad robótica. Este proyecto provee un servidor LTM implementado en ROS, y sus repositorios de software asociados bajo una licencia GNU GPLv3. Más detalles al respecto en la Sección \ref{sec:impl_packages}.
+
+Finalmente, se considera este proyecto como una oportunidad de promover la inclusión de desafíos basados en LTM en la liga RoboCup@Home. Para ello, a partir de las investigaciones y diseño realizado para este proyecto, se ha elaborado un estudio~\cite{ltm_in_robocup} motivando el uso de LTM y una metodología para su inclusión en la competencia. Así, se espera que el desarrollo de LTM y capacidades asociadas deje de ser postergado y pase a ser una de las prioridades para los equipos participantes.
 
 \section*{Trabajo Futuro}
 
@@ -16,5 +19,8 @@
 % - Virtual sensing: Uso de información sensorial almacenada para apoyar en tareas actuales y entrenamiento de algoritmos.
 % - Predicción de efectos de acciones propias o de otros eventos.
 % - Manejo de objetivos a largo plazo.
+
+\todowrite{Sobre tiempo gastado en KnowRob, Prolog y Java.. app 2 meses.}
+%La inferencia de información a partir de los recuerdos también es un aspecto deseable, y fue considerado en primera instancia para el desarrollo del proyecto. Se dedicó tiempo y esfuerzo  en satisfacer este objetivo secundario, pero por temas de tiempo se debió acotar el alcance del trabajo. Se propuso utilizar el framework KnowRob~\cite{Tenorth2009,Tenorth2013,Winkler2014}, que implementa memoria semántica e inferencia de información, pero ésta estaba desactualizada, no era compatible con versiones actuales de ROS, y tampoco funcionaba en la versión para la que fue diseñada.
 
 \end{conclusion}

@@ -5,7 +5,7 @@ En este capítulo se presenta el trabajo de título a realizar: una memoria de l
 
 \section{Antecedentes Generales}
 
-A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el proyecto y su relación con la robótica. Estos temas serán tratados en mayor profundidad más adelante, en los Capítulos \ref{chapter:theory} y \ref{chapter:technical}.
+A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el proyecto y su relación con la robótica. Éstos temas serán tratados en mayor profundidad más adelante, en los Capítulos \ref{chapter:theory} y \ref{chapter:technical}.
 
 
 \subsection{Robots de servicio domésticos}
@@ -31,7 +31,7 @@ El equipo trabaja en dos plataformas humanoides de tipo doméstico, Bender y Maq
 
 \subsection{La memoria humana}
 
-Según Eichenbaum~\cite{Eichenbaum:2008}, la memoria hace relación al almacenamiento de experiencias en el cerebro. Se pueden distinguir múltiples sistemas de memoria independientes y sustentados por distintas estructuras cerebrales. A grandes rasgos, la memoria se puede dividir en de corto plazo STM (Short-Term Memory) y de largo plazo LTM (Long-Term Memory). La STM maneja información muy detallada, es de poca capacidad y permite un rápido acceso, mientras que la LTM maneja información sobre experiencias y entidades, es menos detallada, de mayor capacidad y de acceso más lento.
+Según Eichenbaum, la memoria hace relación al almacenamiento de experiencias en el cerebro, mediante múltiples sistemas de memoria independientes y sustentados por distintas estructuras cerebrales~\cite{Eichenbaum:2008}. A grandes rasgos, la memoria se puede dividir en de corto plazo ``STM'' (Short-Term Memory) y de largo plazo ``LTM'' (Long-Term Memory). La STM maneja información muy detallada, es de poca capacidad y permite un rápido acceso, mientras que la LTM maneja información sobre experiencias y entidades, es menos detallada, de mayor capacidad y de acceso más lento.
 
 Eichenbaum divide la LTM en una componente explícita (consciente) y una implícita (inconsciente). La primera almacena datos episódicos, pudiendo responder las preguntas ``Qué'', ``Dónde'' y ``Cuándo'', datos semánticos, que modelan hechos y conceptos como el lenguaje o personas, y también, las conexiones entre ambas submemorias. La memoria implícita codifica habilidades, hábitos y preferencias.
 
@@ -43,11 +43,11 @@ La memoria emocional es una forma de memoria implícita que genera reacciones em
 
 \section{Motivación}
 
-La memoria a largo plazo es una habilidad cognitiva esencial para que un humano sienta continuidad en su vida. Al interactuar con otras personas o el ambiente les permite recordar experiencias pasadas y sus detalles. Luego, es de esperar que un robot social posea una memoria que le permita potenciar sus capacidades de interacción con los humanos que ayudará~\cite{Vijayakumar2014}. Una LTM permitiría, por ejemplo, generar diálogos interesantes sobre eventos pasados o inferir aspectos del comportamiento humano, por otro lado, también permitiría la generalización de las tareas que tiene que llevar a cabo.
+La LTM es una habilidad cognitiva esencial para que un humano sienta continuidad en su vida. Al interactuar con otras personas o el ambiente les permite recordar experiencias pasadas y sus detalles. Luego, es de esperar que un robot doméstico posea una memoria que le permita potenciar sus capacidades de interacción con los humanos que ayudará~\cite{Vijayakumar2014}. Una LTM permitiría, por ejemplo, generar diálogos interesantes sobre eventos pasados o inferir aspectos del comportamiento humano, por otro lado, también permitiría la generalización de las tareas que tiene que llevar a cabo.
 
-Durante la última década han habido algunos intentos de implementar LTM en robots sociales, sin embargo, no existe una solución estándar y aún quedan muchas consultas sin responder~\cite{ltm_in_robocup}.
+Durante la última década han habido algunos intentos de implementar LTM en robots domésticos, sin embargo, no existe una solución estándar y aún quedan muchas consultas sin responder~\cite{ltm_in_robocup}.
 
-La LTM, al ser una capacidad esencial para robots sociales, es esperable que sea agregada en el corto plazo como uno de los requisitos para RoboCup@Home. Más aún, dado el enfoque de las plataformas disponibles, Bender cómo robot mayordomo y Maqui cómo robot social, se espera que ambos posean capacidades avanzadas de interacción con los humanos, para lo que se requiere este tipo de memoria.
+La LTM, al ser una capacidad esencial para robots domésticos, es esperable que sea agregada en el corto plazo como uno de los requisitos para RoboCup@Home. Más aún, dado el enfoque de las plataformas disponibles, Bender cómo robot mayordomo y Maqui cómo robot social, se espera que ambos posean capacidades avanzadas de interacción con los humanos, para lo que se requiere este tipo de memoria.
 
 
 \subsection{Un primer acercamiento}\label{sec:primer_acercamiento}
@@ -57,9 +57,9 @@ El año 2015 se desarrolló una LTM episódica para el robot Bender, orientada a
 Actualmente la memoria desarrollada no está operativa, ni es factible habilitarla. A continuación se listan los aspectos que se consideran causas del problema desde un punto de vista técnico y humano:
 \begin{itemize}
 	\item No se integró adecuadamente al software del robot, no se recopila ni provee información continuamente mientras el robot está en funcionamiento.
-	\item La memoria no provee una API que siga el estándar de los desarrollos del equipo, por lo que no se usa ni es mantenida.
+	\item La memoria no provee una API que siga el estándar de los desarrollos del equipo, por lo que no se usa, ni es mantenida.
 	\item Cada año el equipo planifica sus desarrollos de acuerdo a los requerimientos de la liga @Home, por lo que todo trabajo fuera de las áreas evaluadas no son considerados una prioridad. Entonces, el uso de LTM no es una prioridad para el equipo, no existe un incentivo para seguir desarrollando, finalizar la integración ni mantenerla. 
-	\item El código a quedado obsoleto debido a la no mantención.
+	\item El código a quedado obsoleto debido a la falta de mantención.
 \end{itemize}
 
 Por otro lado, suponiendo que lo anterior estuviese solucionado, aún existen los siguientes problemas:
@@ -70,7 +70,7 @@ Por otro lado, suponiendo que lo anterior estuviese solucionado, aún existen lo
 	\item Sólo considera 2 modelos semánticos: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen. Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de los modelos (como nombre, hobbies, trabajo o edad, para el caso específico de un humano).
 	\item A pesar de considerar un modelo para objetos, en la práctica no se integró con los módulos relacionados que recopilan la información, por lo que realmente la memoria sólo funciona para entidades de tipo Persona.
 	\item La consolidación de memoria STM a LTM sólo considera la primera interacción con cada entidad, por lo que no existe actualización de los datos.
-	\item No existen pruebas de escalabilidad ni eficiencia de la implementación. El trabajo sólo presenta una evaluación subjetiva del sistema: A partir de un conjunto de preguntas predefinidas, el robot hace 5 consultas al usuario, para luego responder 5 consultas hechas por el usuario. Tras la interacción, el usuario responde una encuesta sobre la calidad percibida de la interacción. Por lo tanto, 
+	\item No existen pruebas de escalabilidad ni eficiencia de la implementación. El trabajo sólo presenta una evaluación subjetiva del sistema, a partir de un conjunto de preguntas predefinidas: el robot hace 5 consultas al usuario, para luego responder 5 consultas hechas por el usuario. Tras la interacción, el usuario responde una encuesta sobre la calidad percibida de la interacción.
 \end{itemize}
 
 En resumen, se considera que el sistema implementado es incompleto, no ajustado a los requerimientos reales de un sistema episódico. Más importante aún, se cree el trabajo no se ajustaba a las necesidades del equipo UChile Homebreakers, pues no existió una integración real del sistema a las rutinas de comportamiento del robot, por lo que el sistema fue olvidado.
@@ -81,22 +81,11 @@ Existe un vasto desarrollo respecto a la memoria y los procesos cognitivos, sin 
 
 El uso de LTM no está en las prioridades del equipo, sino que es algo útil para demostraciones y para potenciar la interacción humano-robot. Por ello, se considera que no basta con desarrollar un módulo capaz de recopilar información inteligentemente, sino que además se requiere una integración eficaz.
 
-Así, esta es una oportunidad para diseñar una LTM para robots sociales, que considere aspectos como: 
-\begin{itemize}
-	\item Memoria episódica y semántica adecuada a tareas generales de robots de servicio.
-	\item Diseño basado en los requerimientos para una implementación LTM.
-	\item Recopilación automática de información.
-	\item Implementación genérica agnóstica del robot objetivo, pero que pueda ser utilizada por UChile Homebreakers.
-	\item Memoria emocional que permita dar relevancia a los eventos.
-	\item Inferencia de información a partir de datos de la memoria. Por ejemplo: ``Juan suele desayunar a las 9 am'', ``El control de la TV suele estar en el sofá'', etc.
-	\item Arquitectura de software no invasiva.
-\end{itemize}
-
 
 
 \section{Objetivos del Proyecto}\label{sec:objetivos}
 
-\todowrite{DESCRIPCIÓN BREVE}
+En esta sección se presentan los objetivos del proyecto, a modo general y en un desglose por aspectos específicos requeridos. Luego se describen los alcances y la contribución del trabajo. 
 
 \subsection{Objetivo general}
 
@@ -105,30 +94,23 @@ El objetivo general es el diseño e implementación de una LTM para robots de se
 
 \subsection{Objetivos específicos}
 
-A continuación se presentan los objetivos específicos del trabajo, a modo de desglose del objetivo general en tareas más acotadas.
+A continuación se presentan los objetivos específicos del proyecto, derivados a partir del objetivo general, y que representan los requerimientos clave del proyecto.
 \begin{itemize}
-	\item Definición de requisitos para el diseño y validación del sistema.
+	\item Definir listado de requisitos de diseño y listado de validaciones del sistema.
 	\item Diseñar servidor LTM para almacenamiento de memoria episódica, semántica y emocional.
-	\item El software debe ser agnóstico del robot a utilizar, proveer una interfaz ROS y permitir extender la memoria semántica a almacenar.
-	\item El proyecto debe ser integrado en el robot Bender de manera no invasiva.
-	\item Se debe proveer una demostración del software en funcionamiento.
+	\item Diseñar el sistema de manera agnóstica al robot objetivo y proveer una interfaz ROS a sus funcionalidades.
+	\item Implementar el sistema LTM e integrarlo en el robot Bender.
+	\item Implementar una demostración del software en funcionamiento.
+	\item Integración debe ser no invasiva.
 \end{itemize}
 
 \subsection{Alcances y contribución del trabajo}
 
-En primer lugar, se espera que este trabajo de título sirva como base para la implementación de LTM y funcionalidades derivadas en robots domésticos. Por lo tanto, el foco del proyecto es proveer un diseño robusto, basado en los objetivos propuestos, sumado a una implementación inicial que soporte el diseño. La integración en de LTM en el robot Bender es considerada importante, pero se cree que el objetivo de fondo es proveer una implementación LTM agnóstica del robot a la comunidad robótica.
+En primer lugar, se espera que este trabajo de título sirva como base para la implementación de LTM y funcionalidades derivadas en robots domésticos. Por lo tanto, el foco del proyecto es proveer un diseño robusto, basado en los objetivos propuestos, sumado a una implementación inicial que soporte el diseño. 
 
-Cómo se estudia en la Sección \ref{sec:robotic_memory}, existen pocos trabajos LTM e implementaciones disponibles. De ellos, o no consideran memoria episódica, semántica y emocional en su diseño, o no están disponibles para la comunidad robótica. Este proyecto provee un servidor LTM implementado en ROS, y sus repositorios de software asociados bajo una licencia GNU GPLv3. Más detalles al respecto en la Sección \ref{sec:impl_packages}.
+El proyecto provee un software LTM que considera la memoria emocional en su diseño. Sin embargo, Bender no dispone de módulos emocionales que puedan ser utilizados como fuente de datos para el servidor. Se considera que el desarrollo de tales módulos es un trabajo extenso y se escapa de los objetivos del proyecto. Considerando esto, el sistema provee una interfaz emocional, en caso de que a futuro se implementen módulos emocionales en Bender.
 
-El proyecto provee un software LTM que considera la memoria emocional en su diseño. Sin embargo, Bender no dispone de módulos emocionales que puedan ser utilizados como fuente de datos para el servidor. Se considera el desarrollo de tales módulos es un trabajo extenso y se escapa de los objetivos del proyecto. Considerando esto, el sistema provee una interfaz emocional, en caso de que a futuro se implementen módulos emocionales.
-
-Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados por este proyecto. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en la Sección \ref{sec:otros_aspectos}.
-
-La inferencia de información a partir de los recuerdos también es un aspecto deseable, y fue considerado en primera instancia para el desarrollo del proyecto. Se dedicó tiempo y esfuerzo  en satisfacer este objetivo secundario, pero por temas de tiempo se debió acotar el alcance del trabajo. Se propuso utilizar el framework KnowRob~\cite{Tenorth2009,Tenorth2013,Winkler2014}, que implementa memoria semántica e inferencia de información, pero ésta estaba desactualizada, no era compatible con versiones actuales de ROS, y tampoco funcionaba en la versión para la que fue diseñada.
-
-Finalmente, se considera este proyecto como una oportunidad de promover la inclusión de desafíos basados en LTM en la liga RoboCup@Home. Para ello, a partir de las investigaciones y diseño realizado para este proyecto, se ha elaborado un estudio~\cite{ltm_in_robocup} motivando el uso de LTM y una metodología para su inclusión en la competencia. Así, se espera que el desarrollo de LTM y capacidades asociadas deje de ser postergado y pase a ser una de las prioridades para los equipos participantes.
-
-%\todowrite{Agregar más alcances, tras escribir todo el resto y tener claras las limitantes y trabajo futuro.}
+Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados por este proyecto. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en el Capítulo \ref{chapter:theory}.
 
 
 \section{Estructura de la Memoria}
@@ -141,4 +123,8 @@ Finalmente, se considera este proyecto como una oportunidad de promover la inclu
 % - 7to: Conclusiones y trabajo futuro.
 
 En este primer capítulo se hace una descripción breve de los conceptos necesarios para introducir el proyecto, su motivación y sus objetivos. El Capítulo \ref{chapter:theory} hace una revisión de los aspectos teóricos necesarios para comprender el trabajo realizado, y el Capítulo \ref{chapter:technical} describe los componentes de software y hardware requeridos para el proyecto. Luego, el Capítulo \ref{chapter:diseno} presenta los requisitos del proyecto, las validaciones propuestas y el diseño del software, mientras que en el Capítulo \ref{chapter:implementacion} se describe su implementación y funcionamiento. En el Capítulo \ref{chapter:results} se muestran los resultados de las validaciones y su análisis. Finalmente, se presentan las conclusiones y el trabajo futuro propuesto para el proyecto.
+
+%\section{Resumen}
+
+
 

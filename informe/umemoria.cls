@@ -164,10 +164,11 @@
 		\vspace{4cm}
 		\centering
 		{
-			\HRule \\[0.5cm]
+			%\HRule \\[0.5cm]
+		    \vspace{0.5cm}
 			\bfseries 
 			\MakeUppercase\@title \\[0.1cm]
-			\HRule
+			%\HRule
 		}
 
 		\vspace{2cm}
