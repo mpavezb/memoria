@@ -102,8 +102,14 @@ Las validaciones \Vlabel{E}{XX} se construyen a partir del requisito de software
 
 A continuación presentan las decisiones de diseño seguidas para la representación de los datos episódicos mediante mensajes de ROS. Se estudia el formato a utilizar para el almacenamiento de cada episodio, seguido de la estructura de datos tipo árbol que soporta sus anidamientos. Luego se explica el diseño de los campos episódicos (\textit{What, When, Where}), la representación de la memoria semántica y el manejo de relevancias episódicas. Finalmente, se introducen los metadatos asociados a cada episodio y las limitantes del diseño episódico desarrollado para la representación episódica.
 
-\todoimprove{AGREGAR DIAGRAMA GENERAL DEL SISTEMA... DB -- LTM -- PLUGINS -- USER}
-\todoimprove{Agregar diagrama explicando anidamiento, transposición.}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{episodes.png}
+	\caption{\small TODO.}
+	\label{img:episodes}
+\end{figure}
+\todoimprove{Agregar caption y referencias a figura \ref{img:episodes}.}
+
 
 %% =============================================================================
 %% =============================================================================
@@ -251,7 +257,13 @@ El usuario debe definir cada tipo de entidad disponible a través un mensaje ROS
 
 Las instancias de una entidad y sus modificaciones no están ligadas a un episodio particular, sino que a los episodios activos durante el registro la modificación. Entonces, es posible registrar cambios a entidades a pesar de no haber episodios activos.
 
-\todoimprove{Diagrama explicando diseño de streams y entidades...  ocurren paralelamente a episodios, pero se relacionan por sus instantes de tiempo.}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{episodes-and-semantic-data.png}
+	\caption{\small TODO.}
+	\label{img:episodes-and-semantic-data}
+\end{figure}
+\todoimprove{Caption y referencias a figura \ref{img:episodes-and-semantic-data}.}
 
 
 %% =============================================================================
@@ -580,7 +592,9 @@ No es necesario proveer una API ROS para la eliminación de información episód
 %% =============================================================================
 %% =============================================================================
 
+\todowrite{Texto ACÁ}
 
+\todoimprove{AGREGAR DIAGRAMA GENERAL DEL SISTEMA... DB -- LTM -- PLUGINS -- USER}
 
 %% =============================================================================
 %% =============================================================================
