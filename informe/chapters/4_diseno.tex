@@ -451,7 +451,7 @@ Por lo general, los campos de un \textit{stream} no requieren ser indexados, ya 
 \ltmconcept{Tamaño del mensaje}
 El límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Según se describe en la Sección  \ref{sec:mongodb}, \textit{MongoDB} provee estrategias de almacenamiento para evitar este límite, las que deben ser configuradas manualmente por el usuario.
 
-\todoimprove{Por ejemplo, esto permitiría almacenar hasta $N$ imágenes a color de cierto tamaño, o $M$ de ellas en escala de grises.}
+%\todoimprove{Por ejemplo, esto permitiría almacenar hasta $N$ imágenes a color de cierto tamaño, o $M$ de ellas en escala de grises.}
 
 
 %% =============================================================================
@@ -537,6 +537,7 @@ No es necesario dar soporte para crear nuevos registros del historial de entidad
 Para evitar sobrecargar el ancho de banda de red, con respuestas a consultas que retornen muchos episodios o datos semánticos, se diseñan las operaciones de lectura en 2 etapas. Primero, se obtienen los identificadores de los mensajes de interés mediante una condición que provee el usuario. Luego, se puede acceder a los episodios, \textit{streams} y entidades mediante servicios ROS, encargados de retornar mensajes para los identificadores escogidos.
 
 \ltmconcept{Filtro de mensajes}
+La búsqueda de mensajes según condiciones es considerada por el requisito \RSlabel{06}.
 Para evitar limitar las consultas que puede realizar el usuario sobre la base de datos y para simplificar el diseño, se decide utilizar el sistema de condiciones nativo de MongoDB. Así, es posible aplicar filtros complejos a las consultas, basados en todos los campos disponibles de cada documento. Sin embargo, las consultas sólo pueden ser aplicadas a una colección a la vez. Algunas de las condiciones que provee MongoDB son: igualdad, mayor qué (y derivados), pertenencia a un arreglo y agrupamiento lógico mediante condiciones \textit{AND} y \textit{OR}.
 
 \ltmconcept{Episodios}
@@ -603,16 +604,18 @@ No es necesario proveer una API ROS para la eliminación de información episód
 %% =============================================================================
 %% =============================================================================
 
-\todowrite{Texto ACÁ}
+A continuación se describe el diseño del servidor LTM, a partir de las consideraciones para el modelo de datos, que se presentaron en las secciones anteriores. En primer lugar, ...
+\todowrite{completar esto}
 
+El sistema LTM diseñado se presenta en la Figura \ref{img:diagrama-software}. A modo general, se indican las 3 etapas del flujo de información LTM en el sistema: recopilación desde la memoria STM del robot, manejo y almacenamiento por el servidor, y uso de la información por las aplicaciones del usuario. Los componentes del diagrama son explicados en detalle en las siguientes secciones.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{diagrama-software.png}
-	\caption{\small TODO.}
-	\label{img:URF}
+	\caption{\small Diagrama con el diseño del sistema LTM y los módulos de software involucrados. La zona superior indica todos los módulos de software del robot necesarios para proveer información al sistema LTM. En plomo se presentan los componentes que debe implementar el usuario, que sirven como interfaz entre el robot y el sistema, para la recopilación de información. En la zona central se realiza el manejo y almacenamiento de la información episódica. En la zona inferior, el servidor se comunica mediante una API ROS con las aplicaciones LTM implementadas por el usuario.}
+	\label{img:diagrama-software}
 \end{figure}
-\todoimprove{Captions y referencias}
+
 
 %% =============================================================================
 %% =============================================================================
@@ -621,14 +624,10 @@ No es necesario proveer una API ROS para la eliminación de información episód
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-% - Diseño del servidor LTM según requisitos
-% - uso de MongoDB
 % - Minimizar dependencias
 % - API ROS: servicios, parámetros, nodos
 % - parámetros (dar énfasis en la implementación)
-% - estrategia de actualización episódica... branching.. etc.
 .
-
 
 %% =============================================================================
 %% =============================================================================
@@ -836,18 +835,5 @@ Se debe implementar un nodo que publique mensajes aleatorios sobre las entidades
 
 \ltmconcept{Versión en Bender}
 Se debe implementar un módulo capaz de notificar cambios en las entidades conocidas por el robot, a partir de sus módulos de percepción disponibles. El plugin se debe suscribir al tópico asociado.
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

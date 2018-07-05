@@ -139,9 +139,6 @@ La documentación incluye una guía de instalación del proyecto y sus dependenc
 
 En ésta sección se muestran los mensajes ROS implementados para manejar el concepto de episodios, los que son la base sobre la que se construye el sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
 
-\todounsure{Pongo código fuente de todos los mensajes definidos?.. los pongo en los anexos?.. son 3 páginas de sólo código!!}
-
-
 % \ref{lst:episode.msg}
 \subsection{Mensajes definidos por el servidor}
 
@@ -161,7 +158,6 @@ Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los aju
 	\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
 	\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
 \end{itemize}
-\todoimplementation{Optimización: condición de que hijos son ordenados por tiempo de inicio}
 
 % SOBRE EL MENSAJE ROS
 \paragraph{Representación:}
@@ -180,7 +176,6 @@ Y el mensaje \texttt{Episode.msg} es modificado como sigue:
 % SOBRE MENSAJE EPISODICO
 \paragraph{Representación:}
 Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
-\todopaused{Actualizar estos datos de acuerdo a la modificación que se hará al sistema.}
 \begin{itemize}
 	\item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
 	\item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
@@ -191,11 +186,6 @@ Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para al
 	\item \texttt{string[] children\_locations}:
 	\item \texttt{string[] children\_areas}:
 \end{itemize}
-\todoimplementation{Crear submensaje para Where.msg, que almacene: location, area, time}
-\todoimplementation{Soportar más de 1 lugar semántico y coordenado para hijos.}
-\todoimplementation{Modificar implementación para agregar soporte a más de un frame/mapa.}
-\todoimplementation{Crear submensaje para Where.msg, que represente ubicación coordenada múltiple}
-\todoimplementation{Limitantes Where: + de una posición.... Frames únicos por árbol}
 
 Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
 \begin{itemize}
@@ -250,7 +240,6 @@ Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
 \begin{itemize}
 	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
 \end{itemize}
-\todopaused{Sobre la tasa de decaimiento histórica implementada.}
 
 % MENSAJE ROS
 \paragraph{Representación:}
@@ -264,7 +253,6 @@ Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes
 	\item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
 	\item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
 \end{itemize}
-\todolater{Corregir campos con los de la versión final.}
 
 Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
 \begin{itemize}
@@ -276,8 +264,7 @@ Una vez definido que los mensajes para \textit{streams} y entidades serán almac
 \begin{itemize}
 	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
 \end{itemize}
-\todoimplementation{Mensajes definidos por usuario deben poseer un campo con metadatos, manejados por el server.}
-\todoimplementation{LTM server con warning en texto y notificación inotify cuando quede poco espacio de disco (menor a X\%) (o se ha ocupado más de X GB) debido al server... configurable por usuario...}
+
 
 % REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
 \paragraph{Representación:}
@@ -285,27 +272,16 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 \begin{itemize}
 	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
 \end{itemize}
-\todoimplementation{Mensajes definidos por usuario deben poseer un campo con metadatos, manejados por el server.}
-
-\todoimplementation{Se podría agregar ID opcional del stream. Si ID=0, entonces se ocupa el uid del episodio. Sirve para casos de prueba en donde se busque crear N episodios, pero no se requiera crear N streams de cada tipo. i.e., para asociar ID fijo a todo un set de episodios.}
 
 % REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
 \paragraph{Representación:}
 % TODO
 
-\todoimplementation{COMO MANEJAR CONTEXTOS, PUES SE PUEDE REQUERIR SU INFORMACIÓN, INCLUSO DURANTE EL MISMO EPISODIO!!.. DEBEN SER ALMACENADOS UNA VEZ INSCRITOS Y SER CERRADOS MANUALMENTE.}
 
-
-\todoimplementation{Modificación de la estructura de mensajes semánticos}
 % modificar msg de colección MD5 y poder seguir ocupando la base de datos.
 % - mongo no tiene problema en modificar representación ...
 % - el driver ROS si.
 
-\todoimplementation{Server con warning si mensaje a almacenar pesa más del límite!.}
-\todowrite{Es labor del usuario definir el merge del historial.}
-
-\todoimplementation{Condiciones de búsqueda para cada tipo de dato primitivo en ROS.}
-\todoimplementation{Quitar Update service para episodios,streams y entidades.}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
@@ -416,7 +392,6 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 .
 \lstset{style=/Style/yaml/ROS}
 \lstinputlisting[caption=server.yaml]{code/config/server.yaml}
-\todounsure{Listing en los anexos??}
 
 \subsubsection{Launchfiles}
 
@@ -549,10 +524,6 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 % - Registro en pluginlib y configuración en el server
 % - REVISAR MATCH CON DISEÑO ESCRITO
 .
-\todopaused{Escribir cuando esté implementado}
-
-\todowrite{PONERSE EN EL LUGAR DE NO ALCANZAR A IMPLEMENTAR EN BENDER... PERO DEJAR PROPUESTA...}
-
 
 % ==============================================================================
 % ==============================================================================
@@ -571,7 +542,6 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 %    - emociones simples.
 %    - módulos disponibles (con el robot a medias)
 .
-\todopaused{Escribir cuando esté implementado}
 
 
 % ==============================================================================
@@ -582,8 +552,6 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 % INTERFAZ IMAGES
 % - API del ROBOT
 .
-\todopaused{Escribir cuando esté implementado}
-\todoimplementation{Proveer plugin agnóstico al robot, configurable a través de parámetros.}
 
 % ==============================================================================
 % ==============================================================================
@@ -593,7 +561,6 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 % INTERFAZ ENTITIES
 % - API del ROBOT
 .
-\todopaused{Escribir cuando esté implementado}
 
 
 % ==============================================================================
