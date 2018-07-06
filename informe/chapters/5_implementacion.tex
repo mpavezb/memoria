@@ -6,6 +6,22 @@
 ======================================================\\
 ======================================================\\
 }
+% IMPLEMENTACIÓN
+% - Launchfiles
+% - Configuración estática mediante Parameter Server
+% - Plugins que fallan no son inicializados.
+% - sobre estabilidad de plugins y daño al server.
+% - Minimizar dependencias
+%   - pluginlib, boost (operaciones geométricas, ...)
+
+%    - Alcances y trabajo futuro
+%        - reservar ids mientras nodo esté activo.
+%        - posibles funcionalidades de interés: 
+%           - visualizador
+%           - 
+% - uso esperado de pluginlib
+% SOBRE MD5! Hay estrategia, pero aún no se incluye en la implementación. Por qué es importante?
+
 
 \todounsure{convex hull}
 \todounsure{procesamiento de imágenes: degradación de streams}
@@ -281,6 +297,14 @@ Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar 
 % modificar msg de colección MD5 y poder seguir ocupando la base de datos.
 % - mongo no tiene problema en modificar representación ...
 % - el driver ROS si.
+
+
+Dado que el mensaje definido por el usuario no es conocido en tiempo de compilación (pues los plugins se cargan en runtime)
+Para lo anterior, se agrega un nuevo requisito, el usuario debe definir un servicio ROS (archivo \texttt{.srv}) con el siguiente formato:
+\lstset{style=/Style/ROS/MSG}
+\begin{lstlisting}
+Put your code here.
+\end{lstlisting}
 
 
 \lstset{style=/Style/ROS/MSG}

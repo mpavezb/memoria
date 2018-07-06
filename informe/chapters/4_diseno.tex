@@ -1,6 +1,6 @@
 \chapter{Diseño}\label{chapter:diseno}
 
-En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Mediante las siguientes 4 secciones se describe la arquitectura del sistema: Se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM y sus limitantes. Finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
+En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. Mediante las siguientes 4 secciones se describe la arquitectura del sistema: Se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar se presenta el diseño del servidor LTM. Finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
 
 %% =============================================================================
 %% =============================================================================
@@ -362,6 +362,11 @@ Este problema fue explicado parcialmente en la Sección \ref{sec:design_ep_when}
 \ltmconcept{Episodios de larga duración}
 A pesar de que el diseño del servidor permite episodios de duración indefinida, en la práctica es raro que el robot funcione por periodos prolongados. Luego, los episodios cuyo fin es dar un contexto temporal a un árbol episódico no pueden ser almacenados directamente (e.g., cuando el robot está participando en una competencia de 4 días de duración). A pesar de lo anterior, el diseño permite la introducción manual de episodios de larga duración, sin tener que mantener en funcionamiento el robot durante todo el periodo.
 
+\ltmconcept{Memoria emocional detallada}
+Ya que el diseño apunta a ser lo suficientemente genérico, la información emocional que se puede exigir es acotada. El formato permite almacenar los datos justos para la asignación de relevancias, pero a la vez, limita las consultas posibles sobre las emociones del robot en un episodio. Particularmente, en episodios de larga duración, sería interesante conocer la secuencia (ordenada) de emociones, o las causas de éstas. A pesar de que el diseño no almacena información al respecto, si permite definir una forma alternativa de almacenar tales datos. Se puede definir una entidad ``Robot'' con campos asociados a sus emociones, para así, llevar un registro detallado de lo que se necesite.
+
+\ltmconcept{Ubicación del robot duplicada o no útil}
+Se cree que el formato propuesto para el campo \textit{Where} se ajusta a los requerimientos de un robot doméstico, sin embargo, se identifican dos problemas. Por un lado, la naturaleza de la ubicación del robot no depende de un episodio, sino que es información desacoplada de éste, similar al funcionamiento de una entidad. Esto genera duplicación de la información en caso de traslape episódico. Por otro lado, se cree que el formato es lo suficientemente genérico, pero pueden haber casos donde la información de localización sea conveniente almacenarla en otros términos. En un trabajo futuro, se podría modificar el diseño, para manejar el campo \textit{Where} por medio de un plugin específico, de manera similar al caso de las entidades, donde cada usuario defina el formato que desea almacenar, y evitando redundancia de información.
 
 %% =============================================================================
 %% =============================================================================
@@ -604,10 +609,9 @@ No es necesario proveer una API ROS para la eliminación de información episód
 %% =============================================================================
 %% =============================================================================
 
-A continuación se describe el diseño del servidor LTM, a partir de las consideraciones para el modelo de datos, que se presentaron en las secciones anteriores. En primer lugar, ...
-\todowrite{completar esto}
+A continuación se describe el diseño del servidor LTM, a partir de las consideraciones para el modelo de datos presentadas en las secciones anteriores. En primer lugar, se revisa el diseño operativo para el manejo de la memoria episódica: la adquisición de episodios, la recolección de información emocional y de ubicación, y el manejo de relevancias episódicas. Luego, se revisa el diseño de la memoria semántica (\textit{streams} y entidades), el manejo de las colecciones, la API ROS y el flujo de información.
 
-El sistema LTM diseñado se presenta en la Figura \ref{img:diagrama-software}. A modo general, se indican las 3 etapas del flujo de información LTM en el sistema: recopilación desde la memoria STM del robot, manejo y almacenamiento por el servidor, y uso de la información por las aplicaciones del usuario. Los componentes del diagrama son explicados en detalle en las siguientes secciones.
+El sistema LTM diseñado se presenta en la Figura \ref{img:diagrama-software}. A modo general, se indican las 3 etapas del flujo de información en el sistema LTM: recopilación desde la memoria STM del robot, manejo y almacenamiento por el servidor, y uso de la información por las aplicaciones del usuario. Los componentes del diagrama son explicados en detalle a continuación.
 
 \begin{figure}[!h]
 	\centering
@@ -616,87 +620,110 @@ El sistema LTM diseñado se presenta en la Figura \ref{img:diagrama-software}. A
 	\label{img:diagrama-software}
 \end{figure}
 
+\todoimprove{Diagrama de funcionamiento de cada tipo de plugin.}
+
 
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Manejo de episodios}
+\subsection{Memoria episódica}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-% - Minimizar dependencias
-% - API ROS: servicios, parámetros, nodos
-% - parámetros (dar énfasis en la implementación)
-.
 
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-\subsection{Sistema de plugins}
-%% =============================================================================
-%% =============================================================================
-%% =============================================================================
-% - Sistema de plugins para agregar cosas específicas a cada robot
-%    - where, emociones, streams y entidades.
-%    - sobre información disponible para cada plugin
-%    - requerimientos para cada plugin
-%    - uso esperado de pluginlib
-%    - flujo de trabajo de cada plugin
-%    - se recomienda que sólo estén en funcionamiento cuando hay episodios registrados pendientes.
-%    - sobre estabilidad de plugins.
-.
+En esta sección se describe el diseño del mecanismo para la recolección de episodios, sus datos a partir de plugins y la actualización de relevancias episódicas.
+
+\subsubsection{Recopilación de episodios}
+
+Como se muestra en la Figura \ref{img:diagrama-software}, el servidor depende de una API episódica para la adquisición de episodios. El diseño propuesto almacena episodios en dos etapas: registro y adquisición, mediante una API ROS basada en servicios. Como lo indica el diagrama, el servidor se comunica con cada plugin para recopilar la información episódica y semántica necesaria.
+
+\ltmconcept{Registro}
+En esta etapa, el usuario debe indicar el inicio de un nuevo episodio. Luego, el servidor se encarga de registrar el episodio, generando un identificador único, el que es retornado al usuario. Ya que el sistema debe soportar anidamiento y transposición, pueden haber muchos episodios registrados simultáneamente. 
+
+Durante el registro se debe indicar el tipo de episodio a introducir (hoja o nodo). Si el episodio es de tipo hoja, se notifica a todos los plugins, para que consideren el nuevo episodio como activo e inicien las tareas de recopilación de información. De acuerdo al diseño episódico, no se debe recopilar información para episodios nodo.
+
+\ltmconcept{Adquisición}
+Una vez que el episodio ha concluido, el usuario debe notificar al servidor sobre ésto, indicando el identificador del padre, los \textit{tags} asociados y los metadatos episódicos que desee almacenar.
+
+Tras recibir la notificación, el servidor recolecta información episódica desde cada plugin, almacena el episodio en la base de datos y lo marca como inactivo. En caso de ya no haber episodios activos, cada plugin es notificado para dejar de recopilar información.
+
 
 \subsubsection{Plugin: \textit{Where}}
 %% =============================================================================
-% SOBRE: Funcionamiento recomendado del plugin
-% - recopilación constante de posicionamiento del robot.
-% - provee listado de poses dado tiempos de inicio, fin de episodio.
-% - sólo recopila información cuando hay episodios registrados.
-.
+
+En cuanto a la recopilación de la ubicación del robot, dato episódico \textit{Where}, el cómo se obtiene la información depende totalmente del usuario y la API de localización utilizada en el robot objetivo (ver diseño episódico en la Sección \ref{sec:design_ep_where}). Sin embargo, de acuerdo a la sección anterior, el plugin debe proveer las funcionalidades de registro y adquisición de información.
+
+\ltmconcept{Estrategia} Se propone la siguiente estrategia para la implementación del plugin. Recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos. Cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}. La lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
+
 
 \subsubsection{Plugin: Emociones}
 %% =============================================================================
 
-% SOBRE: funcionamiento recomendado del plugin
-% - recopilación de emociones .. buffer
-% - provee emoción más fuerte del periodo.
-% - rellenar metadatos 
-% - sólo recopilar info si hay episodios registrados.
-.
+Los requerimientos y estrategia de funcionamiento propuesta para éste plugin son los mismos que para el plugin \textit{Where}. La información recolectada debe cumplir con el formato propuesto durante el diseño episódico de la Sección \ref{sec:design_ep_rel_emo}.
 
-\subsubsection{Plugin: \textit{Streams}}
+
+\subsubsection{Relevancia histórica y generalizada}
 %% =============================================================================
 
-% SOBRE: requerimientos del server
-% - sobre marcar inicio, fin
-% - sobre definición de colección
-% - sobre manejo de la colección: CRUD
-% - sobre API ROS asociada.
-.
+La implementación del servidor debe contar con un proceso automático de actualización de relevancias episódicas, particularmente relevancia histórica y generalizada, según la estrategia descrita en la Sección \ref{sec:design_ep_rel_hist}. Ya que la cantidad de episodios a actualizar puede ser alta, se debe ejecutar el proceso de actualización cuando el robot no esté en funcionamiento, lo que se traduce en un umbral sobre el porcentaje de recursos disponibles en el sistema. El umbral puede ser escogido por el usuario.
 
-\subsubsection{Plugin: Entidades}
-%% =============================================================================
-
-% SOBRE: requerimientos del server
-% - sobre marcar inicio, fin
-% - sobre definición de colecciones
-% - sobre manejo de la colección: CRUD
-% - sobre API ROS asociada.
-.
 
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Alcances y trabajo futuro}
+\subsection{Memoria semántica}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-%    - Alcances y trabajo futuro
-%        - reservar ids mientras nodo esté activo.
-%        - posibles funcionalidades de interés: 
-%           - visualizador
-%           - 
- .
+
+En esta sección se describe el diseño de los mecanismos para la recolección de información sobre entidades y \textit{streams}, a través de los plugins respectivos. Se revisan los requerimientos de cada plugin, las estrategias de implementación, el manejo de las colecciones de mensajes y la API ROS que provee el servidor.
+
+
+\subsubsection{Plugins: \textit{Streams}}
+%% =============================================================================
+
+\ltmconcept{Requerimientos}
+De acuerdo al diseño para el campo \textit{What}, revisado en la Sección \ref{sec:design_ep_what}, el primer requisito para la definición de un \textit{stream} es la asignación de un mensaje ROS que lo represente. El mensaje además debe incluir un campo para almacenar metadatos episódicos utilizados por el servidor (id del mensaje, id del episodio y lapso de tiempo). Luego, cada plugin debe indicar el mensaje ROS sobre el que operará.
+
+Este tipo de plugins debe implementar 4 funcionalidades. Proveer un método para el registro de un nuevo episodio y uno para la recolección de la información por el servidor. Además, debe indicar cuales de los campos del mensaje deben ser considerados para ser indexados por la base de datos, pues el resto del mensaje se almacena como objeto binario. Finalmente, debe proveer un método para la degradación del mensaje, por motivos de olvido o escasez de recursos.
+
+\ltmconcept{Estrategia}
+El servidor notificará a los plugins por cada nuevo episodio. La estrategia propuesta es mantener un \textit{buffer} circular con información reciente, indexada por su instante de tiempo. Cuando el servidor solicite los datos de un episodio, se el plugin genera un \textit{stream} que contiene un listado con mensajes que sucedieron en el periodo del episodio. En el caso de no haber episodios activos, el plugin se debe cerrar sus conexiones ROS, para restringir el uso de recursos.
+
+\ltmconcept{Base de datos}
+La implementación del sistema LTM debe manejar automáticamente la colección de mensajes de cada \textit{stream}, por lo que el usuario no debe tener acceso a la base de datos desde el plugin. Así, el servidor se encarga de mantener la consistencia de la información de forma centralizada, evitando delegar ese trabajo a cada usuario y limitando los posibles errores.
+
+\ltmconcept{API ROS}
+De la misma forma, el servidor debe proveer automáticamente una API ROS para las operaciones CRUD de cada plugin. Así, se asegura la homogeneidad de la API y se evita agregar otra responsabilidad al usuario. 
+
+
+\subsubsection{Plugins: Entidades}
+%% =============================================================================
+
+\ltmconcept{Requerimientos}
+De manera similar al caso de los \textit{streams}, el usuario debe definir un mensaje ROS que represente la entidad de interés. El mensaje debe incluir un campo para almacenar metadatos episódicos utilizados por el servidor. Luego, cada plugin debe indicar el mensaje ROS sobre el que operará.
+
+Ya que el registro de entidades es manejado de manera desacoplada respecto a los episodios (ver Figura \ref{img:episodes-and-semantic-data}), los métodos que debe proveer el usuario difieren de los utilizados para \textit{streams}. Se deben implementar 4 funcionalidades:
+\begin{itemize}
+\item Se debe indicar cuales son los campos de interés a ser considerados para ser indexados por la base de datos, pues el resto es almacenado como un objeto binario.
+\item Debe proveer un método que permita identificar los campos que han sido modificados entre 2 entidades. El servidor lo utilizará para generar un registro de cambios y mantener el historial.
+\item Debe notificar al servidor por cada nuevo registro de una entidad. El servidor verificará los cambios y actualizará el registro de ser necesario.
+\item Debe proveer un método para actualizar una entidad, con los campos de otra más actual. El servidor utilizará esta funcionalidad para reconstruir entidades a partir del registro histórico.
+\end{itemize}
+Cada una de las funcionalidades requeridas es simple de implementar y mantener, las que se reducen a la asignación y comparación de los campos de la entidad definida por el usuario.
+
+\ltmconcept{Estrategia}
+El plugin debe estar siempre en funcionamiento, recopilando información a partir de la STM del robot, a pesar de que no existan episodios activos. Cada nueva entidad, o cambio en una ya existente debe ser notificada al servidor, para actualizar los registros de la base de datos. 
+
+En este caso, el registro de nuevos episodios y la recolección de cambios del historial es manejada automáticamente por el servidor, sin requerir intervención del usuario. La estrategia a utilizar es la siguiente. En caso de haber episodios activos, el servidor crea un listado con los identificadores de las entidades modificadas y los registros correspondientes del historial. Cuando el servidor solicita la recolección, se entregan todos los cambios ocurridos en el rango temporal del episodio.
+
+\ltmconcept{Base de datos}
+Análogamente al caso de los \textit{streams}, el servidor debe manejar automáticamente la colección de mensajes de cada entidad, por lo que el usuario no debe tener acceso a la base de datos desde el plugin. De esta forma, el servidor se encarga de mantener la consistencia de los registros y el historial de entidades.
+
+\ltmconcept{API ROS}
+Asimismo, el servidor debe proveer automáticamente una API ROS para las operaciones CRUD de cada plugin, asegurando la homogeneidad de la API y evitando agregar otra responsabilidad al usuario. 
+
+
 
 %% =============================================================================
 %% =============================================================================
