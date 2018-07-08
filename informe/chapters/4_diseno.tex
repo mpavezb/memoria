@@ -452,7 +452,7 @@ Por cada episodio a almacenar se genera un \textit{stream} de cada tipo disponib
 Por lo general, los campos de un \textit{stream} no requieren ser indexados, ya que es conveniente almacenarlos de manera binaria. Sin embargo, durante la implementación del plugin asociado, el usuario puede decidir añadir metadatos para indexar campos convenientes. La utilidad de ésto, es que permitirá agregar nuevos términos de comparación para las consultas a la base de datos. Luego, se tienen dos formas de acceder a un \textit{stream} en particular; mediante su mensaje episódico asociado, o a través de los metadatos definidos por el usuario.
 
 \ltmconcept{Tamaño del mensaje}
-El límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Según se describe en la Sección~\ref{sec:mongodb}, \textit{MongoDB} provee estrategias de almacenamiento para evitar este límite, las que deben ser configuradas manualmente por el usuario.
+El límite de tamaño para cada mensaje ROS a almacenar es de $16 MB$, lo que impone una cota superior a la cantidad de datos que pueden ser almacenados por cada episodio. Según se describe en la Sección~\ref{sec:mongodb}, \textit{MongoDB} provee estrategias de almacenamiento para evitar este límite.
 
 %\todoimprove{Por ejemplo, esto permitiría almacenar hasta $N$ imágenes a color de cierto tamaño, o $M$ de ellas en escala de grises.}
 
@@ -613,7 +613,7 @@ El sistema LTM diseñado se presenta en la Figura~\ref{img:diagrama-software}. A
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{diagrama-software.png}
-	\caption{\small Diagrama con el diseño del sistema LTM y los módulos de software involucrados. La zona superior indica todos los módulos de software del robot necesarios para proveer información al sistema LTM. En plomo se presentan los componentes que debe implementar el usuario, que sirven como interfaz entre el robot y el sistema, para la recopilación de información. En la zona central se realiza el manejo y almacenamiento de la información episódica. En la zona inferior, el servidor se comunica mediante una API ROS con las aplicaciones LTM implementadas por el usuario.}
+	\caption{\small Diagrama con el diseño del sistema LTM y los módulos de software involucrados. La zona superior indica todos los módulos de software del robot necesarios para proveer información al sistema LTM. En plomo se presentan los componentes que debe implementar el usuario, que sirven como interfaz entre el robot y el servidor, para la recopilación de información. En la zona central se realiza el manejo y almacenamiento de la información episódica. En la zona inferior, el servidor se comunica mediante una API ROS con las aplicaciones LTM implementadas por el usuario.}
 	\label{img:diagrama-software}
 \end{figure}
 
