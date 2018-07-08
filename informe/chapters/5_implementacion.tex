@@ -1,11 +1,162 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-\todo[inline]{======================================================\\
-======================================================\\
-================== ESCRIBIENDO - NO REVISAR ================\\
-======================================================\\
-======================================================\\
-}
+Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo \ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se muestran los mensajes episódicos sobre los que se construye el proyecto. En tercer lugar, se presentan módulos de software desarrollados para acelerar la implementación y validación del proyecto. Luego, se presenta la implementación del sistema LTM, junto a los módulos encargados de generar información episódica ficticia y los encargados de recolectar datos desde el robot. Finalmente, se muestra la integración del sistema en Bender.
+
+\todowrite{Reescribir al final del cap.}
+\todowrite{Agregar summary al final de cada cap.}
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Estructura del software e instalación}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+
+Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del proyecto, la estructura elegida para el sistema LTM, y la estructura para los plugins encargados de la recolección de información episódica.
+
+\subsection{Dependencias}
+
+A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Éstas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
+
+
+\subsubsection{Sistema}
+
+El proyecto fue desarrollado en Linux, Ubuntu 16.04. Las dependencias del sistema LTM son las siguientes:
+
+\begin{itemize}
+\item {\bfseries ROS kinetic}: Se utilizó la distribución \textit{kinetic} de ROS, la que cuenta con soporte hasta Abril del año 2021.
+\item {\bfseries mongodb-server}: Paquete de software que contiene el servidor de MongoDB para Ubuntu 16.04.
+\end{itemize}
+
+La implementación del sistema debería ser compatible con versiones más recientes de ROS y Ubuntu, siempre que estén disponibles las dependencias mostradas en las siguientes secciones.
+
+
+\subsubsection{Dependencias C$++$}
+
+El servidor fue implementado completamente utilizando \CC, bajo el estándar \CC03, que es soportado por la mayoría de los compiladores actuales y es el utilizado por defecto en ROS kinetic. A continuación se listan las dependencias de \CC \ utilizadas para la implementación del servidor.
+
+\begin{itemize}
+	\item {\bfseries mongo-cxx-driver}: Driver oficial para mongodb en \CC\footnote{Repositorio oficial de \texttt{mongo-cxx-driver}: \url{https://github.com/mongodb/mongo-cxx-driver.git}.}. 
+	\item {\bfseries Boost Geometry}: Utilizado para el cómputo de la envoltura convexa y para el cálculo del centroide de un polígono.
+\end{itemize}
+
+
+\subsubsection{Dependencias Python}
+
+Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Las siguientes dependencias son sólo para los módulos específicos para la integración con Bender o para el software demostrativo.
+
+\begin{itemize}
+\item {\bfseries cv2}: Librería OpenCV 2. Utilizada para insertar imágenes ficticias en entidades\footnote{Página oficial de OpenCV: \url{https://opencv.org/}}. 
+\item {\bfseries faker}: Librería utilizada para la generación de datos ficticios para entidades\footnote{Repositorio oficial de librería \texttt{faker} para Python: \url{https://github.com/joke2k/faker}}.
+\end{itemize}
+
+
+\subsubsection{Dependencias ROS}
+
+A continuación se listan las dependencias de paquetes ROS utilizados para la implementación del servidor.
+\begin{itemize}
+	\item Suite estándar de mensajes y servicios: std\_srvs, std\_msgs, geometry\_msgs, sensor\_msgs.
+	\item {\bfseries pluginlib}: Librería estándar para la implementación de plugins en ROS.
+\end{itemize}
+
+Las siguientes dependencias son paquetes ROS utilizados para la implementación de componentes específicas para el robot Bender y para el software demostrativo.
+\begin{itemize}
+\item {\bfseries smach, smach\_ros}: Librería SMACH. Utilizada para la implementación de la interfaz episódica con máquinas de estado.
+\item {\bfseries cv\_bridge}: Interfaz ROS con librería OpenCV. Utilizado para el manejo de imágenes en los plugins.
+\end{itemize}
+
+
+\subsection{Paquetes de software desarrollados}\label{sec:impl_packages}
+
+Con el motivo de separar conceptos e implementar un software independiente del robot objetivo, se separó la implementación en 6 paquetes ROS. El primero provee la conexión a la base de datos. El siguiente contiene solamente la implementación del servidor, otro provee plugins e interfaces episódicas genéricas, otro contiene código de ejemplo, para pruebas y validación. Los dos últimos contienen implementaciones específicas para el robot Bender.
+
+Todos los paquetes de ROS implementados cuentan con un repositorio de software en GitHub, de carácter público.
+
+\subsubsection{Paquete ROS: \texttt{ltm\_db}}
+
+El paquete se puede considerar un \textit{fork} de \texttt{warehouse\_ros\_mongo}. Extiende la versión original con nuevas funcionalidades, requeridas para la implementación del servidor LTM y el manejo de las colecciones en MongoDB.
+
+Particularmente, se agregaron las siguientes funcionalidades:
+\begin{itemize}
+\item Soporte para agregar arreglos como campos para ser indexados en colecciones. Los arreglos se pueden construir para los siguientes tipos de datos en \CC: \texttt{std::string}, \texttt{int}, \texttt{double} y \texttt{bool}. 
+\item Soporte para metadatos anidados.
+\item Soporte para arreglos de objetos como metadatos de una colección.
+\item Soporte para búsquedas de mensajes en colecciones, mediante condición de pertenencia de valor a un arreglo.
+\item Soporte para consultas genéricas basadas en el sistema de consultas de MongoDB. Se puede realizar cualquier consulta y combinación de condiciones, expresable en formato JSON, utilizando el estándar de consultas de MongoDB.
+\end{itemize}
+
+El paquete ROS se puede encontrar en el siguiente repositorio público en GitHub: \url{https://github.com/mpavezb/ltm\_db}.
+
+\subsubsection{Paquete ROS: \texttt{ltm}}
+
+Contiene solamente la implementación del servidor y la documentación de éste. No se incluyen plugins ni interfaces episódicas, pues son consideradas como software no necesario o muy específico para un robot, como para ser considerado genérico. El paquete se puede encontrar en el siguiente repositorio público de software: \url{https://github.com/mpavezb/ltm}.
+
+\subsubsection{Paquete ROS: \texttt{ltm\_addons}}
+
+Este paquete ROS implementa el plugin para adquisición de imágenes y las interfaces episódicas para JSON y SMACH. Contiene software genérico, agnóstico del robot a utilizar. Los tres componentes anteriores pueden ser considerados herramientas útiles para algún robot, pero que no son estrictamente necesarios para el funcionamiento del sistema LTM. El repositorio asociado se puede encontrar en: \url{https://github.com/mpavezb/ltm\_addons}.
+
+\subsubsection{Paquete ROS: \texttt{ltm\_samples}}
+
+Este paquete contiene implementaciones de ejemplo de algunos plugins episódicos, capaces de generar información ficticia. Además, el paquete contiene software útil para pruebas del funcionamiento del sistema y código para su validación. Su repositorio de software se encuentra en: \url{https://github.com/mpavezb/ltm\_samples}.
+
+\subsubsection{Paquete ROS: \texttt{bender\_emotion}}
+
+Ya que Bender no dispone de un software generador de emociones, este paquete implementa el sistema emocional descrito en la Sección \ref{sec:design_bender}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
+
+\subsubsection{Paquete ROS: \texttt{bender\_ltm}}
+
+Este paquete implementa plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
+
+
+\subsection{Líneas de código}
+
+En la Figura~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el proyecto, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
+
+\begin{figure}[!ht]
+	\centering
+	\begin{tabular}{|l|r|r|r|r|}
+		\hline
+		\rowcolor{gray!50}
+		Lenguaje & Archivos & Líneas en blanco & Comentarios & Código \\ \hline
+		C++                   &  32  &  669  &  422  &  3073 \\ \hline
+		C/C++ Header          &  47  &  667  &  422  &  2192 \\ \hline
+		Python                &  37  &  587  &  471  &  1812 \\ \hline
+		JSON                  &  12  &    0  &    0  &   321 \\ \hline
+		CMake                 &   5  &  107  &  219  &   312 \\ \hline
+		XML                   &  17  &   91  &   79  &   213 \\ \hline
+		Markdown              &   8  &   95  &    0  &   183 \\ \hline
+		ROS msg/srv           &  30  &   34  &   72  &   177 \\ \hline
+		BASH    &   2  &   21  &    7  &    99 \\ \hline
+		YAML                  &   4  &   30  &   45  &    77 \\ \hline
+		\rowcolor{gray!50}
+		Total                 & 194  & 2301  & 1737  & 8459  \\ \hline	
+	\end{tabular} 
+	\caption{\small Líneas de código del sistema LTM por lenguaje.}
+	\label{table:lineas-codigo}
+\end{figure}
+
+
+\subsection{Documentación}
+
+Todos los paquetes ROS desarrollados para el sistema LTM, junto a los módulos de ejemplo para recopilación de información ficticia y desde el robot Bender, se encuentra documentado en el archivo \texttt{README.md} del repositorio de software \texttt{ltm}.
+
+La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a un tutorial sobre el uso del servidor y la elaboración de plugins.
+
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Mensajes episódicos}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+
+
 % IMPLEMENTACIÓN
 % - Launchfiles
 % - Configuración estática mediante Parameter Server
@@ -27,131 +178,6 @@
 \todounsure{procesamiento de imágenes: degradación de streams}
 \todounsure{Algs utilizados para emociones implementadas en robot}
 \todounsure{Sistemas de coordenadas?? Frames?}
-
-
-Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo \ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se muestran los mensajes episódicos sobre los que se construye el proyecto. En tercer lugar, se presentan módulos de software desarrollados para acelerar la implementación y validación del proyecto. Luego, se presenta la implementación del servidor LTM, junto a los módulos encargados de generar información episódica ficticia y los encargados de recolectar datos desde el robot. Finalmente, se muestra la integración del sistema en Bender.
-
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Estructura del software e instalación}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-
-Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del proyecto, la estructura elegida para el servidor LTM, y la estructura para los plugins encargados de la recolección de información episódica.
-
-\subsection{Dependencias}
-
-A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Éstas se dividen en las siguientes categorías: de sistema, del lenguaje C++, del lenguaje Python y de ROS.
-
-\todoimprove{Añadir versión de cada dependencia.}
-
-\subsubsection{Sistema}
-
-El proyecto fue desarrollado en Linux, Ubuntu 16.04, utilizando la distribución \textit{kinetic} de ROS, la que cuenta con soporte hasta Abril del año 2021. A pesar de lo anterior, el sistema debería ser compatible con versiones más recientes de ROS y Ubuntu, siempre que existan las dependencias mostradas en las siguientes secciones. A continuación se muestra el listado de paquetes extra, requeridos para el funcionamiento del proyecto.
-
-\begin{itemize}
-\item {\bfseries mongodb-server}: Paquete de software que contiene el servidor de MongoDB para Ubuntu 16.04.
-\end{itemize}
-
-
-\subsubsection{Dependencias C++}
-
-El servidor fue implementado completamente utilizando C++, bajo el estándar C++03, que es soportado por la mayoría de los compiladores actuales y es el utilizado por defecto en ROS kinetic. A continuación se listan las dependencias de C++ utilizadas para la implementación del servidor.
-
-\begin{itemize}
-	\item {\bfseries mongo-cxx-driver}: Driver oficial para mongodb en C++. Más información en su repositorio oficial: \url{https://github.com/mongodb/mongo-cxx-driver.git}. 
-	\item {\bfseries Boost Geometry}: Utilizado para el cómputo de la envoltura convexa y para el cálculo del centroide de un polígono.
-\end{itemize}
-
-
-\subsubsection{Dependencias Python}
-
-Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Ya que el servidor está completamente implementado en C++, las siguientes dependencias son sólo para los módulos específicos para la integración con Bender o para el software demostrativo.
-
-\begin{itemize}
-\item {\bfseries cv2}: Librería OpenCV 2. Utilizada para insertar imágenes ficticias en entidades. 
-\item {\bfseries faker}: Librería utilizada para la generación de datos ficticios para entidades. Más información en su web oficial: \url{https://github.com/joke2k/faker}.
-\end{itemize}
-
-\todoimplementation{Mover JSON loader fuera del package principal?}
-
-\subsubsection{Dependencias ROS}
-
-A continuación se listan las dependencias de paquetes ROS utilizados para la implementación del servidor.
-\begin{itemize}
-	\item Suite estándar de mensajes y servicios: std\_srvs, std\_msgs, geometry\_msgs, sensor\_msgs.
-	\item {\bfseries pluginlib}: Librería estándar para la implementación de plugins en ROS.
-	\item {\bfseries warehouse\_ros\_mongo}: Interfaz ROS para el almacenamiento de mensajes en MongoDB. Es una librería estándar, pero por errores al actualizar versiones de ROS, el paquete aún no está disponible en el canal oficial para ROS kinetic. Más información en el repositorio oficial: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}.
-\end{itemize}
-
-Las siguientes dependencias extra, son paquetes ROS utilizados para la implementación de componentes específicas para el robot Bender y para el software demostrativo.
-\begin{itemize}
-\item {\bfseries smach, smach\_ros}: Librería SMACH. Utilizada para la implementación de la interfaz episódica con máquinas de estado.
-\item {\bfseries cv\_bridge}: Interfaz ROS con librería OpenCV. Utilizado para el manejo de imágenes en los plugins.
-\end{itemize}
-\todopaused{Actualizar dependencias tras integración.}
-
-
-\subsection{Paquetes de software desarrollados}\label{sec:impl_packages}
-
-Con el motivo de separar conceptos e implementar un software independiente del robot objetivo, se desarrollaron 5 paquetes ROS. Uno de ellos contiene solamente la implementación del servidor, otro provee plugins e interfaces episódicas genéricas, otro contiene código de ejemplo, para pruebas y validación. Los dos últimos contienen implementaciones específicas para el robot Bender.
-
-Todos los paquetes de ROS implementados cuentan con un repositorio de software en GitHub, de carácter público.
-
-\subsubsection{Paquete ROS: \texttt{ltm}}
-
-Contiene solamente la implementación del servidor y la documentación de éste. No se incluyen plugins ni interfaces episódicas, pues son consideradas como software no necesario o muy específico para un robot, como para ser considerado genérico. El paquete se puede encontrar en el siguiente repositorio público de software: \url{https://github.com/mpavezb/ltm}.
-
-\subsubsection{Paquete ROS: \texttt{ltm\_addons}}
-
-Este paquete ROS implementa el plugin para adquisición de imágenes y las interfaces episódicas para JSON y SMACH. Contiene software genérico, agnóstico del robot a utilizar. Los tres componentes anteriores pueden ser considerados herramientas útiles para algún robot, pero que no son estrictamente necesarios para el funcionamiento del servidor LTM. El repositorio asociado se puede encontrar en: \url{https://github.com/mpavezb/ltm\_addons}.
-
-\subsubsection{Paquete ROS: \texttt{ltm\_samples}}
-
-Este paquete contiene implementaciones de ejemplo de algunos plugins episódicos, capaces de generar información ficticia. Además, el paquete contiene software útil para pruebas del funcionamiento del servidor y código para su validación. Su repositorio de software se encuentra en: \url{https://github.com/mpavezb/ltm\_samples}.
-
-\subsubsection{Paquete ROS: \texttt{bender\_emotion}}
-
-Ya que Bender no dispone de un software generador de emociones, este paquete implementa el sistema descrito en la Sección \ref{}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
-
-\subsubsection{Paquete ROS: \texttt{bender\_ltm}}
-
-Este paquete implementa plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
-
-
-
-
-\subsection{Detalles del software}
-
-\todowrite{Incluir figura con diagrama de funcionamiento del server - robot.}
-
-\todowrite{Ver en que puntos se pueden agregar diagramas y figuras explicativas.}
-
-\todowrite{Incluir tabla con Líneas de código por lenguaje... ver memoria de IAN. Usar comando: \$ cloc ltm ltm\_samples}
-
-
-\subsection{Documentación}
-
-El software desarrollado para el servidor (paquete \texttt{ltm}), junto a los plugins de ejemplo para recopilación de información ficticia (paquete \texttt{ltm\_samples}), y las interfaz episódica en SMACH (paquete \texttt{ltm\_addons}), se encuentra documentado en el archivo \texttt{README.md} del repositorio de software `ltm`, disponible en  \url{https://github.com/mpavezb/ltm}.
-
-La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a un tutorial sobre el uso del servidor y la elaboración de plugins.
-
-\todoimplementation{Completar tutoriales o quitarlos del informe.}
-
-
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Mensajes episódicos}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
 
 En ésta sección se muestran los mensajes ROS implementados para manejar el concepto de episodios, los que son la base sobre la que se construye el sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
 
@@ -603,3 +629,5 @@ Put your code here.
 % - Entidades
 
 .
+
+

@@ -5,7 +5,7 @@ En este capítulo se presenta el trabajo de título a realizar: el diseño e imp
 
 \section{Antecedentes Generales}
 
-A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el proyecto y su relación con la robótica. Éstos temas serán tratados en mayor profundidad más adelante, en los Capítulos \ref{chapter:theory} y \ref{chapter:technical}.
+A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el proyecto y su relación con la robótica. Éstos temas serán tratados en mayor profundidad más adelante, en los Capítulos~\ref{chapter:theory} y \ref{chapter:technical}.
 
 
 \subsection{Robots de servicio domésticos}
@@ -64,7 +64,7 @@ Por otro lado, suponiendo que lo anterior estuviese solucionado, aún existen lo
 \begin{itemize}
 	\item El sistema implementado requiere una pauta específica de interacción con el usuario, y no queda claro que la implementación sea no intrusiva o adaptable a las rutinas de interacción del robot. 
 	\item El modelo de datos propuesto es estático y no queda claro como puede ser modificado para manejar otras estructuras semánticas.
-	\item El diseño no se ajusta a los requerimientos mínimos para un sistema episódico, como los propuestos por Stachowicz~\cite{Stachowicz2012}, particularmente no cumple con los requisitos \RStachowicz{1}, \RStachowicz{9}, \RStachowicz{10} ni \RStachowicz{11}. Los requerimientos de Stachowicz son extensos y se describen en detalle en la Sección \ref{sec:ltm_exp}.
+	\item El diseño no se ajusta a los requerimientos mínimos para un sistema episódico, como los propuestos por Stachowicz~\cite{Stachowicz2012}, particularmente no cumple con los requisitos \RStachowicz{1}, \RStachowicz{9}, \RStachowicz{10} ni \RStachowicz{11}. Los requerimientos de Stachowicz son extensos y se describen en detalle en la Sección~\ref{sec:ltm_exp}.
 	\item Sólo considera 2 entidades: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen. Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de éstas (como nombre, hobbies, trabajo o edad, para el caso específico de un humano).
 	\item A pesar de considerar una entidad para objetos, en la práctica no se integró con los módulos relacionados que recopilan la información, por lo que realmente la memoria sólo funciona para entidades de tipo Persona.
 	\item La consolidación de memoria STM a LTM sólo considera la primera interacción con cada entidad, por lo que no existe actualización de los datos.
@@ -106,7 +106,7 @@ En primer lugar, se espera que este trabajo de título sirva como base para la i
 
 El proyecto provee un sistema LTM que considera la memoria emocional en su diseño. Sin embargo, Bender no dispone de módulos emocionales que puedan ser utilizados como fuente de datos para el sistema. Se considera que el desarrollo de tales módulos es un trabajo extenso y se escapa de los objetivos del proyecto. Considerando esto, el sistema LTM provee una interfaz emocional, en caso de que a futuro se implementen módulos emocionales en Bender.
 
-Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados por este proyecto. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en el Capítulo \ref{chapter:theory}.
+Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados por este proyecto. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en el Capítulo~\ref{chapter:theory}.
 
 
 \section{Estructura de la Memoria}
@@ -118,7 +118,7 @@ Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son
 % - 6to: Resultados de las validaciones y análisis
 % - 7to: Conclusiones y trabajo futuro.
 
-En este primer capítulo se hizo una descripción breve de los conceptos necesarios para introducir el proyecto, su motivación y sus objetivos. El Capítulo \ref{chapter:theory} hace una revisión de los aspectos teóricos necesarios para comprender el trabajo realizado, y el Capítulo \ref{chapter:technical} describe los componentes de software y hardware requeridos para el proyecto. Luego, el Capítulo \ref{chapter:diseno} presenta los requisitos del proyecto, las validaciones propuestas y el diseño del sistema LTM, mientras que en el Capítulo \ref{chapter:implementacion} se describe su implementación y funcionamiento. En el Capítulo \ref{chapter:results} se muestran los resultados de las validaciones y su análisis. Finalmente, se presentan las conclusiones y el trabajo futuro propuesto para el proyecto.
+En este primer capítulo se hizo una descripción breve de los conceptos necesarios para introducir el proyecto, su motivación y sus objetivos. El Capítulo~\ref{chapter:theory} hace una revisión de los aspectos teóricos necesarios para comprender el trabajo realizado, y el Capítulo~\ref{chapter:technical} describe los componentes de software y hardware requeridos para el proyecto. Luego, el Capítulo~\ref{chapter:diseno} presenta los requisitos del proyecto, las validaciones propuestas y el diseño del sistema LTM, mientras que en el Capítulo~\ref{chapter:implementacion} se describe su implementación y funcionamiento. En el Capítulo~\ref{chapter:results} se muestran los resultados de las validaciones y su análisis. Finalmente, se presentan las conclusiones y el trabajo futuro propuesto para el proyecto.
 
 %\section{Resumen}
 

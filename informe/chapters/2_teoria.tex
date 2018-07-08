@@ -58,7 +58,7 @@ Desde el punto de vista de la información procesada, la memoria es vista como u
 \end{itemize}
 %\bigskip
 
-La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, \textbf{STM (Short-Term Memory)} y \textbf{LTM (Long-Term Memory)}, por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura \ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
+La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, \textbf{STM (Short-Term Memory)} y \textbf{LTM (Long-Term Memory)}, por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura~\ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
 
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 \tikzset{
@@ -139,7 +139,7 @@ En los humanos esta área presenta gran activación durante procesos de codifica
 %% =====================================================================
 
 
-La LTM se asocia al almacenamiento permanente de información en el cerebro. Se caracteriza por manejar una gran cantidad de experiencias y entidades, ser menos detallada y proveer un acceso más lento a los recuerdos, respecto a la STM~\cite{Eichenbaum:2008}. Cierta información de la STM eventualmente es transferida a la LTM. De acuerdo a la Figura \ref{img:human_memory}, sus dos principales categorías son la \textit{Memoria Implícita} y la \textit{Memoria Explícita}.
+La LTM se asocia al almacenamiento permanente de información en el cerebro. Se caracteriza por manejar una gran cantidad de experiencias y entidades, ser menos detallada y proveer un acceso más lento a los recuerdos, respecto a la STM~\cite{Eichenbaum:2008}. Cierta información de la STM eventualmente es transferida a la LTM. De acuerdo a la Figura~\ref{img:human_memory}, sus dos principales categorías son la \textit{Memoria Implícita} y la \textit{Memoria Explícita}.
 
 
 \subsubsection{LTM explícita}
@@ -238,7 +238,7 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 %%% =====================================================================
 %%% =====================================================================
 %
-%Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la Figura \ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria, sus procesos y el análogo robótico.
+%Son muchos los trabajos en LTM que han basado su desarrollo en la taxonomía de la memoria humana, donde se implementan esquemas de información con módulos análogos a los presentados en la Figura~\ref{img:human_memory}. Esto se puede justificar por la similitud de cada tipo de memoria, con módulos preexistentes en la arquitectura robótica. A continuación se presenta una comparación entre cada tipo de memoria, sus procesos y el análogo robótico.
 %
 %\subsubsection{Memoria STM}
 %Se relaciona a todos los datos que están actualmente cargados en la memoria primaria de la máquina. Esta memoria es la utilizada para solucionar la tarea actual, es equivalente a los pensamientos del robot y cumple con las características de la STM humana: es volátil, de rápido acceso y limitada en capacidad. También se encuentra presente en todo archivo temporal manejado por el sistema, mientras está en funcionamiento. Así, la estructura equivalente a la cerebral sería principalmente la RAM de la máquina y los archivos temporales.
@@ -311,7 +311,7 @@ Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esper
 
 
 \ltmconcept{Bender}
-El año 2015 Sanchez et al.~\cite{Sanchez:2015} diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto). Este primer acercamiento es descrito en detalle en la Sección \ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
+El año 2015 Sanchez et al.~\cite{Sanchez:2015} diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto). Este primer acercamiento es descrito en detalle en la Sección~\ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
 
 
 \ltmconcept{Otros trabajos}
@@ -341,7 +341,7 @@ Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, M
 %
 %La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no sólo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
 %
-%En la Figura \ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la memoria episódica como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
+%En la Figura~\ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la memoria episódica como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
 %
 %\begin{figure}[!h]
 %	\centering
@@ -487,7 +487,7 @@ Dood et al. proponen implementar las sensaciones a partir de distintos estímulo
 	\item Cumplimiento de expectativas.
 \end{itemize}
 
-Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Figura \ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
+Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Figura~\ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
 
 \begin{figure}[!ht]
 	\centering
@@ -512,7 +512,7 @@ Sistemas más avanzados, incluso pueden considerar la generación de reacciones 
 
 Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al.~\cite{Deutsch2008} consideran que la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados.
 
-En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones, que se muestra en la Figura \ref{img:plutchik}. Su trabajo es uno de los más influyentes para la clasificación de las emociones y sus respuestas. Plutchik propone 8 emociones primarias, cada una es de carácter bipolar y con un nivel de intensidad asociado: ira - miedo, alegría - tristeza, confianza - aversión, sorpresa - anticipación. La rueda además muestra 8 emociones avanzadas de carácter bipolar, formadas a partir de las 2 emociones primarias adyacentes.
+En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones, que se muestra en la Figura~\ref{img:plutchik}. Su trabajo es uno de los más influyentes para la clasificación de las emociones y sus respuestas. Plutchik propone 8 emociones primarias, cada una es de carácter bipolar y con un nivel de intensidad asociado: ira - miedo, alegría - tristeza, confianza - aversión, sorpresa - anticipación. La rueda además muestra 8 emociones avanzadas de carácter bipolar, formadas a partir de las 2 emociones primarias adyacentes.
 
 \begin{figure}[!ht]
 	\centering

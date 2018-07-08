@@ -36,7 +36,7 @@ Una distribución es un conjunto versionado de paquetes ROS. Su propósito es pe
 
 \ltmconcept{Mensaje} Es una estructura de datos utilizada para comunicar un nodo con otro. Se definen en un archivo de tipo \texttt{.msg}, a partir de tipos de dato básicos en ROS y otros mensajes. Durante la compilación se genera el código para poder utilizarlos mediante las librerías ROS de cada lenguaje de programación disponible.
 
-\ltmconcept{Tópico} Permite que los nodos de comuniquen a través de mensajes, y está basado en el patrón de diseño observador. Cada tópico es un canal de comunicación que transmite mensajes ROS de un tipo predefinido. Cada nodo puede publicar simultáneamente en uno o más tópicos. Cada nodo puede suscribirse a los tópicos que desee, siendo notificado por cada mensaje entrante. Esto se describe en el diagrama de la Figura \ref{img:ros-topic}.
+\ltmconcept{Tópico} Permite que los nodos de comuniquen a través de mensajes, y está basado en el patrón de diseño observador. Cada tópico es un canal de comunicación que transmite mensajes ROS de un tipo predefinido. Cada nodo puede publicar simultáneamente en uno o más tópicos. Cada nodo puede suscribirse a los tópicos que desee, siendo notificado por cada mensaje entrante. Esto se describe en el diagrama de la Figura~\ref{img:ros-topic}.
 
 \begin{figure}[!h]
 	\centering
@@ -116,9 +116,9 @@ SMACH es una librería en Python para la creación y ejecución de máquinas de 
 	\label{img:SMACH-sample}
 \end{figure}
 
-En SMACH una maquina de estado está compuesta por un conjunto de estados y sus transiciones. La librería soporta anidamiento, por lo que cualquier estado puede ser reemplazado por otra máquina de estado disponible. Cada estado debe proveer una función \texttt{execute} a ser ejecutada cuando esté activo. En la Figura \ref{img:SMACH-sample} se presenta máquina de estado construida en SMACH, que ejemplifica el concepto de anidación de estados.
+En SMACH una maquina de estado está compuesta por un conjunto de estados y sus transiciones. La librería soporta anidamiento, por lo que cualquier estado puede ser reemplazado por otra máquina de estado disponible. Cada estado debe proveer una función \texttt{execute} a ser ejecutada cuando esté activo. En la Figura~\ref{img:SMACH-sample} se presenta máquina de estado construida en SMACH, que ejemplifica el concepto de anidación de estados.
 
-%En la Figura \ref{img:SMACH-sample} se presenta un ejemplo de un comportamiento robótico complejo implementado en SMACH, que representa el proceso de recarga de baterías en un robot. Según las condiciones encontradas se activarán distintas transiciones, pero en el caso básico la rutina es la siguiente: El robot navega a la estación de carga, se posiciona, manipula el conector, se conecta y espera.
+%En la Figura~\ref{img:SMACH-sample} se presenta un ejemplo de un comportamiento robótico complejo implementado en SMACH, que representa el proceso de recarga de baterías en un robot. Según las condiciones encontradas se activarán distintas transiciones, pero en el caso básico la rutina es la siguiente: El robot navega a la estación de carga, se posiciona, manipula el conector, se conecta y espera.
 
 %% =============================================================================
 %% =============================================================================
@@ -135,7 +135,7 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 URF está construido sobre ROS y utiliza una estructura de 4 capas:
 \begin{enumerate}
 \item La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
-\item  Sobre la primera, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes y los drivers necesarios para manejar el hardware del robot (módulos de \textit{Hardware} en la Figura \ref{img:URF}).
+\item  Sobre la primera, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes y los drivers necesarios para manejar el hardware del robot (módulos de \textit{Hardware} en la Figura~\ref{img:URF}).
 \item La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción humano-robot (sección \textit{Módulos ROS} del diagrama).
 \item La última capa de alto nivel es desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, y es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH (bloque de \textit{Alto Nivel} del diagrama).
 \end{enumerate}
@@ -175,13 +175,13 @@ Sin embargo, en URF no existen formas de memoria emocional ni episódica de larg
 %% =============================================================================
 %% -----------------------------------------------------------------------------
 
-Bender, presentado en la Figura \ref{img:bender}, es un robot humanoide de tipo doméstico, cuyo objetivo es ser un robot mayordomo para el hogar. Fue creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, por el equipo UChile Homebreakers~\cite{uchile-robotics}.
+Bender, presentado en la Figura~\ref{img:bender}, es un robot humanoide de tipo doméstico, cuyo objetivo es ser un robot mayordomo para el hogar. Fue creado el año 2007 en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, por el equipo UChile Homebreakers~\cite{uchile-robotics}.
 
 En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
 
 El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micrófono M-Audio Producer USB y una cámara de profundidad ASUS Xtion Pro.
 
-El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior y mostrado en la Figura \ref{img:URF}. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
+El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior y mostrado en la Figura~\ref{img:URF}. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
 
 \begin{figure}[!h]
 	\centering
