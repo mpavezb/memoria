@@ -5,19 +5,14 @@ string[] tags
 string[] children_tags
 ltm/Info info
 
-# Episodic tree information
+# Tree information
 uint32 parent_id
 uint32[] children_ids
 
-# Episodic LTM information
+# 3 W's
 ltm/What  what
 ltm/When  when
 ltm/Where where
 
 # Relevance
 ltm/Relevance relevance
-
-# Available types
-uint8 LEAF=0
-uint8 EPISODE=1
-uint8 CONTEXT=2

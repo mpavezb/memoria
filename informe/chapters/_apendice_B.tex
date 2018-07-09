@@ -1,6 +1,8 @@
 \chapter{Anexo: Implementación}\label{chapter:appendix_b}
 
-\section{Mensajes episódicos}
+\section{Modelo de datos}\label{appendixB:modelo_datos}
+
+\todowrite{Reescribir comentarios para código de mensajes y servicios. Eliminar campos extra, para evitar llenar el informe de basura.}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/When.msg]{code/msg/When.msg}
@@ -10,13 +12,15 @@
 \lstinputlisting[caption=ltm/Relevance.msg]{code/msg/Relevance.msg}
 \lstinputlisting[caption=ltm/EmotionalRelevance.msg]{code/msg/EmotionalRelevance.msg}
 \lstinputlisting[caption=ltm/HistoricalRelevance.msg]{code/msg/HistoricalRelevance.msg}
+\lstinputlisting[caption=ltm/Date.msg]{code/msg/Date.msg}
 
+\section{Interfaz ROS}
 
-
-\section{Interfaz ROS al servidor}
+\lstset{style=/Style/yaml/ROS}
+\lstinputlisting[caption=server.yaml,label=lst:sampleconfig]{code/server.yaml}
 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/RegisterEpisode.srv]{code/srv/RegisterEpisode.srv}
 \lstinputlisting[caption=ltm/AddEpisode.srv]{code/srv/AddEpisode.srv}
-\lstinputlisting[caption=ltm/GetEpisode.srv]{code/srv/GetEpisode.srv}
+\lstinputlisting[caption=ltm/GetEpisode.srv]{code/srv/GetEpisodes.srv}
 \lstinputlisting[caption=ltm/UpdateTree.srv]{code/srv/UpdateTree.srv}

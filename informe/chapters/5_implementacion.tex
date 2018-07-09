@@ -1,9 +1,15 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo \ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se muestran los mensajes episódicos sobre los que se construye el proyecto. En tercer lugar, se presentan módulos de software desarrollados para acelerar la implementación y validación del proyecto. Luego, se presenta la implementación del sistema LTM, junto a los módulos encargados de generar información episódica ficticia y los encargados de recolectar datos desde el robot. Finalmente, se muestra la integración del sistema en Bender.
+Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto. Finalmente, se presenta la integración del sistema LTM en Bender, mediante su incorporación a URF.
 
-\todowrite{Reescribir al final del cap.}
-\todowrite{Agregar summary al final de cada cap.}
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
 
 % ==============================================================================
 % ==============================================================================
@@ -18,11 +24,15 @@ Es éste capítulo se describe la implementación del proyecto, a partir de las 
 Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del proyecto, la estructura elegida para el sistema LTM, y la estructura para los plugins encargados de la recolección de información episódica.
 
 \subsection{Dependencias}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 
 A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Éstas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
 
 
 \subsubsection{Sistema}
+% ==============================================================================
 
 El proyecto fue desarrollado en Linux, Ubuntu 16.04. Las dependencias del sistema LTM son las siguientes:
 
@@ -35,6 +45,7 @@ La implementación del sistema debería ser compatible con versiones más recien
 
 
 \subsubsection{Dependencias C$++$}
+% ==============================================================================
 
 El servidor fue implementado completamente utilizando \CC, bajo el estándar \CC03, que es soportado por la mayoría de los compiladores actuales y es el utilizado por defecto en ROS kinetic. A continuación se listan las dependencias de \CC \ utilizadas para la implementación del servidor.
 
@@ -45,6 +56,7 @@ El servidor fue implementado completamente utilizando \CC, bajo el estándar \CC
 
 
 \subsubsection{Dependencias Python}
+% ==============================================================================
 
 Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Las siguientes dependencias son sólo para los módulos específicos para la integración con Bender o para el software demostrativo.
 
@@ -55,6 +67,7 @@ Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kin
 
 
 \subsubsection{Dependencias ROS}
+% ==============================================================================
 
 A continuación se listan las dependencias de paquetes ROS utilizados para la implementación del servidor.
 \begin{itemize}
@@ -70,14 +83,18 @@ Las siguientes dependencias son paquetes ROS utilizados para la implementación 
 
 
 \subsection{Paquetes de software desarrollados}\label{sec:impl_packages}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 
 Con el motivo de separar conceptos e implementar un software independiente del robot objetivo, se separó la implementación en 6 paquetes ROS. El primero provee la conexión a la base de datos. El siguiente contiene solamente la implementación del servidor, otro provee plugins e interfaces episódicas genéricas, otro contiene código de ejemplo, para pruebas y validación. Los dos últimos contienen implementaciones específicas para el robot Bender.
 
 Todos los paquetes de ROS implementados cuentan con un repositorio de software en GitHub, de carácter público.
 
 \subsubsection{Paquete ROS: \texttt{ltm\_db}}
+% ==============================================================================
 
-El paquete se puede considerar un \textit{fork} de \texttt{warehouse\_ros\_mongo}. Extiende la versión original con nuevas funcionalidades, requeridas para la implementación del servidor LTM y el manejo de las colecciones en MongoDB.
+El paquete se puede considerar un \textit{fork} de \texttt{warehouse\_ros\_mongo}. Extiende la versión original con nuevas funcionalidades para el manejo de colecciones en MongoDB, requeridas para la implementación del servidor LTM.
 
 Particularmente, se agregaron las siguientes funcionalidades:
 \begin{itemize}
@@ -88,30 +105,43 @@ Particularmente, se agregaron las siguientes funcionalidades:
 \item Soporte para consultas genéricas basadas en el sistema de consultas de MongoDB. Se puede realizar cualquier consulta y combinación de condiciones, expresable en formato JSON, utilizando el estándar de consultas de MongoDB.
 \end{itemize}
 
-El paquete ROS se puede encontrar en el siguiente repositorio público en GitHub: \url{https://github.com/mpavezb/ltm\_db}.
+El paquete ROS se encuentra en un repositorio público en GitHub: \url{https://github.com/mpavezb/ltm\_db}.
+
 
 \subsubsection{Paquete ROS: \texttt{ltm}}
+% ==============================================================================
 
 Contiene solamente la implementación del servidor y la documentación de éste. No se incluyen plugins ni interfaces episódicas, pues son consideradas como software no necesario o muy específico para un robot, como para ser considerado genérico. El paquete se puede encontrar en el siguiente repositorio público de software: \url{https://github.com/mpavezb/ltm}.
 
-\subsubsection{Paquete ROS: \texttt{ltm\_addons}}
 
-Este paquete ROS implementa el plugin para adquisición de imágenes y las interfaces episódicas para JSON y SMACH. Contiene software genérico, agnóstico del robot a utilizar. Los tres componentes anteriores pueden ser considerados herramientas útiles para algún robot, pero que no son estrictamente necesarios para el funcionamiento del sistema LTM. El repositorio asociado se puede encontrar en: \url{https://github.com/mpavezb/ltm\_addons}.
+\subsubsection{Paquete ROS: \texttt{ltm\_addons}}
+% ==============================================================================
+
+Este paquete ROS implementa un plugin para adquisición de \textit{streams} de imágenes, junto a las interfaces para obtener episodios desde JSON y SMACH. Contiene software genérico, agnóstico del robot a utilizar. Los tres componentes anteriores pueden ser considerados herramientas útiles para algún robot, pero que no son estrictamente necesarios para el funcionamiento del sistema LTM. El repositorio asociado se puede encontrar en: \url{https://github.com/mpavezb/ltm\_addons}.
+
 
 \subsubsection{Paquete ROS: \texttt{ltm\_samples}}
+% ==============================================================================
 
-Este paquete contiene implementaciones de ejemplo de algunos plugins episódicos, capaces de generar información ficticia. Además, el paquete contiene software útil para pruebas del funcionamiento del sistema y código para su validación. Su repositorio de software se encuentra en: \url{https://github.com/mpavezb/ltm\_samples}.
+Este paquete contiene implementaciones de ejemplo de algunos plugins episódicos capaces de generar información ficticia. Además, el paquete contiene software útil para pruebas del funcionamiento del sistema y código para su validación. Su repositorio de software se encuentra en: \url{https://github.com/mpavezb/ltm\_samples}.
+
 
 \subsubsection{Paquete ROS: \texttt{bender\_emotion}}
+% ==============================================================================
 
-Ya que Bender no dispone de un software generador de emociones, este paquete implementa el sistema emocional descrito en la Sección \ref{sec:design_bender}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
+Ya que Bender no dispone de un software generador de emociones, este paquete implementa el sistema emocional descrito en la Sección~\ref{sec:design_bender}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
+
 
 \subsubsection{Paquete ROS: \texttt{bender\_ltm}}
+% ==============================================================================
 
 Este paquete implementa plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
 
 
 \subsection{Líneas de código}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 
 En la Figura~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el proyecto, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
 
@@ -134,500 +164,386 @@ En la Figura~\ref{table:lineas-codigo} se presenta una tabla con el conteo de l�
 		\rowcolor{gray!50}
 		Total                 & 194  & 2301  & 1737  & 8459  \\ \hline	
 	\end{tabular} 
-	\caption{\small Líneas de código del sistema LTM por lenguaje.}
+	\caption[Líneas de código del sistema LTM por lenguaje.]
+	{\small Líneas de código del sistema LTM por lenguaje.}
 	\label{table:lineas-codigo}
 \end{figure}
 
 
 \subsection{Documentación}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 
-Todos los paquetes ROS desarrollados para el sistema LTM, junto a los módulos de ejemplo para recopilación de información ficticia y desde el robot Bender, se encuentra documentado en el archivo \texttt{README.md} del repositorio de software \texttt{ltm}.
+Todos los paquetes ROS desarrollados para el sistema LTM, junto a los módulos de ejemplo para recopilación de información ficticia y desde el robot Bender, se encuentran documentados en el archivo \texttt{README.md} del paquete ROS \texttt{ltm}.
 
-La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a un tutorial sobre el uso del servidor y la elaboración de plugins.
+La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a ejemplos sobre el uso del servidor y la elaboración de plugins.
 
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
 
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-\section{Mensajes episódicos}
+\section{Sistema LTM}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 
-
-% IMPLEMENTACIÓN
-% - Launchfiles
-% - Configuración estática mediante Parameter Server
-% - Plugins que fallan no son inicializados.
-% - sobre estabilidad de plugins y daño al server.
-% - Minimizar dependencias
-%   - pluginlib, boost (operaciones geométricas, ...)
-
-%    - Alcances y trabajo futuro
-%        - reservar ids mientras nodo esté activo.
-%        - posibles funcionalidades de interés: 
-%           - visualizador
-%           - 
-% - uso esperado de pluginlib
-% SOBRE MD5! Hay estrategia, pero aún no se incluye en la implementación. Por qué es importante?
+En esta sección se describe la implementación del sistema LTM desarrollado. Primero, se presenta el modelo de datos para la definición de episodios, \textit{streams} y entidades. Luego, se describe la implementación del servidor LTM, basada en la librería \texttt{pluginlib}. Se presenta el sistema de plugins desarrollado y sus requisitos para los usuarios. Finalmente, se presenta la API ROS que provee el sistema LTM, para su configuración, ejecución, recolección de episodios y realización de consultas al servidor.
 
 
-\todounsure{convex hull}
-\todounsure{procesamiento de imágenes: degradación de streams}
-\todounsure{Algs utilizados para emociones implementadas en robot}
-\todounsure{Sistemas de coordenadas?? Frames?}
+\subsection{Modelo de datos}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
 
-En ésta sección se muestran los mensajes ROS implementados para manejar el concepto de episodios, los que son la base sobre la que se construye el sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
+A continuación se presenta el modelo de datos, construido a partir de mensajes ROS, utilizado para manejar los conceptos de episodios, entidades y \textit{streams}. Los mensajes implementados son la base para la construcción del sistema LTM y definen la estructura episódica a utilizar para la comunicación entre los clientes y el servidor en ROS.
 
-% \ref{lst:episode.msg}
-\subsection{Mensajes definidos por el servidor}
+Todos los mensajes presentados a continuación se encuentran en el paquete ROS \texttt{ltm}.
 
-\paragraph{Representación:}
-Luego, se construye un nuevo mensaje de ROS, \texttt{Episode.msg}, al cual se le agregan los siguientes campos:
-\begin{itemize}
-	\item Campo \texttt{uint32 uid}: Sirve para indicar el identificador único asignado al episodio.
-	\item Campo \texttt{string[] tags}: Vector de tags, para almacenar todos los \textit{tags} asociados al episodio.
-\end{itemize}
+\subsubsection{Episodios}
 
-% SOBRE EL MSG ROS
-\paragraph{Representación:}
-Finalmente, tomando en cuanta las consideraciones anteriores, se agregan los ajustes siguientes al mensaje de ROS:
-\begin{itemize}
-	\item Campo \texttt{uint32 parent\_id}: Sirve para indicar el campo \texttt{uid} del padre del episodio. Se reserva el valor $0$ de éste campo para representar el padre de un episodio raíz.
-	\item Campo \texttt{uint32[] children\_ids}: Vector de \texttt{uid} asociadas a los episodios hijos. No existe condición sobre el orden temporal de los episodios hijos.
-	\item Campo \texttt{uint8 type}: Sirve para indicar si el episodio debe ser considerado como hoja o nodo del árbol.
-	\item Campo \texttt{string[] children\_tags}: Vector que sirve para acceder rápidamente a todos los \texttt{tags} definidos en los hijos. Se reserva el campo \texttt{tags}, para dar descripciones asociadas solamente al episodio actual.
-\end{itemize}
-
-% SOBRE EL MENSAJE ROS
-\paragraph{Representación:}
-Entonces, se crea el mensaje \texttt{When.msg} para almacenar el contexto temporal del episodio, con los siguientes campos:
-\begin{itemize}
-	\item \texttt{time start}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}: Indica el instante en que se inicia el episodio.
-	\item \texttt{time end}: Indica el instante en que finaliza el episodio.
-\end{itemize}
-
-Y el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/When when}\footnote{El dominio \texttt{ltm/} hace referencia al nombre del paquete ROS donde se implementa el servidor y que contiene la definición de todos los mensajes relacionados.}: Se agrega una instancia del mensaje \texttt{When.msg}, para manejar el contexto temporal del episodio.
-\end{itemize}
-
-
-% SOBRE MENSAJE EPISODICO
-\paragraph{Representación:}
-Considerando el diseño estudiado, se crea el mensaje \texttt{Where.msg} para almacenar el contexto espacial del episodio, utilizando los siguientes campos:
-\begin{itemize}
-	\item \texttt{geometry\_msgs/Point position}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}: Mensaje que permite definir la posición del robot durante la ocurrencia del episodio. A pesar de que el tipo de dato permite definir 3 coordenadas, sólo se consideran los campos \texttt{position.x} y \texttt{position.y}. En el caso de ser un nodo del árbol, corresponde al centroide del campo \texttt{children\_hull}.
-	\item \texttt{string frame\_id}: Indica el nombre del sistema de coordenadas sobre el cual se define el campo \texttt{position}.
-	\item \texttt{string map\_name}: Indica el nombre del mapa utilizado, en el cual se ubican la posición descrita y el sistema de coordenadas elegido. 
-	\item \texttt{string location}: Nombre del lugar donde se encontraba el robot al momento del episodio.
-	\item \texttt{string area}: Nombre del área en donde se ubica el lugar descrito por \texttt{location}. 
-	\item \texttt{geometry\_msgs/Point[] children\_hull}:
-	\item \texttt{string[] children\_locations}:
-	\item \texttt{string[] children\_areas}:
-\end{itemize}
-
-Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/Where where}: Se agrega una instancia del mensaje \texttt{Where.msg}, para manejar el contexto espacial del episodio.
-\end{itemize}
-
-% MSG ROS
-\paragraph{Representación:}
-Luego, se crea un mensaje de tipo \texttt{Relevance.msg}, para almacenar las sub-relevancias del episodio y la relevancia generalizada. El mensaje es creado como sigue:
-\begin{itemize}
-	\item TODO
-\end{itemize}
-\todopaused{Agregar representación de relevancia generalizada, una vez que sea implementada.}
-
-
-Finalmente, el mensaje \texttt{Episode.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/Relevance relevance}: Se agrega una instancia del mensaje \texttt{Relevance.msg}, para almacenar toda la información relacionada a los indicadores de relevancia del episodio.
-\end{itemize}
-
-% MSG ROS
-\paragraph{Representación:}
-Considerando lo anterior, se crea el mensaje \texttt{EmotionalRelevance.msg}, utilizando los siguientes campos:
-\begin{itemize}
-	\item \texttt{int32 emotion}: Valor que hace referencia a una de las 8 emociones base. En el caso de episodios nodo, hace referencia a la emoción con mayor relevancia.
-	\item \texttt{float32 value}: Intensidad de la emoción seleccionada. Válido para episodios nodo y hojas.
-	\item \texttt{int32[] children\_emotions}: Vector con identificadores de las 8 emociones base. Sólo es utilizado por episodios nodo.
-	\item \texttt{float32[] children\_values}: Vector con intensidades de cada una de las 8 emociones base. Sólo es utilizado por episodios nodo.
-	\item \texttt{string software}: Metadato. Nombre del sistema emocional utilizado.
-	\item \texttt{string software\_version}: Metadato. Versión del sistema emocional utilizado.
-	\item \texttt{string[] registered\_emotions}: Metadato. Descripción de emociones encontradas por el software generador de emociones. 
-	\item \texttt{float32[] registered\_values}: Metadato. Intensidades de emociones descritas en el campo \texttt{registered\_emotions}.
-\end{itemize}
-\todoimplementation{8 emociones son requeridas!}
-
-Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/EmotionalRelevance emotional}: Se agrega una instancia del mensaje ROS de tipo \texttt{EmotionalRelevance.msg}, para almacenar la información emocional relativa al episodio.
-\end{itemize}
-
-
-% MENSAJE ROS
-\paragraph{Representación:}
-Considerando lo anterior, se crea el mensaje \texttt{HistoricalRelevance.msg}, utilizando los siguientes campos:
-\begin{itemize}
-	\item \texttt{float32 value}: Indicador numérico de la relevancia histórica del episodio.
-	\item \texttt{ltm/Date last\_update}\footnote{\texttt{ltm/Date} corresponde a un mensaje ROS auxiliar definido en el paquete \texttt{ltm}, para representar una fecha mediante los campos: día, mes y año.}: Fecha de la última vez que el indicador fue actualizado.
-	\item \texttt{ltm/Date next\_update}: Fecha de la próxima actualización agendada.
-\end{itemize}
-
-Finalmente, el mensaje \texttt{Relevance.msg} es modificado como sigue:
-\begin{itemize}
-	\item \texttt{ltm/HistoricalRelevance historical}: Se agrega una instancia del mensaje ROS de tipo \texttt{HistoricalRelevance.msg}, para almacenar la información relativa a la relevancia histórica del episodio.
-\end{itemize}
-
-% MENSAJE ROS
-\paragraph{Representación:}
-Para su diseño, se crea un mensaje de tipo \texttt{Info.msg} con los siguientes campos:
-\begin{itemize}
-	%\texttt{int32 n\_usages}:     % e.g. 10
-	\item \texttt{string source}: Permite un nombre asociado a la fuente del episodio. Por ejemplo, ``smach'', ``json'' o ``dummy''.
-	\item \texttt{time creation\_date}: Sirve para indicar la fecha de creación del episodio, la que puede diferir del tiempo indicado en el campo \texttt{When}.
-	% \item \texttt{time last\_access}:  Sirve para indicar la fecha del último acceso al episodio.
-	\item \texttt{string ltm\_version}: Versión del sistema LTM utilizado. Por ejemplo, ``0.0.0''.
-	\item \texttt{string ros\_version}: Distribución de ROS utilizada. Por ejemplo, ``kinetic''.
-	\item \texttt{string os\_version}: Información sobre el sistema operativo donde se ejecuta el servidor LTM. Por ejemplo, ``GNU/Linux, Ubuntu 16.04, 4.13.0-43-generic, x86\_64''.
-\end{itemize}
-
-Luego, se modifica el mensaje \texttt{Episode.msg} como sigue:
-\begin{itemize}
-	\item \texttt{ltm/Info info}: Se agrega una instancia del mensaje \texttt{Info.msg}, para almacenar los metadatos del episodio.
-\end{itemize}
-
-% MODIFICACIÓN DEL MENSAJE ROS
-Una vez definido que los mensajes para \textit{streams} y entidades serán almacenados en colecciones propias, queda la definición del mensaje \texttt{What.msg}, encargado de almacenar las referencias a cada dato semántico relacionado al episodio. Para ello, se modifica el mensaje \texttt{Episode.msg}:
-\begin{itemize}
-	\item \texttt{ltm/What what}: Se agrega una instancia del mensaje \texttt{What.msg}. Sus contenidos son descritos en las siguientes secciones.
-\end{itemize}
-
-
-% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
-\paragraph{Representación:}
-Considerando lo anterior, se modifica el mensaje \texttt{What.msg} para agregar referencias a los \textit{streams} almacenados.
-\begin{itemize}
-	\item \texttt{string[] streams}: Listado de \textit{streams} almacenados para el episodio,  referenciados por los nombres de sus colecciones. El identificador del \textit{stream} corresponde al campo \texttt{uid} del episodio.
-\end{itemize}
-
-% REPRESENTACIÓN EN EL MENSAJE EPISODE.MSG
-\paragraph{Representación:}
-% TODO
-
-
-% modificar msg de colección MD5 y poder seguir ocupando la base de datos.
-% - mongo no tiene problema en modificar representación ...
-% - el driver ROS si.
-
-
-Dado que el mensaje definido por el usuario no es conocido en tiempo de compilación (pues los plugins se cargan en runtime)
-Para lo anterior, se agrega un nuevo requisito, el usuario debe definir un servicio ROS (archivo \texttt{.srv}) con el siguiente formato:
-\lstset{style=/Style/ROS/MSG}
-\begin{lstlisting}
-Put your code here.
-\end{lstlisting}
-
-
+A partir del diseño propuesto en la Sección~\ref{sec:ep_design}, se construye el mensaje ROS \texttt{ltm/Episode.msg}\footnote{El dominio \texttt{ltm/} hace referencia al nombre del paquete ROS donde se implementa el servidor y que contiene la definición de todos los mensajes relacionados.}, presentado en el Código~\ref{lst:episode.msg}. El mensaje tiene campos para manejar la estructura de árbol episódico, la información sobre \textit{What}, \textit{When} y \textit{Where}, las relevancias episódicas, y la información para introspección.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/Episode.msg,label=lst:episode.msg]{code/msg/Episode.msg}
 
-\subsection{Mensajes definidos por los plugins para Bender}
+Para ordenar la información, el mensaje se construye a partir de otros mensajes ROS definidos en el mismo paquete:
+\begin{itemize}
+\item \texttt{ltm/When.msg}: Mantiene el contexto temporal del episodio, indicando tiempos de inicio y fin, mediante campos del tipo \texttt{time}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}.
+\item \texttt{ltm/When.msg}: Almacena el contexto espacial del episodio, utilizando dos estrategias.
+\begin{itemize}
+\item  Permite almacenar un conjunto de coordenadas, mediante mensajes del tipo \texttt{geometry\_msgs/Point.msg}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}, sumado al nombre del mapa y del sistema coordenado utilizado. Además, se mantiene la envoltura convexa de las posiciones de sus hijos.
+\item Permite almacenar la ubicación del robot en formato textual.
+\end{itemize}
+\item \texttt{ltm/What.msg}: Almacena referencias a cada pieza de memoria semántica asociada al episodio. Se construye a partir de un mensaje para el manejo de \textit{streams} y otro para el manejo de entidades.
+\begin{itemize}
+\item \texttt{ltm/StreamRegister.msg}: Utilizado para mantener un listado de cada \textit{stream}, mediante su identificador único y el tipo de mensaje ROS registrado por su plugin.
+\item \texttt{ltm/EntityRegister.msg}: Utilizado para mantener un listado de cada entidad asociada al episodio, mediante el tipo de mensaje ROS registrado por su plugin, su identificador único, y un listado de los registros ingresados en el historial de la entidad.
+\end{itemize}
+\item \texttt{ltm/Relevance.msg}: Almacena datos sobre la relevancia episódica generalizada y las sub relevancias.
+\begin{itemize}
+\item La relevancia generalizada es construida mediante un indicador numérico y la fecha de su última actualización.
+\item \texttt{ltm/EmotionalRelevance.msg}: Almacena la relevancia emocional del episodio. Mantiene un indicador numérico para la emoción más relevante, los valores de cada una de las 8 emociones percibidas, sumado a información sobre el software emocional utilizado.
+\item \texttt{ltm/HistoricalRelevance.msg}: Almacena la relevancia histórica del episodio. Mantiene un indicador numérico, la fecha de la última actualización y la fecha de la siguiente actualización agendada.
+\end{itemize}
+\item \texttt{ltm/Info.msg}: Utilizado para almacenar metadatos del episodio, útiles para una introspección posterior por parte del usuario. Mantiene información como la fecha de creación y de último acceso al episodio, e información sobre el sistema operativo, la versión de ROS y la versión del sistema LTM utilizada.
+\end{itemize}
+ 
+Todos los mensajes ROS descritos anteriormente se pueden encontrar en el Anexo de Implementación, en la Sección~\ref{appendixB:modelo_datos}.
 
+
+\subsubsection{Construcción de \textit{streams}}
+
+\ltmconcept{Metadatos}
+Los \textit{streams} se definen a partir de mensajes ROS construidos por el usuario, Los que pueden contener cualquier estructura soportada por ROS para sus mensajes. La implementación impone solamente un requisito sobre su definición. Se debe añadir un campo de tipo \texttt{ltm/StreamMetadata.msg} al mensaje, bajo el nombre \texttt{meta}. El tipo \texttt{ltm/StreamMetadata.msg}, presentado en el Código~\ref{lst:streammetadata.msg}, contiene información manejada por el servidor, indicando los tiempos de inicio y fin del \textit{stream}, sumado a los identificadores del mensaje y su episodio asociado.
 \lstset{style=/Style/ROS/MSG}
-\lstinputlisting[caption=ltm\_samples/ImageStream.msg]{code/msg/ImageStream.msg}
-\lstinputlisting[caption=ltm\_samples/PersonEntity.msg]{code/msg/PersonEntity.msg}
-\lstinputlisting[caption=ltm\_samples/ObjectEntity.msg]{code/msg/ObjectEntity.msg}
+\lstinputlisting[caption=ltm/StreamMetadata.msg,label=lst:streammetadata.msg]{code/msg/StreamMetadata.msg}
 
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Herramientas para validación}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
 
-\subsection{Episodios JSON}
-% - Episodios JSON: comprensión de la estructura a utilizar
-.
+\subsubsection{Construcción de entidades}
 
-\subsection{Episodios SMACH}
-% - Episodios Smach: cubrir todos los casos de borde
-.
+\ltmconcept{Metadatos}
+En el caso de las entidades, se deben almacenar distintas instancias de la entidad, cada una asociada a su historial de cambios. Una entidad es definida a través de un mensaje ROS construido por el usuario, y puede contener cualquier estructura soportada por ROS para sus mensajes. De manera similar al caso de los \textit{streams}, cada mensaje debe contener un campo de nombre \texttt{meta} y tipo \texttt{ltm/EntityMetadata.msg}. Este campo es manejado por el servidor y permite identificar la instancia de la entidad, asociada al mensaje. El tipo \texttt{ltm/EntityMetadata.msg} se presenta en el Código~\ref{lst:entitymetadata.msg}.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/EntityMetadata.msg,label=lst:entitymetadata.msg]{code/msg/EntityMetadata.msg}
 
-\subsection{Robot ficticio}
-% generar datos para plugins
+\ltmconcept{Historial}
+Como se describe en el diseño del modelo de datos (ver Sección~\ref{sec:data_model_design}), el historial se construye utilizando dos colecciones, de sufijos \texttt{.trail} y \texttt{.meta}. Cada mensaje almacenado en una colección tiene asociado un registro en la otra, bajo el mismo identificador. 
 
-% - Robot simulado: emociones y localización fakes
+La colección de sufijo \texttt{.meta} se construye a partir de mensajes ROS de tipo \texttt{ltm/EntityLog.msg}, presentado en el Código~\ref{lst:entitylog.msg}. Este tipo de mensajes es manejado automáticamente por el servidor, y permite indicar lo siguiente: Identificadores de la instancia, del registro y de los episodios asociados. Instante de tiempo del registro. Registro que precede al mensaje (lista enlazada de registros). Nombres de campos que fueron agregados, modificados o eliminados.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/EntityLog.msg,label=lst:entitylog.msg]{code/msg/EntityLog.msg}
 
-% - Streams Fake: videos.. proveer misma interfaz que el robot
+La colección de sufijo \texttt{.trail} se construye a partir de mensajes ROS del mismo tipo definido por el usuario. El campo \texttt{meta} es utilizado para asociar bidireccionalmente cada entrada del historial, a su mensaje mensaje de tipo \texttt{ltm/EntityLog.msg} en la colección de sufijo \texttt{.meta}.
+ 
 
-% - Entidades Fake: Generador de campos para mensajes ... no existe interfaz en el robot para esto.
-
-.
-
-% ==============================================================================
-% ==============================================================================\\
-% ==============================================================================
-% ==============================================================================
-\section{Servidor LTM}
-% ==============================================================================
+\subsection{Servidor}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 
-.
-% OVERVIEW
-% uso de diseño explicado en la sección X
-% implementación completa en C++
-% sobre el manejo de la BD episódica utilizando el driver X
+El servidor es implementado de acuerdo a las decisiones de diseño estudiadas en el Capítulo~\ref{chapter:diseno}, y su estructura se basa en el diagrama de la Figura~\ref{img:diagrama-software}. La implementación se realiza completamente en el lenguaje \CC y se encuentra en el paquete ROS \texttt{ltm}. El servidor sólo depende de tipos de dato primitivos y paquetes estándar disponibles en todas las distribuciones ROS (e.g. \texttt{geometry\_msgs} y \texttt{std\_msgs} y \texttt{pluginlib}), el módulo geométrico la librería Boost, y el driver para la base de datos. 
 
-% MANEJO DE PLUGINS
+La implementación se puede separar lógicamente en 2 componentes: memoria episódica y memoria semántica. La primera se encarga de adquirir episodios a partir de la API episódica que provee el servidor, mientras que el componente semántico se encarga de los \textit{streams} y entidades, por medio de los plugins que define el usuario.
+
+La base de datos es manejada automáticamente por el servidor, por lo que el usuario no tiene un acceso directo a ésta, sino que sólo puede realizar operaciones de escritura a través de la API ROS del servidor y de las facilidades que proveen los plugins. Todas las funcionalidades para el manejo de MongoDB se encuentran en el paquete ROS \texttt{ltm\_db}.
+
+
+\subsection{Plugins}
 % ==============================================================================
 % ==============================================================================
-\subsection{API pluginlib}
-% ==============================================================================
 % ==============================================================================
 
-.
-\subsubsection{Plugin: \textit{Where}}
-% - API
-% - convex hull
+El diseño del sistema LTM requiere que el usuario implemente 4 tipos de plugins para la adquisición de información episódica y semántica. Por un lado, se debe implementar un plugin para la adquisición del estado emocional del robot, y un plugin para obtener la ubicación del robot durante cada episodio. Por otro lado, el usuario puede implementar una cantidad indefinida de plugins para la recopilación de información semántica (\textit{streams} y entidades) que requiera para su aplicación robótica.
 
-.
-\subsubsection{Plugin: Emociones}
-% - API
+La implementación utiliza el paquete ROS \texttt{pluginlib} para la definición y carga dinámica de plugins definidos en paquetes ROS externos. Además, ya que los mensajes ROS definidos por el usuario para \textit{streams} y entidades no son conocidos en tiempo de compilación, se hace uso intensivo de tipos de dato genéricos en \CC \ para su representación y el manejo de la base de datos. A continuación, se presentan las consideraciones para la implementación de cada tipo de plugin requerido.
 
-.
-\subsubsection{Plugin: Streams}
-% - API
-% - Manejo de coleccion
 
-.
-\subsubsection{Plugin: Entidades}
-% - Manejo de colecciones
-% - API
-
-.
-
+\subsubsection{Plugins episódicos: \textit{Where} y Emociones}
 % ==============================================================================
+
+Estos dos plugins son necesarios para obtener información episódica dependiente del robot objetivo. El único requisito impuesto para el usuario, es la implementación de cada plugin mediante el estándar utilizado en \texttt{pluginlib}, para proveer cada dato episódico cuando el servidor lo requiera. Se aconseja seguir la estrategia de funcionamiento descrita en la Sección~\ref{sec:design-server}.
+
+El plugin de emociones debe heredar la clase \texttt{ltm::plugin::EmotionBase}, definida en \texttt{\#include \textless ltm/plugin/emotion\_base.h\textgreater}. Se deben implementar los \textit{métodos virtuales} declarados en la clase padre.
+
+De la misma manera, el plugin para recolectar el campo \textit{Where} debe heredar la clase \texttt{ltm::plugin::LocationBase}, definida en \texttt{\#include \textless ltm/plugin/location\_base.h\textgreater}. El plugin debe implementar los \textit{métodos virtuales} declarados por la clase padre.
+
+
+\subsubsection{Plugins: \textit{Streams}}
 % ==============================================================================
+
+\ltmconcept{Plugin a implementar}
+Se debe implementar un plugin por cada \textit{stream} definido por el usuario. Cada plugin debe heredar de la clase \texttt{ltm::plugin::StreamBase}, definida en \texttt{\#include \textless ltm/plugin/stream\_base.h\textgreater}. Se deben implementar los \textit{métodos virtuales} declarados por la clase padre. Las funcionalidades requeridas se describen en la Sección~\ref{sec:design_server_semantic_plugins} y se recomienda utilizar la estrategia de procesamiento propuesta en la misma sección.
+
+\ltmconcept{Servicio ROS}
+Además, ya que los plugins son cargados dinámicamente, el mensaje ROS definido por el usuario no es conocido en tiempo de compilación. Es por esto, que para proveer una API CRUD mediante servicios ROS, se requiere que el usuario defina un servicio adecuado a su mensaje. El archivo \texttt{.srv} debe tener el formato presentado en el Código~\ref{lst:samplestreamsrv}, donde \texttt{\textless user\_package\textgreater} y \texttt{\textless stream\_msg\textgreater} hacen referencia al paquete ROS y al tipo del mensaje definido por el usuario, respectivamente.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=SampleStreamSrv.srv,label=lst:samplestreamsrv]{code/srv/SampleStreamSrv.srv}
+
+\ltmconcept{Funcionalidades heredadas}
+Dado que \texttt{pluginlib} no soporta clases base basadas en templates de \CC, el plugin debe heredar de la clase \texttt{ltm::plugin::StreamDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin. Lo anterior, permite al plugin manejar automáticamente la base de datos y proveer una API CRUD mediante servicios ROS, adecuada al mensaje en cuestión y simplificando la implementación del plugin.
+
+
+\subsubsection{Plugin: \textit{Entidades}}
+% ==============================================================================
+
+\ltmconcept{Plugin a implementar}
+De manera análoga al caso de los \textit{streams}, se debe implementar un plugin por cada entidad definida por el usuario. Cada plugin debe heredar de la clase \texttt{ltm::plugin::EntityBase}, definida en \texttt{\#include \textless ltm/plugin/entity\_base.h\textgreater}. Se deben implementar los \textit{métodos virtuales} declarados por la clase padre. Las funcionalidades requeridas se describen en la Sección~\ref{sec:design_server_semantic_plugins} y se recomienda utilizar la estrategia de procesamiento propuesta en la misma sección.
+
+\ltmconcept{Servicio ROS}
+Para este tipo de plugin, también se requiere que el usuario defina un servicio adecuado a su mensaje. El archivo \texttt{.srv} debe tener el formato presentado en el Código~\ref{lst:sampleentitysrv}, donde \texttt{\textless user\_package\textgreater} y \texttt{\textless entity\_msg\textgreater} hacen referencia al paquete ROS y al tipo del mensaje definido por el usuario, respectivamente.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=SampleEntitySrv.srv,label=lst:sampleentitysrv]{code/srv/SampleEntitySrv.srv}
+
+\ltmconcept{Funcionalidades heredadas}
+La implementación provee automáticamente funcionalidades para el manejo de la base de datos y una API CRUD mediante servicios ROS. Para ésto, el plugin a implementar debe heredar la clase \texttt{ltm::plugin::EntityDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin.
+
+
 \subsection{API ROS}
 % ==============================================================================
 % ==============================================================================
-% API ROS:
-% - Disponible a través de C++, Python, Java, Lisp, otros.
-
-.
-
-\subsubsection{Servicios implementados}
-% - srv implementados
-% - Servicios que provee
-
-
-
-\subsubsection{Consultas episódicas}
-% - consultas episódicas
-
-.
-
-\subsubsection{Configuración mediante ROS}
-
-.
-\lstset{style=/Style/yaml/ROS}
-\lstinputlisting[caption=server.yaml]{code/config/server.yaml}
-
-\subsubsection{Launchfiles}
-
-
-
-% ==============================================================================
-% ==============================================================================
-\subsection{Trabajo futuro}
-% ==============================================================================
-% ==============================================================================
-% Trabajo Futuro
-
-.
-
-
-
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Módulos generadores de información ficticia}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
 % ==============================================================================
 
-.
+A continuación se presenta la API ROS para el uso de las funcionalidades del sistema LTM implementado. Se explica el uso del servidor de parámetros de ROS para la configuración del servidor LTM, y el uso de la herramienta \texttt{roslaunch} para su ejecución. Luego, se presenta la API para recolección de episodios, a partir de servicios ROS. Finalmente, se presenta la API para realizar consultas episódicas y semánticas al sistema LTM.
+
+Es importante destacar que a pesar de que el sistema se implemente en \CC, ROS permite utilizar todas las funcionalidades de la API a través de diversos lenguajes de programación: Nativamente en \CC  (\texttt{roscpp}), Python (\texttt{rospy}) y CommonLisp (\texttt{roslisp}), y mediante clientes externos, implementados para otros lenguajes.
 
 
+\subsubsection{Configuración y ejecución}
 % ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de \textit{Where}}
-% ==============================================================================
-% ==============================================================================
-% WHERE
-% - sólo genera al recolectar... no requiere almacenar buffer
-% - configurable
-% - Registro en pluginlib y configuración en el server
 
-.
+\ltmconcept{Configuración}
+El servidor LTM puede ser configurado de manera estática, previo a su iniciación, a través del servidor de parámetros de ROS. La configuración puede ser escrita en un archivo en formato YAML, lo que permite modificar parámetros del sistema LTM, sin tener que compilar nuevamente el código. 
+
+En el Código~\ref{lst:sampleconfig}, presentado en el Apéndice de Implementación, se presenta un archivo de ejemplo con la configuración del sistema. Es posible modificar los siguientes conjuntos de parámetros:
+\begin{itemize}
+\item Base de datos: Se puede indicar el nombre de la base de datos y opciones de conectividad al servidor de MongoDB. Parámetros: \texttt{db}, \texttt{host}, \texttt{port} y \texttt{timeout}.
+\item Colección de episodios: Se puede indicar el nombre a utilizar para la colección de episodios.
+\item Plugin emocional: Se puede indicar el plugin emocional a ocupar, mediante su nombre exportado para \texttt{pluginlib}. Se pueden agregar parámetros extra, requeridos por el desarrollador del plugin. En el caso de ejemplo, se ocupa un plugin de clase \texttt{EmotionPlugin}, definido en el paquete ROS \texttt{ltm\_samples}.
+\item Plugin \textit{Where}: Se puede indicar el plugin para el campo \textit{Where} a ocupar, mediante su nombre exportado para \texttt{pluginlib}. Se pueden agregar parámetros extra, requeridos por el desarrollador del plugin. En el caso de ejemplo, se ocupa un plugin de clase \texttt{LocationPlugin}, definido en el paquete ROS \texttt{ltm\_samples}.
+\item Plugins de \textit{streams}: Se puede indicar un listado de plugins a cargar para el manejo de \textit{streams}. Cada plugin debe indicar al menos 3 parámetros:
+\begin{itemize}
+\item \texttt{class}: Clase exportada por \texttt{pluginlib}. En el ejemplo se carga un plugin de clase \texttt{ltm\_addons::ImageStreamPlugin}.
+\item \texttt{type}: Tipo del plugin. Utilizado para construir la API ROS para \textit{streams} y para indicar el tipo del \textit{stream} al episodio relacionado.
+\item \texttt{collection}: Nombre de la colección de MongoDB a utilizar para el plugin. Este nombre será modificado con el prefijo \texttt{stream:}.
+\end{itemize}
+Además, el desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, se anexan los parámetros: \texttt{topic}, \texttt{buffer\_frequency} y \texttt{buffer\_size}.
+\item Plugins de \textit{Entidades}: Se puede indicar un listado de plugins a cargar para el manejo de entidades. En el ejemplo se configuran dos plugins: \texttt{people} y \texttt{objects}. De la misma forma que para los \textit{streams}, cada plugin debe indicar al menos los siguientes parámetros:
+\begin{itemize}
+	\item \texttt{class}: Clase exportada por \texttt{pluginlib}. En el ejemplo se cargan plugins de las clases \texttt{ltm\_samples::PeopleEntityPlugin} y \texttt{ltm\_samples::ObjectsEntityPlugin}.
+	\item \texttt{type}: Tipo del plugin. Utilizado para construir la API ROS para entidades y para indicar el tipo de entidad al episodio relacionado.
+	\item \texttt{collection}: Nombre de la colección de MongoDB a utilizar para el plugin. Este nombre será modificado con el prefijo \texttt{entity:}.
+\end{itemize}
+El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, ambos plugins anexan sólo un parámetro extra: \texttt{topic}.
+\end{itemize}
+
+En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura sólo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}.
+
+Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.
+
+\ltmconcept{Ejecución}
+Finalmente, una vez construido el archivo de configuración adecuado para el robot, basta utilizar la herramienta \texttt{roslaunch} para ejecutar el sistema LTM. En el Código~\ref{lst:samplelaunch} se muestra un archivo \texttt{.launch} de ejemplo donde se asocia indica la configuración para el servidor. Para su ejecución, se puede utilizar el comando de consola: \texttt{\$ roslaunch ltm\_samples server.launch}.
+\lstset{style=/Style/XML/ROS}
+\lstinputlisting[caption=server.launch,label=lst:samplelaunch]{code/server.launch}
 
 
+\subsubsection{API Episódica}
 % ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de emociones}
-% ==============================================================================
-% ==============================================================================
-% EMOTIONS
-% - sólo genera al recolectar... no requiere almacenar buffer
-% - configurable
-% - Registro en pluginlib y configuración en el server
 
-.
+La API episódica es el medio para que el usuario pueda generar episodios para el sistema LTM. Funciona según el diseño propuesto en la Sección \ref{sec:design-server}, mediante servicios ROS para registro e inserción de episodios.
 
-
-
-% ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de imágenes}
-% ==============================================================================
-% ==============================================================================
-% STREAMS EN VIDEO
-% - buffer
-% - configurable
-% - Registro en pluginlib y configuración en el server
-
+\ltmconcept{Registro}
+En primer lugar, se debe utilizar el servicio ROS \texttt{$\sim$/ltm/episode/register} para registrar el inicio de un episodio en el sistema. El servicio de tipo \texttt{ltm/RegisterEpisode.srv}, presentado en el Código~\ref{lst:registerepisode}, permite que el servidor genere un identificador disponible para el episodio. Es necesario indicar si el episodio a introducir es de tipo hoja, para iniciar los procesos de recopilación de información.  Además, el servidor permite registrar un episodio con un identificador predefinido, lo que es útil para realizar pruebas del sistema.
 \lstset{style=/Style/ROS/MSG}
-\lstinputlisting[caption=ltm\_samples/ImageStreamSrv.srv]{code/srv/ImageStreamSrv.srv}
+\lstinputlisting[caption=ltm/RegisterEpisode.srv,label=lst:registerepisode]{code/srv/RegisterEpisode.srv}
 
-.
+\ltmconcept{Inserción}
+Al finalizar el episodio, se debe utilizar el servicio \texttt{$\sim$/ltm/episode/add} para que el servidor recolecte información de cada plugin y almacene el episodio en la base de datos. El servicio de tipo \texttt{ltm/AddEpisode.srv} se presenta en el Código~\ref{lst:addepisode}. Es necesario indicar el identificador del episodio y del padre. Además, el servicio permite introducir un episodio completo, sin necesidad de su registro, lo que es útil para la inserción de episodios pasados.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/AddEpisode.srv,label=lst:addepisode]{code/srv/AddEpisode.srv}
 
+\ltmconcept{Actualización}
+Finalmente, el sistema provee el servicio \texttt{$\sim$/ltm/episode/update\_tree}, de tipo \texttt{ltm/UpdateTree.srv}, que permite recomputar todos los datos episódicos de un nodo y sus hijos. Este servicio es útil cuando se insertan episodios pasados. Es necesario indicar el identificador de la raíz del árbol a actualizar. Sus campos se presentan en el Código~\ref{lst:addepisode}.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/UpdateTree.srv,label=lst:updatetree]{code/srv/UpdateTree.srv}
 
-% ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de entidades}
-% ==============================================================================
-% ==============================================================================
-% ENTIDADES
-% - sólo genera al recolectar... no requiere almacenar buffer
-% - configurable
-% - Registro en pluginlib y configuración en el server
-
-.
-
-
-
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-\section{Módulos específicos para Bender}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
+\subsubsection{API LTM}
 % ==============================================================================
 
-.
+De acuerdo al diseño de las operaciones CRUD, revisado en la Sección~\ref{sec:data_model_design}, se implementaron 2 etapas de consulta.
+
+\ltmconcept{Consultas JSON}
+La primera etapa consiste en realizar una consulta al sistema, mediante filtros sobre los campos episódicos, de \textit{streams} o de entidades. Se debe utilizar el servicio \texttt{$\sim$/ltm/db/query}, de tipo \texttt{ltm/QueryServer.srv}, presentado en el Código~\ref{lst:queryserver}. El formato permite indicar si la consulta se realizará sobre la colección de episodios, o sobre un \textit{stream} o entidad de tipo particular. 
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/QueryServer.srv,label=lst:queryserver]{code/srv/QueryServer.srv}
+El campo \texttt{json} permite definir una consulta compleja, utilizando el mismo formato que en una consulta de MongoDB. Luego, la respuesta indica los identificadores de los episodios, \textit{streams} y entidades que calzan con el filtro.
+
+Algunos ejemplos de consultas válidas son:
+\todowrite{Poner ejemplos de filtros JSON. Problemas con comillas y combinación de package soul + texttt.}
+\begin{itemize}
+\item Episodios por tags (arreglo de strings)
+\item Episodios por fecha (comparación mayor que)
+\item Episodios por relevancia emocional (comparación menor que)
+\item Stream por cantidad de imágenes (int)
+\item Stream por duración (Operación matemática: ver \url{https://stackoverflow.com/questions/23282193/perform-math-in-searchqueries-mongodb)}
+\item Entidad por campos (USAR consulta compleja)
+\item Entidad por campos modificados (Usar AND)
+\item Entidad por fecha (USAR OR)
+\end{itemize}
+OJO: en cada caso mostrar episodios relacionados a entidad y vice versa.
+
+\ltmconcept{Adquisición de episodios}
+Una vez seleccionados los episodios de interés, el servicio \texttt{$\sim$/ltm/episode/get} permite recolectarlos desde el servidor LTM. El servicio de tipo \texttt{ltm/GetEpisodes.srv} se presenta en el Código~\ref{lst:getepisodes}.
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/GetEpisodes.srv,label=lst:getepisodes]{code/srv/GetEpisodes.srv}
+
+\ltmconcept{Adquisición de \textit{streams}}
+De la misma forma, una vez seleccionados los \textit{streams} de interés, se puede utilizar un servicio ROS para recolectar los mensajes. Existe un servicio con el nombre \texttt{$\sim$/ltm/stream/\textless type\textgreater/get} para cada plugin, donde \texttt{\textless type\textgreater} corresponde al tipo definido en la configuración. Cada servicio tiene el formato presentado en el Código~\ref{lst:samplestreamsrv}.
+
+\ltmconcept{Adquisición de entidades}
+Una vez seleccionadas las entidades de interés, se puede utilizar un servicio ROS para recolectar sus mensajes. Cada plugin provee un servicio de nombre \texttt{$\sim$/ltm/entity/\textless type\textgreater/get}, donde \texttt{\textless type\textgreater}  corresponde al tipo definido durante la configuración. Cada servicio tiene el formato presentado en el Código~\ref{lst:sampleentitysrv}.
+
+Además, el servicio permite indicar un instante de tiempo para cada instancia a recuperar. Las entidades serán reconstruidas según la perspectiva que se tenía de ellas en ese instante de tiempo.
 
 
+\subsubsection{API LTM: Otros servicios}
 % ==============================================================================
-% ==============================================================================
-\subsection{Interfaz con SMACH}
-% ==============================================================================
-% ==============================================================================
-% INTERFAZ SMACH
-% - SOBRE DISEÑO y PYTHON
-% - implementación:
-%   - registro de episodios y tags
-%   - hooks para inicio y fin de episodios
-%   - intrusividad: Implementación sin impacto en librería y que minimiza trabajo del equipo
-%   - estabilidad: no morir ante nada!
-% - test en todos los tipos de estado definidos?
-% - ejemplo de funcionamiento
-% - REVISAR MATCH CON DISEÑO ESCRITO
 
-.
+\ltmconcept{Base de datos}
 
 
+\ltmconcept{Operaciones CRUD para \textit{streams}}
 
-% ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de \textit{Where}}
-% ==============================================================================
-% ==============================================================================
-% INTERFAZ WHERE
-% - API del ROBOT
-% - buffer y periodicidad
-% - selección de posiciones
-% - registro y recolección
-% - Registro en pluginlib y configuración en el server
-% - REVISAR MATCH CON DISEÑO ESCRITO
-.
 
-% ==============================================================================
-% ==============================================================================
-\subsection{Plugin para recolección de emociones}
-% ==============================================================================
-% ==============================================================================
-% INTERFAZ EMOTIONS
-% - API del ROBOT
-% - buffer y periodicidad
-% - selección de emocion
-% - metadatos
-% - registro y recolección
-% - Registro en pluginlib y configuración en el server
-% - REVISAR MATCH CON DISEÑO ESCRITO
-% - Funcionalidades implementadas en el robot: 
-%    - emociones simples.
-%    - módulos disponibles (con el robot a medias)
-.
+\ltmconcept{Operaciones CRUD para entidades}
+
+%\texttt{/ltm/db/drop}
+%\texttt{/ltm/db/switch}
+%/ltm/entity/people/add
+%/ltm/entity/people/delete
+%/ltm/entity/people/drop\_db
+%/ltm/entity/people/status
+%/ltm/stream/images/add
+%/ltm/stream/images/delete
+%/ltm/stream/images/drop\_db
+%/ltm/stream/images/status
 
 
 % ==============================================================================
 % ==============================================================================
-\subsection{Plugin para recolección de imágenes}
-% ==============================================================================
-% ==============================================================================
-% INTERFAZ IMAGES
-% - API del ROBOT
-.
 
 % ==============================================================================
 % ==============================================================================
-\subsection{Plugins para recolección de entidades}
-% ==============================================================================
-% ==============================================================================
-% INTERFAZ ENTITIES
-% - API del ROBOT
-.
-
 
 % ==============================================================================
-% ==============================================================================\\
 % ==============================================================================
-% ==============================================================================
-\section{Integración del sistema en Bender}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% - instalación y convivencia con el software
-% - visualización de datos episódicos.
-% - Interfaz Robot: Emociones y Posición
-% - Streams
-% - Entidades
 
-.
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Herramientas y Simulación}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% SEC: Herramientas y Simulación: ltm_addons, ltm_samples
+% - JSON
+% - SMACH
+% - image stream
+% - video_streamer
+% - fake robot
+% - fake_stm
+% - Herramientas validación: Medir tiempos, por ejemplo.
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Integración en Bender}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% SEC: Intregración en Bender
+% - Sistema Emocional
+% - Intregración Plugins
+% - Intregración SMACH 
+% - 
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+\section{Trabajo Futuro}
+% ==============================================================================
+% ==============================================================================
+% ==============================================================================
+% SEC: Trabajo Futuro
+% - 
+% - 
+% - 
+
+
+% CONSIDERACIONES
+% - Plugins que fallan no son inicializados.
+% - sobre estabilidad de plugins y daño al server.
+
+
+
+% TRABAJO FUTURO
+%  MD5
+% - modificar msg de colección MD5 y poder seguir ocupando la base de datos.
+% - mongo no tiene problema en modificar representación ...
+% - el driver ROS si.
+% - Por qué es importante?
+% Visualizador episódico
+
+% DOC: proposed.md
+% - reservar ids mientras nodo esté activo.
+
 
 

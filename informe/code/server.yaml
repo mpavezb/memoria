@@ -1,0 +1,55 @@
+# =============================================
+# Sample configuration file for the LTM server
+# =============================================
+
+# Server parameters
+db:          "ltm_db"
+host:        "localhost"
+port:         27017
+timeout:      60.0
+collection:  "episodes"
+
+# LTM plugins and parameters.
+# Each plugin must define the pluginlib class and its parameters
+plugins:
+
+  # Robot emotion plugin
+  emotion:
+    class: "ltm_samples::EmotionPlugin"
+
+  # Robot location plugin
+  location:
+    class: "ltm_samples::LocationPlugin"
+
+  # Stream plugins
+  streams:
+    # List of streams to consider. 
+    include: ["image"]
+
+    # ImageStream
+    image:
+      class: "ltm_addons::ImageStreamPlugin"
+      type: "images"
+      collection: "images"
+      topic: "/robot/fake/sensors/camera/image_raw"
+      buffer_frequency: 3.0
+      buffer_size: 100
+
+  # Entity plugins
+  entities:
+    # List of entities to consider. 
+    include: ["people", "objects"]
+
+    # PeopleEntityPlugin
+    people:
+      class: "ltm_samples::PeopleEntityPlugin"
+      type: "people"
+      collection: "people"
+      topic: "/robot/fake_short_term_memory/person/updates"
+
+    # ObjectsEntityPlugin
+    objects:
+      class: "ltm_samples::ObjectsEntityPlugin"
+      type: "objects"
+      collection: "objects"
+      topic: "/robot/fake_short_term_memory/object/updates"

@@ -95,7 +95,7 @@ En las Figuras~\ref{img:trazabilidad-VA}-\ref{img:trazabilidad-VB}-\ref{img:traz
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\section{Diseño de episodios}
+\section{Diseño de episodios}\label{sec:ep_design}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -139,7 +139,8 @@ A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe sopor
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{episodes.png}
-	\caption{\small Diagrama temporal ejemplificando nociones de anidamiento y transposición episódica. Cada cuadro es un episodio identificado por el nombre indicado (\textit{A, B, A1}, \ldots). El tiempo transcurre horizontalmente hacia la derecha, por lo que \textit{A2} ocurre después de \textit{A1}, y \textit{B2} inicia después que \textit{B1}, pero ocurren simultáneamente por un periodo. Los episodios pueden ser anidados indefinidamente.}
+	\caption[Concepto de anidamiento y transposición episódica.]
+	{\small Diagrama temporal ejemplificando nociones de anidamiento y transposición episódica. Cada cuadro es un episodio identificado por el nombre indicado (\textit{A, B, A1}, \ldots). El tiempo transcurre horizontalmente hacia la derecha, por lo que \textit{A2} ocurre después de \textit{A1}, y \textit{B2} inicia después que \textit{B1}, pero ocurren simultáneamente por un periodo. Los episodios pueden ser anidados indefinidamente.}
 	\label{img:episodes}
 \end{figure}
 
@@ -380,7 +381,7 @@ Se cree que el formato propuesto para el campo \textit{Where} se ajusta a los re
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\section{Diseño del modelo de datos}
+\section{Diseño del modelo de datos}\label{sec:data_model_design}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -443,7 +444,8 @@ Por cada episodio a almacenar se genera un \textit{stream} de cada tipo disponib
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{episodes-and-semantic-data.png}
-	\caption{\small Funcionamiento de \textit{streams} y entidades respecto a los episodios. \texttt{\textless S\textgreater} y \texttt{\textless T\textgreater} hacen referencia a 2 tipos de \textit{streams}, mientras que \texttt{$m_1\ldots m_7$} y \texttt{$n_1, n_2$} son notificaciones sobre cambios a las entidades \textit{m} y \textit{n}. Un \textit{stream} de cada tipo es asociado a cada episodio, incluso en caso de transposición. Cada notificación sobre entidades es asociada a todo episodio activo. En caso de no haber episodio, no se almacenan \textit{streams}, pero si se registran los cambios en entidades.}
+	\caption[Funcionamiento de \textit{streams} y entidades respecto a los episodios.]
+	{\small Funcionamiento de \textit{streams} y entidades respecto a los episodios. \texttt{\textless S\textgreater} y \texttt{\textless T\textgreater} hacen referencia a 2 tipos de \textit{streams}, mientras que \texttt{$m_1\ldots m_7$} y \texttt{$n_1, n_2$} son notificaciones sobre cambios a las entidades \textit{m} y \textit{n}. Un \textit{stream} de cada tipo es asociado a cada episodio, incluso en caso de transposición. Cada notificación sobre entidades es asociada a todo episodio activo. En caso de no haber episodio, no se almacenan \textit{streams}, pero si se registran los cambios en entidades.}
 	\label{img:episodes-and-semantic-data}
 	\end{figure}
 
@@ -613,11 +615,10 @@ El sistema LTM diseñado se presenta en la Figura~\ref{img:diagrama-software}. A
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=\textwidth]{diagrama-software.png}
-	\caption{\small Diagrama con el diseño del sistema LTM y los módulos de software involucrados. La zona superior indica todos los módulos de software del robot necesarios para proveer información al sistema LTM. En plomo se presentan los componentes que debe implementar el usuario, que sirven como interfaz entre el robot y el servidor, para la recopilación de información. En la zona central se realiza el manejo y almacenamiento de la información episódica. En la zona inferior, el servidor se comunica mediante una API ROS con las aplicaciones LTM implementadas por el usuario.}
+	\caption[Diseño del sistema LTM y módulos de software involucrados.]
+	{\small Diagrama con el diseño del sistema LTM y los módulos de software involucrados. La zona superior indica todos los módulos de software del robot necesarios para proveer información al sistema LTM. En plomo se presentan los componentes que debe implementar el usuario, que sirven como interfaz entre el robot y el servidor, para la recopilación de información. En la zona central se realiza el manejo y almacenamiento de la información episódica. En la zona inferior, el servidor se comunica mediante una API ROS con las aplicaciones LTM implementadas por el usuario.}
 	\label{img:diagrama-software}
 \end{figure}
-
-\todoimprove{Diagrama de funcionamiento de cada tipo de plugin.}
 
 
 %% =============================================================================
@@ -650,7 +651,7 @@ Tras recibir la notificación, el servidor recolecta información episódica des
 
 En cuanto a la recopilación de la ubicación del robot, dato episódico \textit{Where}, el cómo se obtiene la información depende totalmente del usuario y la API de localización utilizada en el robot objetivo (ver diseño episódico en la Sección~\ref{sec:design_ep_where}). Sin embargo, de acuerdo a la sección anterior, el plugin debe proveer las funcionalidades de registro y adquisición de información.
 
-Se propone la siguiente estrategia para la implementación del plugin. Recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos. Cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}. La lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
+Se propone la siguiente estrategia para la implementación del plugin: Recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos. Cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}. La lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
 
 
 \subsubsection{Plugin: Emociones}
@@ -668,7 +669,7 @@ La implementación del servidor debe contar con un proceso automático de actual
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Memoria semántica}
+\subsection{Memoria semántica}\label{sec:design_server_semantic_plugins}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -806,8 +807,7 @@ Debe proveer datos generados aleatoriamente para cada uno de los campos emociona
 \ltmconcept{Versión en Bender}
 Esta versión debe ser integrada con el software del robot, una vez que se haya implementado el sistema emocional. Para ésto, se utilizará la estrategia de funcionamiento recomendada en la Sección~\ref{sec:design_ep_rel_emo}. El plugin deberá recopilar información periódicamente sobre las emociones del robot. Una vez que el servidor notifique la finalización del episodio, el plugin debe proveer un mensaje emocional con los valores máximos percibidos para cada entidad. Además, para disminuir el uso de recursos, solamente se debe recopilar información cuando hayan episodios registrados como activos en el servidor.
 
-
-\todowrite{Sobre módulos emocionales en bender}
+\todofinal{Sobre módulos emocionales en bender.}
 %\subsubsection{Modulo emocional: A}
 %%% =============================================================================
 %

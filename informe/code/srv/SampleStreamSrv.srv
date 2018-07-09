@@ -1,0 +1,4 @@
+uint32[] uids
+<user_package>/<stream_msg>[] msgs
+---
+<user_package>/<stream_msg>[] msgs

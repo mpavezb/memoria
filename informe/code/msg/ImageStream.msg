@@ -1,4 +1,2 @@
-uint32 uid
-time start
-time end
+ltm/StreamMetadata meta
 sensor_msgs/Image[] images

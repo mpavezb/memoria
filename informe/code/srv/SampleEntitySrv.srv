@@ -1,0 +1,5 @@
+uint32[] uids
+time[] stamps
+<user_package>/<entity_msg>[] msgs
+---
+<user_package>/<entity_msg>[] msgs

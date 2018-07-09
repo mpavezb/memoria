@@ -35,39 +35,24 @@
 \def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
 
 
+\addto\captionsspanish{%
+	\renewcommand{\listfigurename}{Índice de Figuras}
+}
+
 \begin{document}
 
 \frontmatter
 \maketitle
 
-\begin{abstract}
-\todolater{Abstract: Escribir al final.}
-\end{abstract}
-
-\begin{dedicatoria}
-\todo[inline]{Escribir una dedicatoria corta}
-\end{dedicatoria}
-
-\begin{thanks}
-\todo[inline]{Escribir agradecimientos}
-
-% PÁRRAFOS
-% - Conductor de bus que me atropelló... para tener más tiempo para trabajar en la memoria
-% - La Innombrable por años de apoyo
-% - Familia
-% - Amigos .. partidas de hots... webeo diario para que trabaje en la cuestion
-% - Homebreakers
-% - Profesora Jocelyn Simmonds por sus correcciones y consejos.
-% - ... JR por darme más y más pega, sin proveer consejos útiles.
-
-\end{thanks}
+\input{./chapters/_abstract.tex}
+%\input{./chapters/_thanks.tex}
 
 \cleardoublepage
 \tableofcontents
 %\cleardoublepage
 %\listoftables
-%\cleardoublepage
-%\listoffigures
+\cleardoublepage
+\listoffigures
 %\cleardoublepage
 %\lstlistoflistings
 
@@ -76,6 +61,7 @@
 \mainmatter
 
 \input{./chapters/1_introduccion}
+\todofinal{Agregar summary al final de cada cap.}
 \input{./chapters/2_teoria}
 \input{./chapters/3_aspectos_tecnicos.tex}
 \input{./chapters/4_diseno}
@@ -90,6 +76,7 @@
 %\bibliography{bibliografia}
 
 \appendix
+\todolater{=== Los TODOs siguientes pertenecen a los anexos. ===}
 \begin{appendices}
 \input{./chapters/_apendice_A.tex}
 \input{./chapters/_apendice_B.tex}

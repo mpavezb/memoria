@@ -1,5 +1,4 @@
-uint32 uid
-ltm_samples/ImageStream msg
+uint32[] uids
+ltm_addons/ImageStream[] msgs
 ---
-ltm_samples/ImageStream msg
-bool succeeded
+ltm_addons/ImageStream[] msgs
