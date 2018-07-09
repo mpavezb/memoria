@@ -15,7 +15,7 @@ Es éste capítulo se describe la implementación del proyecto, a partir de las 
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-\section{Estructura del software e instalación}
+\section{Estructura del Software}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
@@ -222,7 +222,7 @@ Para ordenar la información, el mensaje se construye a partir de otros mensajes
 \item \texttt{ltm/When.msg}: Mantiene el contexto temporal del episodio, indicando tiempos de inicio y fin, mediante campos del tipo \texttt{time}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}.
 \item \texttt{ltm/When.msg}: Almacena el contexto espacial del episodio, utilizando dos estrategias.
 \begin{itemize}
-\item  Permite almacenar un conjunto de coordenadas, mediante mensajes del tipo \texttt{geometry\_msgs/Point.msg}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}, sumado al nombre del mapa y del sistema coordenado utilizado. Además, se mantiene la envoltura convexa de las posiciones de sus hijos.
+\item  Permite almacenar un conjunto de coordenadas, mediante mensajes del tipo \texttt{geometry\_msgs/Point.msg}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}, sumado al nombre del mapa y del sistema coordenado utilizado. Además, mantiene la envoltura convexa de las posiciones de sus hijos.
 \item Permite almacenar la ubicación del robot en formato textual.
 \end{itemize}
 \item \texttt{ltm/What.msg}: Almacena referencias a cada pieza de memoria semántica asociada al episodio. Se construye a partir de un mensaje para el manejo de \textit{streams} y otro para el manejo de entidades.
@@ -253,7 +253,7 @@ Los \textit{streams} se definen a partir de mensajes ROS construidos por el usua
 \subsubsection{Construcción de entidades}
 
 \ltmconcept{Metadatos}
-En el caso de las entidades, se deben almacenar distintas instancias de la entidad, cada una asociada a su historial de cambios. Una entidad es definida a través de un mensaje ROS construido por el usuario, y puede contener cualquier estructura soportada por ROS para sus mensajes. De manera similar al caso de los \textit{streams}, cada mensaje debe contener un campo de nombre \texttt{meta} y tipo \texttt{ltm/EntityMetadata.msg}. Este campo es manejado por el servidor y permite identificar la instancia de la entidad, asociada al mensaje. El tipo \texttt{ltm/EntityMetadata.msg} se presenta en el Código~\ref{lst:entitymetadata.msg}.
+En el caso de las entidades, se deben almacenar distintas instancias de estas, cada una asociada a su historial de cambios. Una entidad es definida a través de un mensaje ROS construido por el usuario, y puede contener cualquier estructura soportada por ROS para sus mensajes. De manera similar al caso de los \textit{streams}, cada mensaje debe contener un campo de nombre \texttt{meta} y tipo \texttt{ltm/EntityMetadata.msg}. Este campo es manejado por el servidor y permite identificar la instancia de la entidad asociada al mensaje. El tipo \texttt{ltm/EntityMetadata.msg} se presenta en el Código~\ref{lst:entitymetadata.msg}.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/EntityMetadata.msg,label=lst:entitymetadata.msg]{code/msg/EntityMetadata.msg}
 
@@ -264,7 +264,7 @@ La colección de sufijo \texttt{.meta} se construye a partir de mensajes ROS de 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/EntityLog.msg,label=lst:entitylog.msg]{code/msg/EntityLog.msg}
 
-La colección de sufijo \texttt{.trail} se construye a partir de mensajes ROS del mismo tipo definido por el usuario. El campo \texttt{meta} es utilizado para asociar bidireccionalmente cada entrada del historial, a su mensaje mensaje de tipo \texttt{ltm/EntityLog.msg} en la colección de sufijo \texttt{.meta}.
+La colección de sufijo \texttt{.trail} se construye a partir de mensajes ROS del mismo tipo definido por el usuario. El campo \texttt{meta} es utilizado para asociar bidireccionalmente cada entrada del historial a su mensaje mensaje de tipo \texttt{ltm/EntityLog.msg}, en la colección de sufijo \texttt{.meta}.
  
 
 \subsection{Servidor}
@@ -272,7 +272,7 @@ La colección de sufijo \texttt{.trail} se construye a partir de mensajes ROS de
 % ==============================================================================
 % ==============================================================================
 
-El servidor es implementado de acuerdo a las decisiones de diseño estudiadas en el Capítulo~\ref{chapter:diseno}, y su estructura se basa en el diagrama de la Figura~\ref{img:diagrama-software}. La implementación se realiza completamente en el lenguaje \CC y se encuentra en el paquete ROS \texttt{ltm}. El servidor sólo depende de tipos de dato primitivos y paquetes estándar disponibles en todas las distribuciones ROS (e.g. \texttt{geometry\_msgs} y \texttt{std\_msgs} y \texttt{pluginlib}), el módulo geométrico la librería Boost, y el driver para la base de datos. 
+El servidor es implementado de acuerdo a las decisiones de diseño estudiadas en el Capítulo~\ref{chapter:diseno}, y su estructura se basa en el diagrama de la Figura~\ref{img:diagrama-software}. La implementación se realiza completamente en el lenguaje \CC \ y se encuentra en el paquete ROS \texttt{ltm}. El servidor sólo depende de tipos de dato primitivos y paquetes estándar disponibles en todas las distribuciones ROS (e.g. \texttt{geometry\_msgs} y \texttt{std\_msgs} y \texttt{pluginlib}), el módulo geométrico la librería Boost, y el driver para la base de datos. 
 
 La implementación se puede separar lógicamente en 2 componentes: memoria episódica y memoria semántica. La primera se encarga de adquirir episodios a partir de la API episódica que provee el servidor, mientras que el componente semántico se encarga de los \textit{streams} y entidades, por medio de los plugins que define el usuario.
 
@@ -292,7 +292,7 @@ La implementación utiliza el paquete ROS \texttt{pluginlib} para la definición
 \subsubsection{Plugins episódicos: \textit{Where} y Emociones}
 % ==============================================================================
 
-Estos dos plugins son necesarios para obtener información episódica dependiente del robot objetivo. El único requisito impuesto para el usuario, es la implementación de cada plugin mediante el estándar utilizado en \texttt{pluginlib}, para proveer cada dato episódico cuando el servidor lo requiera. Se aconseja seguir la estrategia de funcionamiento descrita en la Sección~\ref{sec:design-server}.
+Estos dos plugins son necesarios para obtener información episódica dependiente del robot objetivo. El único requisito impuesto para el usuario es la implementación de cada plugin mediante el estándar utilizado en \texttt{pluginlib}, para proveer cada dato episódico cuando el servidor lo requiera. Se aconseja seguir la estrategia de funcionamiento descrita en la Sección~\ref{sec:design-server}.
 
 El plugin de emociones debe heredar la clase \texttt{ltm::plugin::EmotionBase}, definida en \texttt{\#include \textless ltm/plugin/emotion\_base.h\textgreater}. Se deben implementar los \textit{métodos virtuales} declarados en la clase padre.
 
@@ -311,7 +311,7 @@ Además, ya que los plugins son cargados dinámicamente, el mensaje ROS definido
 \lstinputlisting[caption=SampleStreamSrv.srv,label=lst:samplestreamsrv]{code/srv/SampleStreamSrv.srv}
 
 \ltmconcept{Funcionalidades heredadas}
-Dado que \texttt{pluginlib} no soporta clases base basadas en templates de \CC, el plugin debe heredar de la clase \texttt{ltm::plugin::StreamDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin. Lo anterior, permite al plugin manejar automáticamente la base de datos y proveer una API CRUD mediante servicios ROS, adecuada al mensaje en cuestión y simplificando la implementación del plugin.
+Dado que \texttt{pluginlib} no soporta clases base genéricas de \CC, el plugin también debe heredar de la clase \texttt{ltm::plugin::StreamDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin. Lo anterior, permite al plugin manejar automáticamente la base de datos y proveer una API CRUD mediante servicios ROS, adecuada al mensaje en cuestión y simplificando la implementación del plugin.
 
 
 \subsubsection{Plugin: \textit{Entidades}}
@@ -367,9 +367,7 @@ Además, el desarrollador de cada plugin puede requerir la introducción de par�
 El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, ambos plugins anexan sólo un parámetro extra: \texttt{topic}.
 \end{itemize}
 
-En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura sólo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}.
-
-Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.
+En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura sólo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}. Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.
 
 \ltmconcept{Ejecución}
 Finalmente, una vez construido el archivo de configuración adecuado para el robot, basta utilizar la herramienta \texttt{roslaunch} para ejecutar el sistema LTM. En el Código~\ref{lst:samplelaunch} se muestra un archivo \texttt{.launch} de ejemplo donde se asocia indica la configuración para el servidor. Para su ejecución, se puede utilizar el comando de consola: \texttt{\$ roslaunch ltm\_samples server.launch}.
@@ -393,7 +391,7 @@ Al finalizar el episodio, se debe utilizar el servicio \texttt{$\sim$/ltm/episod
 \lstinputlisting[caption=ltm/AddEpisode.srv,label=lst:addepisode]{code/srv/AddEpisode.srv}
 
 \ltmconcept{Actualización}
-Finalmente, el sistema provee el servicio \texttt{$\sim$/ltm/episode/update\_tree}, de tipo \texttt{ltm/UpdateTree.srv}, que permite recomputar todos los datos episódicos de un nodo y sus hijos. Este servicio es útil cuando se insertan episodios pasados. Es necesario indicar el identificador de la raíz del árbol a actualizar. Sus campos se presentan en el Código~\ref{lst:addepisode}.
+Finalmente, el sistema provee el servicio \texttt{$\sim$/ltm/episode/update\_tree}, de tipo \texttt{ltm/UpdateTree.srv}, que permite recomputar recursivamente todos los datos episódicos de un nodo y sus hijos. Este servicio es útil cuando se insertan episodios pasados. Es necesario indicar el identificador de la raíz del árbol a actualizar. Sus campos se presentan en el Código~\ref{lst:addepisode}.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/UpdateTree.srv,label=lst:updatetree]{code/srv/UpdateTree.srv}
 
@@ -406,19 +404,19 @@ De acuerdo al diseño de las operaciones CRUD, revisado en la Sección~\ref{sec:
 La primera etapa consiste en realizar una consulta al sistema, mediante filtros sobre los campos episódicos, de \textit{streams} o de entidades. Se debe utilizar el servicio \texttt{$\sim$/ltm/db/query}, de tipo \texttt{ltm/QueryServer.srv}, presentado en el Código~\ref{lst:queryserver}. El formato permite indicar si la consulta se realizará sobre la colección de episodios, o sobre un \textit{stream} o entidad de tipo particular. 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/QueryServer.srv,label=lst:queryserver]{code/srv/QueryServer.srv}
-El campo \texttt{json} permite definir una consulta compleja, utilizando el mismo formato que en una consulta de MongoDB. Luego, la respuesta indica los identificadores de los episodios, \textit{streams} y entidades que calzan con el filtro.
+El campo \texttt{json} permite definir una consulta compleja, utilizando el mismo formato que en una consulta de MongoDB. Luego, la respuesta indica los identificadores de los episodios, \textit{streams} y entidades que calzan con el filtro. El formato de respuesta utiliza el tipo \texttt{ltm/QueryResult.msg}, mostrado en el Código~\ref{lst:queryresult} del Anexo de Implementación.
 
 Algunos ejemplos de consultas válidas son:
 \todowrite{Poner ejemplos de filtros JSON. Problemas con comillas y combinación de package soul + texttt.}
 \begin{itemize}
-\item Episodios por tags (arreglo de strings)
-\item Episodios por fecha (comparación mayor que)
-\item Episodios por relevancia emocional (comparación menor que)
-\item Stream por cantidad de imágenes (int)
-\item Stream por duración (Operación matemática: ver \url{https://stackoverflow.com/questions/23282193/perform-math-in-searchqueries-mongodb)}
-\item Entidad por campos (USAR consulta compleja)
-\item Entidad por campos modificados (Usar AND)
-\item Entidad por fecha (USAR OR)
+\item Ej. Episodios por tags (arreglo de strings)
+\item Ej. Episodios por fecha (comparación mayor que)
+\item Ej. Episodios por relevancia emocional (comparación menor que)
+\item Ej. Stream por cantidad de imágenes (int)
+\item Ej. Stream por duración (Operación matemática: ver \url{https://stackoverflow.com/questions/23282193/perform-math-in-searchqueries-mongodb)}
+\item Ej. Entidad por campos (USAR consulta compleja)
+\item Ej. Entidad por campos modificados (Usar AND)
+\item Ej. Entidad por fecha (USAR OR)
 \end{itemize}
 OJO: en cada caso mostrar episodios relacionados a entidad y vice versa.
 
@@ -431,32 +429,25 @@ Una vez seleccionados los episodios de interés, el servicio \texttt{$\sim$/ltm/
 De la misma forma, una vez seleccionados los \textit{streams} de interés, se puede utilizar un servicio ROS para recolectar los mensajes. Existe un servicio con el nombre \texttt{$\sim$/ltm/stream/\textless type\textgreater/get} para cada plugin, donde \texttt{\textless type\textgreater} corresponde al tipo definido en la configuración. Cada servicio tiene el formato presentado en el Código~\ref{lst:samplestreamsrv}.
 
 \ltmconcept{Adquisición de entidades}
-Una vez seleccionadas las entidades de interés, se puede utilizar un servicio ROS para recolectar sus mensajes. Cada plugin provee un servicio de nombre \texttt{$\sim$/ltm/entity/\textless type\textgreater/get}, donde \texttt{\textless type\textgreater}  corresponde al tipo definido durante la configuración. Cada servicio tiene el formato presentado en el Código~\ref{lst:sampleentitysrv}.
-
-Además, el servicio permite indicar un instante de tiempo para cada instancia a recuperar. Las entidades serán reconstruidas según la perspectiva que se tenía de ellas en ese instante de tiempo.
+Una vez seleccionadas las entidades de interés, se puede utilizar un servicio ROS para recolectar sus mensajes. Cada plugin provee un servicio de nombre \texttt{$\sim$/ltm/entity/\textless type\textgreater/get}, donde \texttt{\textless type\textgreater}  corresponde al tipo definido durante la configuración. Cada servicio tiene el formato presentado en el Código~\ref{lst:sampleentitysrv}. Además, el servicio permite indicar un instante de tiempo para cada instancia a recuperar. Las entidades serán reconstruidas según la perspectiva que se tenía de ellas en ese instante de tiempo.
 
 
 \subsubsection{API LTM: Otros servicios}
 % ==============================================================================
 
-\ltmconcept{Base de datos}
+El sistema LTM además provee otros servicios mediante su API ROS. Cada uno de los servicios mostrados a continuación no es parte de los requisitos del proyecto, pero es de utilidad para la ejecución de pruebas y validaciones.
 
+\ltmconcept{Base de datos}
+El sistema provee servicios para eliminar todas las colecciones de la base de datos actual, y para cambiar la base de datos por otra. El primero, se provee mediante el servicio \texttt{$\sim$/ltm/db/drop}, de tipo \texttt{DropDB.srv}, mostrado en el Código~\ref{lst:dropdb}. Se pide confirmación, pues es una operación peligrosa. El cambio de base de datos se provee en el servicio  \texttt{$\sim$/ltm/db/switch}, de tipo \texttt{SwitchDB.srv}, el que sólo requiere indicar el nombre de la base de datos alternativa. Esta funcionalidad es útil para ejecutar pruebas sin afectar la base de datos del robot.
+\todounsure{Muy informal el servicio?.. debo modificar los campos??}
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm/DropDB.srv,label=lst:dropdb]{code/srv/DropDB.srv}
 
 \ltmconcept{Operaciones CRUD para \textit{streams}}
-
+Cada plugin para \textit{streams} provee servicios ROS para insertar (\texttt{$\sim$/ltm/stream/\textless type\textgreater/add}) y eliminar (\texttt{$\sim$/ltm/stream/\textless type\textgreater/delete}) mensajes de su colección. Ambos servicios utilizan el formato presentado en el Código~\ref{lst:samplestreamsrv}.
 
 \ltmconcept{Operaciones CRUD para entidades}
-
-%\texttt{/ltm/db/drop}
-%\texttt{/ltm/db/switch}
-%/ltm/entity/people/add
-%/ltm/entity/people/delete
-%/ltm/entity/people/drop\_db
-%/ltm/entity/people/status
-%/ltm/stream/images/add
-%/ltm/stream/images/delete
-%/ltm/stream/images/drop\_db
-%/ltm/stream/images/status
+De la misma manera, cada plugin para entidades provee funcionalidades para insertar y eliminar mensajes de su colección, mediante los servicios \texttt{$\sim$/ltm/entity/\textless type\textgreater/add} y \texttt{$\sim$/ltm/entity/\textless type\textgreater/delete}, respectivamente. Ambos servicios utilizan el formato presentado en el Código~\ref{lst:sampleentitysrv}.
 
 
 % ==============================================================================
@@ -475,13 +466,31 @@ Además, el servicio permite indicar un instante de tiempo para cada instancia a
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-% SEC: Herramientas y Simulación: ltm_addons, ltm_samples
-% - JSON
-% - SMACH
+
+En esta sección se presentan herramientas implementadas para validar el proyecto y simular información para cada uno de los plugins que requiere el sistema LTM. En primer lugar, se revisa una interfaz episódica para SMACH, construida sobre los servicios de episódicos del servidor. Luego, se presenta un plugin para la adquisición de \textit{streams} de imágenes, agnóstico del robot objetivo. Más adelante, se presenta la construcción de un robot simulado, para utilizado para validaciones. Finalmente, se revisa la implementación de herramientas para medir el uso de recursos y la escalabilidad del sistema LTM.
+
+\subsection{Interfaz SMACH}
+\todowrite{Rellenar esto.}
+% TODO: ltm_addons, ltm_samples
+
+\subsection{Plugin para \textit{streams} de imágenes}
+\todowrite{Rellenar esto.}
 % - image stream
-% - video_streamer
+
+\subsection{Robot simulado}
+\todowrite{Rellenar esto.}
+
+\subsubsection{Ubicación y emociones}
 % - fake robot
+
+\subsubsection{Cámara de video}
+% - video_streamer
+
+\subsubsection{Entidades}
 % - fake_stm
+
+\subsection{Mediciones para validación}
+\todolater{Aún no existe}
 % - Herramientas validación: Medir tiempos, por ejemplo.
 
 % ==============================================================================
@@ -500,6 +509,8 @@ Además, el servicio permite indicar un instante de tiempo para cada instancia a
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
+\todounsure{Explicar que no está integrado aún, o eliminar esta sección???, Trabajo Futuro???}
+
 % SEC: Intregración en Bender
 % - Sistema Emocional
 % - Intregración Plugins
