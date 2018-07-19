@@ -58,7 +58,7 @@ Desde el punto de vista de la información procesada, la memoria es vista como u
 \end{itemize}
 %\bigskip
 
-La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, \textbf{STM (Short-Term Memory)} y \textbf{LTM (Long-Term Memory)}, por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura~\ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
+La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura~\ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
 
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 \tikzset{
@@ -126,7 +126,7 @@ En el ámbito cognitivo, la STM se refiere a la habilidad de estar atento, recop
 
 Se caracteriza por manejar información muy detallada, ser de poca capacidad y permitir un rápido acceso a estos datos. Permite recordar rápidamente y con gran detalle experiencias ocurridas hace pocos segundos, pero con dificultad creciente a medida que avanza el tiempo.
 
-Se sustenta principalmente en la corteza prefrontal del cerebro. Algunos estudios han mostrado que las neuronas involucradas son capaces de mantener información relevante de corto plazo, la que es combinada con información sensorial entrante y áreas que manejan la toma de decisiones. 
+Se sustenta principalmente en la corteza prefrontal del cerebro. Las neuronas involucradas son capaces de mantener información relevante de corto plazo, la que es combinada con información sensorial entrante y áreas que manejan la toma de decisiones~\cite{Eichenbaum:2008}. 
 
 En los humanos esta área presenta gran activación durante procesos de codificación, acceso y manipulación de memorias.
 
@@ -306,7 +306,7 @@ TASER es un robot de servicio enfocado a ambientes reales de oficina~\cite{Jocke
 A partir sus características, EPIROME no cumple con los requerimientos de un sistema de memoria episódica: No dispone de almacenamiento de largo plazo, mecanismos de recolección de episodios, ni representaciones de los eventos almacenados~\cite{Stachowicz2012}.
 
 \ltmconcept{ALIZ-E (2014)}
-ALIZ-E (Adaptative Strategies for Sustainable Long-Term Social Interaction) es un sistema cognitivo enfocado en la interacción natural con niños. Vijayakumar desarrolló una extensión de memoria episódica para ALIZ-E, basado en el funcionamiento de la memoria humana~\cite{Vijayakumar2014}.  Su diseño está basado en requerimientos similares a los propuestos por Stachowicz. Su módulo construye episodios en formato RDF (Resource Description Framework), a partir de los archivos de \textit{log} que genera el sistema tras cada interacción.
+ALIZ-E (Adaptative Strategies for Sustainable Long-Term Social Interaction) es un sistema cognitivo enfocado en la interacción natural con niños. Vijayakumar desarrolló una extensión de memoria episódica para ALIZ-E, basado en el funcionamiento de la memoria humana~\cite{Vijayakumar2014}. Su módulo construye episodios en formato RDF (Resource Description Framework), a partir de los archivos de \textit{log} que genera el sistema tras cada interacción.
 
 Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esperados para su plataforma objetivo. Sin embargo, no aborda el diseño de metodologías para adquisición de episodios, ni la definición de información semántica, pues se enfoca en adaptar los archivos de \textit{log} preexistentes. Por otro lado, propone un caso de uso interesante para un robot social, a través de la adaptación de sus frases, según la información episódica almacenada, e.g., cambiando la frase ``Estoy feliz de verte'' a ``Estoy feliz de verte \textit{nuevamente}''. 
 
@@ -362,15 +362,13 @@ Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, M
 
 A continuación se presentan algunos estudios relacionados con aspectos de una LTM que escapan de los requerimientos para este proyecto o que simplemente no son basados en la taxonomía de la memoria humana. Estos trabajos sólo se presentan a modo de completitud, pues no permiten resolver el objetivo de este proyecto, sino que sólo comprender otros enfoques y acercamientos a la solución. 
 
-El sistema propuesto por Ho et al.~\cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto. El costo de esto, es que se reduce la personalización de cada robot. 
-
-Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto~\cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
-
-Kim et al.~\cite{KimMinJoo2016} plantean el uso de Deep Learning para modelar la memoria episódica y la planificación de acciones de manera holística. En su implementación, los procesos de codificación, almacenado y recuperación de episodios son manejados como uno solo. Los procesos de decaimiento y relevancia son abstraídos, para ser manejados automáticamente por la red.
-
 Thorsten et al.~\cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias episódica y semántica, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir las dependencias entre cada componente y el ancho de banda utilizado para retransmitir la información entre procesos.
 
+El sistema propuesto por Ho et al.~\cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto. El costo de esto, es que se reduce la personalización de cada robot. Por otro lado, Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto~\cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
+
 La LTM procedural es estudiada por Salgado et al.~\cite{Salgado2012}, donde demuestran que a través de ella se puede mejorar el desempeño del robot en tareas repetitivas. En 2014 Winkler et al.~\cite{Winkler2014} desarrollaron CRAMm, un sistema para el manejo de memoria semántica y procedural basado en KnowRob~\cite{Tenorth2013}, con el fin de dar soporte a las tareas de manipulación de su plataforma robótica. Mediante CRAMm, el robot puede tener conocimiento de los objetos del entorno, sus posiciones habituales y las rutinas de manipulación apropiadas para cada caso. Por ejemplo, puede saber que la leche es un objeto perecible, por lo que probablemente pueda ser encontrada en el refrigerador, más aún, CRAMm provee procedimientos para abrir ese contenedor y obtener el objeto.
+
+La LTM también ha sido implementada mediante estrategias que no siguen las estructuras de procesamiento utilizadas por la memoria humana. Por ejemplo, Kim et al.~\cite{KimMinJoo2016} plantean el uso de Deep Learning para modelar la memoria episódica y la planificación de acciones de manera holística. En su implementación, los procesos de codificación, almacenado y recuperación de episodios son manejados como uno. Así, el sistema LTM y la aplicación objetivo comparten la misma implementación, y todas las interacciones son manejadas automáticamente por la red.
 
 
 %% =====================================================================
@@ -406,14 +404,13 @@ Esta sección presenta en detalle el marco teórico requerido para el diseño de
 
 La implementación de un sistema de memoria episódica no puede ser completamente separada de la memoria semántica. La primera almacena eventos y su contexto espacio-temporal, a la vez que la otra almacena información sobre cada entidad del episodio. Así, es posible recordar información de un objeto y su evolución histórica ligada a los eventos almacenados.
 
-No existe un consenso sobre los contenidos, el formato o las herramientas para implementar una memoria episódica\cite{ltm_in_robocup}. Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para su diseño~\cite{Vijayakumar2014,Ho2009,Jockel2008}. Particularmente, Stachowicz en su trabajo del año 2012~\cite{Stachowicz2012} deriva un conjunto de 11 requisitos mínimos para la construcción de una memoria episódica, a partir de características cognitivas de sistemas episódicos naturales, extendidas con propiedades deseables desde un punto de vista técnico. Estos requisitos $(\mathcal{R}_{1},\ldots,\mathcal{R}_{11})$, descritos a continuación, permiten dar una base para el diseño del sistema LTM.
+No existe un consenso sobre los contenidos, el formato o las herramientas para implementar una memoria explícita~\cite{ltm_in_robocup}. Sin embargo, si existe una aceptación generalizada sobre los requerimientos mínimos y deseables para su diseño~\cite{Vijayakumar2014,Ho2009,Jockel2008}. Particularmente, Stachowicz en su trabajo del año 2012~\cite{Stachowicz2012} deriva un conjunto de 11 requisitos mínimos para la construcción de una memoria episódica y semántica, a partir de características cognitivas de sistemas episódicos naturales, extendidas con propiedades deseables desde un punto de vista técnico. Estos requisitos $(\mathcal{R}_{1},\ldots,\mathcal{R}_{11})$, descritos a continuación, permiten dar una base para el diseño del sistema LTM.
 
 
 \subsubsection{Aspectos de diseño requeridos:}
 %% =====================================================================
 
-
-\begin{itemize}[topsep=0pt]
+\begin{description}[topsep=0pt]
 	\setlength\itemsep{0.2em}
 	\item \RStachowicz{1} {\bfseries Contenido:}
 	La información de eventos pasados debe ser recolectada e indexada respecto a su contexto espacio-temporal: Qué, dónde y cuándo pasó. El campo ``Qué'' debe permitir almacenar información variable, organizada en estructuras de datos que no se conocen de antemano y que se ajustan a diversos módulos de procesamiento. 
@@ -439,12 +436,12 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 	\item \RStachowicz{8} {\bfseries Transposición:}
 	Los eventos almacenados en la memoria episódica pueden variar en tiempo y extensión. Particularmente, un evento A puede iniciar antes B, pero terminar durante la vida de B.
 	
-\end{itemize}
+\end{description}
 
 \subsubsection{Aspectos de diseño deseables:}
 %% =====================================================================
 
-\begin{itemize}[topsep=0pt]
+\begin{description}[topsep=0pt]
 	\setlength\itemsep{0.2em}
 	\item \RStachowicz{9} {\bfseries No intrusivo:}
 	Se espera que la LTM no requiera dependencias de módulos externos para poder funcionar y representar los datos. A la vez, no puede depender en que los otros módulos no cambien la representación de sus datos.
@@ -453,9 +450,9 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 	El sistema debe ser lo suficientemente eficiente para tolerar el manejo de una alta tasa de eventos, sin degradar el funcionamiento del robot. Es decir, todos los eventos deben ser procesados eventualmente, aún cuando el robot esté ocupando gran parte de sus recursos, y sin generar hambruna de CPU ni de ancho de banda (de disco y red) al resto de los procesos.
 	
 	\item \RStachowicz{11} {\bfseries Escalable:}
-	Los costos asociados al manejo de la información (agregar, eliminar, actualizar y buscar datos) en la memoria deben escalar bien, respecto a la cantidad de datos almacenados. La memoria debe mantener los costos acotados, dentro de un rango que no entorpezca su uso.
+	Los costos asociados al manejo de la información en la memoria (agregar, eliminar, actualizar y buscar datos) no deben exceder un límite superior, respecto a la cantidad creciente de datos almacenados. La memoria debe mantener los costos acotados, dentro de un rango que no entorpezca su uso.
 	
-\end{itemize}
+\end{description}
 
 
 %% =====================================================================
@@ -465,6 +462,8 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 %% =====================================================================
 %% =====================================================================
 %% =====================================================================
+
+\todolater{Correcciones pendientes hasta implementar módulos en Bender.}
 
 El almacenamiento, deterioro y recolección de episodios puede ser afectado por diversos factores. A continuación se detallan estudios que influencian el diseño, en cuanto a la modulación de tales procesos cognitivos, a partir de la memoria emocional y la relevancia histórica de los episodios.
 
@@ -476,21 +475,19 @@ El almacenamiento, deterioro y recolección de episodios puede ser afectado por 
 % uso de memoria emocional
 La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona, o en este caso, el robot. Así, se puede dar prioridad a unos eventos por sobre otros, afectando los procesos cognitivos. Particularmente, un evento importante emocionalmente podría ser más fácilmente recordado, o ser almacenado por un periodo más largo~\cite{Deutsch2008}.
 
-La implementación de la memoria emocional requiere como mínimo de un mapeo entre los estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al.~\cite{Dodd2005} propone el uso de la teoría emocional de reacciones de Haikonen, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
+La implementación de la memoria emocional requiere como mínimo de un mapeo entre los estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al.~\cite{Dodd2005} proponen el uso de la teoría emocional de reacciones de Haikonen~\cite{}, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
+\todojocelyn{referencia a la teoría emocional de Haikonen}
 
 Dood et al. proponen implementar las sensaciones a partir de distintos estímulos medidos en un robot:
 \begin{itemize}
-	\item Actuador que se aproxima a sus límites de movimiento físico o de fuerza. 
-	\item Nivel de iluminación percibido.
-	\item Nivel de ruido acústico percibido.
-	\item Ausencia o presencia de humanos. Falta de interacción.
-	\item Cumplimiento de objetivos.
-	\item Cumplimiento de expectativas.
+	\item Según las entradas de sensores. Por ejemplo, actuador que se aproxima a sus límites de movimiento físico o de fuerza, y el nivel de iluminación o ruido acústico percibido.
+	\item Según el nivel de interacción con humanos. Por ejemplo, cantidad de interacciones en un periodo, ausencia de humanos o cantidad de humanos en el entorno.
+	\item Según el cumplimiento de objetivos y expectativas. Por ejemplo, de acuerdo a las tareas que se lograron cumplir y los errores cometidos.
 \end{itemize}
 
-Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Figura~\ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
+Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Tabla~\ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
 
-\begin{figure}[!ht]
+\begin{table}[!ht]
 	\centering
 	\begin{tabular}{| l | l |}
 		\hline
@@ -510,11 +507,14 @@ Sistemas más avanzados, incluso pueden considerar la generación de reacciones 
 	\caption[Sensaciones elementales y reacciones en el modelo de Haikonen.]
 	{\small Sensaciones elementales y sus reacciones correspondientes, según el modelo de Haikonen. Obtenido de~\cite{Dodd2005}.}
 	\label{img:emotional_haikonen}
-\end{figure}
+\end{table}
+\todojocelyn{Sobre cita en Tabla \ref{img:emotional_haikonen}. es raro que algo propuesto por persona X salga de un paper por persona Y .. cual es la referencia original al modelo de Haikonen?}
 
 Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al.~\cite{Deutsch2008} consideran que la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados.
 
+\todojocelyn{falta una frase para conectar este parrafo con lo presentado anteriormente}
 En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones, que se muestra en la Figura~\ref{img:plutchik}. Su trabajo es uno de los más influyentes para la clasificación de las emociones y sus respuestas. Plutchik propone 8 emociones primarias, cada una es de carácter bipolar y con un nivel de intensidad asociado: ira - miedo, alegría - tristeza, confianza - aversión, sorpresa - anticipación. La rueda además muestra 8 emociones avanzadas de carácter bipolar, formadas a partir de las 2 emociones primarias adyacentes.
+\todojocelyn{y cual es la conexion de esto con tu memoria?}
 
 \begin{figure}[!ht]
 	\centering
@@ -564,18 +564,21 @@ En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones,
 }
 
 	\caption[Rueda de las Emociones de Plutchik.]
-	{\small Rueda de las Emociones de Plutchik. Propone 8 emociones primarias de carácter bipolar y 3 niveles de intensidad. Cada emoción compleja se compone de sus 2 emociones primarias adyacentes.}
+	{\small Rueda de las Emociones de Plutchik. Cada brazo representa una de las 8 emociones primarias y sus 3 niveles de intensidad.}
 	\label{img:plutchik}
 \end{figure}
 
+
+\todojocelyn{no es posible intergrar las secciones 2.4.2.1 y 2.4.2.2? dado que sigues hablando del trabajo de Dood ..}
 
 \subsubsection{Relevancia histórica}
 %% =====================================================================
 % - Sobre concepto de relevancia historica
 % - mezlcla y relevancia generalizada
 % - algoritmo y graph
-Este concepto es una representación del olvido o pérdida de interés en las memorias episódicas en el caso robótico. Está directamente relacionado a la edad de un episodio, a menor antigüedad, mayor es su importancia, lo que se traduce en una mayor probabilidad de recordar ese episodio.
+La relevancia histórica es un indicador que representa el olvido o pérdida de interés sobre un episodio en la memoria. Está directamente relacionado a la edad de un episodio, a menor antigüedad, mayor es su importancia, lo que se traduce en una mayor probabilidad de recordar ese episodio.
 
 La implementación de relevancia histórica es estudiada por Dood et al., donde presenta una estrategia para su implementación y su interacción con la memoria emocional~\cite{Dodd2005}. Propone el uso de un indicador de relevancia generalizado, obtenido al combinar la intensidad de los dos indicadores. Además, propone un modelamiento matemático para representar el decaimiento de la relevancia histórica en el tiempo.
 
 %\todounsure{Es necesario poner ecuaciones y curvas de decaimiento??}
+

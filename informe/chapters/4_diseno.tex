@@ -445,7 +445,7 @@ Por cada episodio a almacenar se genera un \textit{stream} de cada tipo disponib
 	\centering
 	\includegraphics[width=\textwidth]{episodes-and-semantic-data.png}
 	\caption[Funcionamiento de \textit{streams} y entidades respecto a los episodios.]
-	{\small Funcionamiento de \textit{streams} y entidades respecto a los episodios. \texttt{\textless S\textgreater} y \texttt{\textless T\textgreater} hacen referencia a 2 tipos de \textit{streams}, mientras que \texttt{$m_1\ldots m_7$} y \texttt{$n_1, n_2$} son notificaciones sobre cambios a las entidades \textit{m} y \textit{n}. Un \textit{stream} de cada tipo es asociado a cada episodio, incluso en caso de transposición. Cada notificación sobre entidades es asociada a todo episodio activo. En caso de no haber episodio, no se almacenan \textit{streams}, pero si se registran los cambios en entidades.}
+	{\small Funcionamiento de \textit{streams} y entidades respecto a los episodios. \texttt{\textless S\textgreater} y \texttt{\textless T\textgreater} hacen referencia a 2 tipos de \textit{streams}, mientras que \texttt{$m_1\ldots m_7$} (rombos) y \texttt{$n_1, n_2$} (círculos) son notificaciones sobre cambios a las entidades \textit{m} y \textit{n}. Un \textit{stream} de cada tipo es asociado a cada episodio, incluso en caso de transposición. Cada notificación sobre entidades es asociada a todo episodio activo. En caso de no haber episodio, no se almacenan \textit{streams}, pero si se registran los cambios en entidades.}
 	\label{img:episodes-and-semantic-data}
 	\end{figure}
 
@@ -633,14 +633,14 @@ En esta sección se describe el diseño del mecanismo para la recolección de ep
 
 \subsubsection{Recopilación de episodios}
 
-Como se muestra en la Figura~\ref{img:diagrama-software}, el servidor depende de una API episódica para la adquisición de episodios. El diseño propuesto almacena episodios en dos etapas: registro y adquisición, mediante una API ROS basada en servicios. Como lo indica el diagrama, el servidor se comunica con cada plugin para recopilar la información episódica y semántica necesaria.
+Como se muestra en la Figura~\ref{img:diagrama-software}, el servidor depende de una API episódica para la adquisición de episodios. El diseño propuesto almacena episodios en dos etapas: registro y término, mediante una API ROS basada en servicios. Como lo indica el diagrama, el servidor se comunica con cada plugin para recopilar la información episódica y semántica necesaria.
 
 \ltmconcept{Registro}
 En esta etapa, el usuario debe indicar el inicio de un nuevo episodio. Luego, el servidor se encarga de registrar el episodio, generando un identificador único, el que es retornado al usuario. Ya que el sistema debe soportar anidamiento y transposición, pueden haber muchos episodios registrados simultáneamente. 
 
 Durante el registro se debe indicar el tipo de episodio a introducir (hoja o nodo). Si el episodio es de tipo hoja, se notifica a todos los plugins, para que consideren el nuevo episodio como activo e inicien las tareas de recopilación de información. De acuerdo al diseño episódico, no se debe recopilar información para episodios nodo.
 
-\ltmconcept{Adquisición}
+\ltmconcept{Término}
 Una vez que el episodio ha concluido, el usuario debe notificar al servidor sobre ésto, indicando el identificador del padre, los \textit{tags} asociados y los metadatos episódicos que desee almacenar.
 
 Tras recibir la notificación, el servidor recolecta información episódica desde cada plugin, almacena el episodio en la base de datos y lo marca como inactivo. En caso de ya no haber episodios activos, cada plugin es notificado para dejar de recopilar información.

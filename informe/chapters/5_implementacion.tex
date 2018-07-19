@@ -143,9 +143,9 @@ Este paquete implementa plugins específicos para el uso del sistema LTM en el r
 % ==============================================================================
 % ==============================================================================
 
-En la Figura~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el proyecto, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
+En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el proyecto, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
 
-\begin{figure}[!ht]
+\begin{table}[!ht]
 	\centering
 	\begin{tabular}{|l|r|r|r|r|}
 		\hline
@@ -167,7 +167,7 @@ En la Figura~\ref{table:lineas-codigo} se presenta una tabla con el conteo de l�
 	\caption[Líneas de código del sistema LTM por lenguaje.]
 	{\small Líneas de código del sistema LTM por lenguaje.}
 	\label{table:lineas-codigo}
-\end{figure}
+\end{table}
 
 
 \subsection{Documentación}
@@ -385,7 +385,7 @@ En primer lugar, se debe utilizar el servicio ROS \texttt{$\sim$/ltm/episode/reg
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/RegisterEpisode.srv,label=lst:registerepisode]{code/srv/RegisterEpisode.srv}
 
-\ltmconcept{Inserción}
+\ltmconcept{Término}
 Al finalizar el episodio, se debe utilizar el servicio \texttt{$\sim$/ltm/episode/add} para que el servidor recolecte información de cada plugin y almacene el episodio en la base de datos. El servicio de tipo \texttt{ltm/AddEpisode.srv} se presenta en el Código~\ref{lst:addepisode}. Es necesario indicar el identificador del episodio y del padre. Además, el servicio permite introducir un episodio completo, sin necesidad de su registro, lo que es útil para la inserción de episodios pasados.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/AddEpisode.srv,label=lst:addepisode]{code/srv/AddEpisode.srv}
@@ -477,6 +477,9 @@ En esta sección se presentan herramientas implementadas para validar el proyect
 \todowrite{Rellenar esto.}
 % - image stream
 
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm\_addons/ImageStream.msg,label=lst:imagestream]{code/msg/ImageStream.msg}
+
 \subsection{Robot simulado}
 \todowrite{Rellenar esto.}
 
@@ -488,6 +491,11 @@ En esta sección se presentan herramientas implementadas para validar el proyect
 
 \subsubsection{Entidades}
 % - fake_stm
+
+\newpage
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=ltm\_samples/PersonEntity.msg,label=lst:personentity]{code/msg/PersonEntity.msg}
+
 
 \subsection{Mediciones para validación}
 \todolater{Aún no existe}

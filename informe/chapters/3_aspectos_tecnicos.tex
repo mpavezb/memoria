@@ -1,6 +1,6 @@
 \chapter{Aspectos Técnicos}\label{chapter:technical}
 
-En este capítulo se describen los componente de software y hardware utilizados para comprender el diseño e implementación del proyecto: Se revisan los conceptos utilizados sobre el framework robótico ROS. Se hace una revisión breve de la base de datos MongoDB. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
+En este capítulo se describen los componente de software y hardware utilizados para comprender el diseño e implementación del proyecto. Se revisan los conceptos utilizados sobre el framework robótico ROS. Se hace una revisión breve de la base de datos MongoDB. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
 
 %% =============================================================================
 %% =============================================================================
@@ -14,47 +14,53 @@ ROS, acrónimo para Robot Operating System, es un proyecto que funciona como \te
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y es mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS mantenido por la comunidad y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
+A continuación se introducen los conceptos de interés, necesarios para entender el diseño e implementación del proyecto. En primer lugar, se presenta la estructuración jerárquica de los componentes en ROS. Luego, se detalla el protocolo de comunicación utilizado, basado en \textit{tópicos}, \textit{servicios} y \textit{acciones}. Finalmente, se presentan herramientas que provee ROS para soportar el desarrollo y ejecución de programas.
 
 \subsection{Intraestructura}
 %% =============================================================================
 
+En esta sección se presentan los 3 componentes sobre los que se construye la estructura jerárquica para agrupar programas en ROS.
+
 \ltmconcept{Nodo}
-Es un programa ejecutable en ROS, enfocado en una tarea específica. Cada nodo puede establecer comunicación con otros, a través de una interfaz ROS de \textit{tópicos} o \textit{servicios}.
+Es un programa ejecutable en ROS, enfocado en una tarea específica. Cada nodo puede establecer comunicación con otros, a través de una interfaz ROS especializada, presentada más adelante. ROS provee librerías oficiales para escribir nodos en los lenguajes \CC (\texttt{roscpp}\footnote{Documentación oficial de \texttt{roscpp}: \url{http://wiki.ros.org/roscpp}.}), Python (\texttt{rospy}\footnote{Documentación oficial de \texttt{rospy}: \url{http://wiki.ros.org/rospy}.}) y Common Lisp (\texttt{roslisp}\footnote{Documentación oficial de \texttt{roslisp}: \url{http://wiki.ros.org/roslisp}.}), junto a librerías experimentales para otros lenguajes.
 
 \ltmconcept{Paquete}
-Corresponde a un conjunto de nodos, junto a todos sus archivos necesarios para su compilación y ejecución. Cada paquete tiene asociado un nombre único en el sistema, junto a una lista de dependencias de otros paquetes. ROS provee conjunto estándar de paquetes y librerías enfocados en diversos aspectos de la robótica, que en conjunto a los paquetes mantenidos por la comunidad, permiten simplificar la construcción y mantenimiento de un robot.
+Corresponde a un conjunto de nodos, junto a todos sus archivos necesarios para su compilación y ejecución. Cada paquete tiene asociado un nombre único en el sistema, junto a una lista de dependencias de otros paquetes. ROS provee conjunto estándar de paquetes y librerías enfocados en diversos aspectos de la robótica, que en conjunto a los paquetes mantenidos por la comunidad, permiten simplificar la construcción y mantenimiento del software un robot.
 
 \ltmconcept{Distribuciones} 
 Una distribución es un conjunto versionado de paquetes ROS. Su propósito es permitir que los desarrolladores trabajen en un conjunto relativamente estable de dependencias, hasta que puedan avanzar a la siguiente versión. Se libera una distribución anualmente, enfocada a una versión  LTS\footnote{LTS es un acrónimo para Long-Term-Support. Una versión LTS de un software indica que éste contará con soporte a largo plazo, es decir, durante un periodo mayor a su periodo normal de vigencia.} de Ubuntu, y las versiones pares de ROS también se consideran LTS y mantienen soporte por 5 años.
 
-\ltmconcept{Lenguajes de programación} ROS provee librerías oficiales para escribir nodos en los lenguajes \CC (\texttt{roscpp}\footnote{Documentación oficial de \texttt{roscpp}: \url{http://wiki.ros.org/roscpp}.}), Python (\texttt{rospy}\footnote{Documentación oficial de \texttt{rospy}: \url{http://wiki.ros.org/rospy}.}) y Common Lisp (\texttt{roslisp}\footnote{Documentación oficial de \texttt{roslisp}: \url{http://wiki.ros.org/roslisp}.}), junto a librerías experimentales para otros lenguajes.
 
 \subsection{Comunicación}
 %% =============================================================================
 
-\ltmconcept{ROS master} Es el servidor central de ROS y provee servicios de registro al resto de los nodos. Mantiene una lista de los tópicos, servicios y parámetros disponibles, que han registrado los nodos activos. Su principal funcionalidad es permitir que cada nodo pueda encontrar a los otros. Una vez establecida la comunicación, los nodos se comunican en una red P2P\footnote{En una red P2P (peer-to-peer) los participantes se comunican total o parcialmente sin requerir un servidor intermediario.}. Comúnmente la comunicación en ROS se realiza mediante el protocolo HTTP, bajo un transporte TCP, sin embargo, los nodos pueden ser configurados para utilizar un transporte basado en UDP. Por lo tanto, ROS permite el manejo de nodos de manera distribuida, siempre que cada máquina tenga acceso a la red del computador ejecutando el ROS master.
+En esta sección se detallan los componentes del protocolo de comunicación utilizado por los nodos en ROS.
 
-\ltmconcept{Mensaje} Es una estructura de datos utilizada para comunicar un nodo con otro. Se definen en un archivo de tipo \texttt{.msg}, a partir de tipos de dato básicos en ROS y otros mensajes. Durante la compilación se genera el código para poder utilizarlos mediante las librerías ROS de cada lenguaje de programación disponible.
+\ltmconcept{ROS master} La ejecución de uno o más nodos requiere la presencia del programa \textit{ROS master}, un servidor que provee servicios de registro y búsqueda al resto de los nodos. Mantiene una lista de los tópicos, servicios y parámetros disponibles, que han registrado los nodos activos. Su principal funcionalidad es permitir que cada nodo pueda encontrar a los otros. Una vez establecida la comunicación, los nodos se comunican en una red P2P\footnote{En una red P2P (peer-to-peer) los participantes se comunican total o parcialmente sin requerir un servidor intermediario.}. Comúnmente la comunicación en ROS se realiza mediante el protocolo HTTP, bajo un transporte TCP, sin embargo, los nodos pueden ser configurados para utilizar un transporte basado en UDP. Por lo tanto, ROS permite la comunicación de nodos que se encuentren en distintas máquinas, siempre que sea posible establecer una comunicación HTTP entre ellos y el ROS master.
 
-\ltmconcept{Tópico} Permite que los nodos de comuniquen a través de mensajes, y está basado en el patrón de diseño observador. Cada tópico es un canal de comunicación que transmite mensajes ROS de un tipo predefinido. Cada nodo puede publicar simultáneamente en uno o más tópicos. Cada nodo puede suscribirse a los tópicos que desee, siendo notificado por cada mensaje entrante. Esto se describe en el diagrama de la Figura~\ref{img:ros-topic}.
+\ltmconcept{Mensaje} Es una estructura de datos utilizada para comunicar un nodo con otro. Se definen en un archivo de tipo \texttt{.msg}, cuyos campos se construyen a partir de tipos dato primitivos en ROS\footnote{ROS provee alrededor de 15 tipos primitivos, que permiten representar valores de tipo booleano, entero, números de punto flotante, texto y tiempo. Además, el formato para mensajes permite definir arreglos de cada tipo de dato y de otros mensajes. Documentación oficial: \url{http://wiki.ros.org/msg}} y otros mensajes preexistentes. Durante la compilación se genera el código para poder utilizarlos mediante las librerías ROS de cada lenguaje de programación disponible.
+
+\ltmconcept{Tópico} Permite que los nodos de comuniquen a través de mensajes, y está basado en el patrón de diseño observador: cada tópico es un canal de comunicación que transmite mensajes ROS de un tipo predefinido; cada nodo puede publicar simultáneamente en uno o más tópicos; cada nodo puede suscribirse a los tópicos que desee, siendo notificado por cada mensaje entrante. Esto se describe en el diagrama de la Figura~\ref{img:ros-topic}.
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{ROS-master-node-topic-esp.png}
+	\includegraphics[width=0.8\textwidth]{ROS-master-node-topic.png}
 	\caption[Comunicación mediante tópicos en ROS.]
-	{\small Diagrama de la comunicación mediante tópicos en ROS. El ROS master se encarga de establecer el proceso de comunicación entre los nodos involucrados. Luego los nodos se comunican {\bfseries unidireccionalmente} usando el tópico establecido.}
+	{\small Diagrama de la comunicación mediante tópicos en ROS. Primero, el ROS master se encarga de establecer el proceso de comunicación entre los nodos involucrados. Luego, los nodos se comunican {\bfseries unidireccionalmente} usando el tópico establecido.}
 	\label{img:ros-topic}
 \end{figure}
 
 \ltmconcept{Servicios} Es una forma de comunicación cliente-servidor de carácter síncrono. Se construyen a partir de una estructura de datos de tipo \texttt{.srv}, que especifica mensajes ROS de petición y respuesta, disponible tras la compilación. Cada nodo (servidor) puede proveer uno o más servicios. Cada nodo (cliente) puede enviar peticiones al servidor. Las peticiones son de carácter bloqueante, hasta que una respuesta desde el servidor sea recibida.
 
-\ltmconcept{Acciones} Esta forma de comunicación se construye a partir de tópicos y servicios, mediante la librería \texttt{actionlib}\footnote{Documentación oficial de \texttt{actionlib}: \url{http://wiki.ros.org/actionlib}.}. Está enfocada en la resolución de tareas de largo plazo, y funciona a través de metas solicitadas por el cliente. El servidor mantiene una máquina de estados que recibe peticiones (servicio) e informa constantemente sobre el estado del proceso y su resultado (tópicos). La estructura de datos utilizada es de tipo \texttt{.action}, que especifica mensajes ROS para la petición, el \textit{feedback} y el resultado.
-
-\ltmconcept{Servidor de parámetros} ROS provee un servidor para almacenar, modificar y obtener parámetros compartidos entre los nodos. Éstos permiten la configuración del programa sin tener que recompilar el código, y funcionan como el estándar para el manejo de parámetros. La configuración por defecto puede ser especificada en archivos usando el formato YAML.
+\ltmconcept{Acciones} Esta forma de comunicación se construye a partir de tópicos y servicios, mediante la librería \texttt{actionlib}\footnote{Documentación oficial de \texttt{actionlib}: \url{http://wiki.ros.org/actionlib}.}. Está enfocada en la resolución de tareas de largo plazo, mediante la definición de objetivos, su ejecución y la notificación de su evolución al cliente. El servidor mantiene una máquina de estados que recibe peticiones (servicio) e informa constantemente sobre el estado del proceso y su resultado (tópicos). La estructura de datos utilizada es de tipo \texttt{.action}, que especifica mensajes ROS para la petición, el \textit{feedback} y el resultado.
 
 
 \subsection{Herramientas}
 %% =============================================================================
+
+En esta sección se describen herramientas que provee ROS para la implementación de nodos y su ejecución.
+
+\ltmconcept{Servidor de parámetros} ROS provee un servidor para almacenar, modificar y obtener parámetros compartidos entre los nodos. Éstos permiten la configuración del programa sin tener que recompilar el código, y funcionan como el estándar para el manejo de parámetros. La configuración por defecto puede ser especificada en archivos usando el formato YAML~\cite{yaml}.
 
 \ltmconcept{Pluginlib} Es un paquete oficial de ROS\footnote{Documentación oficial de \texttt{pluginlib}: \url{http://wiki.ros.org/pluginlib}.} que provee herramientas para escribir y cargar plugins dinámicamente en nodos \CC. La librería permite delegar la implementación de funcionalidades específicas a los usuarios. El nodo que ocupará el plugin debe definir una clase abstracta a ser implementada. Mientras que los paquetes proveedores deben registrar las librerías con sus implementaciones, para que los plugins queden disponibles en el sistema.
 
@@ -72,7 +78,9 @@ Una distribución es un conjunto versionado de paquetes ROS. Su propósito es pe
 %% =============================================================================
 %% =============================================================================
 
-MongoDB es una base de datos no relacional orientada a documentos tipo JSON, donde los campos pueden variar de documento a documento y la estructura de datos puede ser modificada en el tiempo~\cite{MongoDB}. MongoDB está diseñada para funcionar de manera distribuida, proveer alta disponibilidad, escalamiento horizontal y distribución geográfica. Es una base de datos gratis y de código libre, publicada bajo la licencia GNU AGPL.
+MongoDB es una base de datos no relacional orientada a documentos tipo JSON~\cite{json}, donde los campos pueden variar de documento a documento y la estructura de datos puede ser modificada en el tiempo~\cite{MongoDB}. MongoDB está diseñada para funcionar de manera distribuida, proveer alta disponibilidad, escalamiento horizontal y distribución geográfica. Es una base de datos gratis y de código libre, publicada bajo la licencia GNU AGPL.
+
+\todojocelyn{Explicar que son las bases de datos no relacionales.}
 
 \subsection{Conceptos}
 
@@ -80,15 +88,15 @@ MongoDB representa documentos JSON en un formato binario denominado BSON. BSON e
 
 Los documentos son organizados en \textit{colecciones}, cada una destinada a almacenar información asociada a un concepto particular. MongoDB provee funcionalidades para consultas, indexado y realizar agregaciones de los datos almacenados.
 
-MongoDB provee drivers para diversos lenguajes de programación, entre ellos \CC, Java y Python. Para este proyecto, el driver de interés es el de \CC11\footnote{Documentación del driver de MongoDB para \CC:  \url{http://mongodb.github.io/mongo-cxx-driver/}.}.
+MongoDB provee drivers para diversos lenguajes de programación, entre ellos \CC, Java y Python. Para este proyecto, el driver de interés es el de \CC\footnote{Documentación del driver de MongoDB para \CC:  \url{http://mongodb.github.io/mongo-cxx-driver/}.}.
 
-En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. Este límite puede ser removido al modificar el algoritmo de almacenamiento a GridFS, que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
+En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. MongoDB permite remover éste límite mediante la estrategia de almacenamiento GridFS, la que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
 
 \subsection{Interfaz ROS}
 
 MongoDB es una de las dependencias de \textit{MoveIt!}\footnote{Documentación oficial de MoveIt!: \url{https://moveit.ros.org/}.}, librería estándar utilizada para la manipulación de objetos, de uso extendido en la comunidad robótica. Por lo tanto, MongoDB ya está instalada y funcionando en muchos robots de servicio basados en ROS. 
 
-El equipo desarrollador de MoveIt! y sus paquetes ROS relacionados mantiene el paquete \texttt{warehouse\_ros\_mongo}\footnote{El paquete ROS \texttt{warehouse\_ros\_mongo} está disponible en: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}.}, que provee una interfaz ROS al driver en \CC para MongoDB. MoveIt! y sus dependencias son consideradas estables, al menos durante el periodo de la última distribución ROS, con fecha de caducidad para el 2023.
+El equipo desarrollador de MoveIt! y sus paquetes ROS relacionados mantiene el paquete \texttt{warehouse\_ros\_mongo}\footnote{El paquete ROS \texttt{warehouse\_ros\_mongo} está disponible en: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}.}, que provee una interfaz ROS al driver en \CC\ para MongoDB. MoveIt! y sus dependencias son consideradas estables, al menos hasta la distribución ROS \textit{melodic}, con fecha de caducidad para el 2023.
 
 \texttt{warehouse\_ros\_mongo} permite definir colecciones destinadas a almacenar mensajes ROS, de manera binaria. Cada documento es construido a partir del mensaje ROS serializado (mediante su API ROS), sumado a un conjunto de metadatos utilizados para la definición de índices y consultas. Actualmente, la API sólo soporta la definición de metadatos de los tipos \texttt{bool}, \texttt{int}, \texttt{double} y \texttt{std::string} en \CC.
 
@@ -112,9 +120,9 @@ SMACH es una librería en Python para la creación y ejecución de máquinas de 
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.6\textwidth]{sm-expanded.png}
+	\includegraphics[width=0.6\textwidth]{SMACH-anidamiento.png}
 	\caption[Ejemplo de máquinas de estado anidadas usando SMACH.]
-	{\small Máquina de estado construida en SMACH para ejemplificar el concepto de anidación de estados. La máquina tiene dos estados principales (``BAS'' y ``SUB''). ``SUB'' es una máquina compuesta por los estados ``FOO'' y ``BAR''.  Obtenido desde la documentación oficial.}
+	{\small Máquina de estado construida en SMACH para ejemplificar el concepto de anidación de estados. A la izquierda, se muestra la máquina principal con los estados ``BAS'' y ``SUB''. A la derecha, se muestra que ``SUB'' es una máquina compuesta por los estados ``FOO'' y ``BAR''.}
 	\label{img:SMACH-sample}
 \end{figure}
 
@@ -134,19 +142,19 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 
 \subsection{Conceptos}
 
-URF está construido sobre ROS y utiliza una estructura de 4 capas:
+URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se presenta en la Figura~\ref{img:URF}:
 \begin{enumerate}
-\item La primera capa contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
-\item  Sobre la primera, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes y los drivers necesarios para manejar el hardware del robot (módulos de \textit{Hardware} en la Figura~\ref{img:URF}).
-\item La capa intermedia alberga capacidades robóticas avanzadas, relacionadas a percepción robótica, manipulación de objetos, navegación autónoma e interacción humano-robot (sección \textit{Módulos ROS} del diagrama).
-\item La última capa de alto nivel es desarrollada en Python, con interfaces para el uso de las capacidades de menor nivel, y es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH (bloque de \textit{Alto Nivel} del diagrama).
+\item De acuerdo al diagrama, la capa inferior contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
+\item Sobre la capa de dependencias, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar el hardware de cada robot.
+\item La siguiente capa alberga capacidades robóticas avanzadas, relacionadas a la  percepción robótica, manipulación de objetos, navegación autónoma e interacción humano-robot.
+\item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
 \end{enumerate}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=\textwidth]{URF-esp.png}
-	\caption[UChile ROS Framework y módulos utilizados por el robot Bender.]
-	{\small Diagrama de UChile ROS Framework utilizado por el robot Bender.}
+	\includegraphics[width=0.8\textwidth]{URF.png}
+	\caption[Componentes de UChile ROS Framework.]
+	{\small Diagrama general con componentes de software de UChile ROS Framework. Cada bloque de software depende de los módulos inferiores.}
 	\label{img:URF}
 \end{figure}
 
@@ -158,15 +166,15 @@ Todos los módulos de URF son de código libre, a excepción de los algoritmos r
 
 En un robot implementado sobre URF es posible acceder a la información compartida por sus procesos. Cualquier módulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en post-procesamientos, junto al acceso para controlar el hardware.
 
-Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. También se pueden dividir en de corto y largo plazo:
+Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. También se pueden dividir en de corto y largo plazo, los que e describen a continuación.
 
-Como STM, se puede definir como memoria de trabajo a todo el flujo de información presente durante la ejecución del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente tales datos no son almacenados para posteriores ejecuciones.
+Como STM, se puede definir como memoria de trabajo a todo el flujo de información presente durante la ejecución del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente, tales datos sólo están disponibles durante la ejecución de una rutina y no son almacenados para posteriores ejecuciones.
 
 A manera de LTM, se puede encontrar una memoria procedural, relacionada con todo el conocimiento almacenado que posee el robot para cumplir ciertas tareas. Caen en esta categoría: modelos para percepción robótica, modelos para reconocimiento de voz y patrones, bases de datos de movimientos precalculados para manipular objetos y acciones predefinidas que se utilizan para controlar el robot.
 
-También se pueden encontrar especializaciones de memoria LTM semántica. Ejemplos de esto son: El mapa que se conoce del entorno, junto a los lugares y objetos anotados en él. Diccionarios con información anotada sobre entidades y sus características, cómo personas y objetos. Bases de datos con imágenes anotadas para el reconocimiento de objetos y personas. 
+También se pueden encontrar especializaciones de memoria LTM semántica. Ejemplos de esto son: el mapa que se conoce del entorno, junto a los lugares y objetos anotados en él; diccionarios con información anotada sobre entidades y sus características, cómo personas y objetos; bases de datos con imágenes anotadas para el reconocimiento de objetos y personas. 
 
-Sin embargo, en URF no existen formas de memoria emocional ni episódica de largo plazo. Luego, toda interacción realizada por los robots está limitada a la información obtenida desde el inicio al término de cada rutina.
+Sin embargo, en URF no existen formas de memoria emocional ni episódica de largo plazo. Luego, toda interacción realizada por los robots está limitada a la información obtenida desde el inicio al fin de cada rutina.
 
 
 %% =============================================================================
@@ -184,7 +192,7 @@ En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grado
 
 El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micrófono M-Audio Producer USB y una cámara de profundidad ASUS Xtion Pro.
 
-El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior y mostrado en la Figura~\ref{img:URF}. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
+El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
 
 \begin{figure}[!h]
 	\centering
@@ -193,7 +201,6 @@ El software de Bender está basado completamente en el framework URF, de acuerdo
 	{\small Robot Bender en una prueba de la competencia RoboCup@Home del año 2015.}
 	\label{img:bender}
 \end{figure}
-
 
 
 

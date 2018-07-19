@@ -16,7 +16,7 @@ A grandes rasgos, los robots de servicio se categorizan en robots para el transp
 
 \subsection{Liga RoboCup@Home}
 
-RoboCup es una competencia internacional cuyo objetivo es ser un vehículo para el desarrollo de la robótica y la inteligencia artificial. Está compuesta de variadas ligas: Rescue, Soccer, Simulation, @Home, Industrial y Junior, cada una con diversas subligas orientadas a fomentar la investigación de distintos aspectos del campo. Su sueño es que para mediados del siglo 21, incorporando los desarrollos de todas las ligas, un equipo de fútbol robótico completamente autónomo sea capaz de vencer al campeón de la última copa mundial, siguiendo las reglas de la FIFA~\cite{robocup:rulebook_2018}.
+RoboCup es una competencia internacional cuyo objetivo es ser un vehículo para el desarrollo de la robótica y la inteligencia artificial. Está compuesta de variadas ligas: Rescue, Soccer, Simulation, @Home, Industrial y Junior, cada una con diversas subligas orientadas a fomentar la investigación de distintos aspectos del campo. El sueño de sus organizadores, es que para mediados del siglo 21 e incorporando los desarrollos de todas las ligas, un equipo de fútbol robótico completamente autónomo sea capaz de vencer al campeón de la última copa mundial, siguiendo las reglas de la FIFA~\cite{robocup:rulebook_2018}.
 
 Las pruebas de la liga @Home se desarrollan en escenarios que imitan ambientes domésticos reales, como un hogar o un restaurante. Las capacidades generalmente evaluadas y potenciadas son de visión computacional, navegación autónoma, manipulación de objetos y reconocimiento de voz. Sin embargo, constantemente se revisan nuevas capacidades deseables en un robot doméstico. Por otro lado, la competencia funciona como un espectáculo para público general, por lo que se priorizan pruebas y demostraciones interesantes para los espectadores.
 
@@ -31,9 +31,9 @@ El equipo trabaja en dos plataformas humanoides de tipo doméstico, Bender y Maq
 
 Según Eichenbaum~\cite{Eichenbaum:2008}, la memoria hace relación al almacenamiento de experiencias en el cerebro, mediante múltiples sistemas de memoria independientes y sustentados por distintas estructuras cerebrales. A grandes rasgos, la memoria se puede dividir en de corto plazo ``STM'' (Short-Term Memory) y de largo plazo ``LTM'' (Long-Term Memory). La STM maneja información muy detallada, es de poca capacidad y permite un rápido acceso, mientras que la LTM maneja información sobre experiencias y entidades, es menos detallada, de mayor capacidad y de acceso más lento.
 
-Eichenbaum divide la LTM en una componente explícita (consciente) y una implícita (inconsciente). La primera almacena datos episódicos, pudiendo responder las preguntas ``Qué'', ``Dónde'' y ``Cuándo'', datos semánticos, que modelan hechos y conceptos como el lenguaje o personas, y también, las conexiones entre ambas submemorias. La memoria implícita codifica habilidades, hábitos y preferencias.
+Eichenbaum divide la LTM en una componente explícita (consciente) y una implícita (inconsciente). La parte explícita se subdivide en 2 categorías: memoria episódica y memoria semántica. La primera se encarga de almacenar episodios, para responder a las preguntas ``Qué sucedió'', ``Dónde '' y ``Cuándo''. La Memoria semántica almacena hechos y conceptos, como el lenguaje o personas y sus características. Además, la memoria explícita  almacena las conexiones entre la información semántica y los episodios relacionados. Por otro lado, la memoria implícita codifica habilidades, hábitos y preferencias.
 
-La memoria emocional es una forma de memoria implícita que genera reacciones emocionales y sentimientos. Según los estímulos a los que se enfrente, permite modular el proceso de consolidación de la STM en LTM, modificando el nivel de relevancia de los eventos, pudiendo generar memorias muy fuertes y hábitos arraigados. Ejemplos de esto son los flashbacks y las memorias asociadas a eventos importantes.
+La memoria emocional es una forma de memoria implícita que genera reacciones emocionales y sentimientos. Según los estímulos a los que se enfrente, permite modular el proceso de consolidación de la STM en LTM, modificando el nivel de relevancia de los eventos, pudiendo generar memorias muy fuertes y hábitos arraigados. Ejemplos de ésto son los flashbacks y las memorias asociadas a eventos importantes.
 
 %Existen procesos de consolidación y deterioro de la memoria que están constantemente modificando el conocimiento episódico de la LTM. La consolidación requiere un estímulo relevante, sumado al proceso de almacenamiento, lo que genera conexiones entre la memoria episódica y la respectiva zona semántica. En caso de haber experiencias repetidas, las conexiones se fortalecen. El deterioro de la memoria es un proceso que degenera las conexiones entre ambas formas de memorias explícitas.
 
@@ -52,32 +52,35 @@ La LTM, al ser una capacidad esencial para robots domésticos, es esperable que 
 
 El año 2015 se desarrolló una LTM episódica para el robot Bender, orientada a la interacción con personas y objetos~\cite{Sanchez:2015}. El trabajo consideraba métodos para almacenar, adquirir y manejar la información episódica, sumado a un proceso simple de consolidación de memoria.
 
-Actualmente la memoria desarrollada no está operativa, ni es factible habilitarla. A continuación se listan los aspectos que se consideran causas del problema desde un punto de vista técnico y humano:
-\begin{itemize}
-	\item La memoria fue integrada parcialmente al software del robot, sólo con motivos de ejemplificar su funcionamiento. La integración no consideró una integración con las rutinas de comportamiento que utilizaba el robot en ese periodo, por lo que no se recopila ni provee información continuamente mientras el robot está en funcionamiento.
-	\item La memoria no provee una API que siga el estándar de los desarrollos del equipo, por lo que no se usa, ni es mantenida.
-	\item Cada año el equipo planifica sus desarrollos de acuerdo a los requerimientos de la liga @Home, por lo que todo trabajo fuera de las áreas evaluadas no son considerados una prioridad. Entonces, el uso de LTM no es una prioridad para el equipo, no existe un incentivo para seguir desarrollando, finalizar la integración ni mantenerla. 
-	\item El código a quedado obsoleto debido a la falta de mantención.
-\end{itemize}
+Actualmente la memoria desarrollada no está operativa, ni es factible habilitarla. Se identificaron 4 causas del problema, de carácter técnico y humano:
+\begin{description}
+\item[Integración incompleta]
+La memoria fue integrada parcialmente al software del robot, sólo con motivos de ejemplificar su funcionamiento. Por un lado, la rutina implementada requiere una pauta específica de interacción con las personas, sólo considerando la primera interacción con cada entidad, por lo que no existe actualización de los datos. Por otro lado, su desarrollo no consideró una integración con las rutinas de comportamiento utilizadas por el robot, y su estudio no indica cómo puede ser adaptado a tales rutinas de manera no intrusiva. Entonces, en la práctica no se recopila ni provee información continuamente mientras el robot está en funcionamiento.
 
-Por otro lado, suponiendo que lo anterior estuviese solucionado, aún existen los siguientes problemas:
-\begin{itemize}
-	\item El sistema implementado requiere una pauta específica de interacción con el usuario, y no queda claro que la implementación sea no intrusiva o adaptable a las rutinas de interacción del robot. 
-	\item El modelo de datos propuesto es estático y no queda claro como puede ser modificado para manejar otras estructuras semánticas.
-	\item El diseño no se ajusta a los requerimientos mínimos para un sistema episódico, como los propuestos por Stachowicz~\cite{Stachowicz2012}, particularmente no cumple con los requisitos \RStachowicz{1}, \RStachowicz{9}, \RStachowicz{10} ni \RStachowicz{11}. Los requerimientos de Stachowicz son extensos y se describen en detalle en la Sección~\ref{sec:ltm_exp}.
-	\item Sólo considera 2 entidades: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen. Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de éstas (como nombre, hobbies, trabajo o edad, para el caso específico de un humano).
-	\item A pesar de considerar una entidad para objetos, en la práctica no se integró con los módulos relacionados que recopilan la información, por lo que realmente la memoria sólo funciona para entidades de tipo Persona.
-	\item La consolidación de memoria STM a LTM sólo considera la primera interacción con cada entidad, por lo que no existe actualización de los datos.
-	\item No existen pruebas de escalabilidad ni eficiencia de la implementación. El trabajo sólo presenta una evaluación subjetiva del sistema, a partir de un conjunto de preguntas predefinidas: el robot hace 5 consultas al usuario, para luego responder 5 consultas hechas por el usuario. Tras la interacción, el usuario responde una encuesta sobre la calidad percibida de la interacción.
-\end{itemize}
+Además, la implementación del sistema LTM no provee una API ROS para acceder a sus funcionalidades, según el estándar de los desarrollos del equipo. 
 
-En resumen, se considera que el sistema implementado es incompleto y no se ajusta a los requerimientos reales de un sistema episódico. Más importante aún, se cree el trabajo no se ajustaba a las necesidades del equipo UChile Homebreakers, pues no existió una integración que considerara las rutinas de comportamiento del robot, por lo que el software fue olvidado.
+\item[Pocas entidades]
+El modelo de datos está definido de forma estática y no queda claro como puede ser modificado para manejar nuevas entidades. Particularmente, la integración sólo considera 2 entidades: Persona y Objeto, para los cuales sólo se almacena información de nombre, nacionalidad e imagen. Es esperable que una memoria considere más entidades (como lugares, robots, animales u objetos) y más características para cada uno de éstas (como nombre, hobbies, trabajo o edad, para el caso específico de un humano). 
+
+A pesar de considerar una entidad para objetos, en la práctica no se integró con los módulos relacionados que recopilan la información, por lo que realmente la memoria sólo funciona para entidades de tipo Persona.
+
+% Prueba de concepto y evaluación subjetiva
+\item[Eficiencia y escalabilidad]
+El trabajo es una prueba de concepto, por lo que sólo presenta una evaluación subjetiva del sistema, a partir de un conjunto de preguntas predefinidas: el robot hace 5 consultas al usuario, para luego responder 5 consultas hechas por el usuario. Tras la interacción, el usuario responde una encuesta sobre la calidad percibida de la interacción. Por lo tanto, no existen pruebas de escalabilidad ni eficiencia de la implementación.
+
+% Equipo no tiene incentivo para mantenerla
+\item[Prioridades de UChile Homebreakers] Cada año el equipo planifica sus desarrollos de acuerdo a los requerimientos de la liga @Home, por lo que todo trabajo fuera de las áreas evaluadas no son considerados una prioridad. Luego, ya que las funcionalidades LTM no son evaluadas en la competencia, no existe un incentivo para seguir desarrollando, finalizar la integración ni mantenerla.
+\end{description}
+
+Los primeros 3 puntos son un indicador de que el diseño considerado no se ajusta a los requerimientos mínimos para un sistema LTM con memoria episódica, como los propuestos por Stachowicz~\cite{Stachowicz2012} (éstos requerimientos son extensos y se describen en detalle en la Sección~\ref{sec:ltm_exp}). Particularmente, no cumple con los siguientes requisitos: las estructuras semánticas deben poder ser definidas por el usuario, la implementación debe ser no intrusiva, eficiente en el uso de recursos del robot, y escalable para soportar el almacenamiento de miles de episodios, sin afectar los tiempos de procesamiento.
+
+En resumen, de acuerdo a los problemas identificados, se considera que el sistema implementado es incompleto y no se ajusta a los requerimientos reales de un sistema LTM. Más importante aún, se cree el trabajo no se ajustaba a las necesidades del equipo UChile Homebreakers, pues no existió una integración que considerara las rutinas de comportamiento del robot. Por lo anterior, el sistema LTM no es utilizado y su código ha quedado obsoleto debido a la falta de mantención.
 
 \subsection{Oportunidad}
 
-Existe un vasto desarrollo respecto a la memoria y los procesos cognitivos, sin embargo, la investigación se concentra en campos como psicología, neurología y ciencias cognitivas. Los estudios de LTM para robots de servicio son muy acotados y no existe una solución estándar a implementar~\cite{ltm_in_robocup}. Algunos robots, como la versión comercial de Maqui, utilizan LTM, pero el código asociado no es libre, ni está basado en ROS.
+Existe un vasto desarrollo respecto a la memoria y los procesos cognitivos, sin embargo, la investigación se concentra en campos como psicología, neurología y ciencias cognitivas. Los estudios de LTM para robots de servicio son muy acotados y no existe una solución estándar a implementar~\cite{ltm_in_robocup}. Algunos robots, como la versión comercial de Maqui, proveen aplicaciones con características de un sistema LTM, pero el código asociado no es libre, ni está basado en ROS.
 
-El uso de LTM no está en las prioridades del equipo, sino que es algo útil para demostraciones y para potenciar la interacción humano-robot. Por ello, se considera que no basta con desarrollar un módulo capaz de recopilar información inteligentemente, sino que además se requiere una integración eficaz al software del robot.
+El uso de LTM no está en las prioridades del equipo, sino que es algo útil para demostraciones y para potenciar la interacción humano-robot. Por ello, se considera que no basta con desarrollar un módulo capaz de recopilar información inteligentemente, sino que es necesario atacar los 4 problemas identificados del sistema LTM implementado por Sanchez et al.
 
 
 \section{Objetivos del Proyecto}\label{sec:objetivos}
@@ -94,7 +97,7 @@ El objetivo general es el diseño e implementación de una LTM para robots de se
 A continuación se presentan los objetivos específicos del proyecto, derivados a partir del objetivo general, y que representan los requerimientos clave del proyecto.
 \begin{itemize}
 	\item Definir un conjunto de requisitos para el diseño del sistema y las validaciones para verificar el cumplimiento de tales requisitos.
-	\item Diseñar un sistema LTM para almacenamiento de memoria episódica, semántica y emocional.
+	\item Diseñar un sistema LTM para almacenamiento de memoria episódica, semántica y emocional, enfocada en robots domésticos.
 	\item Diseñar el sistema LTM de manera agnóstica al robot objetivo y proveer una interfaz ROS a sus funcionalidades.
 	\item Implementar el sistema LTM e integrarlo en el robot Bender.
 	\item Implementar una demostración del sistema LTM en funcionamiento.
