@@ -1,6 +1,6 @@
 \chapter{Diseño}\label{chapter:diseno}
 
-En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: Se revisa el diseño de los episodios, su estructura de datos y limitantes. Luego, se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos. En tercer lugar, se presenta el diseño del servidor LTM. Finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
+En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: se revisa el diseño de los episodios, su estructura de datos y limitantes; se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos; en tercer lugar, se presenta el diseño del servidor LTM; finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
 
 %% =============================================================================
 %% =============================================================================
@@ -23,20 +23,20 @@ A continuación se presentan los requisitos de diseño sobre los que se construy
 %% =============================================================================
 %% =============================================================================
 %% ============================================================================= 
-\subsection{Requisitos del proyecto}
+\subsection{Objetivos del sistema}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
 
 El primer conjunto de requisitos se deriva a partir de los objetivos del proyecto y sus alcances, presentados en la Sección~\ref{sec:objetivos}.
-\begin{itemize}
-\item \RPlabelDef{1} Diseño de LTM episódica y semántica para robots de servicio domésticos, basado en los 11 requerimientos para una memoria episódica planteados por Stachowicz~\cite{Stachowicz2012} y presentados en la Sección~\ref{sec:ltm_exp}.
-\item \RPlabelDef{2} Diseño debe considerar la modulación de los procesos cognitivos mediante memoria emocional.
+\begin{description}
+\item \RPlabelDef{1} Diseño de LTM episódica y semántica para robots de servicio domésticos, debe basarse en los 11 requerimientos para una memoria episódica planteados por Stachowicz~\cite{Stachowicz2012} y presentados en la Sección~\ref{sec:ltm_exp}.
+\item \RPlabelDef{2} Este diseño debe considerar la modulación de los procesos cognitivos mediante memoria emocional.
 \item \RPlabelDef{3} El diseño del sistema debe soportar el concepto de relevancia histórica.
 \item \RPlabelDef{4} Además, los episodios deben manejar un indicador de relevancia generalizada, que encapsule todos los demás indicadores en sólo uno.
 \item \RPlabelDef{5} Diseño del sistema debe ser agnóstico del robot a utilizar.
 \item \RPlabelDef{6} El proyecto debe ser integrado en Bender.
-\end{itemize}
+\end{description}
 
 
 %% =============================================================================
@@ -47,14 +47,14 @@ El primer conjunto de requisitos se deriva a partir de los objetivos del proyect
 %% =============================================================================
 %% =============================================================================
 
-Se desarrolló un documento (semiformal) con 26 requisitos de sistema, derivados a partir de los requisitos de proyecto revisados en la sección anterior. En adelante, cada requisito será indicado por su prefijo y numeración de la forma \RSlabel{XX}. El listado de puede ser encontrado en el Anexo de Diseño, en la Sección~\ref{appendix:req-sistema}. La matriz de trazabilidad asociada se presenta en la Figura~\ref{img:trazabilidad}.
+Se desarrolló un documento (semiformal) con 26 requisitos de sistema, derivados a partir de los objetivos revisados en la sección anterior. En adelante, cada requisito será indicado por su prefijo y numeración de la forma \RSlabel{XX}. El listado de requisitos y la matriz de trazabilidad asociada pueden ser encontrados en el Anexo~\ref{appendix:req-sistema}.
 
 Los requisitos se pueden separar en 4 categorías, de acuerdo a su finalidad:
 \begin{enumerate}
-\item (\RSlabel{01}): Requisito sobre diseño agnóstico del robot objetivo. Ver \RPlabel{5}.
-\item (\RSlabel{02}-\RSlabel{18}): Requisitos derivados de reglas episódicas de Stachowicz. Ver \RPlabel{1}.
-\item (\RSlabel{19}-\RSlabel{22}): Requisitos sobre relevancias episódicas. Ver \RPlabel{2},\RPlabel{3},\RPlabel{4}.
-\item (\RSlabel{23}-\RSlabel{26}): Requisitos sobre la integración en Bender. Ver \RPlabel{6}.
+\item \RSlabel{01}: Requisito sobre diseño agnóstico del robot objetivo. Ver \RPlabel{5}.
+\item \RSlabel{02}-\RSlabel{18}: Requisitos derivados de reglas episódicas de Stachowicz. Ver \RPlabel{1}.
+\item \RSlabel{19}-\RSlabel{22}: Requisitos sobre relevancias episódicas. Ver \RPlabel{2}, \RPlabel{3}, \RPlabel{4}.
+\item \RSlabel{23}-\RSlabel{26}: Requisitos sobre la integración en Bender. Ver \RPlabel{6}.
 \end{enumerate}
 
 %% =============================================================================
@@ -65,22 +65,23 @@ Los requisitos se pueden separar en 4 categorías, de acuerdo a su finalidad:
 %% =============================================================================
 %% =============================================================================
 
-También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del proyecto, y sus resultados son presentados y estudiados en el Capítulo~\ref{chapter:results}. El listado completo se encuentra en el Anexo de Diseño, en la Sección~\ref{appendix:validations}.
+También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del proyecto, y el resultado de su ejecución es presentado en el Capítulo~\ref{chapter:results}. El listado completo se encuentra en el Anexo~\ref{appendix:validations}.
 
 El documento consta de alrededor de 35 validaciones, cada una indicada por un prefijo y numeración de la forma {\bfseries VTXX} (V: Validación, T: Tipo, XX: numeración). Cada validación indica su requisito de sistema asociado. Se definen 5 categorías: 
 \begin{enumerate}
 	\item \Vlabel{A}{XX}: Se verifican directamente desde el diseño e implementación del sistema.
 	\item \Vlabel{B}{XX}: Verificadas mediante la ejecución del sistema.
 	\item \Vlabel{C}{XX}: Validaciones de consultas LTM al servidor.
-	\item \Vlabel{D}{XX}: Validaciones de eficiencia
+	\item \Vlabel{D}{XX}: Validaciones de eficiencia.
 	\item \Vlabel{E}{XX}: Validaciones de escalabilidad.
 \end{enumerate}
+\todojocelyn{Cantidad de validaciones en cada categoría.}
 
 Las validaciones \Vlabel{D}{XX} tienen por objetivo medir la eficiencia del sistema, una vez integrado en Bender. Se construyen a partir del requisito de sistema \RSlabel{15}. Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
 
 Las validaciones \Vlabel{E}{XX} se construyen a partir del requisito de sistema \RSlabel{16}. Tienen por objetivo medir el costo en tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos.
 
-En las Figuras~\ref{img:trazabilidad-VA}-\ref{img:trazabilidad-VB}-\ref{img:trazabilidad-VC} se presentan matrices con el mapeo entre requisitos de sistema y las validaciones definidas.
+En las el Anexo~\ref{appendix:validations} se presentan matrices con el mapeo entre requisitos de sistema y las validaciones definidas.
 
 
 %% =============================================================================
@@ -134,7 +135,7 @@ Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye
 
 % SOBRE ANIDACIÓN Y ÁRBOLES EPISÓDICOS
 \ltmconcept{Anidamiento episódico}
-A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe soportar el concepto de anidación episódica. Esto permite expresar cualquier episodio en términos de 1 o más sub-episodios más específicos, como se presenta en la Figura~\ref{img:episodes}. Para ello, se definen los \textit{árboles de episodios}, utilizando una estructura de datos de árbol: Los nodos externos (en adelante, \textit{hojas}) contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
+A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe soportar el concepto de anidación episódica. Esto permite expresar cualquier episodio en términos de 1 o más sub-episodios más específicos, como se presenta en la Figura~\ref{img:episodes}. Para ello, se definen los \textit{árboles episódicos}, utilizando una estructura de datos de árbol: los nodos externos (en adelante, \textit{hojas}) contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido.
 
 \begin{figure}[!h]
 	\centering
@@ -154,7 +155,7 @@ Ya que un padre puede ser representado lógicamente por su conjunto de hijos, se
 
 % SOBRE EL CONTEXTO
 \ltmconcept{Noción de contexto}
-Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos (ver \RSlabel{12}), pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
+Es importante enfatizar que no basta que un episodio esté embebido temporalmente en otro para ser considerado un hijo. Pues a pesar de cumplir la condición de temporalidad, puede ocurrir el caso de que ambos episodios sean simultáneos (ver \RSlabel{12}), pero estén ligados a un contexto distinto. Por ejemplo, dado un episodio A (el robot está participando la competencia RoboCup - días de duración) y un episodio B (durante la competencia, el robot es utilizado para una tarea de uno de los estudiantes, lo que es considerado ajeno a la competencia); a pesar de que A contiene temporalmente a B, se puede decir que B pertenece a otro contexto y debe ser almacenado en un árbol distinto. Esta noción de contexto es importante, y es la razón por la que el servidor debe manejar una cantidad indefinida de árboles episódicos, cada uno identificado por su raíz. Debido lo anterior, cada episodio debe ser almacenado indicando quien es el padre asociado.
 
 
 
@@ -522,7 +523,7 @@ Los requisitos no lo exigen, pero en caso de dar soporte para la inserción de e
 Para la inserción de \textit{streams} se debe indicar el episodio asociado e incluir la referencia del \textit{stream} al episodio. En caso de ya existir un \textit{stream} del mismo tipo asociado al episodio, se sobreescribe la referencia y se elimina el antiguo de su colección. Además, es necesario que los tiempos de inicio y fin del mensaje estén dentro de los límites temporales definidos por el episodio.
 
 \ltmconcept{Entidades}
-Los requisitos \RSlabel{07} (flexibilidad) y \RSlabel{10} (perspectiva) establecen dos operaciones de inserción sobre entidades: Creación de una nueva instancia. Modificación de una instancia ya existente, mediante la inserción de un nuevo registro en el historial. Ambas operaciones son requeridas para registros obtenidos en el instante actual. Ya que la creación de una nueva instancia se puede ver como un caso particular de modificación, sólo se detallará la estrategia del último caso:
+Los requisitos \RSlabel{07} (flexibilidad) y \RSlabel{10} (perspectiva) establecen dos operaciones de inserción sobre entidades: creación de una nueva instancia y la modificación de una instancia ya existente, mediante la inserción de un nuevo registro en el historial. Ambas operaciones son requeridas para registros obtenidos en el instante actual. Ya que la creación de una nueva instancia se puede ver como un caso particular de modificación, sólo se detallará la estrategia del último caso:
 \begin{itemize}
 \item El nuevo registro debe indicar la fecha de creación, un identificador único del historial y una referencia a la instancia que modifica/crea.
 \item Se debe modificar/crear la instancia en la colección que mantiene los datos actualizados.
@@ -569,7 +570,7 @@ De acuerdo al requisito \RSlabel{08} (más detalle en \RStachowicz{4}), los epis
 \ltmconcept{Entidades}
 Por otro lado, el requisito de flexibilidad \RSlabel{07} exige que las entidades deban soportar operaciones de actualización. Éstas ya son manejadas por el modelo de datos mediante inserciones en las 3 colecciones correspondientes a la entidad, por lo que no hay necesidad de proveer una API con esta funcionalidad.
 
-En caso de proveer una API para actualizar mensajes del historial, las reglas son las siguientes: Se deben modificar recursivamente los registros adyacentes del historial, para considerar los cambios. Se debe actualizar la colección que mantiene la imagen actual de la instancia. Se deben actualizar las referencias bidireccionales con los episodios que ocurrieron en ese lapso de tiempo.
+En caso de proveer una API para actualizar mensajes del historial, las reglas son las siguientes: se deben modificar recursivamente los registros adyacentes del historial, para considerar los cambios; se debe actualizar la colección que mantiene la imagen actual de la instancia; se deben actualizar las referencias bidireccionales con los episodios que ocurrieron en ese lapso de tiempo.
 
 \ltmconcept{API ROS} 
 Como se revisó, no es un requisito proveer servicios ROS para la actualización de los episodios y la memoria semántica. De todas formas, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro del proyecto.
@@ -651,7 +652,7 @@ Tras recibir la notificación, el servidor recolecta información episódica des
 
 En cuanto a la recopilación de la ubicación del robot, dato episódico \textit{Where}, el cómo se obtiene la información depende totalmente del usuario y la API de localización utilizada en el robot objetivo (ver diseño episódico en la Sección~\ref{sec:design_ep_where}). Sin embargo, de acuerdo a la sección anterior, el plugin debe proveer las funcionalidades de registro y adquisición de información.
 
-Se propone la siguiente estrategia para la implementación del plugin: Recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos. Cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}. La lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
+Se propone la siguiente estrategia para la implementación del plugin: recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos; cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}; la lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
 
 
 \subsubsection{Plugin: Emociones}

@@ -239,7 +239,7 @@ Para ordenar la información, el mensaje se construye a partir de otros mensajes
 \item \texttt{ltm/Info.msg}: Utilizado para almacenar metadatos del episodio, útiles para una introspección posterior por parte del usuario. Mantiene información como la fecha de creación y de último acceso al episodio, e información sobre el sistema operativo, la versión de ROS y la versión del sistema LTM utilizada.
 \end{itemize}
  
-Todos los mensajes ROS descritos anteriormente se pueden encontrar en el Anexo de Implementación, en la Sección~\ref{appendixB:modelo_datos}.
+Todos los mensajes ROS descritos anteriormente se pueden encontrar en el Anexo~\ref{appendixB:modelo_datos}.
 
 
 \subsubsection{Construcción de \textit{streams}}
@@ -404,7 +404,7 @@ De acuerdo al diseño de las operaciones CRUD, revisado en la Sección~\ref{sec:
 La primera etapa consiste en realizar una consulta al sistema, mediante filtros sobre los campos episódicos, de \textit{streams} o de entidades. Se debe utilizar el servicio \texttt{$\sim$/ltm/db/query}, de tipo \texttt{ltm/QueryServer.srv}, presentado en el Código~\ref{lst:queryserver}. El formato permite indicar si la consulta se realizará sobre la colección de episodios, o sobre un \textit{stream} o entidad de tipo particular. 
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/QueryServer.srv,label=lst:queryserver]{code/srv/QueryServer.srv}
-El campo \texttt{json} permite definir una consulta compleja, utilizando el mismo formato que en una consulta de MongoDB. Luego, la respuesta indica los identificadores de los episodios, \textit{streams} y entidades que calzan con el filtro. El formato de respuesta utiliza el tipo \texttt{ltm/QueryResult.msg}, mostrado en el Código~\ref{lst:queryresult} del Anexo de Implementación.
+El campo \texttt{json} permite definir una consulta compleja, utilizando el mismo formato que en una consulta de MongoDB. Luego, la respuesta indica los identificadores de los episodios, \textit{streams} y entidades que calzan con el filtro. El formato de respuesta utiliza el tipo \texttt{ltm/QueryResult.msg}, mostrado en el Anexo~\ref{appendixB:interfazROS}.
 
 Algunos ejemplos de consultas válidas son:
 \todowrite{Poner ejemplos de filtros JSON. Problemas con comillas y combinación de package soul + texttt.}
