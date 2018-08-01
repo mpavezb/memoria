@@ -142,10 +142,10 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 
 \subsection{Conceptos}
 
-URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se presenta en la Figura~\ref{img:URF}:
+URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se presenta en el diagrama de la Figura~\ref{img:URF}:
 \begin{enumerate}
-\item De acuerdo al diagrama, la capa inferior contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
-\item Sobre la capa de dependencias, se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar el hardware de cada robot.
+\item La capa inferior contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
+\item Sobre la capa de dependencias se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar el hardware de cada robot.
 \item La siguiente capa alberga capacidades robóticas avanzadas, relacionadas a la  percepción robótica, manipulación de objetos, navegación autónoma e interacción humano-robot.
 \item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
 \end{enumerate}
