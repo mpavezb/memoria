@@ -1,6 +1,7 @@
+# Use random UID or fixed one.
 bool generate_uid  # Whether to generate a random UID for the episode or not.
 uint32 uid         # This field is used instead of the automatic default uid.
-bool is_leaf       # Whether this episode is a leaf or not.
 bool replace       # Replace episode if it already exists (same uid).
+bool is_leaf       # Whether this episode is a leaf or not.
 ---
 uint32 uid

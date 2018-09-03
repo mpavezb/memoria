@@ -1,0 +1,22 @@
+# Search by specific field
+{ "uid": 10 }
+{ "where.map_name": "a_map" }
+
+# String array contains a string
+{ "tags": "a_tag" }
+
+# String in Array
+{ "where.location": { "$in": [ "location_a", "location_b" ] } }
+
+# Search by range (<, <=, >, >= operators)
+{ "relevance.emotional.value": { "$gt": 0.6 } }
+
+# Logical AND
+{ "type": 0, "tags": "a_tag" }
+
+# Logical OR
+{ "$or": [
+		{ "relevance.emotional.value": { "$gt": 0.3 } },
+		{ "tags": "a_tag" }
+	]
+}

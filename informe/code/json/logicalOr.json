@@ -1,0 +1,9 @@
+{
+	"$or": [{
+		"relevance.emotional.value": {
+			"$gt": 0.3
+		}
+	}, {
+		"children_tags": "a_tag"
+	}]
+}

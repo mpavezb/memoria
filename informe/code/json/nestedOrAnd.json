@@ -1,0 +1,13 @@
+ {
+ 	"$or": [{
+ 		"children_ids": 10
+ 	}, {
+ 		"uid": {
+ 			"$gte": 15,
+ 			"$lte": 20
+ 		}
+ 	}],
+ 	"relevance.emotional.value": {
+ 		"$gt": 0.2
+ 	}
+ }

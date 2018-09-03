@@ -234,6 +234,24 @@
 	style=/Style/code
 }
 
+% --- JSON SAMPLE ----------->
+\lstdefinelanguage{/MEM/JSON}{
+	%	alsodigit={-},
+	alsoletter={},
+	sensitive=true,
+	comment=[l]{\#},
+	string=[s]{"}{"},
+	keywords={\$in, \$or, \$gt},
+}
+\lstdefinestyle{/Style/JSON}{
+	language=/MEM/JSON,
+	stringstyle=\color{blue},
+	identifierstyle=\color{Black},
+	keywordstyle=\bf\color{Red},
+	commentstyle=\color{Gray},
+}
+
+
 % custom caption for listings
 \usepackage{caption}
 \DeclareCaptionFont{listingfont}{\color{white}}

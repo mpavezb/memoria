@@ -1,0 +1,10 @@
+plugins:
+  streams:
+    include: ["image"]
+    image:
+      class: "ltm_addons::ImageStreamPlugin"
+      type: "images"
+      collection: "images"
+      topic: "/robot/fake/sensors/camera/image_raw"
+      buffer_frequency: 3.0
+      buffer_size: 100

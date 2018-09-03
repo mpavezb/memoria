@@ -1,0 +1,8 @@
+{
+  "where.location": {
+    "$in": [
+      "location_a",
+      "location_b"
+    ]
+  }
+}
