@@ -10,6 +10,10 @@ Cómo se estudia en la Sección \ref{sec:robotic_memory}, existen pocos trabajos
 
 Finalmente, se considera este proyecto como una oportunidad de promover la inclusión de desafíos basados en LTM en la liga RoboCup@Home. Para ello, a partir de las investigaciones y diseño realizado para este proyecto, se ha elaborado un estudio~\cite{ltm_in_robocup} motivando el uso de LTM y una metodología para su inclusión en la competencia. Así, se espera que el desarrollo de LTM y capacidades asociadas deje de ser postergado y pase a ser una de las prioridades para los equipos participantes.
 
+El costo de la generalidad del sistema, es que se dejan muchas decisiones e implementaciones al usuario .... Así, el sistema se puede comportar muy distinto de caso a caso.
+
+Falta medir escalabilidad de RAM.
+
 \section*{Trabajo Futuro}
 
 \todowrite{Trabajo FUTURO.... evitar cosas pequeñas}
@@ -22,5 +26,11 @@ Finalmente, se considera este proyecto como una oportunidad de promover la inclu
 
 \todowrite{Sobre tiempo gastado en KnowRob, Prolog y Java.. app 2 meses.}
 %La inferencia de información a partir de los recuerdos también es un aspecto deseable, y fue considerado en primera instancia para el desarrollo del proyecto. Se dedicó tiempo y esfuerzo  en satisfacer este objetivo secundario, pero por temas de tiempo se debió acotar el alcance del trabajo. Se propuso utilizar el framework KnowRob~\cite{Tenorth2009,Tenorth2013,Winkler2014}, que implementa memoria semántica e inferencia de información, pero ésta estaba desactualizada, no era compatible con versiones actuales de ROS, y tampoco funcionaba en la versión para la que fue diseñada.
+
+%\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
+%\todoimprove{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
+
+%\todolater{Pruebas con más de 1 PC y medir uso de ancho de banda}
+%Agregar más condiciones lógicas para las consultas.
 
 \end{conclusion}

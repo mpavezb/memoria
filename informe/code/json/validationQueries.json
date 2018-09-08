@@ -1,0 +1,25 @@
+# Q1
+{ "uid": 10 }
+
+# Q2
+{ "children_tags": "a_tag" }
+
+# Q3
+{ "where.location": { "$in": [ "location_a", "location_b" ] }}
+
+# Q4
+{
+	"$or": [
+		{ "relevance.emotional.value": { "$gt": 0.3 } },
+		{ "children_tags": "a_tag" }
+	]
+}
+
+# Q5
+{
+	"$or": [
+		{ "children_ids": 10 }, 
+		{ "uid": { "$gte": 15, "$lte": 20 }}
+	],
+	"relevance.emotional.value": { "$gt": 0.2 }
+}

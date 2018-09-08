@@ -42,7 +42,7 @@ En esta sección se detallan los componentes del protocolo de comunicación util
 
 \ltmconcept{Tópico} Permite que los nodos de comuniquen a través de mensajes, y está basado en el patrón de diseño observador: cada tópico es un canal de comunicación que transmite mensajes ROS de un tipo predefinido; cada nodo puede publicar simultáneamente en uno o más tópicos; cada nodo puede suscribirse a los tópicos que desee, siendo notificado por cada mensaje entrante. Esto se describe en el diagrama de la Figura~\ref{img:ros-topic}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.8\textwidth]{ROS-master-node-topic.png}
 	\caption[Comunicación mediante tópicos en ROS.]
@@ -111,14 +111,14 @@ El equipo desarrollador de MoveIt! y sus paquetes ROS relacionados mantiene el p
 
 SMACH es una librería en Python para la creación y ejecución de máquinas de estado. Permite crear rápidamente comportamientos robóticos complejos, basados en capacidades de alto nivel de un robot. Está diseñada para ser independiente de ROS, pero provee una interfaz para su uso. Se puede encontrar en el conjunto de paquetes ROS denominado \texttt{executive\_smach}\footnote{Documentación oficial de SMACH disponible en: \url{http://wiki.ros.org/smach}.}.
 
-%\begin{figure}[!h]
+%\begin{figure}[!ht]
 %	\centering
 %	\includegraphics[width=0.8\textwidth]{smach-sample.png}
 %	\caption{\small Ejemplo de máquina de estado construida en SMACH para la representación de una rutina de carga automática de baterías. Obtenido desde la documentación oficial.}
 %	\label{img:SMACH-sample}
 %\end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{SMACH-anidamiento.png}
 	\caption[Ejemplo de máquinas de estado anidadas usando SMACH.]
@@ -150,7 +150,7 @@ URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se pre
 \item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
 \end{enumerate}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.8\textwidth]{URF.png}
 	\caption[Componentes de UChile ROS Framework.]
@@ -194,7 +194,7 @@ El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser 
 
 El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.4\textwidth]{bender.png}
 	\caption[Robot Bender en competencia RoboCup@Home, 2015.]

@@ -141,7 +141,7 @@ Además, para simplificar la búsqueda y reconocimiento de episodios, se incluye
 \ltmconcept{Anidamiento episódico}
 A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe soportar el concepto de anidación episódica. Esto permite expresar cualquier episodio en términos de 1 o más sub-episodios más específicos, como se presenta en la Figura~\ref{img:episodes}. Para ello, se definen los \textit{árboles episódicos}, utilizando una estructura de datos de árbol: los nodos externos (en adelante, \textit{hojas}) contienen todo episodio que el sistema identifica como no divisible, mientras que cada padre es una representación menos específica de lo sucedido. Los hijos pueden ser ordenados temporalmente por su instante de inicio, para obtener una representación su padre.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{episodes.png}
 	\caption[Concepto de anidamiento y transposición episódica.]
@@ -446,7 +446,7 @@ Según se explicó anteriormente, cada \textit{stream} definido por el usuario e
 \ltmconcept{Estrategia}
 Por cada episodio a almacenar se genera un \textit{stream} de cada tipo disponible, para ser almacenado en su colección respectiva. Esto se ejemplifica en la Figura~\ref{img:episodes-and-semantic-data}, mediante un diagrama comparando la relación entre un episodio y los datos semánticos percibidos, de acuerdo al diseño episódico descrito en la Sección~\ref{sec:design_ep_what}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{episodes-and-semantic-data.png}
 	\caption[Funcionamiento de \textit{streams} y entidades respecto a los episodios.]
@@ -617,7 +617,7 @@ A continuación se describe el diseño del servidor LTM, a partir de las conside
 
 El sistema LTM diseñado se presenta en la Figura~\ref{img:diagrama-software}. A modo general, se indican las 3 etapas del flujo de información en el sistema LTM: recopilación desde la memoria STM del robot, manejo y almacenamiento por el servidor, y uso de la información por las aplicaciones del usuario. Los componentes del diagrama son explicados en detalle a continuación.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{diagrama-software.png}
 	\caption[Diseño del sistema LTM y módulos de software involucrados.]

@@ -471,7 +471,7 @@ De la misma manera, cada plugin para entidades provee funcionalidades para inser
 
 \subsection{Interfaz SMACH para recolección de episodios}
 
-De acuerdo a las consideraciones expresadas en la Sección \label{sec:design_bender}, se implementó una librería Python para la generación de episodios a partir de máquinas de estado expresadas mediante SMACH. Por cada ejecución de un estado marcado como candidato, se almacena un episodio en el servidor LTM. El proceso es automático y sólo impone unos pocos requerimientos al desarrollador.
+De acuerdo a las consideraciones expresadas en la Sección \ref{sec:design_bender}, se implementó una librería Python para la generación de episodios a partir de máquinas de estado expresadas mediante SMACH. Por cada ejecución de un estado marcado como candidato, se almacena un episodio en el servidor LTM. El proceso es automático y sólo impone unos pocos requerimientos al desarrollador.
 
 % IMPLEMENTACIÓN
 \ltmconcept{Implementación} Se siguió la siguiente estrategia para reducir los requerimientos para el usuario de la librería. Se utilizó la API SMACH para la lectura de maquinas de estado y la creación de \textit{callbacks} ante el inicio y término de un estado. El desarrollador de la máquina debe indicar que estados son candidatos para ser convertidos en episodios, y debe indicar un listado de \textit{tags} opcionales que identifiquen al estado. Todos los procesos de registro e inserción de episodios son llevados a cabo automáticamente por la librería. Ya que las máquinas de estado en SMACH siguen una estructura de anidada, por cada máquina se crea un árbol episódico con cada episodio candidato.
@@ -526,6 +526,8 @@ El robot implementado responde a todas las consultas mediante la generación de 
 	\item Emociones: Implementado en la clase \texttt{ltm\_samples::EmotionPlugin}.
 	\item Entidades: Se implementaron plugins para las entidades personas y objeto. Las clases correspondientes son \texttt{ltm\_samples::PeopleEntityPlugin} para personas, y la clase  \texttt{ltm\_samples::ObjectsEntityPlugin} para objetos.
 \end{itemize}
+
+\todowrite{Ejecución del robot simulado. Launchfiles}
 
 
 

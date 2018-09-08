@@ -1,171 +1,373 @@
 \chapter{Resultados y Análisis}\label{chapter:results}
 
-\todopaused{RESULTADOS: Escribir cuando existan}
-\todoimprove{Revisar pruebas de eficiencia de Stachowicz~\cite{Stachowicz2012}, y Vijayakumar~\cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
-\todoimprove{Revisar pruebas de escalabilidad de Stachowicz~\cite{Stachowicz2012}, y Vijayakumar~\cite{Vijayakumar2014}. Agregar referencia a sus evaluaciones.}
+\newcommand\graphwidth{0.65}
 
+\section{TODO VALIDACIONES DE DISEÑO TODO}
+.
 
-\section{Consideraciones}
-
-\todowrite{Sobre las consultas}
-\todowrite{Colores de consultas}
-\todowrite{Sobre CPM}
-\todowrite{Estimaciones}
-\todowrite{Corregir Anexo con validacioens}
-\todowrite{Captions y tamaños de figuras}
-
-
+\section{TODO VALIDACIONES FUNCIONALES TODO}
+.
 % Sobre máquinas de estado para validaciones de funcionalidad
 
+\section{Desempeño del Sistema}
 
-\subsection{Mediciones de eficiencia y escalabilidad}
-% Mediciones eficiencia y escalabilidad
-% - sobre su ejecución y generación de gráficos. 
-% - sobre Tiempo de pruebas
-% - sobre metodología de medición: 
-%   - cada operación medida fue repetida N veces. 
-%   - Se agregan árboles aleatorios de 20 episodios (tamaño esperado) y profundidad 3.
-%   - Las consultas son XX. Para evitar que MongoDB cachee las respuestas y así afectar los resultados, cada campo de consulta es generado aleatóriamente entre ~1000 valores posibles.
-% - Sobre las consideraciones de las pruebas:
-%   - Servidor LTM: Corre en 1 CPU, a menos que los plugins implementados por el usuario sean multithread.
-%   - Servidor MongoDB: Corre en 1 CPU.
-% Sobre la Máquina donde se probó la cosa. Disco, IO, RAM, CPU
+A continuación se presentan los resultados para las validaciones de eficiencia y escalabilidad definidas en el Capítulo \ref{chapter:diseno}. El objetivo es medir el desempeño del sistema en términos de eficiencia y escalabilidad, para un conjunto de consultas de interés a realizar sobre el sistema LTM. En primer lugar, se describen los procesos a ser estudiados y la máquina objetivo. Luego, se identifica el conjunto de operaciones de lectura y escritura a ser utilizado para la evaluación. Tercero, se hace una estimación sobre la cantidad de episodios y la tasa de consultas a evaluar según el caso de estudio. Más adelante, se presenta la metodología de medición utilizada, para finalmente, presentar los resultados y análisis de las pruebas realizadas.
+
+\subsection{Consideraciones}
+
+En esta sección se evalúa el desempeño del sistema LTM, de acuerdo a las validaciones \Vlabel{D}{X} y \Vlabel{E}{X} presentadas en el Anexo \ref{chapter:appendix_a}.
+
+\ltmconcept{Procesos}
+Una vez activo, el sistema LTM se compone de dos procesos ejecutados simultáneamente en la máquina objetivo. Por un lado, se ejecuta el proceso correspondiente al servidor LTM (en adelante, LTMp), encargado de procesar las consultas ROS, ejecutar los plugins definidos por los usuarios y de mantener la consistencia de la base de datos. Por otro lado, se requiere que el servidor de MongoDB (en adelante MongoDBp) esté activo, con el fin de responder a las consultas del LTMp. En adelante, se hará la distinción entre LTMp y MongoDBp al hablar de las validaciones a realizar. Además, se hablará de \textit{sistema LTM} para referirse a la combinación de ambos procesos.
+
+La distinción anterior es importante, pues permitirá entender donde se encuentran los puntos críticos donde el procesamiento se estanca e identificar las responsabilidades de cada proceso. Además, se considera necesario enfatizar que todas las consultas de lectura en el sistema LTM son entregadas directamente a la librería de MongoDB para C++, utilizada por LTMp, por lo que se espera que el mayor costo de recursos se atribuya a MongoDBp, a tal librería y al formato de las consultas. Por otro lado, se espera que LTMp incremente el uso de recursos, de acuerdo a la cantidad de plugins utilizados y la calidad de su implementación.
+
+Finalmente, tanto LTMp como MongoDBp son procesos que sólo ocupan 1 núcleo de la máquina en donde residen. Por lo tanto, en el peor caso, las pruebas de eficiencia indicarán el uso de dos núcleos del CPU. Sin embargo, es posible que algunos plugins LTM, implementados por el usuario, requieran del uso de más de 1 núcleo.
+
+\ltmconcept{Especificaciones de la máquina} En el caso de Bender, URF se ejecuta en 3 computadores simultáneamente. A pesar ésto, las pruebas se realizaron en sólo uno de los computadores, el que tiene las siguientes especificaciones de interés:
+\begin{itemize}
+%\item Modelo: 
+\item CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
+\item RAM: 15.6 GB
+%\item Disk IO:
+\end{itemize}
 
 
-\section{Validaciones de Escalabilidad}
+\subsection{Consultas de interés}
 
-\begin{figure}[H]
+De acuerdo a lo revisado en la sección \ref{sec:data_model_design}, las operaciones CRUD más relevantes son las de creación y lectura de episodios.
+
+\ltmconcept{Inserción de episodios}
+La operación de creación se realiza en un proceso de dos etapas, registro e inserción. Durante el registro, LTMp se encarga de generar un identificador único para el episodio y avisar a los plugins. Éste proceso es rápido y no se considera necesario realizar una medición de su impacto en el sistema. Por otro lado, la etapa de inserción se encarga de actualizar el árbol episódico y de almacenar los cambios en la base de datos. Este proceso puede ser costoso y se considera interesante para el estudio.
+
+Luego, la consulta de interés es la de inserción de episodios, la que se realiza a través del servicio ROS \texttt{$\sim$/ltm/episode/add}. En los gráficos de resultados esta operación siempre se presentará mediante una línea negra, marcada con símbolos \texttt{+} por cada muestra obtenida.
+
+\ltmconcept{Búsqueda de episodios}
+Asimismo, la operación de lectura de episodios se realiza a través de un proceso de dos etapas, búsqueda en la base de datos y recopilación de documentos con los episodios de interés. En este caso, la operación de interés es la de búsqueda de episodios dada una consulta expresada mediante distintas condiciones booleanas. Según la cantidad de episodios y las condiciones de búsqueda, esta consulta puede ser más o menos costosa.
+
+Luego, la consulta de interés es la de búsqueda de episodios, la que se realiza a través del servicio ROS \texttt{$\sim$/ltm/db/query}. Las condiciones de búsqueda se expresan en formato JSON, siguiendo la sintaxis para consultas utilizado por MongoDB.
+
+Ya que las condiciones de búsqueda pueden afectar el desempeño del sistema, se define un conjunto de 5 consultas JSON, con el fin de evaluar el sistema LTM bajo distintos casos de uso. Las consultas se presentan en el Código \ref{lst:validation-queries} y se describen a continuación:
+\begin{itemize}
+	\item $Q_1$: Consulta que filtra episodios a partir de una condición de igualdad entre un campo y un valor numérico de tipo entero.
+	\item $Q_2$: Consulta que filtra episodios donde un valor particular se encuentra dentro de un campo de tipo lista de \textit{string}.
+	\item $Q_3$: Consulta que filtra episodios donde un campo de tipo \textit{string} coincide con alguno de los que se provee en la lista que se provee.
+	\item $Q_4$: Consulta que filtra episodios mediante dos condiciones unidas por el operador lógico OR. Una de las consultas evalúa una condición de orden (mayor qué) para un valor de tipo decimal. La otra consulta es idéntica a $Q_2$.
+	\item $Q_5$: Consulta que filtra episodios mediante 3 condiciones de búsqueda, anidadas por operadores lógicos OR y AND. Las consultas internas son similares a $Q_2$ y a la de orden utilizada en $Q_4$.
+\end{itemize}
+En adelante, se referirá a cada consulta por su abreviación en el formato $Q_x$, donde $x$ corresponde al número de la consulta presentado anteriormente. En los gráficos, se utilizará siempre el mismo color y estilo de línea para representar a una misma consulta.
+
+\lstset{style=/Style/JSON}
+\lstinputlisting[caption=Consultas JSON utilizadas para validación,label=lst:validation-queries]{code/json/validationQueries.json}
+
+
+\subsection{Estimaciones}
+
+Para poder ejecutar las validaciones de escalabilidad y eficiencia es necesario conocer el uso esperado del sistema LTM en el robot objetivo. Acá se presentará una estimación del orden de magnitud para la cantidad de episodios y la tasa de consultas necesarias para las validaciones, dado un caso de uso esperado.
+
+\ltmconcept{Caso de uso}
+El robot objetivo de este proyecto es Bender, el que se entiende como un robot de laboratorio, con un tiempo de operación diario muy bajo. Se tienen las siguientes consideraciones:
+\begin{itemize}
+\item El equipo suele trabajar solamente en los tiempos libres durante los días de clases. Es decir, 5 días a la semana, durante 32 semanas de clases al año.
+\item El robot no es utilizado todos los días, sino que de manera intermitente, siendo encendido por cortos periodos de tiempo.
+\item De las veces que el robot está en funcionamiento, sólo muy pocas veces se encuentra ejecutando una máquina de estado.
+\end{itemize}
+
+Por lo anterior, los requerimientos impuestos para las validaciones son bajos. Sin embargo, es deseable que el sistema LTM sea capaz de soportar una carga más exigente de episodios y consultas, por el ejemplo, asumiendo que el robot funciona durante todo el horario laboral de manera ininterrumpida.
+\todoimprove{Otros casos de uso más exigentes.}
+\todoimprove{Considerar factor de seguridad?}
+
+\ltmconcept{Cantidad de episodios}
+Según el caso de uso esperado, se hace una estimación de la cantidad de episodios a recolectar, para soportar el uso del sistema LTM de manera continua durante un periodo de 1, 5 y 10 años. 
+
+Para determinar la cantidad de episodios, se estima que en una hora el robot es capaz de realizar 3 sesiones de trabajo. Por cada sesión, se almacena un árbol con 20 episodios. 
+
+En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto utilizado para la estimación. Se debe enfatizar que los valores seleccionados son sólo válidos para este estudio, y la cantidad real de episodios dependerá del uso dado al sistema LTM.
+
+\begin{table}[H]
 	\centering
-	\includegraphics[width=0.65\textwidth]{results/scalability_disk_usage.eps}
-	\caption[]
-	{\small }
-	\label{img:result_scalability_disk_usage}
+	\begin{tabular}{|l|c|}
+		\hline
+		\rowcolor{gray!50}
+		Concepto & Valor Estimado \\ \hline
+		Semanas / Año	&  32 \\  \hline
+		Días / Semana	&  5 \\  \hline
+		Horas / Día     &  3 \\  \hline
+		Árboles / Hora  &  3 \\  \hline
+		Episodios / Árbol & 20 \\  \hline \hline
+		Episodios en 1 año  & 28.800  \\  \hline 
+		Episodios en 5 años  & 144.000  \\  \hline 
+		Episodios en 10 años  & 288.800  \\  \hline 		
+	\end{tabular} 
+	\caption[Estimaciones para validación de escalabilidad]
+	{\small Estimación de la cantidad de episodios necesarios para las evaluaciones de escalabilidad, bajo el caso de uso del sistema LTM en el robot Bender.}
+	\label{table:escalabilidad}
+\end{table}
+
+
+\ltmconcept{Cantidad de consultas por minuto}
+La cantidad de consultas por minuto esperadas para el sistema LTM, en adelante \textit{CPM}, dependerá mucho del uso del robot. A continuación se hace una estimación gruesa sobre las CPM requeridas para las operaciones de inserción y búsqueda de episodios, se acuerdo a la experiencia que el autor tiene con el robot.
+
+Para el caso de la inserción de episodios, siguiendo las estimaciones de escalabilidad, con 3 árboles/hora y 20 episodios/árbol se estima 1 CPM para consultas de inserción. Sin embargo, es posible que los procesos de inserción se ejecuten de manera consecutiva en un corto intervalo de tiempo, por lo que se propone un valor de 60 CPM.
+
+Para el caso de las búsquedas, la tasa de consultas depende completamente del uso que le de el desarrollador. A modo de experimento, se asumirá que es deseable una tasa de 10 consultas por segundo, es decir, 600 CPM. Sin embargo, una tasa de 10 CPM puede ser aceptable en la mayoría de los casos, asumiendo que el robot debe responder consultas realizadas por un humano durante una conversación.
+
+\subsection{Metodología de medición}
+
+A continuación se detalla la metodología para la generación de episodios, consultas y la medición de las variables de interés para las validaciones requeridas.
+
+\ltmconcept{Generación de episodios}
+Tanto las validaciones de escalabilidad como las de eficiencia requieren que la base de datos ya contenga un conjunto de árboles con episodios. La estrategia utilizada es la siguiente:
+\begin{enumerate}
+\item Se crea una base de datos vacía para cada prueba.
+\item Se inserta un árbol de 20 episodios (tamaño esperado). El árbol es de profundidad 3, tiene 1 raíz, 3 nodos internos y 6 hojas. Todos los episodios son generados con campos aleatorios para cada tipo de dato requerido.
+\item Según se requiera se repite el paso 2, hasta obtener un árbol del tamaño deseado.
+\end{enumerate}
+\todoimprove{Sobre streams y entidades.}
+% sobre que el uso de streams y entidades extra agrega complejidad
+% Siempre se podrían validar más cosas. No busca ser una validación extensiva, sino que una que se adecúe a los requisitos del robot objetivo.
+
+\ltmconcept{Generación de consultas}
+Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, los valores de cada campo de las consultas $Q_x$ son generados al azar.  Todos los valores generados corresponden al rango de valores posibles para el campo en cuestión. Por ejemplo, para el campo \texttt{children\_tags}, los episodios generados contienen valores del conjunto $\{ tag_1,\ldots, tag_{1000} \}$, entonces la consulta $Q_2$ sólo utilizará valores al azar obtenidos desde el conjunto correspondiente. Para cada campo se tienen al menos 100 valores y a lo más 1000 valores posibles.
+
+\ltmconcept{Escalabilidad}
+Las validaciones de escalabilidad buscan medir el tiempo promedio que toma una consulta en ser ejecutada. Para esto, cada consulta es repetida 100 veces, donde se mide el tiempo que el programa queda bloqueado durante la llamada al servicio ROS correspondiente. Las mediciones son repetidas cada intervalos de 10.000 episodios ingresados al sistema LTM.
+
+Además, se mide la cantidad de memoria secundaria requerida para soportar los episodios en la base de datos. Para esto, se realiza una consulta a MongoDB, mediante la librería \texttt{pymongo 3.6.1} para Python 2.7. Todos los valores se obtienen través del comando \texttt{dbStats}\footnote{En MongoDB, el comando \texttt{dbStats} permite obtener estadísticas generales de la base de datos. Más información en la página oficial: \url{https://docs.mongodb.com/manual/reference/command/dbStats/}}. Se realizan las siguientes mediciones:
+\begin{itemize}
+\item Uso total de memoria secundaria. Se obtiene del commando \texttt{dbStats.fileSize}.
+\item Espacio total reservado para documentos, es decir: episodios, streams y entidades. Se obtiene del commando \texttt{dbStats.storageSize}.
+\item Espacio utilizado por los episodios. Se obtiene del commando \texttt{dbStats.dataSize}.
+\item Espacio utilizado para el indexado de los documentos. Se obtiene del commando \texttt{dbStats.indexSize}.
+\end{itemize}
+
+\ltmconcept{Eficiencia}
+Las validaciones de eficiencia buscan medir el uso de recursos del sistema (CPU y RAM) al variar las CPM, dada una base de datos con una cantidad fija de episodios. De la misma forma, cada consulta es repetida al menos 5 veces y durante al menos 1 minuto. Además, la medición del uso de recursos se realiza cada 3 segundos, para obtener el promedio de las muestras medidas. Para mantener las CPM, el programa de medición es pausado tras cada consulta, durante el tiempo requerido para mantener la tasa de consultas deseada.
+
+La mediciones sobre el uso de CPU y RAM para cada proceso fueron obtenidas utilizando la librería \texttt{psutil 3.4.2}\footnote{La librería \texttt{psutil} permite el monitoreo de procesos y del sistema en múltiples sistemas operativos. Más información en su web oficial: \url{https://pypi.org/project/psutil/}} para Python 2.7.
+
+
+\subsection{Validaciones de Escalabilidad}
+
+A continuación se presentan los resultados de las mediciones de escalabilidad y el análisis relacionado a cada uno. Estas mediciones buscan medir los costos temporales de las operaciones y el uso de memoria secundaria, según la cantidad de episodios almacenados en el sistema LTM.
+
+\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de escalabilidad del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. El nodo se puede ejecutar mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples scalability\_test.py}.
+
+A partir de los resultados, un nodo ROS es utilizado para la generación de los gráficos presentados. Puede ser ejecutado mediante el siguiente comando:
+\texttt{\$ rosrun ltm\_samples graphs\_scalability.py}.
+
+\ltmconcept{Muestras recopiladas}
+Según se estimó, para un lapso de 10 años el robot Bender recopilaría cerca de 288.800 episodios. Para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 500.000 episodios, por lo que cada gráfico está compuesto de 50 muestras.
+
+\ltmconcept{Uso de memoria secundaria} Los resultados son presentados en el gráfico de la Figura \ref{result:scalability_disk_usage}.  Por un lado, se ve que el espacio total de memoria secundaria, utilizado por MongoDB, es reservado en porciones cada vez mayores. Por otro lado, del espacio reservado, la porción utilizada para el almacenamiento de episodios e índices crece de manera lineal, respecto a la cantidad de episodios almacenados.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\graphwidth\textwidth]{results/scalability_disk_usage.eps}
+	\caption[Escalabilidad: Uso de disco según cantidad de episodios.]
+	{\small Prueba de escalabilidad sobre el uso de memoria secundaria  según la cantidad de episodios en la base de datos.}
+	\label{result:scalability_disk_usage}
 \end{figure}
 
 
-\begin{figure}[H]
+En sus inicios, el sistema LTM utiliza hasta 0.5 GB para almacenamiento, mientras que a los 10 años (300.000 episodios) llega a utilizar 1 GB en documentos, indices y espacio reservado. 
+
+Se considera que tal cantidad de memoria secundaria no es un problema para las cantidades de espacio disponibles en los computadores actuales. Sin embargo, esta evaluación sólo considera el almacenamiento de episodios, sin streams ni las entidades asociadas. Se espera que el uso de disco aumente de acuerdo a los tipos de dato definidos por el usuario para cada uno de los plugins. 
+
+Particularmente, en el caso de los streams, si se almacenan imágenes en alta resolución a una alta frecuencia, es esperable que el consumo de memoria secundaria sea mucho mayor al mostrado en este experimento. En el caso de las entidades, si éstas no contienen imágenes u otros datos binarios, es esperable que tengan un comportamiento similar al de los episodios.
+
+\todoimprove{Agregar medición con streams y entidades}
+% Disco utilizado no es un problema. Pero se espera que el espacio aumente según se consideran streams y entidades. Para el caso de 1 stream, con 10 imágenes por episodios, cada una de tamaño AxB, y peso NkB, el tamaño total será ...
+
+\todoimprove{Poner línea sobre el gráfico, indicando los 1, 5 y 10 años}
+
+\ltmconcept{Duración de consultas} Los resultados son presentados en los gráficos de la Figura \ref{result:scalability_time_usage}. Ambos gráficos presentan las mismas mediciones y sólo difieren en la escala y límites del eje temporal.
+
+\begin{figure}[!ht]
 	\centering
-	\begin{subfigure}[b]{0.65\textwidth}
+	\begin{subfigure}[b]{\graphwidth\textwidth}
 		\includegraphics[width=\textwidth]{results/scalability_operation_time.eps}
-		\caption{V1}
-		\label{fig:gull}
+		\caption{}
+		\label{result:scalability_time_usage_normal}
 	\end{subfigure}
 	~
-	\begin{subfigure}[b]{0.65\textwidth}
+	\begin{subfigure}[b]{\graphwidth\textwidth}
 		\includegraphics[width=\textwidth]{results/scalability_operation_time_extended.eps}
-		\caption{Versión extendida}
-		\label{fig:tiger}
+		\caption{}
+		\label{result:scalability_time_usage_extended}
 	\end{subfigure}
 	\caption[Escalabilidad: Duración de consultas según cantidad de episodios.]
-	{\small Escalabilidad: Duración de consultas según cantidad de episodios.}\label{fig:animals}
+	{\small Prueba de escalabilidad sobre la duración de las operaciones de inserción y búsqueda de episodios en la base de datos según la cantidad de episodios almacenados. Ambos gráficos presentan las mismas mediciones, pero para distintas escalas del eje temporal.}
+	\label{result:scalability_time_usage}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.65\textwidth]{results/scalability_max_qpm.eps}
-	\caption[]
-	{\small }
-	\label{img:result_scalability_max_qpm}
-\end{figure}
+En el caso de la inserción, se puede ver que el costo temporal crece de manera lineal respecto a la cantidad de episodios almacenados. A los 300.000 episodios la consulta requiere alrededor de 0.25[s], mientras que a los 500.000 la consulta toma 0.5[s]. Dado los costos descritos, se impone una cota inferior para la duración de los episodios a generar, pues no será posible almacenar una secuencia de episodios de 0.1[s] cada uno, cuando el sistema LTM requiere más tiempo para su procesamiento. De todas formas, el costo temporal de la inserción es considerado bajo para el caso de uso de Bender.
+
+Para el caso de la búsqueda, se puede ver que todas las consultas, a excepción de $Q_4$, tienen un costo temporal que crece de manera lineal  respecto a la cantidad de episodios almacenados. Las consultas $Q_1$, $Q_2$ y $Q_5$ siempre se mantienen bajo los 0.25[s], mientras que $Q_3$ tiene un costo de 1.0[s] a los 300.000 episodios. En cuanto a $Q_4$, se podría decir que el costo se comporta de manera lineal, pero las mediciones toman demasiado tiempo en ser ejecutadas y tal vez se requieran más muestras para obtener un valor promedio menos variable. Además, $Q_4$ toma 10[s] a los 300.000 episodios, 10 veces más que $Q_3$ y cerca de 40 veces más que $Q_1$, $Q_2$ y $Q_5$.
+
+De lo anterior se puede ver que distintas consultas tienen costos de búsqueda muy  distintos, los que pueden degradar llegar a degradar el funcionamiento del robot, en el caso de $Q_4$.  Se cree que se debe estudiar en más detalle el costo de todas las operaciones disponibles en el lenguaje de consulta de MongoDB y su interacción con los operadores lógicos, para así disponer de medidas empíricas sobre las cuales diseñar consultas de menor costo.
+\todolater{sobre estudios al respecto}
+
+En cuanto al impacto en la interacción humano robot, es esperable que Bender tenga un funcionamiento ininterrumpido. En este caso, una demora de 0.5[s] en la inserción o búsqueda de episodios puede no ser problema, mientras que en el caso de la consulta $Q_4$, una demora de 10[s] puede comprometer el interés y las expectativas del humano con quien se interactúa. Por lo tanto, en el caso de realmente requerir una consulta compleja como lo es $Q_4$, se recomienda avisar a la persona que el robot deberá procesar la consulta (o ``pensar'') durante unos segundos, para así evitar comprometer la interacción.
+
+\todoimprove{Probar más consultas. Todos los operadores disponibles en MongoDB. Se requiere un estudio de esta forma, para saber como crear consultas más veloces/eficientes.}
 
 
-\section{Validaciones de Eficiencia}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.65\textwidth]{results/eff__ram_qpm.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__ram_qpm}
-\end{figure}
-
-\subsection{Uso de CPU vs CPM by Q, EP fijo}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__ltm__100000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__ltm__100000_episodes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__ltm__10000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__ltm__10000_episodes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__mongo__100000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__mongo__100000_episodes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__mongo__10000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__mongo__10000_episodes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__sum__100000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__sum__100000_episodes}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff__cpu_qpm_by_query__sum__10000_episodes.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff__cpu_qpm_by_query__sum__10000_episodes}
-\end{figure}
-
-\subsection{Uso de CPU vs CPM by EPS, Q fijo}
 
 
-\begin{figure}[H]
+\ltmconcept{Límite para las CPM} Finalmente, a partir de los costos en tiempo para cada operación, revisados en la Figura \ref{result:scalability_time_usage}, se puede calcular la tasa máxima de CPM para cada una de las operaciones. Los resultados se presentan en el gráfico de la Figura \ref{result:scalability_max_qpm}. 
+
+\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff_cpu_qpm_by_eps__sum__q1.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff_cpu_qpm_by_eps__sum__q1}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff_cpu_qpm_by_eps__sum__q2.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff_cpu_qpm_by_eps__sum__q2}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff_cpu_qpm_by_eps__sum__q3.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff_cpu_qpm_by_eps__sum__q3}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff_cpu_qpm_by_eps__sum__q4.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff_cpu_qpm_by_eps__sum__q4}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{results/eff_cpu_qpm_by_eps__sum__q5.eps}
-	\caption[]
-	{\small }
-	\label{img:result_eff_cpu_qpm_by_eps__sum__q5}
+	\includegraphics[width=\graphwidth\textwidth]{results/scalability_max_qpm.eps}
+	\caption[Escalabilidad: Cota superior para las CPM de cada operación.]
+	{\small El gráfico muestra la cota superior para las CPM posibles para cada operación según la cantidad de episodios almacenados en la base de datos.}
+	\label{result:scalability_max_qpm}
 \end{figure}
 
+Estos resultados son importantes para entender como decrece la tasa de CPM a medida que aumenta la cantidad de episodios almacenados. Además, sirven para comprender el comportamiento de los resultados de eficiencia, para distintas cantidades de episodios.
 
-\section{Otras Validaciones}
 
-% - 
-% - 
-% - 
+
+\subsection{Validaciones de Eficiencia}
+
+A continuación se presentan los resultados de las mediciones de eficiencia y el análisis relacionado a cada uno. Estas mediciones buscan medir el uso de RAM y de CPU según la cantidad de consultas por minuto (CPM) a efectuar.
+
+\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de eficiencia del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. El nodo se puede ejecutar mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples efficiency\_test.py}.
+
+A partir de los resultados un nodo ROS es utilizado para la generación de los gráficos presentados. Puede ser ejecutado mediante el siguiente comando:
+\texttt{\$ rosrun ltm\_samples graphs\_efficiency.py}.
+
+\ltmconcept{Presentación de resultados}
+En estos experimentos se mide el uso de recursos según la cantidad de CPM utilizadas para distintas cantidades de episodios. Además, ya que se tienen 5 operaciones de búsqueda ($Q_1,\ldots,Q_5$), los resultados se dividirán en dos conjuntos. Primero, se presentan gráficos con una cantidad fija de episodios y los resultados para cada operación. Segundo, se presentan gráficos particulares para cada consulta, con curvas para distintas cantidades de episodios. Finalmente, ya que existen dos procesos de interés, cada conjunto muestra el uso de recursos de MongoDBp, LTMp y del sistema LTM.
+
+\ltmconcept{Muestras recopiladas}
+En este caso, se presentan mediciones con hasta 100.000 episodios. En cuanto a las CPM, se estimó que se requieren hasta 600 CPM, pero para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 1000 CPM, espaciadas cada 25 CPM. Por lo tanto, cada gráfico dispone de 40 muestras.
+
+
+\ltmconcept{Uso de RAM según CPM}
+Se midió el uso de RAM según la cantidad de CPM para distintas cantidades de episodios y para cada consulta. De los resultados se observó que el uso de RAM no es afectado por la consulta efectuada ni la cantidad de CPM, sino que sólo por la cantidad de episodios. El gráfico correspondiente se presenta en la Figura \ref{result:eff__ram_qpm}, el que representa a todas las consultas evaluadas.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\graphwidth\textwidth]{results/eff__ram_qpm.eps}
+	\caption[Eficiencia: Uso de RAM según CPM, cantidad variable de episodios.]
+	{\small Prueba de eficiencia sobre el uso de RAM según la cantidad de CPM, para distintas cantidades de episodios. Los resultados presentados son independientes de la consulta efectuada.}
+	\label{result:eff__ram_qpm}
+\end{figure}
+
+De los experimentos se entiende que el consumo de RAM debe ser visto como parte de las medidas de escalabilidad y no de eficiencia. Para los 100.000 episodios (alrededor de 5 años de uso) el sistema LTM consume aproximadamente 500 MB de RAM. Sin embargo, se cree necesario conocer la curva de escalabilidad del consumo de RAM, para poder entender el uso de recursos en mayor detalle.
+\todoimprove{RAM como medida de escalabilidad.. es necesario ver la curva de crecimiento.}
+
+
+
+\ltmconcept{Uso de CPU según CPM, cantidad fija de episodios} En la Figura \ref{result:eff__cpu_qpm_by_query} se presentan 6 gráficos con las mediciones de eficiencia del uso de CPU según la cantidad de CPM, para cada consulta y manteniendo fija la cantidad de episodios. Se hace una separación por cada proceso y la suma de ambos, y para 10.000 y 100.000 episodios.
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__ltm__10000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__ltm__10k_episodes}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__ltm__100000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__ltm__100k_episodes}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__mongo__10000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__mongo__10k_episodes}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__mongo__100000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__mongo__100k_episodes}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__sum__10000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__sum__10k_episodes}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff__cpu_qpm_by_query__sum__100000_episodes.eps}
+		\caption{}
+		\label{result:eff__cpu_qpm_by_query__sum__100k_episodes}
+	\end{subfigure}
+	\caption[Eficiencia: Uso de CPU según CPM bajo cantidad fija de episodios.]
+	{\small Pruebas de eficiencia sobre el uso de CPU según la cantidad de CPM, bajo una cantidad fija de episodios. Se presentan 6 gráficos para distintas configuraciones, cada uno con curvas para cada consulta $Q_x$. A la izquierda hay pruebas con 10.000 episodios, a la derecha con 100.000 episodios. La primera fila muestra el uso de CPU del proceso LTMp, la segunda corresponde al uso de CPU del proceso MongoDBp y la tercera muestra la suma de ambos procesos.}
+	\label{result:eff__cpu_qpm_by_query}
+\end{figure}
+
+% PEOR CASO
+En el peor caso, LTPMp utiliza $\sim10\%$ del CPU y MongoDBp el $25\%$ del CPU. Es decir, MongoDBp utiliza completamente uno de los 4 núcleos disponibles, mientras que LTMp utiliza el $\sim40\%$ de otro. Sin embargo, ambos límites no se alcanzan de manera simultánea, sino que en el peor caso el sistema consume hasta un $\sim27\%$ del total del CPU. 
+
+% MAXIMO USO DE CPU Y SATURACIÓN
+El máximo uso de CPU sólo se alcanza a una tasa muy alta de CPM (cerca de 1000 CPM) o para los 100.000 episodios. En el último caso, el CPU se satura con menos de 100 CPM para las consultas $Q_3$ y $Q_4$. El resto de las consultas soportan una alta tasa de CPM sin llegar a saturar uno de los núcleos.
+
+% COSTO DE MONGODB
+Del total de CPU utilizado en cada consulta, el mayor costo se atribuye al proceso MongoDBp, el que llega a saturar el núcleo utilizado. El proceso LTMp requiere hasta un $\sim10\%$ de CPU, el que se atribuye al procesamiento de la consulta realizado por la librería de MongoDB para C++, pues la implementación del servicio bloquea el programa hasta que la consulta es respondida por la librería. Entonces, el costo de CPU se debe principalmente a la base de datos, a la librería de MongoDB y a la estructura de la consulta efectuada.
+
+% RELACIÓN ENTRE EFICIENCIA Y ESCALABILIDAD
+Finalmente, es posible ver que el costo de CPU incrementa de manera lineal  respecto a la cantidad de CPM, a excepción de $Q_4$. Además, se ve una relación directa entre el costo de CPU y el tiempo de consulta de las pruebas, presentado en los resultados de escalabilidad. Las consultas de menor costo en duración son las menos costosas en términos de CPU, mientras que $Q_3$ y $Q_4$ son más costosas en ambos ámbitos.
+
+\todoimprove{Realizar dos consultas con el mismo resultado, pero distinta sintaxis.. para probar que la sintaxis es importante.}
+\todoimprove{Más episodios... hasta 300000 al menos.. ojalá 500.000}
+\todoimprove{Coma decimal, punto miles.}
+
+
+
+
+\ltmconcept{Uso de CPU según CPM, revisión por cada consulta} En la Figura \ref{result:eff_cpu_qpm_by_eps__sum} se presenta un gráfico por cada consulta estudiada. En cada caso se evalúa el costo de CPU según la cantidad de CPM para distintas cantidades de episodios. Sólo se presentan los resultados para la suma de ambos procesos de interés, pues ya se ha evaluado el impacto de cada proceso por separado. Estas visualizaciones se obtienen de las mismas mediciones que las de la Figura \ref{result:eff__cpu_qpm_by_query}, pero permiten evaluar la eficiencia desde otro punto de vista.
+
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff_cpu_qpm_by_eps__sum__q1.eps}
+		\caption{}
+		\label{result:eff_cpu_qpm_by_eps__sum__q1}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff_cpu_qpm_by_eps__sum__q2.eps}
+		\caption{}
+		\label{result:eff_cpu_qpm_by_eps__sum__q2}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff_cpu_qpm_by_eps__sum__q3.eps}
+		\caption{}
+		\label{result:eff_cpu_qpm_by_eps__sum__q3}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff_cpu_qpm_by_eps__sum__q4.eps}
+		\caption{}
+		\label{result:eff_cpu_qpm_by_eps__sum__q4}
+	\end{subfigure}
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{results/eff_cpu_qpm_by_eps__sum__q5.eps}
+		\caption{}
+		\label{result:eff_cpu_qpm_by_eps__sum__q5}
+	\end{subfigure}
+	\caption[Eficiencia: Uso de CPU según CPM para cada consulta de interés.]
+	{\small Pruebas de eficiencia sobre el uso de CPU según la cantidad de CPM. Se presenta un gráfico para cada consulta $Q_x$. Cada uno muestra mediciones para distintas cantidades de episodios. Los valores presentados corresponden a la suma del uso de recursos por los procesos LTMp y MongoDBp.}
+	\label{result:eff_cpu_qpm_by_eps__sum}
+\end{figure}
+
+Las visualizaciones reafirman que el uso de CPU para las consultas $Q_1$, $Q_2$, $Q_3$ y $Q_5$ crece de manera lineal con la cantidad de CPM y para distintas cantidades de episodios. Ya que MongoDBp sólo utiliza un núcleo del computador, tal crecimiento se estanca al saturar su capacidad.
+
+Además, se reafirma que las consultas $Q_1$, $Q_2$ y $Q_5$ tienen bajo costo de CPU respecto a las otras consultas y escalan linealmente incluso para los 100.000 episodios. Por otro lado, $Q_3$ y $Q_4$ son consultas costosas, y particularmente, $Q_4$ ya presenta problemas a los 10.000 episodios, el equivalente a 4 meses según la estimación.
+
+
+El experimento de eficiencia realizado muestra que la selección de operaciones lógicas para una consulta es importante y tiene un impacto en el desempeño del sistema. Esto puede marcar la diferencia entre la utilidad del sistema LTM y su impacto en la interacción humano-robot. 
+
+Finalmente, se cree que la evaluación de eficiencia realizada puede ser mejorada con la consideración de hasta 300.000 episodios. Además, se puede complementar el experimento con la evaluación de la consulta de inserción y la consideración de distintos casos de uso para streams y entidades.
