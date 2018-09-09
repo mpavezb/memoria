@@ -69,23 +69,16 @@ Los requisitos se pueden separar en 4 categorías, de acuerdo a su finalidad:
 
 También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del proyecto, y el resultado de su ejecución es presentado en el Capítulo~\ref{chapter:results}. El listado completo se encuentra en el Anexo~\ref{appendix:validations}.
 
-El documento consta de alrededor de 35 validaciones, cada una indicada por un prefijo y numeración de la forma \Vlabel{T}{XX} (V: Validación, T: Tipo, XX: numeración). Cada validación indica su requisito de sistema asociado. Se definen 5 categorías: 
+El documento consta con alrededor de 35 validaciones, separadas en 3 categorías. Cada validación se identifica por un prefijo y numeración de la forma \Vlabel{T}{XX} (V: Validación, T: Tipo, XX: numeración). Además, cada una indica su requisito de sistema asociado. Las categorías son las siguientes:
 \begin{enumerate}
-	\item \Vlabel{A}{XX}: Se verifican directamente desde el diseño e implementación del sistema.
-	\item \Vlabel{B}{XX}: Verificadas mediante la ejecución del sistema.
-	\item \Vlabel{C}{XX}: Validaciones de consultas LTM al servidor.
-	\item \Vlabel{D}{XX}: Validaciones de eficiencia.
-	\item \Vlabel{E}{XX}: Validaciones de escalabilidad.
+	\item \Vlabel{A}{XX}: Validaciones funcionales. Tienen como objetivo verificar que el sistema LTM cumple con todos los requisitos mínimos de funcionalidad, exceptuando los de integración con el robot Bender. En este caso, las validaciones pueden ser ejecutadas mediante simulaciones.
+	\item \Vlabel{B}{XX}: Validaciones de integración con Bender. Tienen como objetivo verificar que el sistema LTM cumple con los requisitos de integración con el robot Bender. Para ésto, se debe integrar el sistema al robot y ejecutar las pruebas en sus computadores.
+	\item \Vlabel{C}{XX}: Validaciones de desempeño. Tienen como objetivo medir el desempeño del sistema LTM en términos de escalabilidad y eficiencia de éste, para el caso de uso del robot Bender.
 \end{enumerate}
-\todojocelyn{Cantidad de validaciones en cada categoría.}
 
-\todojocelyn{Describir los otros 3 grupos de validaciones. Dejar para más adelante, cuando sean separadas correctamente en categorías clásicas: funcionalidad, foo, bar.}
+Las validaciones \Vlabel{C}{XX} de eficiencia tienen por objetivo medir el uso de recursos en término de la tasa de operaciones que debe soportar el sistema LTM en Bender. Se construyen a partir del requisito de sistema \RSlabel{15}. Las validaciones de escalabilidad se construyen a partir del requisito de sistema \RSlabel{16}. Éstas tienen por objetivo medir el costo en tiempo de las operaciones de inserción y búsqueda de episodios, en función de la cantidad de episodios almacenados en la base de datos.
 
-Las validaciones \Vlabel{D}{XX} tienen por objetivo medir la eficiencia del sistema, una vez integrado en Bender. Se construyen a partir del requisito de sistema \RSlabel{15}. Cada una busca medir el uso de algún recurso del sistema, mientras el servidor se encuentra en funcionamiento y en espera. 
-
-Las validaciones \Vlabel{E}{XX} se construyen a partir del requisito de sistema \RSlabel{16}. Tienen por objetivo medir el costo en tiempo de las operaciones de inserción, búsqueda y borrado de episodios, en función de la cantidad de episodios almacenados en la base de datos.
-
-En las el Anexo~\ref{appendix:validations} se presentan matrices con el mapeo entre requisitos de sistema y las validaciones definidas.
+En el Anexo~\ref{appendix:validations} se presentan matrices de trazabilidad indicando la relación entre cada requisito de sistema y las validaciones asociadas.
 
 
 %% =============================================================================

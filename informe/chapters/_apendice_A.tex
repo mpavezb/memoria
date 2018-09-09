@@ -1,6 +1,12 @@
 \chapter{Anexo: Diseño}\label{chapter:appendix_a}
 
+En este anexo se presentan los requisitos y validaciones del sistema LTM, utilizados para el diseño de éste, como se describe en el Capítulo  \ref{chapter:diseno}. Las validaciones son revisadas nuevamente en el Capítulo \ref{chapter:results}, para estudiar el cumplimiento de los objetivos del proyecto. 
+
 \section{Requisitos de sistema}\label{appendix:req-sistema}
+
+A continuación se presenta un listado con los requisitos que debe cumplir el sistema LTM. Cada requisito indica el requisito de proyecto asociado y es identificado por una abreviación de la forma \RSlabel{XX}.
+
+En la Tabla \ref{img:trazabilidad} se presenta la matriz de trazabilidad de requisitos de proyecto y sistema, indicando la relación entre cada uno.
 
 \newenvironment{requisito-sistema}[2]
 {
@@ -82,7 +88,6 @@
 	En caso que ya exista información semántica almacenada, los usuarios deben poder modificar su representación.	
 \end{requisito-sistema}
 
-\todoimprove{Actualizar valores de efficiencia}
 \begin{requisito-sistema}{15}{1}
 	\RSlinkStachowicz{10}
 	Eficiencia: El servidor debe tolerar una alta tasa de generación de eventos, sin degradar el funcionamiento del robot. Específicamente, se debe realizar una estimación de la cantidad de consultas por minuto que se espera para cada operación de lectura y escritura para el robot objetivo. A partir de ésto, se deben cumplir los siguientes requerimientos:
@@ -171,13 +176,15 @@
 \newpage
 \section{Listado de validaciones}\label{appendix:validations}
 
+A continuación se presenta un listado con las validaciones a realizar para estudiar el cumplimiento de los requisitos del proyecto. Las validaciones son separadas en 3 categorías: funcionalidad, integración y desempeño. Cada validación indica el requisito de sistema  asociado y es identificada por una abreviación de la forma \Vlabel{T}{XX}. Finalmente, se presentan matrices de trazabilidad entre las validaciones definidas y los requisitos de sistema asociados.
+
 \newenvironment{def-validacion}[3]
 {
 	\noindent{\bfseries Validación \Vlabel{#1}{#2}}
 	\hfill\textit{(Derivado de }\RSlabel{#3})\\
 }{}
 
-\subsection{Validaciones por diseño e implementación}
+\subsection{Validaciones de funcionalidad: \Vlabel{A}{XX}}
 
 % estado [OK]
 \begin{def-validacion}{A}{01}{01}
@@ -204,91 +211,28 @@ Verificar que el campo \textit{What} de un episodio pueda almacenar cualquier es
 Verificar que episodios poseen campo \textit{When} para almacenar tiempo de inicio y finalización del episodio.	
 \end{def-validacion}
 
-% estado [OK]
-\begin{def-validacion}{A}{06}{08}
-Verificar que cada nuevo episodio disponga de un ID único entre el resto de los episodios ya almacenados.	
-\end{def-validacion}
-
-% estado [OK]
-\begin{def-validacion}{A}{07}{13}
-Verificar que el paquete de ROS que implementa el servidor sólo tenga como dependencias: librerías estándar de C++ y Python, driver de la base de datos, paquetes estándar de ROS.	
-\end{def-validacion}
-
-% estado [OK]
-\begin{def-validacion}{A}{08}{19}
-Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.	
-\end{def-validacion}
-
-% estado [PENDING]
-\begin{def-validacion}{A}{09}{25}
-	Verificar que módulos específicos para Bender provean implementaciones de entidades semánticas para personas y objetos.
-\end{def-validacion}
-
-
-
-
-\subsubsection{Validaciones mediante ejecución}
-
 % estado:  [OK]
-\begin{def-validacion}{B}{01}{23}
-	Verificar que el servidor provee API ROS para configurar sus parámetros.	
-\end{def-validacion}
-
-% estado:  [PENDING]
-\begin{def-validacion}{B}{02}{23}
-	Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar y borrar episodios. 	
-\end{def-validacion}
-
-% estado:  [PENDING]
-\begin{def-validacion}{B}{03}{24}
-	Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete ROS dedicado.	
-\end{def-validacion}
-
-% estado:  [OK]
-\begin{def-validacion}{B}{04}{25}
-	Verificar que servidor almacena episodios generados a partir de la interfaz con SMACH. Se debe verificar que un set de máquinas de estado ejecutadas sea procesado correctamente.	
-\end{def-validacion}
-
-% estado:  [PENDING]
-\begin{def-validacion}{B}{05}{26}
-Verificar que el sistema LTM se instala correctamente en conjunto con la instalación del robot.	
-\end{def-validacion}
-
-% estado:  [OK]
-\begin{def-validacion}{B}{06}{26}
-	Verificar que el proyecto provee archivos \textit{launch} para ejecutar el software integrado en Bender.
-\end{def-validacion}
-
-% estado:  [PENDING]
-\begin{def-validacion}{B}{07}{26}
-Verificar que tras iniciar el software base del robot, se encuentre activo el servidor LTM y sus API ROS.
-\end{def-validacion}
-
-
-\subsubsection{Validaciones mediante consultas al servidor}
-
-% estado:  [OK]
-\begin{def-validacion}{C}{01}{03}
+\begin{def-validacion}{A}{06}{03}
 	Verificar que el servidor permita almacenar episodios con duraciones de segundos, horas, días y años.	
 \end{def-validacion}
 
 % estado:  [OK]
-\begin{def-validacion}{C}{02}{04}
+\begin{def-validacion}{A}{07}{04}
 	Verificar que episodios contengan campo \textit{Where}. Debe permitir almacenar la ubicación del robot en términos de coordenadas, relacionadas a un mapa y sistema coordenado.
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{03}{05}
+\begin{def-validacion}{A}{08}{05}
 	Recolectar episodios desde el servidor, utilizando cada campo perteneciente a \textit{What}, \textit{When} y \textit{Where}.
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{04}{06}
+\begin{def-validacion}{A}{09}{06}
 	Recolectar episodios desde el servidor, utilizando condiciones de \{igualdad, mayor/menor que, pertenencia a un arreglo\}, para datos de tipo \{entero, double, string, bool\}. Consultas deben ser realizadas sobre campos pertenecientes a \textit{What}, \textit{When} y \textit{Where}. Repetir, considerando 2 o más condiciones en cada consulta.
 \end{def-validacion}
 
 % estado:  [OK]
-\begin{def-validacion}{C}{05}{07}
+\begin{def-validacion}{A}{10}{07}
 	Para una entidad semántica de tipo A, se hacen las siguientes validaciones:
 	\begin{itemize}
 		\item Datos aprendidos posteriormente. Realizar en orden:
@@ -306,13 +250,18 @@ Verificar que tras iniciar el software base del robot, se encuentre activo el se
 	\end{itemize}
 \end{def-validacion}
 
+% estado [OK]
+\begin{def-validacion}{A}{11}{08}
+Verificar que cada nuevo episodio disponga de un ID único entre el resto de los episodios ya almacenados.	
+\end{def-validacion}
+
 % estado:  [OK]
-\begin{def-validacion}{C}{06}{09}
+\begin{def-validacion}{A}{12}{09}
 	Obtener un episodio desde el servidor. A partir de sus datos consultar por su episodio padre y episodios hijos.	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{07}{10}
+\begin{def-validacion}{A}{13}{10}
 	Para una entidad semántica de tipo A, se realiza en orden:
 	\begin{enumerate}
 		\item Se ingresa un episodio E1 con instancia (a) de A y campo F1.
@@ -323,7 +272,7 @@ Verificar que tras iniciar el software base del robot, se encuentre activo el se
 \end{def-validacion}
 
 % estado:  [OK]
-\begin{def-validacion}{C}{08}{11}
+\begin{def-validacion}{A}{14}{11}
 	Recolectar episodios anidados a partir de máquina de estado anidada en SMACH. Verificar lo siguiente:
 	\begin{itemize}
 		\item Recolectar episodio raíz. Verificar que el episodio tiene campo que identifica a sus hijos. Verificar que es posible consultar por ellos al servidor.
@@ -332,90 +281,143 @@ Verificar que tras iniciar el software base del robot, se encuentre activo el se
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{09}{12}
-	Generar dos eventos transpuestos en tiempo (campo \texttt{When}). Verificar que es posible almacenarlos y consultar por ellos. Verificar que sus datos sean correctos y tengan referencias a los datos semánticos modificados en el su rango temporal. Verificar que datos semánticos asociados no sean duplicados.
+\begin{def-validacion}{A}{15}{12}
+	Generar dos eventos transpuestos en tiempo (campo \texttt{When}). Verificar que es posible almacenarlos y consultar por ellos. Verificar que sus datos sean correctos y tengan referencias a los datos semánticos modificados en su rango temporal. Verificar que datos semánticos asociados no sean duplicados.
 \end{def-validacion}
 
+% estado [OK]
+\begin{def-validacion}{A}{16}{13}
+	Verificar que el paquete de ROS que implementa el servidor sólo tenga como dependencias: librerías estándar de C++ y Python, driver de la base de datos, paquetes estándar de ROS.	
+\end{def-validacion}
+
+
 % estado:  [PENDING]
-\begin{def-validacion}{C}{10}{14}
+\begin{def-validacion}{A}{17}{14}
 	Crear entidad semántica de tipo A. Crear e ingresar M episodios que ingresan datos sobre  instancias de A. Mutar estructura de A a estructura B. Ingresar N episodios que ingresen datos de estructura B. Verificar que es posible consultar sobre entidades semánticas definidas en episodios de M y N.
 \end{def-validacion}
 
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{11}{17}
+\begin{def-validacion}{A}{18}{17}
 	Verificar que el sistema provee servicios ROS para operaciones CRUD sobre episodios y unidades semánticas definidas por los usuarios. Verificar que servicios CRUD funcionan correctamente.
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{12}{18}
+\begin{def-validacion}{A}{19}{18}
 	Obtener un episodio desde el servidor. A partir de él, acceder a datos semánticos definidos. Verificar que se pueda obtener una referencia al episodio, a partir de los datos semánticos obtenidos.	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{13}{18}
+\begin{def-validacion}{A}{20}{18}
 	Obtener una entidad desde el servidor. A partir de ella, listar todos los episodios relacionados.	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{14}{19}
+\begin{def-validacion}{A}{21}{19}
 	Consultar algún episodio de la base de datos. Verificar que dispone de campos de relevancia emocional: Indicador numérico para la intensidad de la emoción, y descripción de la emoción.	
 \end{def-validacion}
 
-% estado:  [PENDING]
-\begin{def-validacion}{C}{15}{20}
-Generar episodios con antigüedades en el rango de 1 segundo hasta 5 años, espaciados por intervalos de horas (para los 24 primeros) y días, para los (365) siguientes y semanas para el resto. Forzar actualización de relevancias, leer todos los episodios y graficar su relevancia histórica, para verificar que es decreciente.	
+% estado [OK]
+\begin{def-validacion}{A}{22}{19}
+Verificar que estructura de datos emocional sólo está compuesta por tipos de datos disponibles entre los del estándar en ROS. Verificar que el sistema LTM sólo dependa de la intensidad de la emoción y nombre asociado para la implementación de sus funcionalidades.	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{16}{21}
-Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada.
-\begin{itemize}
-	\item Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
-	\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
-	\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
-\end{itemize}	
+\begin{def-validacion}{A}{23}{20}
+	Generar episodios con antigüedades en el rango de 1 segundo hasta 5 años, espaciados por intervalos de horas (para los 24 primeros) y días, para los (365) siguientes y semanas para el resto. Forzar actualización de relevancias, leer todos los episodios y graficar su relevancia histórica, para verificar que es decreciente.	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{17}{22}
-Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.	
+\begin{def-validacion}{A}{24}{21}
+	Consultar algún episodio de la base de datos. Verificar que dispone de un indicador numérico con la relevancia generalizada.
+	\begin{itemize}
+		\item Verificar que al disminuir la relevancia histórica del episodio, la relevancia generalizada también disminuya.
+		\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia emocional muestran una mayor/menor relevancia generalizada.
+		\item Manteniendo las otras relevancias fijas. Verificar que episodios con mayor/menor relevancia histórica muestran una mayor/menor relevancia generalizada.
+	\end{itemize}	
 \end{def-validacion}
 
 % estado:  [PENDING]
-\begin{def-validacion}{C}{18}{24}
+\begin{def-validacion}{A}{25}{22}
+	Generar episodios con distintos índices de relevancia histórica, emocional y generalizada. Verificar que se puedan realizar búsquedas de episodios mediante cada uno de los indicadores de relevancia, sumado a la descripción de la emoción.	
+\end{def-validacion}
+
+% estado:  [OK]
+\begin{def-validacion}{A}{26}{23}
+Verificar que el servidor provee API ROS para configurar sus parámetros.	
+\end{def-validacion}
+
+% estado:  [PENDING]
+\begin{def-validacion}{A}{27}{23}
+Verificar que el servidor activo provee API ROS para agregar, buscar, actualizar y borrar episodios. 	
+\end{def-validacion}
+
+% estado:  [PENDING]
+\begin{def-validacion}{A}{28}{24}
 	Generar episodios en donde se ocupe cada uno de los módulos generadores de emociones implementados para el robot Bender.
 \end{def-validacion}
 
+% estado:  [OK]
+\begin{def-validacion}{A}{29}{25}
+Verificar que servidor almacena episodios generados a partir de la interfaz con SMACH. Se debe verificar que un set de máquinas de estado ejecutadas sea procesado correctamente.	
+\end{def-validacion}
 
-\subsubsection{Validaciones de eficiencia}
+
+
+\subsection{Validaciones de integración: \Vlabel{B}{XX}}
+
+% estado:  [PENDING]
+\begin{def-validacion}{B}{01}{24}
+	Verificar que existan implementados al menos 3 módulos generadores de emociones para el robot Bender. Éstos deben utilizar sensores disponibles en el robot. Los módulos deben pertenecer a un paquete ROS dedicado.	
+\end{def-validacion}
+
+% estado [PENDING]
+\begin{def-validacion}{B}{02}{25}
+Verificar que módulos específicos para Bender provean implementaciones de entidades semánticas para personas y objetos.
+\end{def-validacion}
+
+% estado:  [PENDING]
+\begin{def-validacion}{B}{03}{26}
+Verificar que el sistema LTM se instala correctamente en conjunto con la instalación del robot.	
+\end{def-validacion}
+
+% estado:  [OK]
+\begin{def-validacion}{B}{04}{26}
+Verificar que el proyecto provee archivos \textit{launch} para ejecutar el software integrado en Bender.
+\end{def-validacion}
+
+% estado:  [PENDING]
+\begin{def-validacion}{B}{05}{26}
+Verificar que tras iniciar el software base del robot, se encuentre activo el servidor LTM y sus API ROS.
+\end{def-validacion}
+
+
+\subsection{Validaciones de desempeño: \Vlabel{C}{XX}}
 
 Se debe determinar un conjunto de operaciones de lectura y escritura de interés para el uso del servidor LTM en el robot objetivo. Luego, se deben realizar las siguientes mediciones para determinar el uso de recursos del sistema:
 \begin{enumerate}
-	\item Uso de CPU y RAM del servidor LTM y la base de datos, cuando el sistema está activo, pero no responde consultas (estado base).
+	\item Uso de CPU y RAM del servidor LTM y la base de datos cuando el sistema está activo, pero no responde consultas (estado base).
 	\item Uso de CPU y RAM para cada operación del conjunto elegido, sin considerar información semántica.
 	\item Uso de CPU y RAM para cada operación del conjunto elegido, considerando información semántica para la inserción y búsqueda de episodios.
 	\item Repetir pruebas para distintas cantidades de episodios almacenadas en el sistema.
 \end{enumerate}
 
-\paragraph{VD01 (RS15)}
+\paragraph{VC01 (RS15)}
 Se debe validar que en estado base, el uso de CPU y RAM se comporte de acuerdo a los límites impuestos por el requisito \RSlabel{15}.
 
-\paragraph{VD02 (RS15)}
+\paragraph{VC02 (RS15)}
 Se debe verificar que las operaciones definidas no sobrepasen el límite de uso de recursos impuesto por el requisito \RSlabel{15}.
 
-
-\subsubsection{Validaciones de escalabilidad}
 
 Cada una de las siguientes pruebas busca validar que la complejidad temporal de las operaciones se comporte de acuerdo al requisito \RSlabel{16}, al aumentar la cantidad de episodios almacenados en la base de datos. 
 
 Se debe definir un conjunto de operaciones de lectura y escritura de interés para el uso del servidor LTM en el robot objetivo. Luego, se debe medir el tiempo promedio que toma cada operación, para una cantidad creciente de episodios. La cantidad de episodios a evaluar se debe obtener a partir de las estimaciones de uso del sistema LTM en el robot objetivo.
 
-\paragraph{VE01 (RS16)}
+\paragraph{VC03 (RS16)}
 Se debe validar que los tiempos de cada operación de interés escalen de acuerdo al comportamiento definido en el requisito \RSlabel{16}.
 
 
-\subsubsection{Matrices de validaciones versus requisitos del sistema}
+\subsection{Matrices de trazabilidad entre validaciones y requisitos de sistema}
 \todolater{Explicar matrices y que se unen para cubrir todos los requisitos. Captions interesantes.}
 
 \begin{table}[!ht]
@@ -429,15 +431,35 @@ Se debe validar que los tiempos de cada operación de interés escalen de acuerd
 \Vlabel{A}{03}	& X &   &   &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
 \Vlabel{A}{04}	&   & X &   &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
 \Vlabel{A}{05}	&   &   & X &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
-\Vlabel{A}{06}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
-\Vlabel{A}{07}	&   &   &   &   &   &   &   &   &   &   &   &   & X &   &   \\ \hline \hline
+\Vlabel{A}{06}	&   &   & X &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{07}	&   &   &   & X &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{08}	&   &   &   &   & X &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{09}	&   &   &   &   &   & X &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{10}	&   &   &   &   &   &   & X &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{11}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{12}	&   &   &   &   &   &   &   &   & X &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{13}	&   &   &   &   &   &   &   &   &   & X &   &   &   &   &   \\ \hline
+\Vlabel{A}{14}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &   \\ \hline
+\Vlabel{A}{15}	&   &   &   &   &   &   &   &   &   &   &   & X &   &   &   \\ \hline
+\Vlabel{A}{16}	&   &   &   &   &   &   &   &   &   &   &   &   & X &   &   \\ \hline
+\Vlabel{A}{17}	&   &   &   &   &   &   &   &   &   &   &   &   &   & X &   \\ \hline \hline
 \rowcolor{gray!50}
 \RSlabel{X} & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & - & - & - &  \\ \hline
-\Vlabel{A}{08}	&   &   &   & X &   &   &   &   &   &   &   &   &   &   &   \\ \hline
-\Vlabel{A}{09}	&   &   &   &   &   &   &   &   &   & X &   &   &   &   &   \\ \hline
+\Vlabel{A}{18}	&   & X &   &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{19}	&   &   & X &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{20}	&   &   & X &   &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{21}	&   &   &   & X &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{22}	&   &   &   & X &   &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{23}	&   &   &   &   & X &   &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{24}	&   &   &   &   &   & X &   &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{25}	&   &   &   &   &   &   & X &   &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{26}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{27}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{28}	&   &   &   &   &   &   &   &   & X &   &   &   &   &   &   \\ \hline
+\Vlabel{A}{29}	&   &   &   &   &   &   &   &   &   & X &   &   &   &   &   \\ \hline
 \end{tabular} 
-\caption[Matriz de validaciones \Vlabel{A}{XX} - requisitos de sistema.]
-{\small Matriz de validaciones \Vlabel{A}{XX} - requisitos de sistema.}
+\caption[Matriz de trazabilidad para validaciones funcionales y requisitos de sistema.]
+{\small Matriz de trazabilidad entre validaciones de funcionalidad (\Vlabel{A}{XX}) y los requisitos de sistema asociados. Se omiten filas sin requisitos asociados.}
 \label{img:trazabilidad-VA}
 \end{table}
 
@@ -450,16 +472,14 @@ Se debe validar que los tiempos de cada operación de interés escalen de acuerd
 &    &    &    &    &    &    &    &    &    &    &    &    &    &    &    \\ \hline \hline
 \rowcolor{gray!50}
 \RSlabel{X} & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26 & - & - & - &  \\ \hline
-\Vlabel{B}{01}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
-\Vlabel{B}{02}	&   &   &   &   &   &   &   & X &   &   &   &   &   &   &   \\ \hline
-\Vlabel{B}{03}	&   &   &   &   &   &   &   &   & X &   &   &   &   &   &   \\ \hline
-\Vlabel{B}{04}	&   &   &   &   &   &   &   &   &   & X &   &   &   &   &   \\ \hline
-\Vlabel{B}{05}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &   \\ \hline
-\Vlabel{B}{06}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &   \\ \hline
-\Vlabel{B}{07}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &   \\ \hline
+\Vlabel{B}{01}	&   &   &   &   &   &   &   &   & X &   &   &   &   &   &  \\ \hline
+\Vlabel{B}{02}	&   &   &   &   &   &   &   &   &   & X &   &   &   &   &  \\ \hline
+\Vlabel{B}{03}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &  \\ \hline
+\Vlabel{B}{04}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &  \\ \hline
+\Vlabel{B}{05}	&   &   &   &   &   &   &   &   &   &   & X &   &   &   &  \\ \hline
 \end{tabular} 
-\caption[Matriz de validaciones \Vlabel{B}{XX} - requisitos de sistema.]
-{\small Matriz de validaciones \Vlabel{B}{XX} - requisitos de sistema.}
+\caption[Matriz de trazabilidad para validaciones de integración y requisitos de sistema.]
+{\small Matriz de trazabilidad entre validaciones de integración (\Vlabel{B}{XX}) y los requisitos de sistema asociados. Se omiten filas sin requisitos asociados.}
 \label{img:trazabilidad-VB}
 \end{table}
 
