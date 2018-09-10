@@ -1,6 +1,6 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto. Finalmente, se presenta la integración del sistema LTM en Bender, mediante su incorporación a URF.
+Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto.
 
 % ==============================================================================
 % ==============================================================================
@@ -129,13 +129,13 @@ Este paquete contiene implementaciones de ejemplo de algunos plugins episódicos
 \subsubsection{Paquete ROS: \texttt{bender\_emotion}}
 % ==============================================================================
 
-Ya que Bender no dispone de un software generador de emociones, este paquete implementa el sistema emocional descrito en la Sección~\ref{sec:design_bender}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
+Ya que Bender no dispone de un software generador de emociones, este paquete tiene como objetivo albergar la implementación del sistema emocional descrito en la Sección~\ref{sec:design_bender}. El repositorio se encuentra alojado en la cuenta GitHub del equipo encargado de Bender: \url{https://github.com/uchile-robotics/bender\_emotion}.
 
 
 \subsubsection{Paquete ROS: \texttt{bender\_ltm}}
 % ==============================================================================
 
-Este paquete implementa plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
+Este paquete tiene por objetivo almacenar la implementación de los plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
 
 
 \subsection{Líneas de código}
@@ -454,20 +454,12 @@ De la misma manera, cada plugin para entidades provee funcionalidades para inser
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-\section{Componentes para Validación}
+\section{Componentes para Validación}\label{sec:impl-validation}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 
-% Smach
-% Streams
-% Mediciones eficiencia y escalabilidad
-% Robot Simulado y generación de emociones, entidades, ubicaciones
-
-\todowrite{Resumen}
-\todowrite{Actualizar resumen del capitulo}
-%En esta sección se presentan herramientas implementadas para validar el proyecto y simular información para cada uno de los plugins que requiere el sistema LTM. En primer lugar, se revisa una interfaz episódica para SMACH, construida sobre los servicios de episódicos del servidor. Luego, se presenta un plugin para la adquisición de \textit{streams} de imágenes, agnóstico del robot objetivo. Más adelante, se presenta la construcción de un robot simulado, utilizado para validaciones. Finalmente, se revisa la implementación de herramientas para medir el uso de recursos y la escalabilidad del sistema LTM.
-
+En esta sección se presentan tres herramientas implementadas para la validación del proyecto y la realización de experimentos. En primer lugar, se revisa una interfaz episódica entre el servidor LTM y la librería SMACH, cuyo objetivo es la generación de episodios a partir de máquinas de estado. Luego, se presenta un plugin para la adquisición de \textit{streams} de imágenes, a partir del estándar ROS para la transmisión de video. Tanto la librería SMACH como el plugin de video son agnósticos de la plataforma objetivo. Finalmente, se presenta la construcción de un robot simulado, con todos los plugins requeridos para validar el sistema LTM. 
 
 \subsection{Interfaz SMACH para recolección de episodios}
 

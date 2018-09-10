@@ -1,6 +1,10 @@
 \chapter{Anexo: Implementación}\label{chapter:appendix_b}
 
+En este capítulo se presentan bloques de código utilizados para la implementación del proyecto, los que complementan las explicaciones dadas en el Capítulo \ref{chapter:implementacion}. En primer lugar, se presentan todos los mensajes ROS que conforman la definición de un episodio. Luego, se presenta código utilizado para la API ROS del servidor LTM.
+
 \section{Modelo de Datos}\label{appendixB:modelo_datos}
+
+A continuación se muestran todos los mensajes que definen la estructura de un episodio, los que son embebidos en el mensaje \texttt{ltm/Episode.msg}.
 
 \todoimprove{Reescribir comentarios para código de mensajes y servicios. Eliminar campos extra, para evitar llenar el informe de basura.}
 
@@ -17,6 +21,8 @@
 \lstinputlisting[caption=ltm/Date.msg]{code/msg/Date.msg}
 
 \section{Interfaz ROS}\label{appendixB:interfazROS}
+
+A continuación se presenta un ejemplo de configuración del sistema LTM, para su uso con el robot simulado. Luego se presenta el mensaje \texttt{ltm/QueryResult.msg}, utilizado por la API ROS de consulta para entregar los resultados de las búsquedas episódicas.
 
 \lstset{style=/Style/yaml/ROS}
 \lstinputlisting[caption=server.yaml,label=lst:sampleconfig]{code/server.yaml}

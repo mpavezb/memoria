@@ -1,27 +1,115 @@
 \chapter{Resultados y Análisis}\label{chapter:results}
-
 \newcommand\graphwidth{0.65}
 
-\todowrite{RESUMEN}
+En este capítulo se presentan los resultados y análisis de las validaciones propuestas en el Capítulo \ref{chapter:diseno} y presentadas en el Anexo \ref{appendix:validations}. En primer lugar, se revisa el cumplimiento de las funcionalidades del sistema por medio de pruebas en un robot simulado. Luego, se revisa el estado de la integración en el robot Bender, de acuerdo a las validaciones asociadas. Finalmente, se presentan los experimentos de escalabilidad y eficiencia utilizados para medir el desempeño del sistema LTM implementado.
 
 
-\section{TODO VALIDACIONES DE DISEÑO TODO}
-.
+\section{Funcionalidad del Sistema LTM}
 
-\section{TODO VALIDACIONES FUNCIONALES TODO}
-.
-% Sobre máquinas de estado para validaciones de funcionalidad
+A continuación se presentan los resultados de las validaciones de funcionalidad del sistema LTM. El listado se encuentra en el Anexo \ref{appendix:validations} y consta de 28 validaciones, cada una con el prefijo \Vlabel{A}{XX}. A modo general, cada una busca validar el cumplimiento de requisitos pertenecientes a alguna de las siguientes categorías: reglas episódicas de Stachowicz, generalidad de la implementación y el funcionamiento de las relevancias episódicas.
+
+Para las pruebas se utilizó un robot simulado, de acuerdo a lo presentado en la Sección \ref{sec:impl-validation}. El sistema LTM fue configurado para utilizar el plugin de \textit{streams} de imágenes, el plugin de entidades tipo personas y objeto, y la interfaz episódica para SMACH. Además, los episodios son obtenidos a partir de una máquina de estado implementada mediante SMACH, que simula el flujo de estados utilizados en una prueba de la competencia RoboCup.
+
+\subsection{Generalidad del sistema LTM}
+
+Uno de los énfasis del diseño del sistema LTM es la generalidad del mismo. El objetivo es que el proyecto pueda ser utilizado por otros robots además de Bender, como por ejemplo, Maqui, otro robot del mismo laboratorio. A continuación se describen los conceptos de interés para lograr este objetivo, y cómo se relacionan con las validaciones.
+
+En primer lugar, el sistema LTM soporta la definición de plugins para el manejo de estructuras episódicas de acuerdo a los requerimientos del usuario (\Vlabel{A}{02}). Esto es fundamental para poder utilizar el sistema LTM en cualquier plataforma, pues evita forzar una representación de la información, dejando la adquisición de ésta al usuario.
+
+Además, la implementación fue separada en 3 grupos de paquetes ROS para desacoplar el sistema (\Vlabel{A}{03}). El primero contiene el manejo de la base de datos y la implementación del servidor genérico a base de plugins. El segundo provee el plugin para streams de imágenes y la interfaz episódica para SMACH, ambos son componentes genéricos, pero no son esenciales para el funcionamiento del sistema LTM. El último provee implementaciones de plugins específicos para el robot Bender.
+
+La implementación del servidor sólo requiere un mínimo de dependencias (\Vlabel{A}{16}) y no necesita módulos de Bender para su funcionamiento (\Vlabel{A}{01}). Además, el servidor provee una API ROS para el manejo de episodios (\Vlabel{A}{26,27}).
+
+Todas las validaciones asociadas se pueden verificar a partir de la implementación de plugins para el robot simulado, el que define mensajes episódicos para los streams y entidades que utiliza.
+
+Debido a los puntos anteriores, el sistema LTM implementado se puede ajustar a las necesidades de otros proyectos robóticos, sin requerir software de Bender.
+
+
+\subsection{Reglas episódicas de Stachowicz}
+
+El otro foco del proyecto está en el cumplimiento de las reglas episódicas propuestas por Stachowicz. A modo de resumen, todas las validaciones asociadas se cumplen, a excepción de \Vlabel{A}{17}. A continuación se describen los conceptos asociados a cada una de las validaciones de interés.
+
+Los episodios son representados por un mensaje ROS con componentes genéricos. El usuario puede definir las estructuras de datos para la información semántica de interés utilizada en el campo \textit{What}: streams y plugins. El campo \textit{When} sólo considera tiempos de inicio y fin, sin imponer restricciones sobre el lapso de tiempo. Además, no existe una restricción temporal entre un episodio y otro, lo que permite generar episodios traspuestos en el tiempo, siempre que uno no sea descendiente del otro. El campo \textit{Where} permite almacenar la posición del robot durante cada episodio, mediante una representación literal o a través de una pose dentro de un sistema coordenado.
+
+La implementación permite recolectar episodios y sus componentes semánticos a partir de consultas en formato JSON, aplicando condiciones booleanas de búsqueda, a través de una API ROS. El diseño soporta la actualización de entidades y la perspectiva episódica de éstas, pudiendo reconstruir el estado de una entidad en distintos instantes de tiempo. Los episodios son únicos y mantienen referencias bidireccionales a las unidades semánticas relacionadas. Los episodios se estructuran a modo de árboles, permitiendo el anidamiento episódico.
+
+Por un lado, todos los puntos anteriores se validan mediante los conceptos descritos en el diseño (Capítulo \ref{chapter:diseno}) y la implementación del sistema LTM (Capítulo \ref{chapter:implementacion}). Por otro lado, de una manera práctica, es posible validar las reglas anteriores mediante la ejecución del sistema LTM para el robot simulado, ejecutando una máquina SMACH para generar episodios, para finalmente realizar consultas episódicas a través del servicio ROS que provee el servidor LTM.
+\todoimprove{Código para ejecutar el sistema simulado + consultas interesantes.}
+
+La validación \Vlabel{A}{17} no se cumple. Está relacionada al requisito de sistema \RSlabel{14}, el que indica que el usuario debe poder cambiar la representación del episodio en el futuro, sin sacrificar la información de episodios que utilizan la versión anterior. Particularmente, el usuario debe poder modificar los campos del mensaje ROS de los streams o entidades definidas para sus plugins. Se cree que el diseño soporta esta funcionalidad, pero no fue implementada por falta de tiempo. Queda propuesta la implementación de una funcionalidad capaz de migrar todos los episodios de la base de datos a la nueva representación episódica.
+
+\subsection{Relevancias episódicas}
+
+Se requiere la implementación de la relevancia emocional, histórica y generalizada. A continuación se revisan los puntos necesarios asociados a las validaciones requeridas.
+
+El sistema LTM implementado soporta el concepto de relevancia episódica, almacenando sus datos mediante el mensaje ROS \texttt{ltm/Relevance.msg}, embebido en el mensaje \texttt{ltm/Episode.msg}. Debido a esto, es posible incluir cualquiera de los campos en las condiciones de búsqueda, permitiendo filtrar episodios por cualquiera de las relevancias (\Vlabel{A}{25}).
+\todoimprove{Código de ejemplo para filtrar por relevancia.}
+
+La relevancia emocional fue implementada en el mensaje \texttt{ltm/EmotionalRelevance.msg} (\Vlabel{A}{21,22}). Sus datos son recopilados mediante un plugin implementado por el usuario. El paquete \texttt{ltm\_samples} provee un plugin de ejemplo, capaz de adquirir el estado emocional del robot simulado.
+
+En cuanto a la relevancia histórica (\Vlabel{A}{23}), ésta ha sido parcialmente implementada. Utiliza el mensaje ROS \texttt{ltm/HistoricalRelevance.msg} para su representación, pero no se ha implementado la rutina para actualizar automáticamente el indicador de relevancia con el paso del tiempo. Sin embargo, en el Capítulo \ref{chapter:diseno} se describe su diseño y una metodología para su implementación.
+
+Ya que la relevancia histórica aún está incompleta, también se postergó la implementación de la relevancia generalizada (\Vlabel{A}{24}). Asimismo, el capítulo de diseño describe una metodología para su implementación y actualización.
+
+Tanto la relevancia histórica como la generalizada pueden ser consideradas parte del trabajo futuro, donde sólo queda implementar el algoritmo de actualización.
+
+
+\subsection{Revisión}
+
+A modo de resumen, el foco del proyecto estuvo en el diseño e implementación de un sistema LTM genérico, basado en las reglas episódicas de Stachowicz. El objetivo fue diseñar un sistema LTM para el robot Bender, pero que pueda ser integrado en otras plataformas robóticas. Las validaciones asociadas a estos conceptos se cumplen todas, a excepción de \Vlabel{A}{17}, relacionada con la migración de la base de datos al modificar la representación episódica.
+
+En cuanto a las relevancias episódicas, sólo queda pendiente la implementación del algoritmo para la actualización automática de la relevancia histórica y la genérica.
+
+Luego, las únicas validaciones de funcionalidad pendientes son: \Vlabel{A}{17}, \Vlabel{A}{23} y \Vlabel{A}{24}.
+
+
+\section{Integración en Bender}
+
+A continuación se describe es estado de la integración del sistema LTM en el robot Bender. Las 6 validaciones de interés se presentan en el Anexo \ref{appendix:validations}.
+
+Durante el periodo de implementación del proyecto, incluso hasta la fecha, el robot Bender no ha estado operativo. El equipo encargado ha decidido reestructurar el hardware del robot y además, está en el proceso de migrar URF a ROS kinetic. Por lo anterior, se ha retrasado la integración del sistema LTM en el robot y sólo algunos de los componentes requeridos se han integrado.
+
+La integración requiere la implementación de plugins para el sistema LTM, la generación de episodios a partir de las máquinas de estado del robot y la integración de tal código en URF.
+
+\subsection{Módulos integrados en URF}
+
+A continuación se describen los componentes integrados en Bender. Estos corresponden a piezas de software que no requieren el uso del robot para su integración, o son suficientemente genéricos como para utilizar una versión simulada.
+
+\ltmconcept{Plugin para streams} Debido al diseño genérico del plugin para la recolección de streams de imágenes, este componente fue integrado mediante la selección del tópico ROS de la cámara de video del robot.
+
+\ltmconcept{Plugin de para campo \textit{Where}} Se creó un plugin para la recolección de la ubicación del robot según las consideraciones de diseño descritas en el capítulo \ref{chapter:diseno}. Esta integración fue posible, debido a que Bender utiliza un conjunto estándar de paquetes ROS para navegación robótica (ROS navigation stack). Su funcionamiento fue verificado mediante la simulación de un robot que utiliza estos paquetes para navegar y localizarse.
+
+\ltmconcept{Interfaz LTM-SMACH} Según se presentó en el Capítulo \ref{chapter:results}, la interfaz del sistema LTM con las máquinas de estado en SMACH se implementó de manera genérica y funciona de acuerdo a los requerimientos. Para validar esta integración, se implementó una máquina de estado similar a una prueba de la competencia RoboCup, con la que el sistema LTM puede recolectar episodios.
+
+\ltmconcept{Integración en URF} Todos los componentes descritos anteriormente fueron integrados en URF mediante el paquete ROS \texttt{bender\_ltm}. El proceso de instalación fue modificado para incluir los paquetes ROS del sistema LTM y la instalación de sus dependencias. Se añadieron archivos \texttt{launch} y de configuración para ejecutar el sistema LTM con los plugins integrados.
+
+\subsection{Módulos pendientes}
+
+A continuación se describen los componentes que no se han integrado al software del robot. Estos corresponden al plugin para recolección de entidades y al plugin emocional.
+
+\ltmconcept{Plugin para entidades} Según se describió en la Sección \ref{sec:design_bender}, se debe implementar un plugin para la recolección de entidades tipo persona y objeto, a partir de los módulos de percepción del robot. Este plugin no se ha desarrollado.
+
+\ltmconcept{Plugin emocional} Este plugin no ha sido implementado por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del proyecto. Sin ese requerimiento es imposible implementar el plugin requerido.
+
+Por lo tanto, la integración del sistema LTM en Bender es parcial. Queda propuesta la implementación del plugin para entidades, el motor emocional para el robot y el plugin asociado.
+
+\subsection{Demostración del sistema en Bender}
+
+Uno de los objetivos específicos del proyecto es la integración del sistema en el robot Bender y la posterior generación de una demostración de tal funcionalidad. Ya que no se dispone de robot, no se ha podido concretar este objetivo. 
+
+Una vez integrados los módulos pendientes, se debe ejecutar una máquina de estado en SMACH para la recopilación de episodios con información semántica sobre personas y objetos. Luego, el robot debe responder a un conjunto de preguntas sobre hechos pasados mediante el servicio de consultas que provee el sistema LTM.
+
 
 \section{Desempeño del Sistema}
 
-A continuación se presentan los resultados para las validaciones de eficiencia y escalabilidad definidas en el Capítulo \ref{chapter:diseno}. El objetivo es medir el desempeño del sistema en términos de eficiencia y escalabilidad, para un conjunto de consultas de interés a realizar sobre el sistema LTM. En primer lugar, se describen los procesos a ser estudiados y la máquina objetivo. Luego, se identifica el conjunto de operaciones de lectura y escritura a ser utilizado para la evaluación. Tercero, se hace una estimación sobre la cantidad de episodios y la tasa de consultas a evaluar según el caso de estudio. Más adelante, se presenta la metodología de medición utilizada, para finalmente, presentar los resultados y análisis de las pruebas realizadas.
+A continuación se presentan los resultados para las validaciones de eficiencia y escalabilidad definidas en el Capítulo \ref{chapter:diseno}, cuyo objetivo es medir el desempeño del sistema para un conjunto de consultas de interés. En primer lugar, se describen los procesos a ser estudiados y la máquina objetivo. Luego, se identifica el conjunto de operaciones de lectura y escritura a ser utilizado para la evaluación. Tercero, se hace una estimación sobre la cantidad de episodios y la tasa de consultas a evaluar según el caso de estudio. Más adelante, se presenta la metodología de medición utilizada, para finalmente, presentar los resultados y análisis de las pruebas realizadas.
 
 \subsection{Consideraciones}
 
-En esta sección se evalúa el desempeño del sistema LTM, de acuerdo a las validaciones \Vlabel{D}{X} y \Vlabel{E}{X} presentadas en el Anexo \ref{chapter:appendix_a}.
+En esta sección se evalúa el desempeño del sistema LTM, de acuerdo a las validaciones \Vlabel{C}{X} presentadas en el Anexo \ref{appendix:validations}.
 
 \ltmconcept{Procesos}
-Una vez activo, el sistema LTM se compone de dos procesos ejecutados simultáneamente en la máquina objetivo. Por un lado, se ejecuta el proceso correspondiente al servidor LTM (en adelante, LTMp), encargado de procesar las consultas ROS, ejecutar los plugins definidos por los usuarios y de mantener la consistencia de la base de datos. Por otro lado, se requiere que el servidor de MongoDB (en adelante MongoDBp) esté activo, con el fin de responder a las consultas del LTMp. En adelante, se hará la distinción entre LTMp y MongoDBp al hablar de las validaciones a realizar. Además, se hablará de \textit{sistema LTM} para referirse a la combinación de ambos procesos.
+Una vez activo, el sistema LTM se compone de dos procesos ejecutados simultáneamente en la máquina objetivo. Por un lado, se ejecuta el proceso correspondiente al servidor LTM (en adelante, LTMp), encargado de procesar las consultas ROS, ejecutar los plugins definidos por los usuarios y de mantener la consistencia de la base de datos. Por otro lado, se requiere que el servidor de MongoDB (en adelante MongoDBp) esté activo para responder a las consultas del LTMp. En adelante, se hará la distinción entre LTMp y MongoDBp al hablar de las validaciones a realizar. Además, se hablará de \textit{sistema LTM} para referirse a la combinación de ambos procesos.
 
 La distinción anterior es importante, pues permitirá entender donde se encuentran los puntos críticos donde el procesamiento se estanca e identificar las responsabilidades de cada proceso. Además, se considera necesario enfatizar que todas las consultas de lectura en el sistema LTM son entregadas directamente a la librería de MongoDB para C++, utilizada por LTMp, por lo que se espera que el mayor costo de recursos se atribuya a MongoDBp, a tal librería y al formato de las consultas. Por otro lado, se espera que LTMp incremente el uso de recursos, de acuerdo a la cantidad de plugins utilizados y la calidad de su implementación.
 
@@ -77,14 +165,13 @@ El robot objetivo de este proyecto es Bender, el que se entiende como un robot d
 \end{itemize}
 
 Por lo anterior, los requerimientos impuestos para las validaciones son bajos. Sin embargo, es deseable que el sistema LTM sea capaz de soportar una carga más exigente de episodios y consultas, por el ejemplo, asumiendo que el robot funciona durante todo el horario laboral de manera ininterrumpida.
-\todoimprove{Otros casos de uso más exigentes.}
 
 \ltmconcept{Cantidad de episodios}
 Según el caso de uso esperado, se hace una estimación de la cantidad de episodios a recolectar, para soportar el uso del sistema LTM de manera continua durante un periodo de 1, 5 y 10 años. 
 
 Para determinar la cantidad de episodios, se estima que en una hora el robot es capaz de realizar 3 sesiones de trabajo. Por cada sesión, se almacena un árbol con 20 episodios. 
 
-En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto utilizado para la estimación. Se debe enfatizar que los valores seleccionados son sólo válidos para este estudio, y la cantidad real de episodios dependerá del uso dado al sistema LTM.
+En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto utilizado para la estimación. Se debe enfatizar que los valores seleccionados son sólo válidos para este estudio y la cantidad real de episodios dependerá del uso dado al sistema LTM.
 
 \begin{table}[H]
 	\centering
@@ -125,7 +212,6 @@ Tanto las validaciones de escalabilidad como las de eficiencia requieren que la 
 \item Se inserta un árbol de 20 episodios (tamaño esperado). El árbol es de profundidad 3, tiene 1 raíz, 3 nodos internos y 6 hojas. Todos los episodios son generados con campos aleatorios para cada tipo de dato requerido.
 \item Según se requiera se repite el paso 2, hasta obtener un árbol del tamaño deseado.
 \end{enumerate}
-\todoimprove{Sobre streams y entidades.}
 % sobre que el uso de streams y entidades extra agrega complejidad
 % Siempre se podrían validar más cosas. No busca ser una validación extensiva, sino que una que se adecúe a los requisitos del robot objetivo.
 
@@ -135,7 +221,7 @@ Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, 
 \ltmconcept{Escalabilidad}
 Las validaciones de escalabilidad buscan medir el tiempo promedio que toma una consulta en ser ejecutada. Para esto, cada consulta es repetida 100 veces, donde se mide el tiempo que el programa queda bloqueado durante la llamada al servicio ROS correspondiente. Las mediciones son repetidas cada intervalos de 10.000 episodios ingresados al sistema LTM.
 
-Además, se mide la cantidad de memoria secundaria requerida para soportar los episodios en la base de datos. Para esto, se realiza una consulta a MongoDB, mediante la librería \texttt{pymongo 3.6.1} para Python 2.7. Todos los valores se obtienen través del comando \texttt{dbStats}\footnote{En MongoDB, el comando \texttt{dbStats} permite obtener estadísticas generales de la base de datos. Más información en la página oficial: \url{https://docs.mongodb.com/manual/reference/command/dbStats/}}. Se realizan las siguientes mediciones:
+Además, se mide la cantidad de memoria secundaria requerida para soportar los episodios en la base de datos. Para esto, se realiza una consulta a MongoDB mediante la librería \texttt{pymongo 3.6.1} para Python 2.7. Todos los valores se obtienen través del comando \texttt{dbStats}\footnote{En MongoDB, el comando \texttt{dbStats} permite obtener estadísticas generales de la base de datos. Más información en la página oficial: \url{https://docs.mongodb.com/manual/reference/command/dbStats/}}. Se realizan las siguientes mediciones:
 \begin{itemize}
 \item Uso total de memoria secundaria. Se obtiene del commando \texttt{dbStats.fileSize}.
 \item Espacio total reservado para documentos, es decir: episodios, streams y entidades. Se obtiene del commando \texttt{dbStats.storageSize}.
@@ -161,7 +247,7 @@ A partir de los resultados, un nodo ROS es utilizado para la generación de los 
 \ltmconcept{Muestras recopiladas}
 Según se estimó, para un lapso de 10 años el robot Bender recopilaría cerca de 288.800 episodios. Para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 500.000 episodios, por lo que cada gráfico está compuesto de 50 muestras.
 
-\ltmconcept{Uso de memoria secundaria} Los resultados son presentados en el gráfico de la Figura \ref{result:scalability_disk_usage}.  Por un lado, se ve que el espacio total de memoria secundaria, utilizado por MongoDB, es reservado en porciones cada vez mayores. Por otro lado, del espacio reservado, la porción utilizada para el almacenamiento de episodios e índices crece de manera lineal, respecto a la cantidad de episodios almacenados.
+\ltmconcept{Uso de memoria secundaria} Los resultados son presentados en el gráfico de la Figura \ref{result:scalability_disk_usage}.  Por un lado, se ve que el espacio total de memoria secundaria utilizado por MongoDB, es reservado en porciones cada vez mayores. Por otro lado, del espacio reservado, la porción utilizada para el almacenamiento de episodios e índices crece de manera lineal, respecto a la cantidad de episodios almacenados.
 
 \begin{figure}[!ht]
 	\centering
@@ -178,7 +264,6 @@ Se considera que tal cantidad de memoria secundaria no es un problema para las c
 
 Particularmente, en el caso de los streams, si se almacenan imágenes en alta resolución a una alta frecuencia, es esperable que el consumo de memoria secundaria sea mucho mayor al mostrado en este experimento. En el caso de las entidades, si éstas no contienen imágenes u otros datos binarios, es esperable que tengan un comportamiento similar al de los episodios.
 
-\todoimprove{Agregar medición con streams y entidades}
 % Disco utilizado no es un problema. Pero se espera que el espacio aumente según se consideran streams y entidades. Para el caso de 1 stream, con 10 imágenes por episodios, cada una de tamaño AxB, y peso NkB, el tamaño total será ...
 
 \todoimprove{Poner línea sobre el gráfico, indicando los 1, 5 y 10 años}
@@ -207,14 +292,9 @@ En el caso de la inserción, se puede ver que el costo temporal crece de manera 
 
 Para el caso de la búsqueda, se puede ver que todas las consultas, a excepción de $Q_4$, tienen un costo temporal que crece de manera lineal  respecto a la cantidad de episodios almacenados. Las consultas $Q_1$, $Q_2$ y $Q_5$ siempre se mantienen bajo los 0.25[s], mientras que $Q_3$ tiene un costo de 1.0[s] a los 300.000 episodios. En cuanto a $Q_4$, se podría decir que el costo se comporta de manera lineal, pero las mediciones toman demasiado tiempo en ser ejecutadas y tal vez se requieran más muestras para obtener un valor promedio menos variable. Además, $Q_4$ toma 10[s] a los 300.000 episodios, 10 veces más que $Q_3$ y cerca de 40 veces más que $Q_1$, $Q_2$ y $Q_5$.
 
-De lo anterior se puede ver que distintas consultas tienen costos de búsqueda muy  distintos, los que pueden degradar llegar a degradar el funcionamiento del robot, en el caso de $Q_4$.  Se cree que se debe estudiar en más detalle el costo de todas las operaciones disponibles en el lenguaje de consulta de MongoDB y su interacción con los operadores lógicos, para así disponer de medidas empíricas sobre las cuales diseñar consultas de menor costo.
-\todolater{sobre estudios al respecto}
+De lo anterior se puede ver que distintas consultas tienen costos de búsqueda muy  distintos, los que pueden llegar a degradar el funcionamiento del robot, como es el caso de $Q_4$.  Se cree que se debe estudiar en más detalle el costo de todas las operaciones disponibles en el lenguaje de consulta de MongoDB y su interacción con los operadores lógicos, para así disponer de medidas empíricas sobre las cuales diseñar consultas de menor costo.
 
 En cuanto al impacto en la interacción humano robot, es esperable que Bender tenga un funcionamiento ininterrumpido. En este caso, una demora de 0.5[s] en la inserción o búsqueda de episodios puede no ser problema, mientras que en el caso de la consulta $Q_4$, una demora de 10[s] puede comprometer el interés y las expectativas del humano con quien se interactúa. Por lo tanto, en el caso de realmente requerir una consulta compleja como lo es $Q_4$, se recomienda avisar a la persona que el robot deberá procesar la consulta (o ``pensar'') durante unos segundos, para así evitar comprometer la interacción.
-
-\todoimprove{Probar más consultas. Todos los operadores disponibles en MongoDB. Se requiere un estudio de esta forma, para saber como crear consultas más veloces/eficientes.}
-
-
 
 
 \ltmconcept{Límite para las CPM} Finalmente, a partir de los costos en tiempo para cada operación, revisados en la Figura \ref{result:scalability_time_usage}, se puede calcular la tasa máxima de CPM para cada una de las operaciones. Los resultados se presentan en el gráfico de la Figura \ref{result:scalability_max_qpm}. 
@@ -227,7 +307,7 @@ En cuanto al impacto en la interacción humano robot, es esperable que Bender te
 	\label{result:scalability_max_qpm}
 \end{figure}
 
-Estos resultados son importantes para entender como decrece la tasa de CPM a medida que aumenta la cantidad de episodios almacenados. Además, sirven para comprender el comportamiento de los resultados de eficiencia, para distintas cantidades de episodios.
+Estos resultados son importantes para entender como decrece la tasa de CPM a medida que aumenta la cantidad de episodios almacenados. Además, sirven para comprender el comportamiento de los resultados de eficiencia para distintas cantidades de episodios.
 
 
 
@@ -241,10 +321,10 @@ A partir de los resultados un nodo ROS es utilizado para la generación de los g
 \texttt{\$ rosrun ltm\_samples graphs\_efficiency.py}.
 
 \ltmconcept{Presentación de resultados}
-En estos experimentos se mide el uso de recursos según la cantidad de CPM utilizadas para distintas cantidades de episodios. Además, ya que se tienen 5 operaciones de búsqueda ($Q_1,\ldots,Q_5$), los resultados se dividirán en dos conjuntos. Primero, se presentan gráficos con una cantidad fija de episodios y los resultados para cada operación. Segundo, se presentan gráficos particulares para cada consulta, con curvas para distintas cantidades de episodios. Finalmente, ya que existen dos procesos de interés, cada conjunto muestra el uso de recursos de MongoDBp, LTMp y del sistema LTM.
+En estos experimentos se mide el uso de recursos según la cantidad de CPM utilizadas para distintas cantidades de episodios. Además, ya que se tienen 5 operaciones de búsqueda ($Q_1,\ldots,Q_5$), los resultados se dividirán en dos conjuntos. Primero, se presentan gráficos con una cantidad fija de episodios y los resultados para cada operación. Segundo, se presentan gráficos particulares para cada consulta, con curvas para distintas cantidades de episodios. Finalmente, ya que existen dos procesos de interés, cada conjunto muestra el uso de recursos de MongoDBp, LTMp y del sistema LTM (suma de MongoDBp y LTMp).
 
 \ltmconcept{Muestras recopiladas}
-En este caso, se presentan mediciones con hasta 100.000 episodios. En cuanto a las CPM, se estimó que se requieren hasta 600 CPM, pero para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 1000 CPM, espaciadas cada 25 CPM. Por lo tanto, cada gráfico dispone de 40 muestras.
+En este caso se presentan mediciones con hasta 100.000 episodios. En cuanto a las CPM, se estimó que se requieren hasta 600 CPM, pero para establecer un factor extra de seguridad en la estimación se realizaron mediciones con hasta 1000 CPM, espaciadas cada 25 CPM. Por lo tanto, cada gráfico dispone de 40 muestras.
 
 
 \ltmconcept{Uso de RAM según CPM}
@@ -259,8 +339,6 @@ Se midió el uso de RAM según la cantidad de CPM para distintas cantidades de e
 \end{figure}
 
 De los experimentos se entiende que el consumo de RAM debe ser visto como parte de las medidas de escalabilidad y no de eficiencia. Para los 100.000 episodios (alrededor de 5 años de uso) el sistema LTM consume aproximadamente 500 MB de RAM. Sin embargo, se cree necesario conocer la curva de escalabilidad del consumo de RAM, para poder entender el uso de recursos en mayor detalle.
-\todoimprove{RAM como medida de escalabilidad.. es necesario ver la curva de crecimiento.}
-
 
 
 \ltmconcept{Uso de CPU según CPM, cantidad fija de episodios} En la Figura \ref{result:eff__cpu_qpm_by_query} se presentan 6 gráficos con las mediciones de eficiencia del uso de CPU según la cantidad de CPM, para cada consulta y manteniendo fija la cantidad de episodios. Se hace una separación por cada proceso y la suma de ambos, y para 10.000 y 100.000 episodios.
@@ -319,8 +397,6 @@ Del total de CPU utilizado en cada consulta, el mayor costo se atribuye al proce
 % RELACIÓN ENTRE EFICIENCIA Y ESCALABILIDAD
 Finalmente, es posible ver que el costo de CPU incrementa de manera lineal  respecto a la cantidad de CPM, a excepción de $Q_4$. Además, se ve una relación directa entre el costo de CPU y el tiempo de consulta de las pruebas, presentado en los resultados de escalabilidad. Las consultas de menor costo en duración son las menos costosas en términos de CPU, mientras que $Q_3$ y $Q_4$ son más costosas en ambos ámbitos.
 
-\todoimprove{Realizar dos consultas con el mismo resultado, pero distinta sintaxis.. para probar que la sintaxis es importante.}
-\todoimprove{Más episodios... hasta 300000 al menos.. ojalá 500.000}
 \todoimprove{Coma decimal, punto miles.}
 
 

@@ -1,36 +1,44 @@
 \begin{conclusion}
 
-\todolater{Conclusión}
+% OVERVIEW
+En este trabajo se diseño e implementó una memoria episódica de largo plazo para robots domésticos basados en ROS. El proyecto estuvo enfocado en el diseño de un sistema LTM adecuado a Bender, pero capaz de ser integrado en otras plataformas robóticas que utilizan ROS.
 
-\todowrite{Sobre paper escrito... conocimiento adquirido para promover LTM en @Home}
-%También se considera que es la oportunidad de promover la inclusión de desafios basados en LTM en la liga @Home, a partir de los resultados de este trabajo. Así, el desarrollo de LTMs y capacidades asociadas dejaría de ser postergado y pasaría a ser una prioridad para los equipos de la competencia.
+% RELEVANCIA
+En primer lugar, se estudió la relevancia de una memoria a largo para un robot doméstico. Este concepto es esencial para mejorar el desempeño de las tareas que debe realizar el robot. Más aún, esta capacidad tiene un alto impacto en la interacción humano-robot, permitiendo comportamientos interesantes y evitando la pérdida de interés del operador. Es decir, la memoria LTM es esencial para un robot doméstico.
+
+% INVESTIGACION
+Según se investigó, hay pocos trabajos enfocados en este tema y aún no existe un consenso respecto a la implementación de un sistema LTM. Sin embargo, algunos trabajos siguen una serie de requerimientos básicos para un sistema de este tipo. El diseño estuvo fuertemente influenciado por los requerimientos episódicos propuestos por Stachowicz, que rigen el comportamiento del sistema y las cualidades esperadas del mismo.
+
+% DISEÑO
+De los objetivos del proyecto se derivaron requisitos de sistema y validaciones con las que guiar el diseño e implementación. El sistema LTM diseñado permite recolectar episodios a través de máquinas de estado, las que son utilizadas comúnmente para la implementación de comportamientos en robots domésticos. Cada episodio está asociado a información semántica, en forma de streams y entidades, cuya representación debe ser definida por el usuario y sus datos recopilados mediante un sistema de plugins implementados por él. De esta forma, el sistema LTM puede ser integrado en Bender, pero también en otros robots basados en ROS. El costo de la generalidad que provee el sistema es que se dejan muchas decisiones de implementación al usuario, lo que puede ser problemático cuando hay errores en un plugin, o para asegurar un desempeño similar en cada caso de uso.
+
+% IMPLEMENTACIÓN
+El sistema LTM provee una API ROS para su ejecución, configuración y recolección de episodios. Utiliza la base de datos MongoDB para el almacenamiento de episodios. Utilizando el lenguaje de consulta de MongoDB, el sistema permite realizar búsquedas de episodios mediante cualquier combinación de condiciones lógicas.
 
 
-Cómo se estudia en la Sección \ref{sec:robotic_memory}, existen pocos trabajos LTM e implementaciones disponibles. De ellos, o no consideran memoria episódica, semántica y emocional en su diseño, o no están disponibles para la comunidad robótica. Este proyecto provee un servidor LTM implementado en ROS, y sus repositorios de software asociados bajo una licencia GNU GPLv3. Más detalles al respecto en la Sección \ref{sec:impl_packages}.
+% RESULTADOS
+Para el caso de uso de Bender, los experimentos muestran que el costo temporal de las consultas episódicas escala linealmente respecto a la cantidad de episodios almacenados, siendo capaz de responder un conjunto de consultas de interés en menos de 0.25[s] a los 10 años de uso. En términos de eficiencia, el sistema LTM es capaz de mantener una tasa de 600 consultas por minuto, llegando a utilizar el 20\% de CPU y de 200 consultas por minuto, utilizando el 5\%. En ambos experimentos, el sistema LTM cumple los requerimientos para el caso de uso estudiado, sin embargo, queda claro que la consulta a utilizar debe ser elegida adecuadamente, pues la duración de esta puede comprometer la fluidez de una interacción humano-robot y además, puede saturar el núcleo de CPU asignado.
 
-Finalmente, se considera este proyecto como una oportunidad de promover la inclusión de desafíos basados en LTM en la liga RoboCup@Home. Para ello, a partir de las investigaciones y diseño realizado para este proyecto, se ha elaborado un estudio~\cite{ltm_in_robocup} motivando el uso de LTM y una metodología para su inclusión en la competencia. Así, se espera que el desarrollo de LTM y capacidades asociadas deje de ser postergado y pase a ser una de las prioridades para los equipos participantes.
+% REQs FUNCIONALES
+El sistema LTM cumple con todos los requisitos funcionales establecidos, a excepción de 2 puntos. Primero, aún no se implementa la capacidad de migrar la base de datos a una nueva estructura semántica. Segundo, se requiere un algoritmo para la actualización automática de la relevancia histórica y generalizada, esto se revisa en el capítulo de diseño, pero no ha sido implementado. Ambos puntos permitirían concluir la implementación y se consideran parte del trabajo futuro del proyecto.
 
-El costo de la generalidad del sistema, es que se dejan muchas decisiones e implementaciones al usuario .... Así, el sistema se puede comportar muy distinto de caso a caso.
+% INTEGRACIÓN CON BENDER
+Respecto a la integración del sistema LTM en el robot Bender, esta es parcial. Se integraron correctamente los plugins para recolección de imágenes y de la localización del robot, junto a la interfaz para recopilar episodios a partir de máquinas de estado en SMACH. Se realizaron las modificaciones requeridas en URF para instalar y ejecutar el sistema junto al robot. Sin embargo, no se pudo acceder al robot para completar la integración, dejando de lado el plugin para la recopilación de entidades y del estado emocional.
 
-Falta medir escalabilidad de RAM.
+% FINALMENTE
+Finalmente, se considera este proyecto como una oportunidad de promover la inclusión de desafíos basados en sistemas LTM en la liga RoboCup@Home. Para ello, a partir de las investigaciones y diseño realizado, se ha elaborado un estudio~\cite{ltm_in_robocup} motivando el uso de LTM y una metodología para su inclusión en la competencia. Así, se espera que el desarrollo de LTM y capacidades asociadas deje de ser postergado y pase a ser una de las prioridades para los equipos participantes.
+
 
 \section*{Trabajo Futuro}
 
-\todowrite{Trabajo FUTURO.... evitar cosas pequeñas}
+El trabajo realizado en este proyecto provee un servidor LTM genérico para robots domésticos. El sistema cumple con los requisitos básicos que una memoria episódica debiera cumplir, sin embargo, hay muchos aspectos pendientes o no cubiertos por este proyecto.
 
-%% Trabajo futuro \cite{Nuxoll2007}
-% - Notar episodios novedosos o repetidos
-% - Virtual sensing: Uso de información sensorial almacenada para apoyar en tareas actuales y entrenamiento de algoritmos.
-% - Predicción de efectos de acciones propias o de otros eventos.
-% - Manejo de objetivos a largo plazo.
+En primer lugar, el trabajo futuro más importante es la implementación de los aspectos pendientes del proyecto. Es decir, la migración de la base de datos, el algoritmo para la actualización automática de relevancias, el plugin para entidades y el sistema emocional de Bender.
 
-\todowrite{Sobre tiempo gastado en KnowRob, Prolog y Java.. app 2 meses.}
-%La inferencia de información a partir de los recuerdos también es un aspecto deseable, y fue considerado en primera instancia para el desarrollo del proyecto. Se dedicó tiempo y esfuerzo  en satisfacer este objetivo secundario, pero por temas de tiempo se debió acotar el alcance del trabajo. Se propuso utilizar el framework KnowRob~\cite{Tenorth2009,Tenorth2013,Winkler2014}, que implementa memoria semántica e inferencia de información, pero ésta estaba desactualizada, no era compatible con versiones actuales de ROS, y tampoco funcionaba en la versión para la que fue diseñada.
+Ya que la selección de una consulta episódica puede tener un alto impacto en el desempeño del sistema, se considera prioritario realizar un estudio sobre el costo de cada operación lógica que provee MongoDB y sus interacciones. Ésto, con el fin de optimizar las consultas y asegurar una medida de desempeño del sistema LTM. Por otro lado, los experimentos de desempeño pueden ser complementados con casos de uso de streams y entidades, y mediciones sobre la tasa de lectura y escritura de memoria secundaria.
 
-%\item En caso de que el robot tenga más del 90\% de sus recursos de CPU ocupados, el sistema debe entrar en modo de bajo consumo, y encolar los episodios para posterior almacenamiento.
-%\todoimprove{Actualizar requerimiento para considerar ancho de banda del disco y agregar validación asociada.}
+La inferencia de información a partir de los recuerdos también es un aspecto deseable. Esto fue considerado en primera instancia para el desarrollo del proyecto, pero tras algunas pruebas preliminares no se pudo satisfacer este objetivo secundario, debiendo acotar el alcance del trabajo. La propuesta consideraba el uso del framework KnowRob~\cite{Winkler2014,Tenorth2013,Tenorth2009}, que implementa memoria semántica y permite inferir información a partir de los datos almacenados.
 
-%\todolater{Pruebas con más de 1 PC y medir uso de ancho de banda}
-%Agregar más condiciones lógicas para las consultas.
+
 
 \end{conclusion}
