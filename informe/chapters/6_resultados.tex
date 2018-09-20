@@ -214,6 +214,7 @@ Tanto las validaciones de escalabilidad como las de eficiencia requieren que la 
 \end{enumerate}
 % sobre que el uso de streams y entidades extra agrega complejidad
 % Siempre se podrían validar más cosas. No busca ser una validación extensiva, sino que una que se adecúe a los requisitos del robot objetivo.
+\todowrite{ERROR: CANTIDAD DE ELEMENTOS DEL ÁRBOL A INSERTAR.}
 
 \ltmconcept{Generación de consultas}
 Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, los valores de cada campo de las consultas $Q_x$ son generados al azar.  Todos los valores generados corresponden al rango de valores posibles para el campo en cuestión. Por ejemplo, para el campo \texttt{children\_tags}, los episodios generados contienen valores del conjunto $\{ tag_1,\ldots, tag_{1000} \}$, entonces la consulta $Q_2$ sólo utilizará valores al azar obtenidos desde el conjunto correspondiente. Para cada campo se tienen al menos 100 valores y a lo más 1000 valores posibles.
