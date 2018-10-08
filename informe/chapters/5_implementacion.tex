@@ -87,7 +87,7 @@ Las siguientes dependencias son paquetes ROS utilizados para la implementación 
 % ==============================================================================
 % ==============================================================================
 
-Con el motivo de separar conceptos e implementar un software independiente del robot objetivo, se separó la implementación en 6 paquetes ROS. El primero provee la conexión a la base de datos. El siguiente contiene solamente la implementación del servidor, otro provee plugins e interfaces episódicas genéricas, otro contiene código de ejemplo, para pruebas y validación. Los dos últimos contienen implementaciones específicas para el robot Bender.
+Con el motivo de separar conceptos e implementar un software independiente del robot objetivo, se dividió la implementación en 6 paquetes ROS. El primero provee la conexión a la base de datos. El siguiente contiene solamente la implementación del servidor, otro provee plugins e interfaces episódicas genéricas, otro contiene código de ejemplo, para pruebas y validación. Los dos últimos contienen implementaciones específicas para el robot Bender.
 
 Todos los paquetes de ROS implementados cuentan con un repositorio de software en GitHub, de carácter público.
 
@@ -245,7 +245,7 @@ Todos los mensajes ROS descritos anteriormente se pueden encontrar en el Anexo~\
 \subsubsection{Construcción de \textit{streams}}
 
 \ltmconcept{Metadatos}
-Los \textit{streams} se definen a partir de mensajes ROS construidos por el usuario, Los que pueden contener cualquier estructura soportada por ROS para sus mensajes. La implementación impone solamente un requisito sobre su definición. Se debe añadir un campo de tipo \texttt{ltm/StreamMetadata.msg} al mensaje, bajo el nombre \texttt{meta}. El tipo \texttt{ltm/StreamMetadata.msg}, presentado en el Código~\ref{lst:streammetadata.msg}, contiene información manejada por el servidor, indicando los tiempos de inicio y fin del \textit{stream}, sumado a los identificadores del mensaje y su episodio asociado.
+Los \textit{streams} se definen a partir de mensajes ROS construidos por el usuario, los que pueden contener cualquier estructura soportada por ROS para sus mensajes. La implementación impone solamente un requisito sobre su definición. Se debe añadir un campo de tipo \texttt{ltm/StreamMetadata.msg} al mensaje, bajo el nombre \texttt{meta}. El tipo \texttt{ltm/StreamMetadata.msg}, presentado en el Código~\ref{lst:streammetadata.msg}, contiene información manejada por el servidor, indicando los tiempos de inicio y fin del \textit{stream}, sumado a los identificadores del mensaje y su episodio asociado.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/StreamMetadata.msg,label=lst:streammetadata.msg]{code/msg/StreamMetadata.msg}
 
@@ -260,7 +260,7 @@ En el caso de las entidades, se deben almacenar distintas instancias de estas, c
 \ltmconcept{Historial}
 Como se describe en el diseño del modelo de datos (ver Sección~\ref{sec:data_model_design}), el historial se construye utilizando dos colecciones, de sufijos \texttt{.trail} y \texttt{.meta}. Cada mensaje almacenado en una colección tiene asociado un registro en la otra, bajo el mismo identificador. 
 
-La colección de sufijo \texttt{.meta} se construye a partir de mensajes ROS de tipo \texttt{ltm/EntityLog.msg}, presentado en el Código~\ref{lst:entitylog.msg}. Este tipo de mensajes es manejado automáticamente por el servidor, y permite indicar lo siguiente: Identificadores de la instancia, del registro y de los episodios asociados. Instante de tiempo del registro. Registro que precede al mensaje (lista enlazada de registros). Nombres de campos que fueron agregados, modificados o eliminados.
+La colección de sufijo \texttt{.meta} se construye a partir de mensajes ROS de tipo \texttt{ltm/EntityLog.msg}, presentado en el Código~\ref{lst:entitylog.msg}. Este tipo de mensajes es manejado automáticamente por el servidor, y permite indicar lo siguiente: Identificadores de la instancia, del registro y de los episodios asociados; Instante de tiempo del registro; Registro que precede al mensaje (lista enlazada de registros); Nombres de campos que fueron agregados, modificados o eliminados.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/EntityLog.msg,label=lst:entitylog.msg]{code/msg/EntityLog.msg}
 
@@ -284,7 +284,7 @@ La base de datos es manejada automáticamente por el servidor, por lo que el usu
 % ==============================================================================
 % ==============================================================================
 
-El diseño del sistema LTM requiere que el usuario implemente 4 tipos de plugins para la adquisición de información episódica y semántica. Por un lado, se debe implementar un plugin para la adquisición del estado emocional del robot, y un plugin para obtener la ubicación del robot durante cada episodio. Por otro lado, el usuario puede implementar una cantidad indefinida de plugins para la recopilación de información semántica (\textit{streams} y entidades) que requiera para su aplicación robótica.
+El diseño del sistema LTM requiere que el usuario implemente un conjunto de plugins para la adquisición de información episódica y semántica. Por un lado, para la memoria episódica se debe implementar un plugin para la adquisición del estado emocional del robot, y un plugin para obtener la ubicación del robot durante cada episodio. Por otro lado, el usuario puede implementar una cantidad indefinida de plugins para la recopilación de información semántica, en forma de \textit{streams} y entidades; Según lo requiera su aplicación robótica, pueden haber M plugins para \textit{streams} y N para entidades, por lo que el sistema utilizaría $M + N + 2$ plugins en total.
 
 La implementación utiliza el paquete ROS \texttt{pluginlib} para la definición y carga dinámica de plugins definidos en paquetes ROS externos. Además, ya que los mensajes ROS definidos por el usuario para \textit{streams} y entidades no son conocidos en tiempo de compilación, se hace uso intensivo de tipos de dato genéricos en \CC \ para su representación y el manejo de la base de datos. A continuación, se presentan las consideraciones para la implementación de cada tipo de plugin requerido.
 
@@ -345,7 +345,7 @@ Es importante destacar que a pesar de que el sistema se implemente en \CC, ROS p
 \ltmconcept{Configuración}
 El servidor LTM puede ser configurado de manera estática, previo a su iniciación, a través del servidor de parámetros de ROS. La configuración puede ser escrita en un archivo en formato YAML, lo que permite modificar parámetros del sistema LTM, sin tener que compilar nuevamente el código. 
 
-En el Código~\ref{lst:sampleconfig}, presentado en el Apéndice de Implementación, se presenta un archivo de ejemplo con la configuración del sistema. Es posible modificar los siguientes conjuntos de parámetros:
+En el Código~\ref{lst:sampleconfig}, presentado en el Apéndice de Implementación, se presenta un archivo YAML de ejemplo con la configuración del sistema. Es posible modificar los siguientes conjuntos de parámetros:
 \begin{itemize}
 \item Base de datos: Se puede indicar el nombre de la base de datos y opciones de conectividad al servidor de MongoDB. Parámetros: \texttt{db}, \texttt{host}, \texttt{port} y \texttt{timeout}.
 \item Colección de episodios: Se puede indicar el nombre a utilizar para la colección de episodios.
@@ -357,14 +357,14 @@ En el Código~\ref{lst:sampleconfig}, presentado en el Apéndice de Implementaci
 \item \texttt{type}: Tipo del plugin. Utilizado para construir la API ROS para \textit{streams} y para indicar el tipo del \textit{stream} al episodio relacionado.
 \item \texttt{collection}: Nombre de la colección de MongoDB a utilizar para el plugin. Este nombre será modificado con el prefijo \texttt{stream:}.
 \end{itemize}
-Además, el desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, se anexan los parámetros: \texttt{topic}, \texttt{buffer\_frequency} y \texttt{buffer\_size}.
+Además, el desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el código de ejemplo, se anexan los parámetros: \texttt{topic}, \texttt{buffer\_frequency} y \texttt{buffer\_size}.
 \item Plugins de \textit{Entidades}: Se puede indicar un listado de plugins a cargar para el manejo de entidades. En el ejemplo se configuran dos plugins: \texttt{people} y \texttt{objects}. De la misma forma que para los \textit{streams}, cada plugin debe indicar al menos los siguientes parámetros:
 \begin{itemize}
 	\item \texttt{class}: Clase exportada por \texttt{pluginlib}. En el ejemplo se cargan plugins de las clases \texttt{ltm\_samples::PeopleEntityPlugin} y \texttt{ltm\_samples::ObjectsEntityPlugin}.
 	\item \texttt{type}: Tipo del plugin. Utilizado para construir la API ROS para entidades y para indicar el tipo de entidad al episodio relacionado.
 	\item \texttt{collection}: Nombre de la colección de MongoDB a utilizar para el plugin. Este nombre será modificado con el prefijo \texttt{entity:}.
 \end{itemize}
-El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, ambos plugins anexan solo un parámetro extra: \texttt{topic}.
+El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el código de ejemplo, ambos plugins anexan solo un parámetro extra: \texttt{topic}.
 \end{itemize}
 
 En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura solo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}. Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.

@@ -18,7 +18,7 @@ En primer lugar, el sistema LTM soporta la definición de plugins para el manejo
 
 Además, la implementación fue separada en 3 grupos de paquetes ROS para desacoplar el sistema (\Vlabel{A}{03}). El primero contiene el manejo de la base de datos y la implementación del servidor genérico a base de plugins. El segundo provee el plugin para streams de imágenes y la interfaz episódica para SMACH, ambos son componentes genéricos, pero no son esenciales para el funcionamiento del sistema LTM. El último provee implementaciones de plugins específicos para el robot Bender.
 
-La implementación del servidor solo requiere un mínimo de dependencias (\Vlabel{A}{16}) y no necesita módulos de Bender para su funcionamiento (\Vlabel{A}{01}). Además, el servidor provee una API ROS para el manejo de episodios (\Vlabel{A}{26,27}).
+La implementación del servidor solo requiere un mínimo de dependencias (\Vlabel{A}{16}) y no necesita módulos de Bender para su funcionamiento (\Vlabel{A}{01}). Además, el servidor provee una API ROS para el manejo de episodios (\Vlabel{A}{26, 27}).
 
 Todas las validaciones asociadas se pueden verificar a partir de la implementación de plugins para el robot simulado, el que define mensajes episódicos para los streams y entidades que utiliza.
 
@@ -29,7 +29,7 @@ Debido a los puntos anteriores, el sistema LTM implementado se puede ajustar a l
 
 El otro foco del proyecto está en el cumplimiento de las reglas episódicas propuestas por Stachowicz. A modo de resumen, todas las validaciones asociadas se cumplen, a excepción de \Vlabel{A}{17}. A continuación se describen los conceptos asociados a cada una de las validaciones de interés.
 
-Los episodios son representados por un mensaje ROS con componentes genéricos. El usuario puede definir las estructuras de datos para la información semántica de interés utilizada en el campo \textit{What}: streams y plugins. El campo \textit{When} solo considera tiempos de inicio y fin, sin imponer restricciones sobre el lapso de tiempo. Además, no existe una restricción temporal entre un episodio y otro, lo que permite generar episodios traspuestos en el tiempo, siempre que uno no sea descendiente del otro. El campo \textit{Where} permite almacenar la posición del robot durante cada episodio, mediante una representación literal o a través de una pose dentro de un sistema coordenado.
+Los episodios son representados por un mensaje ROS con componentes genéricos. El usuario puede definir las estructuras de datos para la información semántica de interés utilizada en el campo \textit{What}: streams y plugins. El campo \textit{When} solo considera tiempos de inicio y fin, sin imponer restricciones sobre el lapso de tiempo. Además, no existe una restricción temporal entre un episodio y otro, lo que permite generar episodios traspuestos en el tiempo, siempre que uno no sea descendiente del otro. El campo \textit{Where} permite almacenar la posición del robot durante cada episodio, mediante una representación literal o a través de una posición dentro de un sistema coordenado de 3 dimensiones.
 
 La implementación permite recolectar episodios y sus componentes semánticos a partir de consultas en formato JSON, aplicando condiciones booleanas de búsqueda, a través de una API ROS. El diseño soporta la actualización de entidades y la perspectiva episódica de estas, pudiendo reconstruir el estado de una entidad en distintos instantes de tiempo. Los episodios son únicos y mantienen referencias bidireccionales a las unidades semánticas relacionadas. Los episodios se estructuran a modo de árboles, permitiendo el anidamiento episódico.
 
@@ -45,7 +45,7 @@ Se requiere la implementación de la relevancia emocional, histórica y generali
 El sistema LTM implementado soporta el concepto de relevancia episódica, almacenando sus datos mediante el mensaje ROS \texttt{ltm/Relevance.msg}, embebido en el mensaje \texttt{ltm/Episode.msg}. Debido a esto, es posible incluir cualquiera de los campos en las condiciones de búsqueda, permitiendo filtrar episodios por cualquiera de las relevancias (\Vlabel{A}{25}).
 \todoimprove{Código de ejemplo para filtrar por relevancia.}
 
-La relevancia emocional fue implementada en el mensaje \texttt{ltm/EmotionalRelevance.msg} (\Vlabel{A}{21,22}). Sus datos son recopilados mediante un plugin implementado por el usuario. El paquete \texttt{ltm\_samples} provee un plugin de ejemplo, capaz de adquirir el estado emocional del robot simulado.
+La relevancia emocional fue implementada en el mensaje \texttt{ltm/EmotionalRelevance.msg} (\Vlabel{A}{21, 22}). Sus datos son recopilados mediante un plugin implementado por el usuario. El paquete \texttt{ltm\_samples} provee un plugin de ejemplo, capaz de adquirir el estado emocional del robot simulado.
 
 En cuanto a la relevancia histórica (\Vlabel{A}{23}), esta ha sido parcialmente implementada. Utiliza el mensaje ROS \texttt{ltm/HistoricalRelevance.msg} para su representación, pero no se ha implementado la rutina para actualizar automáticamente el indicador de relevancia con el paso del tiempo. Sin embargo, en el Capítulo \ref{chapter:diseno} se describe su diseño y una metodología para su implementación.
 
@@ -121,8 +121,8 @@ Finalmente, tanto LTMp como MongoDBp son procesos que solo ocupan 1 núcleo de l
 \begin{itemize}
 %\item Modelo: 
 \item CPU: Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz
-\item RAM: 15.6 GB
-%\item Disk IO:
+\item Memoria RAM: 15.6 GB (Memoria primaria).
+\item Disco Duro: HDD con 400GB de capacidad (Memoria secundaria).
 \end{itemize}
 
 
@@ -219,7 +219,7 @@ Tanto las validaciones de escalabilidad como las de eficiencia requieren que la 
 \todowrite{ERROR: CANTIDAD DE ELEMENTOS DEL ÁRBOL A INSERTAR.}
 
 \ltmconcept{Generación de consultas}
-Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, los valores de cada campo de las consultas $Q_x$ son generados al azar.  Todos los valores generados corresponden al rango de valores posibles para el campo en cuestión. Por ejemplo, para el campo \texttt{children\_tags}, los episodios generados contienen valores del conjunto $\{ tag_1,\ldots, tag_{1000} \}$, entonces la consulta $Q_2$ solo utilizará valores al azar obtenidos desde el conjunto correspondiente. Para cada campo se tienen al menos 100 valores y a lo más 1000 valores posibles.
+Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, los valores de cada campo de las consultas $Q_x$ son generados al azar.  Todos los valores generados corresponden al rango de valores posibles para el campo en cuestión. Por ejemplo, para el campo \texttt{children\_tags}, los episodios generados contienen valores del conjunto $\{ tag_1,\ldots, tag_{1000} \}$, entonces la consulta $Q_2$ solo utilizará valores al azar obtenidos desde el conjunto correspondiente. Para cada campo se tienen al menos 100 valores y a lo más 1.000 valores posibles.
 
 \ltmconcept{Escalabilidad}
 Las validaciones de escalabilidad buscan medir el tiempo promedio que toma una consulta en ser ejecutada. Para esto, cada consulta es repetida 100 veces, donde se mide el tiempo que el programa queda bloqueado durante la llamada al servicio ROS correspondiente. Las mediciones son repetidas cada intervalos de 10.000 episodios ingresados al sistema LTM.
@@ -242,9 +242,9 @@ La mediciones sobre el uso de CPU y RAM para cada proceso fueron obtenidas utili
 
 A continuación se presentan los resultados de las mediciones de escalabilidad y el análisis relacionado a cada uno. Estas mediciones buscan medir los costos temporales de las operaciones y el uso de memoria secundaria, según la cantidad de episodios almacenados en el sistema LTM.
 
-\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de escalabilidad del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. El nodo se puede ejecutar mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples scalability\_test.py}.
+\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de escalabilidad del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. El nodo se encuentra en archivo \texttt{scalability\_test.py} del paquete ROS \texttt{ltm\_samples}, por lo que puede ser ejecutado mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples scalability\_test.py}.
 
-A partir de los resultados, un nodo ROS es utilizado para la generación de los gráficos presentados. Puede ser ejecutado mediante el siguiente comando:
+A partir de los resultados, un nodo ROS es utilizado para la generación de los gráficos presentados. De la misma manera, este nodo se puede ejecutar mediante el siguiente comando:
 \texttt{\$ rosrun ltm\_samples graphs\_scalability.py}.
 
 \ltmconcept{Muestras recopiladas}
@@ -320,7 +320,7 @@ Estos resultados son importantes para entender como decrece la tasa de CPM a med
 
 A continuación se presentan los resultados de las mediciones de eficiencia y el análisis relacionado a cada uno. Estas mediciones buscan medir el uso de RAM y de CPU según la cantidad de consultas por minuto (CPM) a efectuar.
 
-\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de eficiencia del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. El nodo se puede ejecutar mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples efficiency\_test.py}.
+\ltmconcept{Ejecución de mediciones} Se implementó un nodo ROS para las mediciones de eficiencia del sistema LTM. Este se encarga de crear la base de datos, generar episodios, consultas y realizar las mediciones. El nodo almacena los resultados en un archivo en formato CSV. Su implementación se encuentra en el archivo \texttt{efficiency\_test.py} del paquete ROS \texttt{ltm\_samples}, por lo que puede ser ejecutado mediante el siguiente comando: \texttt{\$ rosrun ltm\_samples efficiency\_test.py}.
 
 A partir de los resultados un nodo ROS es utilizado para la generación de los gráficos presentados. Puede ser ejecutado mediante el siguiente comando:
 \texttt{\$ rosrun ltm\_samples graphs\_efficiency.py}.
@@ -329,7 +329,7 @@ A partir de los resultados un nodo ROS es utilizado para la generación de los g
 En estos experimentos se mide el uso de recursos según la cantidad de CPM utilizadas para distintas cantidades de episodios. Además, ya que se tienen 5 operaciones de búsqueda ($Q_1,\ldots,Q_5$), los resultados se dividirán en dos conjuntos. Primero, se presentan gráficos con una cantidad fija de episodios y los resultados para cada operación. Segundo, se presentan gráficos particulares para cada consulta, con curvas para distintas cantidades de episodios. Finalmente, ya que existen dos procesos de interés, cada conjunto muestra el uso de recursos de MongoDBp, LTMp y del sistema LTM (suma de MongoDBp y LTMp).
 
 \ltmconcept{Muestras recopiladas}
-En este caso se presentan mediciones con hasta 100.000 episodios. En cuanto a las CPM, se estimó que se requieren hasta 600 CPM, pero para establecer un factor extra de seguridad en la estimación se realizaron mediciones con hasta 1000 CPM, espaciadas cada 25 CPM. Por lo tanto, cada gráfico dispone de 40 muestras.
+En este caso se presentan mediciones con hasta 100.000 episodios. En cuanto a las CPM, se estimó que se requieren hasta 600 CPM, pero para establecer un factor extra de seguridad en la estimación se realizaron mediciones con hasta 1.000 CPM, espaciadas cada 25 CPM. Por lo tanto, cada gráfico dispone de 40 muestras.
 
 
 \ltmconcept{Uso de RAM según CPM}
@@ -395,7 +395,7 @@ De los experimentos se entiende que el consumo de RAM debe ser visto como parte 
 En el peor caso, LTMp utiliza $\sim10\%$ del CPU y MongoDBp el $25\%$ del CPU. Es decir, MongoDBp utiliza completamente uno de los 4 núcleos disponibles, mientras que LTMp utiliza el $\sim40\%$ de otro. Sin embargo, ambos límites no se alcanzan de manera simultánea, sino que en el peor caso el sistema consume hasta un $\sim27\%$ del total del CPU. 
 
 % MAXIMO USO DE CPU Y SATURACIÓN
-El máximo uso de CPU solo se alcanza a una tasa muy alta de CPM (cerca de 1000 CPM) o para los 100.000 episodios. En el último caso, el CPU se satura con menos de 100 CPM para las consultas $Q_3$ y $Q_4$. El resto de las consultas soportan una alta tasa de CPM sin llegar a saturar uno de los núcleos.
+El máximo uso de CPU solo se alcanza a una tasa muy alta de CPM (cerca de 1.000 CPM) o para los 100.000 episodios. En el último caso, el CPU se satura con menos de 100 CPM para las consultas $Q_3$ y $Q_4$. El resto de las consultas soportan una alta tasa de CPM sin llegar a saturar uno de los núcleos.
 
 % COSTO DE MONGODB
 Del total de CPU utilizado en cada consulta, el mayor costo se atribuye al proceso MongoDBp, el que llega a saturar el núcleo utilizado. El proceso LTMp requiere hasta un $\sim10\%$ de CPU, el que se atribuye al procesamiento de la consulta realizado por la librería de MongoDB para C++, pues la implementación del servicio bloquea el programa hasta que la consulta es respondida por la librería. Entonces, el costo de CPU se debe principalmente a la base de datos, a la librería de MongoDB y a la estructura de la consulta efectuada.
