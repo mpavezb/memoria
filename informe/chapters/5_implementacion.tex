@@ -1,6 +1,6 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-Es éste capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto.
+Es este capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto.
 
 % ==============================================================================
 % ==============================================================================
@@ -28,7 +28,7 @@ Esta sección presenta la estructuración del software implementado, en término
 % ==============================================================================
 % ==============================================================================
 
-A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Éstas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
+A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Estas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
 
 
 \subsubsection{Sistema}
@@ -58,7 +58,7 @@ El servidor fue implementado completamente utilizando \CC, bajo el estándar \CC
 \subsubsection{Dependencias Python}
 % ==============================================================================
 
-Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Las siguientes dependencias son sólo para los módulos específicos para la integración con Bender o para el software demostrativo.
+Se utiliza Python en su versión 2.7, que es el estándar utilizado para ROS kinetic. Las siguientes dependencias son solo para los módulos específicos para la integración con Bender o para el software demostrativo.
 
 \begin{itemize}
 \item {\bfseries cv2}: Librería OpenCV 2. Utilizada para insertar imágenes ficticias en entidades\footnote{Página oficial de OpenCV: \url{https://opencv.org/}}. 
@@ -102,7 +102,7 @@ Particularmente, se agregaron las siguientes funcionalidades:
 \item Soporte para metadatos anidados.
 \item Soporte para arreglos de objetos como metadatos de una colección.
 \item Soporte para búsquedas de mensajes en colecciones, mediante condición de pertenencia de valor a un arreglo.
-\item Soporte para consultas genéricas basadas en el sistema de consultas de MongoDB. Se puede realizar cualquier consulta y combinación de condiciones, expresable en formato JSON, utilizando el estándar de consultas de MongoDB.
+\item Soporte para consultas genéricas basadas en el sistema de consultas de MongoDB. Se puede realizar cualquier consulta y combinación de condiciones expresable en formato JSON, utilizando el estándar de consultas de MongoDB.
 \end{itemize}
 
 El paquete ROS se encuentra en un repositorio público en GitHub: \url{https://github.com/mpavezb/ltm\_db}.
@@ -165,7 +165,7 @@ En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de lí
 		Total                 & 194  & 2301  & 1737  & 8459  \\ \hline	
 	\end{tabular} 
 	\caption[Líneas de código del sistema LTM por lenguaje.]
-	{\small Líneas de código del sistema LTM por lenguaje.}
+	{\small Líneas de código del sistema LTM por lenguaje. Para cada lenguaje utilizado, se indican la cantidad de archivos asociados y un conteo de la cantidad de líneas en blanco, líneas utilizadas para comentarios y líneas de código.}
 	\label{table:lineas-codigo}
 \end{table}
 
@@ -230,7 +230,7 @@ Para ordenar la información, el mensaje se construye a partir de otros mensajes
 \item \texttt{ltm/StreamRegister.msg}: Utilizado para mantener un listado de cada \textit{stream}, mediante su identificador único y el tipo de mensaje ROS registrado por su plugin.
 \item \texttt{ltm/EntityRegister.msg}: Utilizado para mantener un listado de cada entidad asociada al episodio, mediante el tipo de mensaje ROS registrado por su plugin, su identificador único, y un listado de los registros ingresados en el historial de la entidad.
 \end{itemize}
-\item \texttt{ltm/Relevance.msg}: Almacena datos sobre la relevancia episódica generalizada y las sub relevancias.
+\item \texttt{ltm/Relevance.msg}: Almacena datos sobre la relevancia episódica generalizada y las subrelevancias.
 \begin{itemize}
 \item La relevancia generalizada es construida mediante un indicador numérico y la fecha de su última actualización.
 \item \texttt{ltm/EmotionalRelevance.msg}: Almacena la relevancia emocional del episodio. Mantiene un indicador numérico para la emoción más relevante, los valores de cada una de las 8 emociones percibidas, sumado a información sobre el software emocional utilizado.
@@ -272,11 +272,11 @@ La colección de sufijo \texttt{.trail} se construye a partir de mensajes ROS de
 % ==============================================================================
 % ==============================================================================
 
-El servidor es implementado de acuerdo a las decisiones de diseño estudiadas en el Capítulo~\ref{chapter:diseno}, y su estructura se basa en el diagrama de la Figura~\ref{img:diagrama-software}. La implementación se realiza completamente en el lenguaje \CC \ y se encuentra en el paquete ROS \texttt{ltm}. El servidor sólo depende de tipos de dato primitivos y paquetes estándar disponibles en todas las distribuciones ROS (e.g. \texttt{geometry\_msgs} y \texttt{std\_msgs} y \texttt{pluginlib}), el módulo geométrico de la librería Boost, y el driver para la base de datos. 
+El servidor es implementado de acuerdo a las decisiones de diseño estudiadas en el Capítulo~\ref{chapter:diseno}, y su estructura se basa en el diagrama de la Figura~\ref{img:diagrama-software}. La implementación se realiza completamente en el lenguaje \CC \ y se encuentra en el paquete ROS \texttt{ltm}. El servidor solo depende de tipos de dato primitivos y paquetes estándar disponibles en todas las distribuciones ROS (e.g. \texttt{geometry\_msgs} y \texttt{std\_msgs} y \texttt{pluginlib}), el módulo geométrico de la librería Boost, y el driver para la base de datos. 
 
 La implementación se puede separar lógicamente en 2 componentes: memoria episódica y memoria semántica. La primera se encarga de adquirir episodios a partir de la API episódica que provee el servidor, mientras que el componente semántico se encarga de los \textit{streams} y entidades, por medio de los plugins que define el usuario.
 
-La base de datos es manejada automáticamente por el servidor, por lo que el usuario no tiene un acceso directo a ésta, sino que sólo puede realizar operaciones de escritura a través de la API ROS del servidor y de las facilidades que proveen los plugins. Todas las funcionalidades para el manejo de MongoDB se encuentran en el paquete ROS \texttt{ltm\_db}.
+La base de datos es manejada automáticamente por el servidor, por lo que el usuario no tiene un acceso directo a esta, sino que solo puede realizar operaciones de escritura a través de la API ROS del servidor y de las facilidades que proveen los plugins. Todas las funcionalidades para el manejo de MongoDB se encuentran en el paquete ROS \texttt{ltm\_db}.
 
 
 \subsection{Plugins}
@@ -326,7 +326,7 @@ Para este tipo de plugin, también se requiere que el usuario defina un servicio
 \lstinputlisting[caption=SampleEntitySrv.srv,label=lst:sampleentitysrv]{code/srv/SampleEntitySrv.srv}
 
 \ltmconcept{Funcionalidades heredadas}
-La implementación provee automáticamente funcionalidades para el manejo de la base de datos y una API CRUD mediante servicios ROS. Para ésto, el plugin a implementar debe heredar la clase \texttt{ltm::plugin::EntityDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin.
+La implementación provee automáticamente funcionalidades para el manejo de la base de datos y una API CRUD mediante servicios ROS. Para esto, el plugin a implementar debe heredar la clase \texttt{ltm::plugin::EntityDefault\textless MsgType, SrvType\textgreater}, definida en \texttt{\#include \textless ltm/plugin/stream\_default.h\textgreater}, donde \texttt{MsgType} y \texttt{SrvType} deben ser reemplazados por la clase del mensaje y servicio ROS manejados por el plugin.
 
 
 \subsection{API ROS}
@@ -364,10 +364,10 @@ Además, el desarrollador de cada plugin puede requerir la introducción de par�
 	\item \texttt{type}: Tipo del plugin. Utilizado para construir la API ROS para entidades y para indicar el tipo de entidad al episodio relacionado.
 	\item \texttt{collection}: Nombre de la colección de MongoDB a utilizar para el plugin. Este nombre será modificado con el prefijo \texttt{entity:}.
 \end{itemize}
-El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, ambos plugins anexan sólo un parámetro extra: \texttt{topic}.
+El desarrollador de cada plugin puede requerir la introducción de parámetros extra. En el ejemplo, ambos plugins anexan solo un parámetro extra: \texttt{topic}.
 \end{itemize}
 
-En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura sólo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}. Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.
+En resumen, el código de ejemplo realiza las siguientes configuraciones para el sistema LTM: Define una conexión a una base de datos específica. Configura plugins emocionales y de ubicación específicos, definidos en el paquete \texttt{ltm\_samples}. Configura solo un plugin para \texttt{streams}, implementado en el paquete \texttt{ltm\_addons}. Configura 2 plugins para entidades, ambos implementados en el paquete \texttt{ltm\_samples}. Luego, en caso de implementar un nuevo plugin, basta modificar el archivo de configuración para anexarlo a la lista respectiva.
 
 \ltmconcept{Ejecución}
 Finalmente, una vez construido el archivo de configuración adecuado para el robot, basta utilizar la herramienta \texttt{roslaunch} para ejecutar el sistema LTM. En el Código~\ref{lst:samplelaunch} se muestra un archivo \texttt{.launch} de ejemplo donde se asocia indica la configuración para el servidor. Para su ejecución, se puede utilizar el comando de consola: \texttt{\$ roslaunch ltm\_samples server.launch}.
@@ -431,7 +431,7 @@ Una vez seleccionadas las entidades de interés, se puede utilizar un servicio R
 El sistema LTM además provee otros servicios mediante su API ROS. Cada uno de los servicios mostrados a continuación no es parte de los requisitos del proyecto, pero es de utilidad para la ejecución de pruebas y validaciones.
 
 \ltmconcept{Base de datos}
-El sistema provee servicios para eliminar todas las colecciones de la base de datos actual, y para cambiar la base de datos por otra. El primero, se provee mediante el servicio \texttt{$\sim$/ltm/db/drop}, de tipo \texttt{DropDB.srv}, mostrado en el Código~\ref{lst:dropdb}. Se pide confirmación, pues es una operación peligrosa. El cambio de base de datos se provee en el servicio  \texttt{$\sim$/ltm/db/switch}, de tipo \texttt{SwitchDB.srv}, el que sólo requiere indicar el nombre de la base de datos alternativa. Esta funcionalidad es útil para ejecutar pruebas sin afectar la base de datos del robot.
+El sistema provee servicios para eliminar todas las colecciones de la base de datos actual, y para cambiar la base de datos por otra. El primero, se provee mediante el servicio \texttt{$\sim$/ltm/db/drop}, de tipo \texttt{DropDB.srv}, mostrado en el Código~\ref{lst:dropdb}. Se pide confirmación, pues es una operación peligrosa. El cambio de base de datos se provee en el servicio  \texttt{$\sim$/ltm/db/switch}, de tipo \texttt{SwitchDB.srv}, el que solo requiere indicar el nombre de la base de datos alternativa. Esta funcionalidad es útil para ejecutar pruebas sin afectar la base de datos del robot.
 \lstset{style=/Style/ROS/MSG}
 \lstinputlisting[caption=ltm/DropDB.srv,label=lst:dropdb]{code/srv/DropDB.srv}
 
@@ -463,12 +463,12 @@ En esta sección se presentan tres herramientas implementadas para la validació
 
 \subsection{Interfaz SMACH para recolección de episodios}
 
-De acuerdo a las consideraciones expresadas en la Sección \ref{sec:design_bender}, se implementó una librería Python para la generación de episodios a partir de máquinas de estado expresadas mediante SMACH. Por cada ejecución de un estado marcado como candidato, se almacena un episodio en el servidor LTM. El proceso es automático y sólo impone unos pocos requerimientos al desarrollador.
+De acuerdo a las consideraciones expresadas en la Sección \ref{sec:design_bender}, se implementó una librería Python para la generación de episodios a partir de máquinas de estado expresadas mediante SMACH. Por cada ejecución de un estado marcado como candidato, se almacena un episodio en el servidor LTM. El proceso es automático y solo impone unos pocos requerimientos al desarrollador.
 
 % IMPLEMENTACIÓN
 \ltmconcept{Implementación} Se siguió la siguiente estrategia para reducir los requerimientos para el usuario de la librería. Se utilizó la API SMACH para la lectura de maquinas de estado y la creación de \textit{callbacks} ante el inicio y término de un estado. El desarrollador de la máquina debe indicar que estados son candidatos para ser convertidos en episodios, y debe indicar un listado de \textit{tags} opcionales que identifiquen al estado. Todos los procesos de registro e inserción de episodios son llevados a cabo automáticamente por la librería. Ya que las máquinas de estado en SMACH siguen una estructura de anidada, por cada máquina se crea un árbol episódico con cada episodio candidato.
 
-La implementación sólo utiliza la API SMACH y la API ROS para el servidor LTM, siendo agnóstica del robot. Luego, la librería puede ser utilizada por otros robots basados en SMACH. La implementación se encuentra en el paquete ROS \texttt{ltm\_addons}.
+La implementación solo utiliza la API SMACH y la API ROS para el servidor LTM, siendo agnóstica del robot. Luego, la librería puede ser utilizada por otros robots basados en SMACH. La implementación se encuentra en el paquete ROS \texttt{ltm\_addons}.
 
 % USO Y REQUERIMIENTOS
 \ltmconcept{Uso de la interfaz} En el Código \ref{lst:ltmsmachsample} se presenta una máquina de estado completamente funcional, implementada en SMACH y utilizando la interfaz desarrollada. La máquina consta de dos estados \texttt{FOO} y \texttt{BAR}. Los requisitos para el uso de la interfaz son 3:
@@ -477,7 +477,7 @@ La implementación sólo utiliza la API SMACH y la API ROS para el servidor LTM,
 	\item Registrar los estados candidatos, junto con sus tags. En el ejemplo se presentan dos alternativas de registro: 
 	\begin{itemize}
 		\item Se puede marcar un estado desde su constructor (línea 9), para que toda instancia creada sea registrada automáticamente.
-		\item Se puede marcar manualmente una instancia particular de un estado (línea 19), cuando sólo se desea registrar unos pocos estados, o no es posible modificar el constructor.
+		\item Se puede marcar manualmente una instancia particular de un estado (línea 19), cuando solo se desea registrar unos pocos estados, o no es posible modificar el constructor.
 	\end{itemize}
 	\item Se debe ejecutar el método \texttt{ltm.setup()} (línea 27), para configurar los callbacks de todo estado registrado e inicializar la conexión con el servidor LTM.
 \end{enumerate}

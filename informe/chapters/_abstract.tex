@@ -4,18 +4,21 @@
 El objetivo de este trabajo de título es el diseño e implementación de un sistema de memoria episódica de largo plazo para robots de servicio domésticos. Además, el sistema debe considerar componentes emocionales y ser integrado en el software del robot Bender, perteneciente al laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. 
 
 % ABOUT: IMPORTANCIA + ESTADO DEL ARTE
-Un sistema de éstas características es esencial para mejorar el desempeño de un robot doméstico, especialmente en el ámbito de la interacción humano-robot. Sin embargo, tras la revisión del estado del arte, se encuentran pocos trabajos relacionados y que aún no existe un consenso en el tema.
+Un sistema de estas características es esencial para mejorar el desempeño de un robot doméstico, especialmente en el ámbito de la interacción humano-robot. Sin embargo, tras la revisión del estado del arte, se encuentran pocos trabajos relacionados y que aún no existe un consenso en el tema.
 
 % DISEÑO
 El sistema es diseñado para cumplir con un conjunto de requerimientos episódicos mínimos para este tipo de memorias. Además, el diseño es agnóstico del robot objetivo, permitiendo la definición de estructuras de datos genéricas para la representación episódica, las que son manejadas por un sistema de plugins. De esta forma, el sistema puede ser integrado en otras plataformas robóticas basadas en Robot Operating System (ROS).
 
 % IMPLEMENTACIÓN
-El sistema implementado es capaz de recolectar episodios automáticamente desde las máquinas de estado que definen el comportamiento del robot. Utiliza la base de datos MongoDB para el almacenamiento de episodios y está programado en \CC\ y Python, sólo utilizando paquetes estándar en ROS. Además, el sistema provee una API ROS capaz de responder consultas sobre éstos los episodios, las que permiten realizar búsquedas mediante combinaciones de condiciones lógicas.
+El sistema implementado es capaz de recolectar episodios automáticamente desde las máquinas de estado que definen el comportamiento del robot. Utiliza la base de datos MongoDB para el almacenamiento de episodios y está programado en \CC\ y Python, solo utilizando paquetes estándar en ROS. Además, el sistema provee una API ROS capaz de responder consultas sobre estos episodios, las que permiten realizar búsquedas mediante combinaciones de condiciones lógicas.
 
 % RESULTADOS
 La implementación es evaluada de manera cuantitativa, mediante experimentos de escalabilidad y eficiencia. Los resultados indican que el sistema se adapta al caso de uso esperado para el robot Bender. Sin embargo, la formulación de consultas al sistema tiene un alto impacto en su desempeño. Por esto, es importante seleccionar adecuadamente las operaciones, para que el uso de recursos no comprometa la interacción humano-robot.
 
 % CONCLUSIÓN
-Se concluye que el sistema cumple con la mayoría de los requerimientos establecidos, teniendo que acotar el proyecto para dejar algunos aspectos como trabajo futuro. Particularmente, debido a que Bender no estuvo disponible, la integración sólo es parcial y el sistema es validado mediante el uso de un robot simulado.
+Se concluye que el sistema cumple con la mayoría de los requerimientos establecidos, teniendo que acotar el proyecto para dejar algunos aspectos como trabajo futuro. Particularmente, debido a que Bender no estuvo disponible, la integración solo es parcial y el sistema es validado mediante el uso de un robot simulado.
 
 \end{abstract}
+
+\todomateu{El contenido se torna muy descriptivo, sin discutir las decisiones.}
+\todomateu{No se entiende bien el contexto de quién alimenta la LTM ni con qué, tampoco quién la utiliza.}

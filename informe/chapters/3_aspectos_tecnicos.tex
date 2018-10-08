@@ -28,7 +28,7 @@ Es un programa ejecutable en ROS, enfocado en una tarea específica. Cada nodo p
 Corresponde a un conjunto de nodos, junto a todos sus archivos necesarios para su compilación y ejecución. Cada paquete tiene asociado un nombre único en el sistema, junto a una lista de dependencias de otros paquetes. ROS provee conjunto estándar de paquetes y librerías enfocados en diversos aspectos de la robótica, que en conjunto a los paquetes mantenidos por la comunidad, permiten simplificar la construcción y mantenimiento del software un robot.
 
 \ltmconcept{Distribuciones} 
-Una distribución es un conjunto versionado de paquetes ROS. Su propósito es permitir que los desarrolladores trabajen en un conjunto relativamente estable de dependencias, hasta que puedan avanzar a la siguiente versión. Se libera una distribución anualmente, enfocada a una versión  LTS\footnote{LTS es un acrónimo para Long-Term-Support. Una versión LTS de un software indica que éste contará con soporte a largo plazo, es decir, durante un periodo mayor a su periodo normal de vigencia.} de Ubuntu, y las versiones pares de ROS también se consideran LTS y mantienen soporte por 5 años.
+Una distribución es un conjunto versionado de paquetes ROS. Su propósito es permitir que los desarrolladores trabajen en un conjunto relativamente estable de dependencias, hasta que puedan avanzar a la siguiente versión. Se libera una distribución anualmente, enfocada a una versión  LTS\footnote{LTS es un acrónimo para Long-Term-Support. Una versión LTS de un software indica que este contará con soporte a largo plazo, es decir, durante un periodo mayor a su periodo normal de vigencia.} de Ubuntu, y las versiones pares de ROS también se consideran LTS y mantienen soporte por 5 años.
 
 
 \subsection{Comunicación}
@@ -60,11 +60,11 @@ En esta sección se detallan los componentes del protocolo de comunicación util
 
 En esta sección se describen herramientas que provee ROS para la implementación de nodos y su ejecución.
 
-\ltmconcept{Servidor de parámetros} ROS provee un servidor para almacenar, modificar y obtener parámetros compartidos entre los nodos. Éstos permiten la configuración del programa sin tener que recompilar el código, y funcionan como el estándar para el manejo de parámetros. La configuración por defecto puede ser especificada en archivos usando el formato YAML~\cite{yaml}.
+\ltmconcept{Servidor de parámetros} ROS provee un servidor para almacenar, modificar y obtener parámetros compartidos entre los nodos. Estos permiten la configuración del programa sin tener que recompilar el código, y funcionan como el estándar para el manejo de parámetros. La configuración por defecto puede ser especificada en archivos usando el formato YAML~\cite{yaml}.
 
 \ltmconcept{Pluginlib} Es un paquete oficial de ROS\footnote{Documentación oficial de \texttt{pluginlib}: \url{http://wiki.ros.org/pluginlib}.} que provee herramientas para escribir y cargar plugins dinámicamente en nodos \CC. La librería permite delegar la implementación de funcionalidades específicas a los usuarios. El nodo que ocupará el plugin debe definir una clase abstracta a ser implementada. Mientras que los paquetes proveedores deben registrar las librerías con sus implementaciones, para que los plugins queden disponibles en el sistema.
 
-\ltmconcept{Roslaunch} La librería \texttt{roslaunch}\footnote{Documentación oficial de \texttt{roslaunch}: \url{http://wiki.ros.org/roslaunch}.} es una herramienta que permite la ejecución y configuración de múltiples nodos, a través de sólo un comando en la consola del sistema. Utiliza archivos en formato XML y con extensión \texttt{.launch}, donde se define un árbol de nodos y otros archivos \textit{launch} a ser ejecutados. Esta herramienta permite modularizar la ejecución de un sistema robótico complejo, compuesto generalmente por decenas de nodos.
+\ltmconcept{Roslaunch} La librería \texttt{roslaunch}\footnote{Documentación oficial de \texttt{roslaunch}: \url{http://wiki.ros.org/roslaunch}.} es una herramienta que permite la ejecución y configuración de múltiples nodos, a través de solo un comando en la consola del sistema. Utiliza archivos en formato XML y con extensión \texttt{.launch}, donde se define un árbol de nodos y otros archivos \textit{launch} a ser ejecutados. Esta herramienta permite modularizar la ejecución de un sistema robótico complejo, compuesto generalmente por decenas de nodos.
 
 %\paragraph{Rviz}
 %\paragraph{Rosbag} (probablemente se ocupará para test suite)
@@ -90,7 +90,7 @@ Los documentos son organizados en \textit{colecciones}, cada una destinada a alm
 
 MongoDB provee drivers para diversos lenguajes de programación, entre ellos \CC, Java y Python. Para este proyecto, el driver de interés es el de \CC\footnote{Documentación del driver de MongoDB para \CC:  \url{http://mongodb.github.io/mongo-cxx-driver/}.}.
 
-En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. MongoDB permite remover éste límite mediante la estrategia de almacenamiento GridFS, la que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
+En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. MongoDB permite remover este límite mediante la estrategia de almacenamiento GridFS, la que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
 
 \subsection{Interfaz ROS}
 
@@ -98,7 +98,7 @@ MongoDB es una de las dependencias de \textit{MoveIt!}\footnote{Documentación o
 
 El equipo desarrollador de MoveIt! y sus paquetes ROS relacionados mantiene el paquete \texttt{warehouse\_ros\_mongo}\footnote{El paquete ROS \texttt{warehouse\_ros\_mongo} está disponible en: \url{https://github.com/ros-planning/warehouse\_ros\_mongo}.}, que provee una interfaz ROS al driver en \CC\ para MongoDB. MoveIt! y sus dependencias son consideradas estables, al menos hasta la distribución ROS \textit{melodic}, con fecha de caducidad para el 2023.
 
-\texttt{warehouse\_ros\_mongo} permite definir colecciones destinadas a almacenar mensajes ROS, de manera binaria. Cada documento es construido a partir del mensaje ROS serializado (mediante su API ROS), sumado a un conjunto de metadatos utilizados para la definición de índices y consultas. Actualmente, la API sólo soporta la definición de metadatos de los tipos \texttt{bool}, \texttt{int}, \texttt{double} y \texttt{std::string} en \CC.
+\texttt{warehouse\_ros\_mongo} permite definir colecciones destinadas a almacenar mensajes ROS, de manera binaria. Cada documento es construido a partir del mensaje ROS serializado (mediante su API ROS), sumado a un conjunto de metadatos utilizados para la definición de índices y consultas. Actualmente, la API solo soporta la definición de metadatos de los tipos \texttt{bool}, \texttt{int}, \texttt{double} y \texttt{std::string} en \CC.
 
 
 %% =============================================================================
@@ -144,10 +144,10 @@ UChile ROS Framework (URF) hace referencia al sistema de software desarrollado e
 
 URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se presenta en el diagrama de la Figura~\ref{img:URF}:
 \begin{enumerate}
-\item La capa inferior contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene sólo código externo.
+\item La capa inferior contiene todas las dependencias del sistema, ya sean de ROS o no. Es la única capa que contiene solo código externo.
 \item Sobre la capa de dependencias se monta una capa ROS de bajo nivel, con herramientas y librerías comunes, sumado a los drivers necesarios para manejar el hardware de cada robot.
 \item La siguiente capa alberga capacidades robóticas avanzadas, relacionadas a la  percepción robótica, manipulación de objetos, navegación autónoma e interacción humano-robot.
-\item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de maquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
+\item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de máquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
 \end{enumerate}
 
 \begin{figure}[!ht]
@@ -164,11 +164,11 @@ Todos los módulos de URF son de código libre, a excepción de los algoritmos r
 \subsection{Memoria a corto y largo plazo}
 %% =============================================================================
 
-En un robot implementado sobre URF es posible acceder a la información compartida por sus procesos. Cualquier módulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en post-procesamientos, junto al acceso para controlar el hardware.
+En un robot implementado sobre URF es posible acceder a la información compartida por sus procesos. Cualquier módulo ROS en el sistema tiene acceso a los datos extraídos desde sensores y luego generados en postprocesamientos, junto al acceso para controlar el hardware.
 
-Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. También se pueden dividir en de corto y largo plazo, los que e describen a continuación.
+Existen algunas formas de memoria implementadas en URF, comparables a los conceptos definidos para la memoria humana. También se pueden dividir en de corto y largo plazo, los que se describen a continuación.
 
-Como STM, se puede definir como memoria de trabajo a todo el flujo de información presente durante la ejecución del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente, tales datos sólo están disponibles durante la ejecución de una rutina y no son almacenados para posteriores ejecuciones.
+Como STM, se puede definir como memoria de trabajo a todo el flujo de información presente durante la ejecución del robot. Lo que incluye datos sensados, procesamientos y acciones realizadas. Generalmente, tales datos solo están disponibles durante la ejecución de una rutina y no son almacenados para posteriores ejecuciones.
 
 A manera de LTM, se puede encontrar una memoria procedural, relacionada con todo el conocimiento almacenado que posee el robot para cumplir ciertas tareas. Caen en esta categoría: modelos para percepción robótica, modelos para reconocimiento de voz y patrones, bases de datos de movimientos precalculados para manipular objetos y acciones predefinidas que se utilizan para controlar el robot.
 
@@ -190,7 +190,7 @@ Bender, presentado en la Figura~\ref{img:bender}, es un robot humanoide de tipo 
 
 En cuanto a actuadores, el robot cuenta con 2 brazos antropomórficos de 6 grados de libertad cada uno, una base móvil diferencial Pioneer 3-AT, un cuello que permite rotaciones en dos ejes cartesianos; pudiendo imitar gestos de asentimiento y negación, y finalmente, una cabeza que puede mostrar expresiones faciales mediante movimientos de su boca, orejas, cejas y cambios de colores alrededor de los ojos.
 
-El robot cuenta con los siguientes sensores: un laser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micrófono M-Audio Producer USB y una cámara de profundidad ASUS Xtion Pro.
+El robot cuenta con los siguientes sensores: un láser Hokuyo UTM-30LX, un laser Hokuyo URG-04LX-UG01, un micrófono M-Audio Producer USB y una cámara de profundidad ASUS Xtion Pro.
 
 El software de Bender está basado completamente en el framework URF, de acuerdo a lo descrito en la sección anterior. Bender cuenta con alrededor de 80 paquetes ROS mantenidos por el equipo, sumado a un conjunto de dependencias en paquetes ROS de la comunidad.
 

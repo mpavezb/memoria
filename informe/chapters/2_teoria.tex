@@ -58,7 +58,7 @@ Desde el punto de vista de la información procesada, la memoria es vista como u
 \end{itemize}
 %\bigskip
 
-La memoria puede ser dividida en múltiples sistemas de independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura~\ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
+La memoria puede ser dividida en múltiples sistemas independientes, con funcionalidades bien definidas y sustentados por distintas estructuras cerebrales~\cite{pmid-Squire}. La primera diferenciación define dos tipos de memoria: la de corto y la de largo plazo, STM (Short-Term Memory) y LTM (Long-Term Memory), por sus siglas en inglés~\cite{pmid10643472}. En el diagrama de la Figura~\ref{img:human_memory} se muestra una separación clásica utilizada en el área de las ciencias cognitivas~\cite{Eichenbaum:2008}, explicada en las siguientes subsecciones.
 
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 \tikzset{
@@ -175,7 +175,7 @@ Un tercer componente de la memoria implícita es la \textit{memoria emocional}. 
 
 Se denomina \textit{consolidación} de memoria al proceso de transición de conocimiento desde la STM a la LTM~\cite{Bailey13445}. Durante la consolidación se generan conexiones neuronales entre la memoria episódica y la respectiva zona semántica. Para activar la consolidación se requiere de un estímulo relevante, sumado a la cadena de eventos para el almacenamiento~\cite{Eichenbaum:2008}.
 
-Se denomina \textit{deterioro} de memoria u ``olvido'' al proceso de debilitamiento de las conexiones neuronales establecidas por los procesos de consolidación. Está en constante funcionamiento, degenerando las asociaciones entre la memoria episódica y la semántica. Por lo tanto, en este contexto, el olvido no significa una eliminación de los datos en el cerebro, sino que estos siguen ahí, pero la conexión requerida es inexistente o es demasiado débil para poder ocuparla.
+Se denomina \textit{deterioro} de memoria u ``olvido'' al proceso de debilitamiento de las conexiones neuronales establecidas por los procesos de consolidación. Está en constante funcionamiento, degenerando las asociaciones entre la memoria episódica y la semántica. Por lo tanto, en este contexto, el olvido no significa una eliminación de los datos en el cerebro, sino que estos siguen ahí, pero la conexión requerida es inexistente o es demasiado débil para poder utilizarla.
 
 Existen procesos químicos a nivel cerebral que afectan la consolidación y el deterioro de la LTM. Hay evidencia de que estos están en continuo funcionamiento. Estos eventos celulares ocurren en una escala de segundos a minutos, y son esenciales para la mantención de la LTM.
 
@@ -204,7 +204,7 @@ Es posible modular ambos procesos. Las experiencias repetidas potencian la conso
 %% =====================================================================
 %% =====================================================================
 
-En esta sección se revisan trabajos que buscan implementar LTM en robots. Se inicia haciendo énfasis en la importancia de ésta en el campo de la robótica doméstica. Se hace una comparación entre la memoria humana y el manejo de información en robots. Luego, se revisan sistemas LTM encontrados en la literatura. Finalmente, se detallan las bases teóricas utilizadas para el diseño del proyecto, seleccionadas a partir de los trabajos más relevantes estudiados.
+En esta sección se revisan trabajos que buscan implementar LTM en robots. Se inicia haciendo énfasis en la importancia de esta en el campo de la robótica doméstica. Se hace una comparación entre la memoria humana y el manejo de información en robots. Luego, se revisan sistemas LTM encontrados en la literatura. Finalmente, se detallan las bases teóricas utilizadas para el diseño del proyecto, seleccionadas a partir de los trabajos más relevantes estudiados.
 
 
 %% =====================================================================
@@ -265,7 +265,7 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 %
 %
 %\subsubsection{Otros tipos de memoria}
-%Generalmente, las memorias STM, semántica y procedural son un requisito mínimo para el funcionamiento de un software robótico, pero no son implementadas de forma explícita, sino que se pueden identificar en los componentes de software descritos anteriormente. Luego, la existencia de tales memorias, no implica la intención de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias sólo son implementados en casos especializados.
+%Generalmente, las memorias STM, semántica y procedural son un requisito mínimo para el funcionamiento de un software robótico, pero no son implementadas de forma explícita, sino que se pueden identificar en los componentes de software descritos anteriormente. Luego, la existencia de tales memorias, no implica la intención de crear una arquitectura LTM similar a la humana. Los otros tipos de memorias solo son implementados en casos especializados.
 %
 %
 
@@ -338,9 +338,9 @@ Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, M
 %
 %%\todounsure{Hablar sobre este paper: sueño y postprocesamiento, puede estar demás para el marco teórico...}
 %
-%En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley~\cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda sólo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
+%En un esquema LTM, un episodio puede estar constituido de muchos eventos, pero no todos son igualmente relevantes. En su trabajo, Kelley~\cite{Kelley2014} estudia 3 estrategias para la consolidación de recuerdos. La primera almacena todos los eventos ocurridos, pero tiene un costo de búsqueda lineal, respecto a los eventos almacenados; esta estrategia es impráctica a largo plazo. La segunda solo almacena eventos interesantes y realiza una búsqueda entre los más recientes; esta estrategia es práctica, pero no permite abstracción del evento. La tercera estrategia se basa en un postprocesamiento de las memorias, de manera similar al sueño humano.
 %
-%La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no sólo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
+%La estrategia propuesta por Kelley se basa en recordar todos los eventos, pero realizando un postprocesamiento de los datos una vez terminado el episodio. La ventaja es que no solo permite recordar los eventos interesantes del episodio, sino que además permite reconocer pistas o estímulos previos que sirven para prevenir un evento indeseado o potenciar eventos interesantes. Además, permite almacenar eventos posteriores, que sirven para entender las consecuencias del evento de interés. 
 %
 %En la Figura~\ref{img:sleep_eventos} se muestra un episodio conformado de una secuencia de 9 eventos. Entre los marcadores 1-2 y 5-6 hay eventos considerados poco interesantes, mientras que los eventos entre 3-4 son interesantes. Kelley propone almacenar la secuencia completa de eventos, para descartar los que no son útiles en un postprocesamiento. A priori se deben quitar los eventos entre 1-2 y 5-6, sin embargo, el evento 2 se mantiene en la memoria episódica como pista, y el evento 5 se mantiene para reforzar la consecuencia del episodio. Los resultados se pueden utilizar para aprendizaje reforzado, mientras que las pistas sirven para generalizar el episodio, en caso de que sean recurrentes.
 %
@@ -360,9 +360,9 @@ Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, M
 \subsubsection{Aspectos fuera del alcance del proyecto}\label{sec:otros_aspectos}
 %% =====================================================================
 
-A continuación se presentan algunos estudios relacionados con aspectos de una LTM que escapan de los requerimientos para este proyecto o que simplemente no son basados en la taxonomía de la memoria humana. Estos trabajos sólo se presentan a modo de completitud, pues no permiten resolver el objetivo de este proyecto, sino que sólo comprender otros enfoques y acercamientos a la solución. 
+A continuación se presentan algunos estudios relacionados con aspectos de una LTM que escapan de los requerimientos para este proyecto o que simplemente no son basados en la taxonomía de la memoria humana. Estos trabajos solo se presentan a modo de completitud, pues no permiten resolver el objetivo de este proyecto, sino que solo comprender otros enfoques y acercamientos a la solución. 
 
-Thorsten et al.~\cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias episódica y semántica, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena sólo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir las dependencias entre cada componente y el ancho de banda utilizado para retransmitir la información entre procesos.
+Thorsten et al.~\cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias episódica y semántica, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena solo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir las dependencias entre cada componente y el ancho de banda utilizado para retransmitir la información entre procesos.
 
 El sistema propuesto por Ho et al.~\cite{Ho2009} busca modelar la memoria de forma suficientemente general, como para permitir el traspaso de los recuerdos de un robot a otro, independientemente de que el hardware sea distinto. El costo de esto, es que se reduce la personalización de cada robot. Por otro lado, Ho et al. además aplican la teoría \textit{Roboética}, sugerida por Veruggio y Operto~\cite{Veruggio2006}, de donde derivan restricciones de diseño, relativas al manejo de información privada de los usuarios.
 
@@ -422,7 +422,7 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 	La información almacenada es declarativa por naturaleza, y puede ser flexiblemente almacenada. Particularmente, puede interactuar con conocimiento semántico, incluso si este fue obtenido con posterioridad a la codificación del episodio.
 	
 	\item \RStachowicz{4} {\bfseries Unicidad:}
-	La memoria episódica cuenta con sólo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación. Es decir, cada episodio es único y no puede ser generalizado o entrenado a partir de una secuencia de episodios.
+	La memoria episódica cuenta con solo una instancia de cada evento para su entrenamiento, pues cada evento tiene características específicas a la situación. Es decir, cada episodio es único y no puede ser generalizado o entrenado a partir de una secuencia de episodios.
 	
 	\item \RStachowicz{5} {\bfseries Introspección:}
 	Recuerdos episódicos pueden ser almacenados por periodos de segundos, minutos, días o años. Es posible hablar sobre eventos asociados y acceder a ellos para introspección.
@@ -512,9 +512,9 @@ Sistemas más avanzados, incluso pueden considerar la generación de reacciones 
 
 Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al.~\cite{Deutsch2008} consideran que la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados.
 
-\todojocelyn{falta una frase para conectar este parrafo con lo presentado anteriormente}
+\todojocelyn{falta una frase para conectar este párrafo con lo presentado anteriormente}
 En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones, que se muestra en la Figura~\ref{img:plutchik}. Su trabajo es uno de los más influyentes para la clasificación de las emociones y sus respuestas. Plutchik propone 8 emociones primarias, cada una es de carácter bipolar y con un nivel de intensidad asociado: ira - miedo, alegría - tristeza, confianza - aversión, sorpresa - anticipación. La rueda además muestra 8 emociones avanzadas de carácter bipolar, formadas a partir de las 2 emociones primarias adyacentes.
-\todojocelyn{y cual es la conexion de esto con tu memoria?}
+\todojocelyn{y cual es la conexión de esto con tu memoria?}
 
 \begin{figure}[!ht]
 	\centering
@@ -569,7 +569,7 @@ En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones,
 \end{figure}
 
 
-\todojocelyn{no es posible intergrar las secciones 2.4.2.1 y 2.4.2.2? dado que sigues hablando del trabajo de Dood ..}
+\todojocelyn{no es posible integrar las secciones 2.4.2.1 y 2.4.2.2? dado que sigues hablando del trabajo de Dood ..}
 
 \subsubsection{Relevancia histórica}
 %% =====================================================================
