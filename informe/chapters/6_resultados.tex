@@ -171,7 +171,7 @@ Por lo anterior, los requerimientos impuestos para las validaciones son bajos. S
 \ltmconcept{Cantidad de episodios}
 Según el caso de uso esperado, se hace una estimación de la cantidad de episodios a recolectar, para soportar el uso del sistema LTM de manera continua durante un periodo de 1, 5 y 10 años. 
 
-Para determinar la cantidad de episodios, se estima que en una hora el robot es capaz de realizar 3 sesiones de trabajo. Por cada sesión, se almacena un árbol con 20 episodios. 
+Para determinar la cantidad de episodios, se estima que en una hora el robot es capaz de realizar 3 sesiones de trabajo. Por cada sesión, se almacena un árbol con 10 episodios. 
 
 En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto utilizado para la estimación. Se debe enfatizar que los valores seleccionados son solo válidos para este estudio y la cantidad real de episodios dependerá del uso dado al sistema LTM.
 
@@ -185,10 +185,10 @@ En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto 
 		Días / Semana	&  5 \\  \hline
 		Horas / Día     &  3 \\  \hline
 		Árboles / Hora  &  3 \\  \hline
-		Episodios / Árbol & 20 \\  \hline \hline
-		Episodios en 1 año  & 28.800  \\  \hline 
-		Episodios en 5 años  & 144.000  \\  \hline 
-		Episodios en 10 años  & 288.800  \\  \hline 		
+		Episodios / Árbol & 10 \\  \hline \hline
+		Episodios en 1 año  & 14.400  \\  \hline 
+		Episodios en 5 años  & 72.000  \\  \hline 
+		Episodios en 10 años  & 144.800  \\  \hline 		
 	\end{tabular} 
 	\caption[Estimaciones para validación de escalabilidad]
 	{\small Estimación de la cantidad de episodios necesarios para las evaluaciones de escalabilidad, bajo el caso de uso del sistema LTM en el robot Bender.}
@@ -199,7 +199,7 @@ En la Tabla \ref{table:escalabilidad} se presentan los valores de cada concepto 
 \ltmconcept{Cantidad de consultas por minuto}
 La cantidad de consultas por minuto esperadas para el sistema LTM, en adelante \textit{CPM}, dependerá mucho del uso del robot. A continuación se hace una estimación gruesa sobre las CPM requeridas para las operaciones de inserción y búsqueda de episodios, se acuerdo a la experiencia que el autor tiene con el robot.
 
-Para el caso de la inserción de episodios, siguiendo las estimaciones de escalabilidad, con 3 árboles/hora y 20 episodios/árbol se estima 1 CPM para consultas de inserción. Sin embargo, es posible que los procesos de inserción se ejecuten de manera consecutiva en un corto intervalo de tiempo, por lo que se propone un valor de 60 CPM.
+Para el caso de la inserción de episodios, siguiendo las estimaciones de escalabilidad, con 3 árboles/hora y 10 episodios/árbol se estima 1 CPM para consultas de inserción. Sin embargo, es posible que los procesos de inserción se ejecuten de manera consecutiva en un corto intervalo de tiempo, por lo que se propone un valor de 60 CPM.
 
 Para el caso de las búsquedas, la tasa de consultas depende completamente del uso que le de el desarrollador. A modo de experimento, se asumirá que es deseable una tasa de 10 consultas por segundo, es decir, 600 CPM. Sin embargo, una tasa de 10 CPM puede ser aceptable en la mayoría de los casos, asumiendo que el robot debe responder consultas realizadas por un humano durante una conversación.
 
@@ -211,12 +211,11 @@ A continuación se detalla la metodología para la generación de episodios, con
 Tanto las validaciones de escalabilidad como las de eficiencia requieren que la base de datos ya contenga un conjunto de árboles con episodios. La estrategia utilizada es la siguiente:
 \begin{enumerate}
 \item Se crea una base de datos vacía para cada prueba.
-\item Se inserta un árbol de 20 episodios (tamaño esperado). El árbol es de profundidad 3, tiene 1 raíz, 3 nodos internos y 6 hojas. Todos los episodios son generados con campos aleatorios para cada tipo de dato requerido.
-\item Según se requiera se repite el paso 2, hasta obtener un árbol del tamaño deseado.
+\item Se inserta un árbol de 10 episodios (tamaño esperado). El árbol es de profundidad 3, tiene 1 raíz, 3 nodos internos y 6 hojas. Todos los episodios son generados con campos aleatorios para cada tipo de dato requerido.
+\item Según se requiera se repite el paso 2, hasta obtener la cantidad de episodios deseada.
 \end{enumerate}
 % sobre que el uso de streams y entidades extra agrega complejidad
 % Siempre se podrían validar más cosas. No busca ser una validación extensiva, sino que una que se adecúe a los requisitos del robot objetivo.
-\todowrite{ERROR: CANTIDAD DE ELEMENTOS DEL ÁRBOL A INSERTAR.}
 
 \ltmconcept{Generación de consultas}
 Con el fin de evitar sesgar las mediciones por motivos del caché de búsqueda, los valores de cada campo de las consultas $Q_x$ son generados al azar.  Todos los valores generados corresponden al rango de valores posibles para el campo en cuestión. Por ejemplo, para el campo \texttt{children\_tags}, los episodios generados contienen valores del conjunto $\{ tag_1,\ldots, tag_{1000} \}$, entonces la consulta $Q_2$ solo utilizará valores al azar obtenidos desde el conjunto correspondiente. Para cada campo se tienen al menos 100 valores y a lo más 1.000 valores posibles.
@@ -248,7 +247,7 @@ A partir de los resultados, un nodo ROS es utilizado para la generación de los 
 \texttt{\$ rosrun ltm\_samples graphs\_scalability.py}.
 
 \ltmconcept{Muestras recopiladas}
-Según se estimó, para un lapso de 10 años el robot Bender recopilaría cerca de 288.800 episodios. Para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 500.000 episodios, por lo que cada gráfico está compuesto de 50 muestras.
+Según se estimó, para un lapso de 10 años el robot Bender recopilaría cerca de 144.000 episodios. Para establecer un factor extra de seguridad en la estimación, se realizaron mediciones con hasta 500.000 episodios, por lo que cada gráfico está compuesto de 50 muestras.
 
 \ltmconcept{Uso de memoria secundaria} Los resultados son presentados en el gráfico de la Figura \ref{result:scalability_disk_usage}.  Por un lado, se ve que el espacio total de memoria secundaria utilizado por MongoDB, es reservado en porciones cada vez mayores. Por otro lado, del espacio reservado, la porción utilizada para el almacenamiento de episodios e índices crece de manera lineal, respecto a la cantidad de episodios almacenados.
 
@@ -261,7 +260,7 @@ Según se estimó, para un lapso de 10 años el robot Bender recopilaría cerca 
 \end{figure}
 
 
-En sus inicios, el sistema LTM utiliza hasta 0.5 GB para almacenamiento, mientras que a los 10 años (300.000 episodios) llega a utilizar 1 GB en documentos, indices y espacio reservado. 
+En sus inicios, el sistema LTM utiliza hasta 0.25 GB para almacenamiento, mientras que a los 10 años (200.000 episodios) llega a utilizar 1 GB en documentos, indices y espacio reservado. 
 
 Se considera que tal cantidad de memoria secundaria no es un problema para las cantidades de espacio disponibles en los computadores actuales. Sin embargo, esta evaluación solo considera el almacenamiento de episodios, sin streams ni las entidades asociadas. Se espera que el uso de disco aumente de acuerdo a los tipos de dato definidos por el usuario para cada uno de los plugins. 
 
@@ -269,11 +268,9 @@ Particularmente, en el caso de los streams, si se almacenan imágenes en alta re
 
 % Disco utilizado no es un problema. Pero se espera que el espacio aumente según se consideran streams y entidades. Para el caso de 1 stream, con 10 imágenes por episodios, cada una de tamaño AxB, y peso NkB, el tamaño total será ...
 
-\todoimprove{Poner línea sobre el gráfico, indicando los 1, 5 y 10 años}
+\todoNOPE{Poner línea sobre el gráfico, indicando los 1, 5 y 10 años}
 
 \ltmconcept{Duración de consultas} Los resultados son presentados en los gráficos de la Figura \ref{result:scalability_time_usage}. Ambos gráficos presentan las mismas mediciones y solo difieren en la escala y límites del eje temporal.
-
-\todomateu{Entiendo que los datos se graban en un disco. Se consideró un SSD??.}
 
 \begin{figure}[!ht]
 	\centering
@@ -301,6 +298,7 @@ De lo anterior se puede ver que distintas consultas tienen costos de búsqueda m
 
 En cuanto al impacto en la interacción humano robot, es esperable que Bender tenga un funcionamiento ininterrumpido. En este caso, una demora de 0.5[s] en la inserción o búsqueda de episodios puede no ser problema, mientras que en el caso de la consulta $Q_4$, una demora de 10[s] puede comprometer el interés y las expectativas del humano con quien se interactúa. Por lo tanto, en el caso de realmente requerir una consulta compleja como lo es $Q_4$, se recomienda avisar a la persona que el robot deberá procesar la consulta (o ``pensar'') durante unos segundos, para así evitar comprometer la interacción.
 
+Finalmente, una manera simple y alternativa para disminuir los costos de tiempo para las operaciones del sistema es adquirir componentes de hardware con mejor desempeño. Por ejemplo, se podría considerar el uso de memoria secundaria de tipo SSD, un CPU con mayor caché y frecuencia de procesamiento, y memoria primaria más veloz.
 
 \ltmconcept{Límite para las CPM} Finalmente, a partir de los costos en tiempo para cada operación, revisados en la Figura \ref{result:scalability_time_usage}, se puede calcular la tasa máxima de CPM para cada una de las operaciones. Los resultados se presentan en el gráfico de la Figura \ref{result:scalability_max_qpm}. 
 

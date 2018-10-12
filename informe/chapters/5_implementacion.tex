@@ -411,7 +411,7 @@ El Código \ref{lst:sample-queries} muestra algunos ejemplos de consultas JSON v
 \lstset{style=/Style/JSON}
 \lstinputlisting[caption=Consultas JSON de ejemplo,label=lst:sample-queries]{code/json/sampleQueries.json}
 
-\todolater{Ej. Stream por duración (Operación matemática: ver \url{https://stackoverflow.com/questions/23282193/perform-math-in-searchqueries-mongodb)}}
+\todoNOPE{Ej. Stream por duración (Operación matemática: ver \url{https://stackoverflow.com/questions/23282193/perform-math-in-searchqueries-mongodb)}}
 
 \ltmconcept{Adquisición de episodios}
 Una vez seleccionados los episodios de interés, el servicio \texttt{$\sim$/ltm/episode/get} permite recolectarlos desde el servidor LTM. El servicio de tipo \texttt{ltm/GetEpisodes.srv} se presenta en el Código~\ref{lst:getepisodes}.
@@ -481,7 +481,7 @@ La implementación solo utiliza la API SMACH y la API ROS para el servidor LTM, 
 	\end{itemize}
 	\item Se debe ejecutar el método \texttt{ltm.setup()} (línea 27), para configurar los callbacks de todo estado registrado e inicializar la conexión con el servidor LTM.
 \end{enumerate}
-\todoimprove{Marcar líneas de interés en el código mostrado}
+\todoNOPE{Marcar líneas de interés en el código mostrado}
 \lstset{language=Python}
 \lstinputlisting[caption=Ejemplo de uso de la interfaz LTM/SMACH,label=lst:ltmsmachsample]{code/python/ltm_smach_sample.py}
 
@@ -519,7 +519,7 @@ El robot implementado responde a todas las consultas mediante la generación de 
 	\item Entidades: Se implementaron plugins para las entidades personas y objeto. Las clases correspondientes son \texttt{ltm\_samples::PeopleEntityPlugin} para personas, y la clase  \texttt{ltm\_samples::ObjectsEntityPlugin} para objetos.
 \end{itemize}
 
-\todowrite{Ejecución del robot simulado. Launchfiles}
+\todoNOPE{Ejecución del robot simulado. Launchfiles}
 
 
 
