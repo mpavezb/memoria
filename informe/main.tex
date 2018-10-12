@@ -13,36 +13,15 @@
 
 \input{config.tex}
 
-\renewcommand\appendixtocname{Anexos}
 
-
-% Fuentes para requesitos y validaciones
-\newcommand{\RPlabel}[1]{$\mathcal{RP}_{#1}$}
-\newcommand{\RStachowicz}[1]{($\mathcal{R}_{#1}$)}
-%\newcommand{\RSlabel}[1]{{\bfseries RS{#1}}}
-\newcommand{\RSlabel}[1]{{RS{#1}}}
-\newcommand{\RPlabelDef}[1]{(\RPlabel{#1}):}
-%\newcommand{\Vlabel}[2]{{\bfseries V{#1}{#2}}}
-\newcommand{\Vlabel}[2]{{V{#1}{#2}}}
-\newcommand{\ltmconcept}[1]{\noindent{\bfseries #1:}\hspace{1em}}
-
-\usepackage{xcolor}
-\usepackage{soul}
-\definecolor{Light}{gray}{.90}
-\sethlcolor{Light}
-\let\OldTexttt\texttt
-\renewcommand{\texttt}[1]{\OldTexttt{\hl{#1}}}
-
-\newcommand{\CC}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
-\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
-
-
-\addto\captionsspanish{%
-	\renewcommand{\listfigurename}{Índice de Figuras}
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\todoNOPE}[1]{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-
+	
 \frontmatter
 \maketitle
 
@@ -63,7 +42,6 @@
 \mainmatter
 
 \input{./chapters/1_introduccion}
-\todofinal{Agregar summary al final de cada cap.}
 \input{./chapters/2_teoria}
 \input{./chapters/3_aspectos_tecnicos.tex}
 \input{./chapters/4_diseno}

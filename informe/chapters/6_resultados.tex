@@ -43,7 +43,7 @@ La validación \Vlabel{A}{17} no se cumple. Está relacionada al requisito de si
 Se requiere la implementación de la relevancia emocional, histórica y generalizada. A continuación se revisan los puntos necesarios asociados a las validaciones requeridas.
 
 El sistema LTM implementado soporta el concepto de relevancia episódica, almacenando sus datos mediante el mensaje ROS \texttt{ltm/Relevance.msg}, embebido en el mensaje \texttt{ltm/Episode.msg}. Debido a esto, es posible incluir cualquiera de los campos en las condiciones de búsqueda, permitiendo filtrar episodios por cualquiera de las relevancias (\Vlabel{A}{25}).
-\todoimprove{Código de ejemplo para filtrar por relevancia.}
+\todoNOPE{Código de ejemplo para filtrar por relevancia.}
 
 La relevancia emocional fue implementada en el mensaje \texttt{ltm/EmotionalRelevance.msg} (\Vlabel{A}{21, 22}). Sus datos son recopilados mediante un plugin implementado por el usuario. El paquete \texttt{ltm\_samples} provee un plugin de ejemplo, capaz de adquirir el estado emocional del robot simulado.
 
@@ -292,6 +292,9 @@ Particularmente, en el caso de los streams, si se almacenan imágenes en alta re
 
 En el caso de la inserción, se puede ver que el costo temporal crece de manera lineal respecto a la cantidad de episodios almacenados. A los 300.000 episodios la consulta requiere alrededor de 0.25[s], mientras que a los 500.000 la consulta toma 0.5[s]. Dado los costos descritos, se impone una cota inferior para la duración de los episodios a generar, pues no será posible almacenar una secuencia de episodios de 0.1[s] cada uno, cuando el sistema LTM requiere más tiempo para su procesamiento. De todas formas, el costo temporal de la inserción es considerado bajo para el caso de uso de Bender.
 
+\todojocelyn{$Q_4$ no se ve tan distinta de $Q_5$... que crees que ocurre con esta consulta, porque se ve este comportamiento?}
+% sobre costo de consultas AND/OR... orden de sub queries...   
+
 Para el caso de la búsqueda, se puede ver que todas las consultas, a excepción de $Q_4$, tienen un costo temporal que crece de manera lineal  respecto a la cantidad de episodios almacenados. Las consultas $Q_1$, $Q_2$ y $Q_5$ siempre se mantienen bajo los 0.25[s], mientras que $Q_3$ tiene un costo de 1.0[s] a los 300.000 episodios. En cuanto a $Q_4$, se podría decir que el costo se comporta de manera lineal, pero las mediciones toman demasiado tiempo en ser ejecutadas y tal vez se requieran más muestras para obtener un valor promedio menos variable. Además, $Q_4$ toma 10[s] a los 300.000 episodios, 10 veces más que $Q_3$ y cerca de 40 veces más que $Q_1$, $Q_2$ y $Q_5$.
 
 De lo anterior se puede ver que distintas consultas tienen costos de búsqueda muy  distintos, los que pueden llegar a degradar el funcionamiento del robot, como es el caso de $Q_4$.  Se cree que se debe estudiar en más detalle el costo de todas las operaciones disponibles en el lenguaje de consulta de MongoDB y su interacción con los operadores lógicos, para así disponer de medidas empíricas sobre las cuales diseñar consultas de menor costo.
@@ -331,16 +334,15 @@ En este caso se presentan mediciones con hasta 100.000 episodios. En cuanto a la
 
 
 \ltmconcept{Uso de RAM según CPM}
-Se midió el uso de RAM según la cantidad de CPM para distintas cantidades de episodios y para cada consulta. De los resultados se observó que el uso de RAM no es afectado por la consulta efectuada ni la cantidad de CPM, sino que solo por la cantidad de episodios. El gráfico correspondiente se presenta en la Figura \ref{result:eff__ram_qpm}, el que representa a todas las consultas evaluadas.
+Se midió el uso de RAM según la cantidad de CPM para distintas cantidades de episodios y para cada consulta. De los resultados se observó que el uso de RAM no es afectado por la consulta efectuada ni la cantidad de CPM, sino que solo por la cantidad de episodios. El gráfico correspondiente se presenta en la Figura \ref{result:eff__ram_qpm}, el que muestra el uso de RAM en el sistema LTM para cada consulta evaluada.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\graphwidth\textwidth]{results/eff__ram_qpm.eps}
 	\caption[Eficiencia: Uso de RAM según CPM, cantidad variable de episodios.]
-	{\small Prueba de eficiencia sobre el uso de RAM según la cantidad de CPM, para distintas cantidades de episodios. Los resultados presentados son independientes de la consulta efectuada.}
+	{\small Prueba de eficiencia sobre el uso de RAM en el sistema LTM según la cantidad de CPM, para distintas cantidades de episodios. Los resultados presentados son independientes de la consulta efectuada.}
 	\label{result:eff__ram_qpm}
 \end{figure}
-\todowrite{Medidas LTMp, MongoDBp o sistema LTM?}
 
 De los experimentos se entiende que el consumo de RAM debe ser visto como parte de las medidas de escalabilidad y no de eficiencia. Para los 100.000 episodios (alrededor de 5 años de uso) el sistema LTM consume aproximadamente 500 MB de RAM. Sin embargo, se cree necesario conocer la curva de escalabilidad del consumo de RAM, para poder entender el uso de recursos en mayor detalle.
 
@@ -401,9 +403,7 @@ Del total de CPU utilizado en cada consulta, el mayor costo se atribuye al proce
 % RELACIÓN ENTRE EFICIENCIA Y ESCALABILIDAD
 Finalmente, es posible ver que el costo de CPU incrementa de manera lineal  respecto a la cantidad de CPM, a excepción de $Q_4$. Además, se ve una relación directa entre el costo de CPU y el tiempo de consulta de las pruebas, presentado en los resultados de escalabilidad. Las consultas de menor costo en duración son las menos costosas en términos de CPU, mientras que $Q_3$ y $Q_4$ son más costosas en ambos ámbitos.
 
-\todoimprove{Coma decimal, punto miles.}
-
-
+\todoNOPE{Coma decimal, punto miles.}
 
 
 \ltmconcept{Uso de CPU según CPM, revisión por cada consulta} En la Figura \ref{result:eff_cpu_qpm_by_eps__sum} se presenta un gráfico por cada consulta estudiada. En cada caso se evalúa el costo de CPU según la cantidad de CPM para distintas cantidades de episodios. Solo se presentan los resultados para la suma de ambos procesos de interés, pues ya se ha evaluado el impacto de cada proceso por separado. Estas visualizaciones se obtienen de las mismas mediciones que las de la Figura \ref{result:eff__cpu_qpm_by_query}, pero permiten evaluar la eficiencia desde otro punto de vista.

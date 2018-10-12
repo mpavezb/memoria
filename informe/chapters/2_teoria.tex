@@ -463,7 +463,7 @@ No existe un consenso sobre los contenidos, el formato o las herramientas para i
 %% =====================================================================
 %% =====================================================================
 
-El almacenamiento, deterioro y recolección de episodios puede ser afectado por diversos factores. A continuación se detallan estudios que influencian el diseño, en cuanto a la modulación de tales procesos cognitivos, a partir de la memoria emocional y la relevancia histórica de los episodios.
+El almacenamiento, deterioro y recolección de episodios puede ser afectado por diversos factores. A continuación se detallan estudios que influencian el diseño, en cuanto a la modulación de tales procesos cognitivos, a partir de la memoria emocional y la relevancia histórica de los episodios. En otras palabras, los estudios que aquí se exponen son la base para el cálculo de las relevancias episódicas de la memoria LTM.
 
 
 \subsubsection{Memoria emocional}
@@ -471,10 +471,9 @@ El almacenamiento, deterioro y recolección de episodios puede ser afectado por 
 % Para más refs sobre emociones ver Deutsch2008
 
 % uso de memoria emocional
-La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona, o en este caso, el robot. Así, se puede dar prioridad a unos eventos por sobre otros, afectando los procesos cognitivos. Particularmente, un evento importante emocionalmente podría ser más fácilmente recordado, o ser almacenado por un periodo más largo~\cite{Deutsch2008}.
+La importancia de un evento se ve fuertemente influenciada por el estado emocional de una persona, o en este caso, el robot. Así, se puede dar prioridad a unos eventos por sobre otros, afectando los procesos cognitivos. Particularmente, un evento importante emocionalmente podría ser más fácilmente recordado, o ser almacenado por un periodo más largo~\cite{Deutsch2008}. A continuación se presenta un acercamiento a la generación de reacciones emocionales en un robot, a partir de los estímulos que este percibe.
 
-La implementación de la memoria emocional requiere como mínimo de un mapeo entre los estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al.~\cite{Dodd2005} proponen el uso de la teoría emocional de reacciones de Haikonen~\cite{}, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
-\todojocelyn{referencia a la teoría emocional de Haikonen}
+La implementación de la memoria emocional requiere como mínimo de un mapeo entre los estímulos percibidos por el robot y las sensaciones emocionales que estos generan. Dood et al.~\cite{Dodd2005} proponen el uso de la teoría emocional de reacciones de Haikonen~\cite{Haikonen2003}, que considera a una emoción como una combinación de estímulos básicos. Las sensaciones elementales son: bienestar, malestar, dolor, placer e interés.
 
 Dood et al. proponen implementar las sensaciones a partir de distintos estímulos medidos en un robot:
 \begin{itemize}
@@ -483,7 +482,7 @@ Dood et al. proponen implementar las sensaciones a partir de distintos estímulo
 	\item Según el cumplimiento de objetivos y expectativas. Por ejemplo, de acuerdo a las tareas que se lograron cumplir y los errores cometidos.
 \end{itemize}
 
-Sistemas más avanzados, incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Tabla~\ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
+Sistemas más avanzados incluso pueden considerar la generación de reacciones emocionales, basándose en las sensaciones derivadas anteriormente. En la Tabla~\ref{img:emotional_haikonen} se muestran las reacciones generadas según el modelo de Haikonen. Además, estas se podrían reflejar en la personalidad del robot, por ejemplo, mediante gestos, vocabulario o nivel de aceptación para realizar una acción. Kasap et al.~\cite{Kasap2010} utilizan un sistema llamado \textit{Emotion Engine}, para generar reacciones emocionales y simular cambios de personalidad de un robot, según las sensaciones percibidas.
 
 \begin{table}[!ht]
 	\centering
@@ -506,13 +505,13 @@ Sistemas más avanzados, incluso pueden considerar la generación de reacciones 
 	{\small Sensaciones elementales y sus reacciones correspondientes, según el modelo de Haikonen. Obtenido de~\cite{Dodd2005}.}
 	\label{img:emotional_haikonen}
 \end{table}
-\todojocelyn{Sobre cita en Tabla \ref{img:emotional_haikonen}. es raro que algo propuesto por persona X salga de un paper por persona Y .. cual es la referencia original al modelo de Haikonen?}
+\todoNOPE{jocelyn: Sobre cita en Tabla \ref{img:emotional_haikonen}. es raro que algo propuesto por persona X salga de un paper por persona Y .. cual es la referencia original al modelo de Haikonen?}
 
 Para su uso efectivo dentro de un esquema LTM, se espera que las sensaciones reportadas incluyan un nivel de intensidad. Según el nivel percibido en cada episodio, es posible clasificarlos entre eventos muy o poco relevantes. Los más relevantes tendrán mayor probabilidad de ser recuperados al recordar. Deutsch et al.~\cite{Deutsch2008} consideran que la intensidad de las sensaciones es importante, pues permite evitar costos de búsqueda lineales dentro de todos los episodios almacenados.
 
-\todojocelyn{falta una frase para conectar este párrafo con lo presentado anteriormente}
+
+\todoNOPE{jocelyn: falta una frase para conectar este párrafo con lo presentado anteriormente}
 En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones, que se muestra en la Figura~\ref{img:plutchik}. Su trabajo es uno de los más influyentes para la clasificación de las emociones y sus respuestas. Plutchik propone 8 emociones primarias, cada una es de carácter bipolar y con un nivel de intensidad asociado: ira - miedo, alegría - tristeza, confianza - aversión, sorpresa - anticipación. La rueda además muestra 8 emociones avanzadas de carácter bipolar, formadas a partir de las 2 emociones primarias adyacentes.
-\todojocelyn{y cual es la conexión de esto con tu memoria?}
 
 \begin{figure}[!ht]
 	\centering
@@ -567,7 +566,7 @@ En el año 1980 Plutchik~\cite{plutchik1980} presenta la Rueda de las Emociones,
 \end{figure}
 
 
-\todojocelyn{no es posible integrar las secciones 2.4.2.1 y 2.4.2.2? dado que sigues hablando del trabajo de Dood ..}
+\todoNOPE{jocelyn: no es posible integrar las secciones 2.4.2.1 y 2.4.2.2? dado que sigues hablando del trabajo de Dood ..}
 
 \subsubsection{Relevancia histórica}
 %% =====================================================================
