@@ -1,23 +1,57 @@
 \chapter{Diseño}\label{chapter:diseno}
 
-En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. Primero, se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: se revisa el diseño de los episodios, su estructura de datos y limitantes; se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos; en tercer lugar, se presenta el diseño del servidor LTM; finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
+En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. El capítulo es extenso y algunos puntos son muy detallados, por lo que se inicia con una revisión general del sistema LTM diseñado, con el fin de guiar su exposición. Considerando esto, se describe el diseño del proyecto, iniciando desde sus requerimientos hasta su integración al robot. Primero se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: se revisa el diseño de los episodios, su estructura de datos y limitantes; se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos; en tercer lugar, se presenta el diseño del servidor LTM; finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
 
-\todowrite{DIAGRAMA lTM SIMPLE + TEXTO}
-\todomateu{No se entiende bien el contexto de quién alimenta la LTM ni con qué, tampoco quién la utiliza.}
 
-% TODO:
-- Descripción breve del sistema diseñado.
-- Usuario vs. Desarrollador vs. Robot
-- Diagrama y FLujo de información
--
+\section{Revisión General}
+
+A continuación se presenta una revisión general del sistema LTM diseñado, junto a algunas consideraciones relevantes para la comprensión de este.
+
+\subsection{Conceptos}
+
+Acá se presentan algunas revisiones sobre conceptos utilizados en el capítulo y aclaraciones sobre la terminología empleada.
+
+\ltmconcept{Usuario versus operador}
+Primero, se hará la distinción entre el usuario del sistema y el operador de este. En adelante, se utilizará el término \textit{usuario} para indicar a la(s) persona(s) encargadas de utilizar y modificar el software LTM para un robot en particular, es decir, un usuario es un \textit{desarrollador} de software. Por otro lado, los términos \textit{operador} y \textit{humano} serán utilizados para referirse a alguien que posiblemente interactuaría con el robot. Por lo general, en casos de prueba, un usuario hace el papel de operador, sin embargo, notar esta diferencia es relevante. Finalmente, se utilizará el término \textit{robot} para referirse al robot objetivo donde se implementa el sistema LTM. A modo de ejemplo, el equipo UChile Homebreakers sería un \textbf{usuario} del sistema LTM implementado en el \textbf{robot} Bender, mientras que una persona del público con quien interactúa el robot es llamada \textbf{operador}.
+
+\ltmconcept{Memoria episódica versus semántica} Ya que ambos son términos recurrentes en este informe, merece la pena la siguiente aclaración. Un \textit{episodio} almacena la información de qué, dónde y cuándo sucedió un evento. La \textit{memoria episódica} es una colección de episodios. La \textit{memoria semántica} es una colección de información sobre \textit{entidades} particulares. La \textit{memoria LTM} se compone de las memorias episódica y semántica, relacionadas por el qué sucedió, respecto a las entidades conocidas.
+
+\ltmconcept{Tareas y comportamientos} Una \textit{tarea} hace referencia a toda actividad realizada por el robot durante su funcionamiento normal, para cumplir con sus obligaciones como robot doméstico. Ejemplos de esto son la interacción con humanos y el aseo del hogar. En adelante, se utilizarán los términos de \textit{tarea} y \textit{comportamiento} para indicar este concepto.
+
+\subsection{Sistema LTM} 
+
+Según se detalla en las siguientes secciones del capítulo, el sistema LTM diseñado emula una memoria LTM humana con componentes episódicos, semánticos y emocionales. A modo general, en el diagrama de la Figura \ref{img:diagrama-ltm-simple} se presenta el funcionamiento del sistema LTM diseñado. En primer lugar, se recopila información a partir de las tareas que realiza el robot y su memoria de trabajo, para generar los episodios a almacenar. Luego, el sistema se encarga de mantener los datos y responder las consultas episódicas o semánticas que se requieran.
 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{ltm-simple.png}
-	\caption[TODO]
-	{\small TODO.}
+	\caption[Diagrama funcional del sistema LTM diseñado.]
+	{\small Diagrama general del sistema LTM diseñado. Los episodios son generados a partir de información extraída sobre la tarea que ejecuta el robot y su memoria de trabajo disponible en el momento. La información almacenada puede ser consultada posteriormente.}
 	\label{img:diagrama-ltm-simple}
 \end{figure}
+
+\ltmconcept{Tarea} Las tareas realizadas por el robot son utilizadas para indicar el inicio y término de un episodio y conocer la actividad realizada por el robot. Una tarea puede ser dividida en diversas subtareas más detalladas. La interfaz de tarea es utilizada para acceder a la información anterior e iniciar la generación de nuevos episodios.
+
+\ltmconcept{Memoria de trabajo}
+Cada episodio generado debe poder responder a las consultas dónde y qué sucedió, para lo que se recopila información de localización y de las entidades de interés. Además, la información del estado emocional del robot permite asignar una relevancia a los episodios almacenados.  Todos los datos anteriores son recopilados a partir de la memoria de trabajo del robot, durante la ocurrencia del episodio.
+
+\ltmconcept{Generador de episodios}
+La generación de episodios utiliza la interfaz de tarea para reconocer nuevos episodios, y la memoria de trabajo del robot, para recopilar los datos necesarios para crear el episodio. Un episodio es generado por cada tarea y subtarea registrada.
+
+\ltmconcept{Servidor LTM}
+El servidor LTM hace referencia al programa encargado de almacenar, mantener y proveer interfaces de consulta para la memoria a largo plazo generada. El servidor utiliza la base de datos MongoDB para almacenar las memorias episódica y semántica. Es diseñado para funcionar en ROS y proveer una API de registro y consulta de episodios.
+
+\ltmconcept{Consultas}
+A través de la API de consulta del servidor LTM, es posible adquirir información episódica y semántica. Las consultas se construyen utilizando el lenguaje de consultas que provee MongoDB en formato JSON. El sistema es capaz de responder consultas como: qué sucedió en cierta fecha o hablar sobre una persona en particular, sus datos y cómo se ha modificado su conocimiento sobre ella en el tiempo.
+
+\ltmconcept{Generalidad y sistema de plugins}
+El sistema LTM está diseñado para ser utilizado en Bender y otros robots, mediante el uso de un sistema de plugins. Ya que la información semántica a almacenar depende del robot objetivo, el sistema permite la definición de sus contenidos mediante cualquier estructura de datos representable en un mensaje ROS. Luego, la interfaz de tarea y las interfaces para acceder a la memoria de trabajo deben ser implementadas por el usuario, mediante una serie de plugins adecuados al robot. 
+
+\ltmconcept{Integración en Bender}
+Para el caso de Bender, este proyecto provee implementaciones de cada uno de los plugins requeridos. Por un lado, las tareas son recopiladas desde máquinas de estado en SMACH. Por otro lado, se implementan plugins para acceder al sistema de localización del robot, recopilar información emocional y para recopilar datos sobre las entidades modificadas durante la tarea.
+
+
+
 
 %% =============================================================================
 %% =============================================================================

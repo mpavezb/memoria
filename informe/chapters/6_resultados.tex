@@ -91,7 +91,7 @@ A continuación se describen los componentes que no se han integrado al software
 
 \ltmconcept{Plugin emocional} Este plugin no ha sido implementado por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del proyecto. Sin ese requerimiento es imposible implementar el plugin requerido.
 
-\todomateu{Era lo que más me intrigaba. Debió quedar claro desde el principio.}
+\todoNOPE{L.Mateu: Era lo que más me intrigaba. Debió quedar claro desde el principio.}
 
 Por lo tanto, la integración del sistema LTM en Bender es parcial. Queda propuesta la implementación del plugin para entidades, el motor emocional para el robot y el plugin asociado.
 
@@ -292,7 +292,7 @@ Particularmente, en el caso de los streams, si se almacenan imágenes en alta re
 
 En el caso de la inserción, se puede ver que el costo temporal crece de manera lineal respecto a la cantidad de episodios almacenados. A los 300.000 episodios la consulta requiere alrededor de 0.25[s], mientras que a los 500.000 la consulta toma 0.5[s]. Dado los costos descritos, se impone una cota inferior para la duración de los episodios a generar, pues no será posible almacenar una secuencia de episodios de 0.1[s] cada uno, cuando el sistema LTM requiere más tiempo para su procesamiento. De todas formas, el costo temporal de la inserción es considerado bajo para el caso de uso de Bender.
 
-\todojocelyn{$Q_4$ no se ve tan distinta de $Q_5$... que crees que ocurre con esta consulta, porque se ve este comportamiento?}
+\todoNOPE{J.Simmonds: $Q_4$ no se ve tan distinta de $Q_5$... que crees que ocurre con esta consulta, porque se ve este comportamiento?}
 % sobre costo de consultas AND/OR... orden de sub queries...   
 
 Para el caso de la búsqueda, se puede ver que todas las consultas, a excepción de $Q_4$, tienen un costo temporal que crece de manera lineal  respecto a la cantidad de episodios almacenados. Las consultas $Q_1$, $Q_2$ y $Q_5$ siempre se mantienen bajo los 0.25[s], mientras que $Q_3$ tiene un costo de 1.0[s] a los 300.000 episodios. En cuanto a $Q_4$, se podría decir que el costo se comporta de manera lineal, pero las mediciones toman demasiado tiempo en ser ejecutadas y tal vez se requieran más muestras para obtener un valor promedio menos variable. Además, $Q_4$ toma 10[s] a los 300.000 episodios, 10 veces más que $Q_3$ y cerca de 40 veces más que $Q_1$, $Q_2$ y $Q_5$.
