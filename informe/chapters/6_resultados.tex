@@ -12,7 +12,7 @@ Para las pruebas se utilizó un robot simulado, de acuerdo a lo presentado en la
 
 \subsection{Generalidad del sistema LTM}
 
-Uno de los énfasis del diseño del sistema LTM es la generalidad del mismo. El objetivo es que el proyecto pueda ser utilizado por otros robots además de Bender, como por ejemplo, Maqui, otro robot del mismo laboratorio. A continuación se describen los conceptos de interés para lograr este objetivo, y cómo se relacionan con las validaciones.
+Uno de los énfasis del diseño del sistema LTM es la generalidad del mismo. El objetivo es que el trabajo pueda ser utilizado por otros robots además de Bender, como por ejemplo, Maqui, otro robot del mismo laboratorio. A continuación se describen los conceptos de interés para lograr este objetivo, y cómo se relacionan con las validaciones.
 
 En primer lugar, el sistema LTM soporta la definición de plugins para el manejo de estructuras episódicas de acuerdo a los requerimientos del usuario (\Vlabel{A}{02}). Esto es fundamental para poder utilizar el sistema LTM en cualquier plataforma, pues evita forzar una representación de la información, dejando la adquisición de esta al usuario.
 
@@ -22,12 +22,12 @@ La implementación del servidor solo requiere un mínimo de dependencias (\Vlabe
 
 Todas las validaciones asociadas se pueden verificar a partir de la implementación de plugins para el robot simulado, el que define mensajes episódicos para los streams y entidades que utiliza.
 
-Debido a los puntos anteriores, el sistema LTM implementado se puede ajustar a las necesidades de otros proyectos robóticos, sin requerir software de Bender.
+Debido a los puntos anteriores, el sistema LTM implementado se puede ajustar a las necesidades de otros trabajos robóticos, sin requerir software de Bender.
 
 
 \subsection{Reglas episódicas de Stachowicz}
 
-El otro foco del proyecto está en el cumplimiento de las reglas episódicas propuestas por Stachowicz. A modo de resumen, todas las validaciones asociadas se cumplen, a excepción de \Vlabel{A}{17}. A continuación se describen los conceptos asociados a cada una de las validaciones de interés.
+El otro foco del trabajo está en el cumplimiento de las reglas episódicas propuestas por Stachowicz. A modo de resumen, todas las validaciones asociadas se cumplen, a excepción de \Vlabel{A}{17}. A continuación se describen los conceptos asociados a cada una de las validaciones de interés.
 
 Los episodios son representados por un mensaje ROS con componentes genéricos. El usuario puede definir las estructuras de datos para la información semántica de interés utilizada en el campo \textit{What}: streams y plugins. El campo \textit{When} solo considera tiempos de inicio y fin, sin imponer restricciones sobre el lapso de tiempo. Además, no existe una restricción temporal entre un episodio y otro, lo que permite generar episodios traspuestos en el tiempo, siempre que uno no sea descendiente del otro. El campo \textit{Where} permite almacenar la posición del robot durante cada episodio, mediante una representación literal o a través de una posición dentro de un sistema coordenado de 3 dimensiones.
 
@@ -56,7 +56,7 @@ Tanto la relevancia histórica como la generalizada pueden ser consideradas part
 
 \subsection{Revisión}
 
-A modo de resumen, el foco del proyecto estuvo en el diseño e implementación de un sistema LTM genérico, basado en las reglas episódicas de Stachowicz. El objetivo fue diseñar un sistema LTM para el robot Bender, pero que pueda ser integrado en otras plataformas robóticas. Las validaciones asociadas a estos conceptos se cumplen todas, a excepción de \Vlabel{A}{17}, relacionada con la migración de la base de datos al modificar la representación episódica.
+A modo de resumen, el foco del trabajo estuvo en el diseño e implementación de un sistema LTM genérico, basado en las reglas episódicas de Stachowicz. El objetivo fue diseñar un sistema LTM para el robot Bender, pero que pueda ser integrado en otras plataformas robóticas. Las validaciones asociadas a estos conceptos se cumplen todas, a excepción de \Vlabel{A}{17}, relacionada con la migración de la base de datos al modificar la representación episódica.
 
 En cuanto a las relevancias episódicas, solo queda pendiente la implementación del algoritmo para la actualización automática de la relevancia histórica y la genérica.
 
@@ -67,7 +67,7 @@ Luego, las únicas validaciones de funcionalidad pendientes son: \Vlabel{A}{17},
 
 A continuación se describe es estado de la integración del sistema LTM en el robot Bender. Las 6 validaciones de interés se presentan en el Anexo \ref{appendix:validations}.
 
-Durante el periodo de implementación del proyecto, incluso hasta la fecha, el robot Bender no ha estado operativo. El equipo encargado ha decidido reestructurar el hardware del robot y además, está en el proceso de migrar URF a ROS kinetic. Por lo anterior, se ha retrasado la integración del sistema LTM en el robot y solo algunos de los componentes requeridos se han integrado.
+Durante el periodo de implementación del trabajo, incluso hasta la fecha, el robot Bender no ha estado operativo. El equipo encargado ha decidido reestructurar el hardware del robot y además, está en el proceso de migrar URF a ROS kinetic. Por lo anterior, se ha retrasado la integración del sistema LTM en el robot y solo algunos de los componentes requeridos se han integrado.
 
 La integración requiere la implementación de plugins para el sistema LTM, la generación de episodios a partir de las máquinas de estado del robot y la integración de tal código en URF.
 
@@ -89,7 +89,7 @@ A continuación se describen los componentes que no se han integrado al software
 
 \ltmconcept{Plugin para entidades} Según se describió en la Sección \ref{sec:design_bender}, se debe implementar un plugin para la recolección de entidades tipo persona y objeto, a partir de los módulos de percepción del robot. Este plugin no se ha desarrollado.
 
-\ltmconcept{Plugin emocional} Este plugin no ha sido implementado por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del proyecto. Sin ese requerimiento es imposible implementar el plugin requerido.
+\ltmconcept{Plugin emocional} Este plugin no ha sido implementado por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del trabajo. Sin ese requerimiento es imposible implementar el plugin requerido.
 
 \todoNOPE{L.Mateu: Era lo que más me intrigaba. Debió quedar claro desde el principio.}
 
@@ -97,7 +97,7 @@ Por lo tanto, la integración del sistema LTM en Bender es parcial. Queda propue
 
 \subsection{Demostración del sistema en Bender}
 
-Uno de los objetivos específicos del proyecto es la integración del sistema en el robot Bender y la posterior generación de una demostración de tal funcionalidad. Ya que no se dispone de robot, no se ha podido concretar este objetivo. 
+Uno de los objetivos específicos del trabajo es la integración del sistema en el robot Bender y la posterior generación de una demostración de tal funcionalidad. Ya que no se dispone de robot, no se ha podido concretar este objetivo. 
 
 Una vez integrados los módulos pendientes, se debe ejecutar una máquina de estado en SMACH para la recopilación de episodios con información semántica sobre personas y objetos. Luego, el robot debe responder a un conjunto de preguntas sobre hechos pasados mediante el servicio de consultas que provee el sistema LTM.
 
@@ -159,7 +159,7 @@ En adelante, se referirá a cada consulta por su abreviación en el formato $Q_x
 Para poder ejecutar las validaciones de escalabilidad y eficiencia es necesario conocer el uso esperado del sistema LTM en el robot objetivo. Acá se presentará una estimación del orden de magnitud para la cantidad de episodios y la tasa de consultas necesarias para las validaciones, dado un caso de uso esperado.
 
 \ltmconcept{Caso de uso}
-El robot objetivo de este proyecto es Bender, el que se entiende como un robot de laboratorio, con un tiempo de operación diario muy bajo. Se tienen las siguientes consideraciones:
+El robot objetivo de este trabajo es Bender, el que se entiende como un robot de laboratorio, con un tiempo de operación diario muy bajo. Se tienen las siguientes consideraciones:
 \begin{itemize}
 \item El equipo suele trabajar solamente en los tiempos libres durante los días de clases. Es decir, 5 días a la semana, durante 32 semanas de clases al año.
 \item El robot no es utilizado todos los días, sino que de manera intermitente, siendo encendido por cortos periodos de tiempo.

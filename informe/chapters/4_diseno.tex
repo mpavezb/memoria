@@ -1,6 +1,6 @@
 \chapter{Diseño}\label{chapter:diseno}
 
-En este capítulo se revisa el diseño del sistema LTM implementado en el proyecto. El capítulo es extenso y algunos puntos son muy detallados, por lo que se inicia con una revisión general del sistema LTM diseñado, con el fin de guiar su exposición. Considerando esto, se describe el diseño del proyecto, iniciando desde sus requerimientos hasta su integración al robot. Primero se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del proyecto. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: se revisa el diseño de los episodios, su estructura de datos y limitantes; se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos; en tercer lugar, se presenta el diseño del servidor LTM; finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
+En este capítulo se revisa el diseño del sistema LTM implementado en el trabajo. El capítulo es extenso y algunos puntos son muy detallados, por lo que se inicia con una revisión general del sistema LTM diseñado, con el fin de guiar su exposición. Considerando esto, se describe el diseño del trabajo, iniciando desde sus requerimientos hasta su integración al robot. Primero se presentan todos los requerimientos de diseño y se elabora un conjunto de validaciones que permitirán guiar el diseño, implementación y posterior evaluación del trabajo. En las siguientes 4 secciones se describe la arquitectura del sistema LTM: se revisa el diseño de los episodios, su estructura de datos y limitantes; se estudia el diseño del modelo de datos para la memoria episódica y su relación con los componentes semánticos; en tercer lugar, se presenta el diseño del servidor LTM; finalmente, se definen la interfaz episódica y los componentes específicos a implementar para el robot Bender.
 
 
 \section{Revisión General}
@@ -48,7 +48,7 @@ A través de la API de consulta del servidor LTM, es posible adquirir informaci�
 El sistema LTM está diseñado para ser utilizado en Bender y otros robots, mediante el uso de un sistema de plugins. Ya que la información semántica a almacenar depende del robot objetivo, el sistema permite la definición de sus contenidos mediante cualquier estructura de datos representable en un mensaje ROS. Luego, la interfaz de tarea y las interfaces para acceder a la memoria de trabajo deben ser implementadas por el usuario, mediante una serie de plugins adecuados al robot. 
 
 \ltmconcept{Integración en Bender}
-Para el caso de Bender, este proyecto provee implementaciones de cada uno de los plugins requeridos. Por un lado, las tareas son recopiladas desde máquinas de estado en SMACH. Por otro lado, se implementan plugins para acceder al sistema de localización del robot, recopilar información emocional y para recopilar datos sobre las entidades modificadas durante la tarea.
+Para el caso de Bender, este trabajo provee implementaciones de cada uno de los plugins requeridos. Por un lado, las tareas son recopiladas desde máquinas de estado en SMACH. Por otro lado, se implementan plugins para acceder al sistema de localización del robot, recopilar información emocional y para recopilar datos sobre las entidades modificadas durante la tarea.
 
 
 
@@ -69,7 +69,7 @@ Para el caso de Bender, este proyecto provee implementaciones de cada uno de los
 %% =============================================================================
 %% =============================================================================
 
-A continuación se presentan los requisitos de diseño sobre los que se construye el proyecto y las validaciones generadas a partir de ellos. Primero, se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable. Para concluir, se presenta un conjunto de pruebas que busca validar cada requerimiento expuesto.
+A continuación se presentan los requisitos de diseño sobre los que se construye el trabajo y las validaciones generadas a partir de ellos. Primero, se da una descripción breve sobre el origen y razón de los requisitos. Luego, se presenta un listado formal de todos los requerimientos, escritos de una forma clara y verificable. Para concluir, se presenta un conjunto de pruebas que busca validar cada requerimiento expuesto.
 
 %% =============================================================================
 %% =============================================================================
@@ -79,14 +79,14 @@ A continuación se presentan los requisitos de diseño sobre los que se construy
 %% =============================================================================
 %% =============================================================================
 
-El primer conjunto de requisitos se deriva a partir de los objetivos del proyecto y sus alcances, presentados en la Sección~\ref{sec:objetivos}. En adelante se referirá a estos como \textit{requisitos de proyecto}.
+El primer conjunto de requisitos se deriva a partir de los objetivos del trabajo y sus alcances, presentados en la Sección~\ref{sec:objetivos}. En adelante se referirá a estos como \textit{requisitos de proyecto}.
 \begin{description}
 \item \RPlabelDef{1} Diseño de LTM episódica y semántica para robots de servicio domésticos, debe basarse en los 11 requerimientos para una memoria episódica planteados por Stachowicz~\cite{Stachowicz2012} y presentados en la Sección~\ref{sec:ltm_exp}.
 \item \RPlabelDef{2} Este diseño debe considerar la modulación de los procesos cognitivos mediante memoria emocional.
 \item \RPlabelDef{3} El diseño del sistema debe soportar el concepto de relevancia histórica.
 \item \RPlabelDef{4} Además, los episodios deben manejar un indicador de relevancia generalizada, que encapsule todos los demás indicadores en solo uno.
 \item \RPlabelDef{5} Diseño del sistema debe ser agnóstico del robot a utilizar.
-\item \RPlabelDef{6} El proyecto debe ser integrado en Bender.
+\item \RPlabelDef{6} El trabajo debe ser integrado en Bender.
 \end{description}
 
 
@@ -116,7 +116,7 @@ Los requisitos se pueden separar en 4 categorías de acuerdo a su finalidad:
 %% =============================================================================
 %% =============================================================================
 
-También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del proyecto y el resultado de su ejecución es presentado en el Capítulo~\ref{chapter:results}. El listado completo es extenso y se encuentra en el Anexo~\ref{appendix:validations}.
+También se desarrolló un documento (semiformal) con validaciones para cada uno de los requisitos de sistema en el documento. Las validaciones sirven como guía para la implementación del trabajo y el resultado de su ejecución es presentado en el Capítulo~\ref{chapter:results}. El listado completo es extenso y se encuentra en el Anexo~\ref{appendix:validations}.
 
 El documento consta con alrededor de 37 validaciones, separadas en 3 categorías. Cada validación se identifica por un prefijo y numeración de la forma \Vlabel{T}{XX} (V: Validación, T: Tipo, XX: numeración). Además, cada una indica su requisito de sistema asociado. Las categorías son las siguientes:
 \begin{enumerate}
@@ -194,6 +194,7 @@ A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe sopor
 % SOBRE TEMPORALIDAD
 \ltmconcept{Temporalidad}
 Para el árbol episódico es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. Lo anterior es presentado en el diagrama de la Figura~\ref{img:episodes}. Se ejemplifica el caso de la transposición episódica, donde dos hijos pueden ocurrir de manera simultánea, cada uno con eventos distintos ocurridos dentro del periodo de tiempo del padre. Además, se muestra un caso de borde, donde un padre puede tener lapsos de tiempo sin hijos asociados.
+\todojavier{Sería bueno un ejemplo}
 
 % SOBRE MANEJO DE INFORMACIÓN EN PADRES E HIJOS
 \ltmconcept{Estrategia de almacenamiento}
@@ -213,6 +214,8 @@ Es importante enfatizar que no basta que un episodio esté embebido temporalment
 %% =============================================================================
 %% =============================================================================
 
+\todojavier{timestamps o tiempo humano??? o 18 sept 2018 o primer semestre.. cómo se realiza la traducción.}
+
 % SOBRE LOS REQUISITOS
 \ltmconcept{Requisitos}
 De acuerdo al requisito \RSlabel{03}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
@@ -229,6 +232,7 @@ En el caso de las hojas, basta utilizar los instantes de tiempo obtenidos al ini
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
+\todojavier{no debería haber una jerarquía?? lab..univ..santgo...}
 
 % SOBRE LOS REQUISITOS
 \ltmconcept{Requisitos}
@@ -249,7 +253,7 @@ Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser
 
 % OPCIÓN COORDENADAS
 \ltmconcept{Estrategia 2 - Coordenadas}
-Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el proyecto está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto solo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de esta. La envoltura convexa es agregada por motivos prácticos, pues puede ser utilizada para visualización y análisis del árbol episódico.
+Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el trabajo está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto solo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de esta. La envoltura convexa es agregada por motivos prácticos, pues puede ser utilizada para visualización y análisis del árbol episódico.
 
 
 
@@ -294,6 +298,7 @@ Los \textit{streams} corresponden a flujos de datos generalmente invariables, re
 Para acotar el trabajo, y bajo la suposición de que en la práctica existen pocos episodios traslapados, se escoge la segunda estrategia. Entonces, cada episodio puede estar asociado a un \textit{stream} de cada tipo, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin solo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
 
 Según la cantidad de plugins a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (e.g., disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
+\todojavier{Es necesario si se toman episodios de base a relevancia??}
 
 % SOBRE ENTIDADES
 \ltmconcept{Datos semánticos - Entidades}
@@ -324,7 +329,7 @@ Entonces, se define la siguiente estrategia de almacenamiento. Cada tipo de indi
 
 % COMPUTO BASADO EN ALGORITMO X
 \ltmconcept{Cómputo}
-Este proyecto solo considera dos subindicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por Dood et al. y explicada en la Sección~\ref{sec:theory-modulation}.
+Este trabajo solo considera dos subindicadores, histórico y emocional, por lo que se decidió utilizar la metodología propuesta por Dood et al. y explicada en la Sección~\ref{sec:theory-modulation}.
 
 
 %% =============================================================================
@@ -342,7 +347,7 @@ El requisito de sistema \RSlabel{19} exige el manejo del concepto de relevancia 
 
 % ABSTRACCIÓN DEL SISTEMA DE EMOCIONES
 \ltmconcept{Abstracción del sistema emocional}
-Según se revisó en la Sección~\ref{sec:theory-modulation}, existen diversos sistemas para la generación de emociones y no existe una metodología única para su implementación: Cada sistema es alimentado con datos diferentes, utilizan algoritmos distintos y proveen salidas distintas. Debido a la generalidad esperada para el proyecto, se propone la siguiente estrategia para la abstracción del sistema emocional a utilizar, que permite delegar la implementación al usuario:
+Según se revisó en la Sección~\ref{sec:theory-modulation}, existen diversos sistemas para la generación de emociones y no existe una metodología única para su implementación: Cada sistema es alimentado con datos diferentes, utilizan algoritmos distintos y proveen salidas distintas. Debido a la generalidad esperada para el trabajo, se propone la siguiente estrategia para la abstracción del sistema emocional a utilizar, que permite delegar la implementación al usuario:
 \begin{itemize}
 \item Se define un conjunto de 8 emociones base, a partir de las emociones primarias propuestas por Plutchik (ver Sección~\ref{sec:theory-modulation}).
 \item Se debe almacenar el nivel de intensidad percibido durante un episodio, para cada una de las 8 emociones.
@@ -401,7 +406,7 @@ El último conjunto de datos considerado para un episodio es denominado \textit{
 %% =============================================================================
 
 % SOBRE LIMITANTES DEL DISEÑO Y TRABAJO FUTURO
-A continuación se presenta un conjunto de limitantes conocidas del diseño episódico desarrollado, las que pueden ser consideradas como parte del trabajo futuro del proyecto.
+A continuación se presenta un conjunto de limitantes conocidas del diseño episódico desarrollado, las que pueden ser consideradas como parte del trabajo futuro.
 
 % SOBRE COMPLETITUD Y LAPSOS EN BLANCO..
 \ltmconcept{Ausencia de hijos}
@@ -433,7 +438,7 @@ Se cree que el formato propuesto para el campo \textit{Where} se ajusta a los re
 %% =============================================================================
 %% =============================================================================
 
-En esta sección se presentan las decisiones sobre el diseño del modelo de datos a utilizar para el proyecto. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados: \textit{streams} y entidades.
+En esta sección se presentan las decisiones sobre el diseño del modelo de datos a utilizar para el trabajo. En primer lugar, se revisan las consideraciones sobre la base de datos escogida: \textit{MongoDB}. Luego, se describe el manejo de mensajes episódicos y sus datos semánticos asociados: \textit{streams} y entidades.
 
 
 %% =============================================================================
@@ -448,7 +453,7 @@ En esta sección se presentan las decisiones sobre el diseño del modelo de dato
 \ltmconcept{MongoDB}
 De acuerdo al diseño de los mensajes episódicos, la implementación del sistema LTM requiere el manejo de datos no conocidos de antemano, sino que representados mediante mensajes de ROS que debe definir el usuario. Además, el sistema debe permitir modificar la representación de tales mensajes a futuro y soportar el almacenamiento de datos binarios. Por lo tanto, se decidió utilizar la base de datos no relacional \textit{MongoDB}, presentada en la Sección~\ref{sec:mongodb}. 
 
-La decisión sobre el uso \textit{MongoDB} se basa en tres razonamientos principales. Primero, \textit{MongoDB} ya es de uso extendido en la comunidad ROS, por lo que ya ha sido probada y está disponible en muchos robots de servicio domésticos, evitando agregar dependencias extra a tales proyectos. Además, la interfaz ROS para esta es considerada estable, al menos hasta el año 2023.  Finalmente, \textit{MongoDB} se ocupa actualmente en el robot Bender. Así, se minimizan los problemas de dependencias y compatibilidad a futuro.
+La decisión sobre el uso \textit{MongoDB} se basa en tres razonamientos principales. Primero, \textit{MongoDB} ya es de uso extendido en la comunidad ROS, por lo que ya ha sido probada y está disponible en muchos robots de servicio domésticos, evitando agregar dependencias extra a tales trabajos. Además, la interfaz ROS para esta es considerada estable, al menos hasta el año 2023.  Finalmente, \textit{MongoDB} se ocupa actualmente en el robot Bender. Así, se minimizan los problemas de dependencias y compatibilidad a futuro.
 
 
 % SOBRE SEPARACIÓN DE COLECCIONES
@@ -619,7 +624,7 @@ Por otro lado, el requisito de flexibilidad \RSlabel{07} exige que las entidades
 En caso de proveer una API para actualizar mensajes del historial, las reglas son las siguientes: se deben modificar recursivamente los registros adyacentes del historial, para considerar los cambios; se debe actualizar la colección que mantiene la imagen actual de la instancia; se deben actualizar las referencias bidireccionales con los episodios que ocurrieron en ese lapso de tiempo.
 
 \ltmconcept{API ROS} 
-Como se revisó, no es un requisito proveer servicios ROS para la actualización de los episodios y la memoria semántica. De todas formas, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro del proyecto.
+Como se revisó, no es un requisito proveer servicios ROS para la actualización de los episodios y la memoria semántica. De todas formas, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro.
 
 
 \subsubsection{Operaciones de eliminación (Delete)}
@@ -636,7 +641,7 @@ Al eliminar un \textit{stream} se debe quitar su referencia del episodio relacio
 Al eliminar algún mensaje del historial de una entidad, se deben quitar sus referencias de los episodios relacionados, es decir, todo episodio cuyo periodo de vida contenga el instante asociado al mensaje. Se debe quitar el registro del historial y actualizar los historiales adyacentes para mantener su consistencia. Se deben recalcular los datos asociados a la entidad actual.
 
 \ltmconcept{API ROS} 
-No es necesario proveer una API ROS para la eliminación de información episódica o semántica. Sin embargo, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro del proyecto.
+No es necesario proveer una API ROS para la eliminación de información episódica o semántica. Sin embargo, tales funcionalidades son soportadas por el modelo de datos, y pueden ser consideradas como parte del trabajo futuro.
 
 %% =============================================================================
 %% =============================================================================
@@ -699,6 +704,7 @@ Tras recibir la notificación, el servidor recolecta información episódica des
 En cuanto a la recopilación de la ubicación del robot, dato episódico \textit{Where}, el cómo se obtiene la información depende totalmente del usuario y la API de localización utilizada en el robot objetivo (ver diseño episódico en la Sección~\ref{sec:design_ep_where}). Sin embargo, de acuerdo a la sección anterior, el plugin debe proveer las funcionalidades de registro y adquisición de información.
 
 Se propone la siguiente estrategia para la implementación del plugin: recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos; cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}; la lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
+\todojavier{sólo de sit f. local o de internet?? ej. país??}
 
 
 \subsubsection{Plugin: Emociones}
@@ -787,7 +793,7 @@ Asimismo, el servidor debe proveer automáticamente una API ROS para las operaci
 %% =============================================================================
 %% =============================================================================
 
-Según especifican los requisitos \RSlabel{25} y \RSlabel{26}, el proyecto debe ser integrado al robot Bender. Para esto, se debe implementar un módulo que permita recolectar episodios desde SMACH, e implementaciones de cada plugin requerido por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de \textit{streams} y entidades a partir de la memoria de trabajo de Bender. 
+Según especifican los requisitos \RSlabel{25} y \RSlabel{26}, el trabajo debe ser integrado al robot Bender. Para esto, se debe implementar un módulo que permita recolectar episodios desde SMACH, e implementaciones de cada plugin requerido por el servidor. A continuación se describe el diseño de los componentes a implementar: la interfaz para recolectar episodios, la posición del robot y sus emociones, junto a los plugins para la recolección de \textit{streams} y entidades a partir de la memoria de trabajo de Bender. 
 
 Cada uno de los módulos presentados a continuación cumple una doble funcionalidad. En primer lugar, cumplen con el requisito del diseño de componentes orientados a robots de servicio doméstico, enfocados en el robot Bender. Además, sirven como ejemplo para el diseño e implementación de nuevas funcionalidades requeridas a futuro para otras plataformas.
 
@@ -803,7 +809,7 @@ Cada uno de los módulos presentados a continuación cumple una doble funcionali
 El módulo específico más importante a implementar corresponde al encargado de generar episodios a partir del funcionamiento del robot, para luego entregarlos al servidor LTM. Como se explica en la Sección~\ref{sec:URF}, en Bender se utiliza la librería SMACH para la definición y ejecución de las máquinas de estado encargadas de encadenar rutinas simples, para generar comportamientos complejos.
 
 \ltmconcept{Información episódica}
-A partir de SMACH se puede obtener parte del conocimiento episódico requerido para la definición de un episodio. Desde el punto de vista de sus transiciones, las máquinas de estado están estructuradas en forma de grafo, estableciendo un inicio y fin temporal para cada estado. Conceptualmente, las máquinas se estructuran en forma de árboles, donde cada maquina de estado puede ser contenida por otra, lo que representa el anidamiento episódico. Luego, SMACH provee una forma de conocimiento episódico, capaz de representar información temporal (\textit{When}) y las relaciones de anidamiento episódico (referencias padre-hijo). Finalmente, ya que cada máquina de estado está asociada a una capacidad o contexto, se puede utilizar esa información para obtener los \textit{tags} requeridos para marcar cada episodio.
+A partir de SMACH se puede obtener parte del conocimiento episódico requerido para la definición de un episodio. Desde el punto de vista de sus transiciones, las máquinas de estado están estructuradas en forma de grafo, estableciendo un inicio y fin temporal para cada estado. Conceptualmente, las máquinas se estructuran en forma de árboles, donde cada máquina de estado puede ser contenida por otra, lo que representa el anidamiento episódico. Luego, SMACH provee una forma de conocimiento episódico, capaz de representar información temporal (\textit{When}) y las relaciones de anidamiento episódico (referencias padre-hijo). Finalmente, ya que cada máquina de estado está asociada a una capacidad o contexto, se puede utilizar esa información para obtener los \textit{tags} requeridos para marcar cada episodio.
 
 \ltmconcept{Funcionamiento}
 La interfaz episódica diseñada tiene 2 etapas importantes. En primer lugar, durante la programación de la máquina, el desarrollador debe indicar que estados considera almacenar como episodio, en caso que estos sean ejecutados. Además, para cada estado marcado se debe indicar una lista de \textit{tags} que describan brevemente el estado. La segunda etapa ocurre durante el funcionamiento de la máquina de estado, y realiza las tareas de registrar e insertar el episodio en el servidor.
@@ -831,7 +837,7 @@ Por otro lado, la implementación debe minimizar las modificaciones a la librer�
 Se debe implementar un plugin para Bender capaz de proveer la posición del robot durante cada episodio, según los requerimientos especificados en la Sección~\ref{sec:design-server}. Por motivos prácticos, se consideran dos versiones a implementar, una con información falsa, y otra capaz de obtener datos reales desde el robot.
 
 \ltmconcept{Versión de prueba} 
-Debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \textit{Where}. La motivación para esto, es poder realizar pruebas durante la implementación del sistema y poder ejecutar validaciones que no precisen de la ubicación real del robot. Además, el plugin permite minimizar el uso del robot real para la implementación y validación del proyecto, pues el robot es un recurso compartido en el equipo de trabajo y su uso implica costos altos en términos de tiempo.
+Debe proveer datos generados aleatoriamente para cada uno de los campos del mensaje \textit{Where}. La motivación para esto, es poder realizar pruebas durante la implementación del sistema y poder ejecutar validaciones que no precisen de la ubicación real del robot. Además, el plugin permite minimizar el uso del robot real para la implementación y validación del sistema, pues el robot es un recurso compartido en el Laboratorio de Robótica y su uso implica costos altos en términos de tiempo.
 
 \ltmconcept{Versión en Bender}
 Debe ser integrada en el software del robot, a través de la API para la obtención de su ubicación. Se utilizará la estrategia de funcionamiento recomendada en la Sección~\ref{sec:design_ep_where}. El plugin deberá recopilar información periódicamente para cada uno de los campos del mensaje \textit{Where}. Se deberá proveer un listado temporalmente ordenado de las ubicaciones recopiladas. Para disminuir el uso de recursos, solamente se deben recopilar posiciones cuando hayan episodios registrados como activos en el servidor.
@@ -883,7 +889,7 @@ Para los plugins encargados de proveer \textit{streams} de datos se escogió sol
 Se utilizará la estrategia de funcionamiento propuesta en la Sección~\ref{sec:design_ep_what}, mediante el uso de un \textit{buffer} para almacenar las últimas imágenes percibidas. Luego, el plugin deberá entregar un vector con las imágenes asociadas al lapso episódico requerido.
 
 \ltmconcept{Versión de prueba}
-Debe proveer imágenes obtenidas a partir de un archivo de video. Análogamente a los plugins anteriores, la motivación para esto, es poder acelerar la implementación del proyecto y poder ejecutar validaciones sin requerir el robot real.
+Debe proveer imágenes obtenidas a partir de un archivo de video. Análogamente a los plugins anteriores, la motivación para esto, es poder acelerar la implementación del trabajo y poder ejecutar validaciones sin requerir el robot real.
 
 \ltmconcept{Versión en Bender}
 La segunda versión debe ser integrada en el software robot, utilizando su API ROS para leer imágenes desde sus cámaras de video.

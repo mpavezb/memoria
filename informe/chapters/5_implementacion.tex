@@ -1,6 +1,6 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-Es este capítulo se describe la implementación del proyecto, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el proyecto.
+Es este capítulo se describe la implementación del trabajo, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el trabajo.
 
 % ==============================================================================
 % ==============================================================================
@@ -21,20 +21,20 @@ Es este capítulo se describe la implementación del proyecto, a partir de las d
 % ==============================================================================
 % ==============================================================================
 
-Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del proyecto, la estructura elegida para el sistema LTM, y la estructura para los plugins encargados de la recolección de información episódica.
+Esta sección presenta la estructuración del software implementado, en términos de sus archivos y paquetes ROS involucrados. Se describen las dependencias del trabajo, la estructura elegida para el sistema LTM, y la estructura para los plugins encargados de la recolección de información episódica.
 
 \subsection{Dependencias}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 
-A continuación se describen todas las dependencias de software utilizadas para la implementación del proyecto. Estas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
+A continuación se describen todas las dependencias de software utilizadas para la implementación del trabajo. Estas se dividen en las siguientes categorías: de sistema, del lenguaje \CC, del lenguaje Python y de ROS.
 
 
 \subsubsection{Sistema}
 % ==============================================================================
 
-El proyecto fue desarrollado en Linux, Ubuntu 16.04. Las dependencias del sistema LTM son las siguientes:
+El trabajo fue desarrollado en Linux, Ubuntu 16.04. Las dependencias del sistema LTM son las siguientes:
 
 \begin{itemize}
 \item {\bfseries ROS kinetic}: Se utilizó la distribución \textit{kinetic} de ROS, la que cuenta con soporte hasta Abril del año 2021.
@@ -135,7 +135,7 @@ Ya que Bender no dispone de un software generador de emociones, este paquete tie
 \subsubsection{Paquete ROS: \texttt{bender\_ltm}}
 % ==============================================================================
 
-Este paquete tiene por objetivo almacenar la implementación de los plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del proyecto con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
+Este paquete tiene por objetivo almacenar la implementación de los plugins específicos para el uso del sistema LTM en el robot Bender, y es considerado el punto de integración del trabajo con el robot. Similarmente al paquete \texttt{bender\_emotion}, su repositorio se encuentra alojado en: \url{https://github.com/uchile-robotics/bender\_ltm}.
 
 
 \subsection{Líneas de código}
@@ -143,7 +143,7 @@ Este paquete tiene por objetivo almacenar la implementación de los plugins espe
 % ==============================================================================
 % ==============================================================================
 
-En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el proyecto, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
+En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de líneas de código implementadas para el trabajo, ordenadas por el lenguaje utilizado. Se utilizó el programa \texttt{cloc}\footnote{Repositorio del programa \texttt{cloc} en GitHub: \url{https://github.com/AlDanial/cloc}} para realizar el cómputo.
 
 \begin{table}[!ht]
 	\centering
@@ -178,7 +178,7 @@ En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de lí
 %
 %Todos los paquetes ROS desarrollados para el sistema LTM, junto a los módulos de ejemplo para recopilación de información ficticia y desde el robot Bender, se encuentran documentados en el archivo \texttt{README.md} del paquete ROS \texttt{ltm}.
 %
-%La documentación incluye una guía de instalación del proyecto y sus dependencias, junto a ejemplos sobre el uso del servidor y la elaboración de plugins.
+%La documentación incluye una guía de instalación del trabajo y sus dependencias, junto a ejemplos sobre el uso del servidor y la elaboración de plugins.
 %
 
 % ==============================================================================
@@ -429,7 +429,7 @@ Una vez seleccionadas las entidades de interés, se puede utilizar un servicio R
 \subsubsection{API LTM: Otros servicios}
 % ==============================================================================
 
-El sistema LTM además provee otros servicios mediante su API ROS. Cada uno de los servicios mostrados a continuación no es parte de los requisitos del proyecto, pero es de utilidad para la ejecución de pruebas y validaciones.
+El sistema LTM además provee otros servicios mediante su API ROS. Cada uno de los servicios mostrados a continuación no es parte de los requisitos del trabajo, pero es de utilidad para la ejecución de pruebas y validaciones.
 
 \ltmconcept{Base de datos}
 El sistema provee servicios para eliminar todas las colecciones de la base de datos actual, y para cambiar la base de datos por otra. El primero, se provee mediante el servicio \texttt{$\sim$/ltm/db/drop}, de tipo \texttt{DropDB.srv}, mostrado en el Código~\ref{lst:dropdb}. Se pide confirmación, pues es una operación peligrosa. El cambio de base de datos se provee en el servicio  \texttt{$\sim$/ltm/db/switch}, de tipo \texttt{SwitchDB.srv}, el que solo requiere indicar el nombre de la base de datos alternativa. Esta funcionalidad es útil para ejecutar pruebas sin afectar la base de datos del robot.
@@ -460,14 +460,14 @@ De la misma manera, cada plugin para entidades provee funcionalidades para inser
 % ==============================================================================
 % ==============================================================================
 
-En esta sección se presentan tres herramientas implementadas para la validación del proyecto y la realización de experimentos. En primer lugar, se revisa una interfaz episódica entre el servidor LTM y la librería SMACH, cuyo objetivo es la generación de episodios a partir de máquinas de estado. Luego, se presenta un plugin para la adquisición de \textit{streams} de imágenes, a partir del estándar ROS para la transmisión de video. Tanto la librería SMACH como el plugin de video son agnósticos de la plataforma objetivo. Finalmente, se presenta la construcción de un robot simulado, con todos los plugins requeridos para validar el sistema LTM. 
+En esta sección se presentan tres herramientas implementadas para la validación del trabajo y la realización de experimentos. En primer lugar, se revisa una interfaz episódica entre el servidor LTM y la librería SMACH, cuyo objetivo es la generación de episodios a partir de máquinas de estado. Luego, se presenta un plugin para la adquisición de \textit{streams} de imágenes, a partir del estándar ROS para la transmisión de video. Tanto la librería SMACH como el plugin de video son agnósticos de la plataforma objetivo. Finalmente, se presenta la construcción de un robot simulado, con todos los plugins requeridos para validar el sistema LTM. 
 
 \subsection{Interfaz SMACH para recolección de episodios}
 
 De acuerdo a las consideraciones expresadas en la Sección \ref{sec:design_bender}, se implementó una librería Python para la generación de episodios a partir de máquinas de estado expresadas mediante SMACH. Por cada ejecución de un estado marcado como candidato, se almacena un episodio en el servidor LTM. El proceso es automático y solo impone unos pocos requerimientos al desarrollador.
 
 % IMPLEMENTACIÓN
-\ltmconcept{Implementación} Se siguió la siguiente estrategia para reducir los requerimientos para el usuario de la librería. Se utilizó la API SMACH para la lectura de maquinas de estado y la creación de \textit{callbacks} ante el inicio y término de un estado. El desarrollador de la máquina debe indicar que estados son candidatos para ser convertidos en episodios, y debe indicar un listado de \textit{tags} opcionales que identifiquen al estado. Todos los procesos de registro e inserción de episodios son llevados a cabo automáticamente por la librería. Ya que las máquinas de estado en SMACH siguen una estructura de anidada, por cada máquina se crea un árbol episódico con cada episodio candidato.
+\ltmconcept{Implementación} Se siguió la siguiente estrategia para reducir los requerimientos para el usuario de la librería. Se utilizó la API SMACH para la lectura de máquinas de estado y la creación de \textit{callbacks} ante el inicio y término de un estado. El desarrollador de la máquina debe indicar que estados son candidatos para ser convertidos en episodios, y debe indicar un listado de \textit{tags} opcionales que identifiquen al estado. Todos los procesos de registro e inserción de episodios son llevados a cabo automáticamente por la librería. Ya que las máquinas de estado en SMACH siguen una estructura de anidada, por cada máquina se crea un árbol episódico con cada episodio candidato.
 
 La implementación solo utiliza la API SMACH y la API ROS para el servidor LTM, siendo agnóstica del robot. Luego, la librería puede ser utilizada por otros robots basados en SMACH. La implementación se encuentra en el paquete ROS \texttt{ltm\_addons}.
 
@@ -511,7 +511,7 @@ Para utilizar el plugin, basta anexar su configuración a la lista de plugins ut
 
 \subsection{Robot simulado}
 
-Para acelerar el desarrollo del proyecto y realizar validaciones de funcionalidad, se implementó un robot simulado capaz de responder a todas las consultas necesarias para el servidor LTM. La implementación se encuentra en el paquete ROS \texttt{ltm\_samples}, donde se implementaron plugins para la recolección del campo \textit{Where}, las emociones y las entidades simuladas.
+Para acelerar el desarrollo del trabajo y realizar validaciones de funcionalidad, se implementó un robot simulado capaz de responder a todas las consultas necesarias para el servidor LTM. La implementación se encuentra en el paquete ROS \texttt{ltm\_samples}, donde se implementaron plugins para la recolección del campo \textit{Where}, las emociones y las entidades simuladas.
 
 El robot implementado responde a todas las consultas mediante la generación de campos aleatorios que sean requeridos. Los plugins implementados son los siguientes:
 \begin{itemize}

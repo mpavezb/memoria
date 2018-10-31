@@ -1,6 +1,6 @@
 \chapter{Aspectos Técnicos}\label{chapter:technical}
 
-En este capítulo se describen los componente de software y hardware utilizados para comprender el diseño e implementación del proyecto. Se revisan los conceptos utilizados sobre el framework robótico ROS. Se hace una revisión breve de la base de datos MongoDB. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
+En este capítulo se describen los componente de software y hardware utilizados para comprender el diseño e implementación del trabajo. Se revisan los conceptos utilizados sobre el framework robótico ROS. Se hace una revisión breve de la base de datos MongoDB. Se describe la librería SMACH, utilizada para la creación de máquinas de estado. Finalmente, se presenta a Bender junto a los aspectos requeridos de su sistema operativo.
 
 %% =============================================================================
 %% =============================================================================
@@ -10,11 +10,11 @@ En este capítulo se describen los componente de software y hardware utilizados 
 %% =============================================================================
 %% =============================================================================
 
-ROS, acrónimo para Robot Operating System, es un proyecto que funciona como \textit{middleware} para aplicaciones robóticas, y permite resolver el problema de la comunicación entre procesos. Es una colección de herramientas, librerías y convenciones que buscan simplificar la tarea de crear comportamientos robóticos complejos y robustos, sin importar la plataforma robótica~\cite{ROS:2009}.
+ROS, acrónimo para Robot Operating System, es un trabajo que funciona como \textit{middleware} para aplicaciones robóticas, y permite resolver el problema de la comunicación entre procesos. Es una colección de herramientas, librerías y convenciones que buscan simplificar la tarea de crear comportamientos robóticos complejos y robustos, sin importar la plataforma robótica~\cite{ROS:2009}.
 
 Fue originalmente creado por la organización WillowGarage en el 2008, y es mantenido actualmente por la Open Source Robotics Foundation (OSRF). Existe un ecosistema ROS mantenido por la comunidad y con cientos de módulos de software con soluciones a problemas específicos, los que pueden interconectarse para construir comportamientos más complejos. Por lo anterior, su uso se ha convertido en una práctica mundial, siendo adoptado incluso en soluciones industriales.
 
-A continuación se introducen los conceptos de interés, necesarios para entender el diseño e implementación del proyecto. En primer lugar, se presenta la estructuración jerárquica de los componentes en ROS. Luego, se detalla el protocolo de comunicación utilizado, basado en \textit{tópicos}, \textit{servicios} y \textit{acciones}. Finalmente, se presentan herramientas que provee ROS para soportar el desarrollo y ejecución de programas.
+A continuación se introducen los conceptos de interés, necesarios para entender el diseño e implementación del trabajo. En primer lugar, se presenta la estructuración jerárquica de los componentes en ROS. Luego, se detalla el protocolo de comunicación utilizado, basado en \textit{tópicos}, \textit{servicios} y \textit{acciones}. Finalmente, se presentan herramientas que provee ROS para soportar el desarrollo y ejecución de programas.
 
 \subsection{Intraestructura}
 %% =============================================================================
@@ -88,7 +88,7 @@ MongoDB representa documentos JSON en un formato binario denominado BSON. BSON e
 
 Los documentos son organizados en \textit{colecciones}, cada una destinada a almacenar información asociada a un concepto particular. MongoDB provee funcionalidades para consultas, indexado y realizar agregaciones de los datos almacenados.
 
-MongoDB provee drivers para diversos lenguajes de programación, entre ellos \CC, Java y Python. Para este proyecto, el driver de interés es el de \CC\footnote{Documentación del driver de MongoDB para \CC:  \url{http://mongodb.github.io/mongo-cxx-driver/}.}.
+MongoDB provee drivers para diversos lenguajes de programación, entre ellos \CC, Java y Python. Para este trabajo, el driver de interés es el de \CC\footnote{Documentación del driver de MongoDB para \CC:  \url{http://mongodb.github.io/mongo-cxx-driver/}.}.
 
 En su configuración por defecto, el servidor de MongoDB soporta documentos de hasta 16MB de tamaño, lo que restringe la información a almacenar, pero permite mantener acotados los costos de las operaciones sobre la base de datos. MongoDB permite remover este límite mediante la estrategia de almacenamiento GridFS, la que divide documentos grandes en subdocumentos menores a 16MB, para ser tratados normalmente.
 
@@ -126,7 +126,7 @@ SMACH es una librería en Python para la creación y ejecución de máquinas de 
 	\label{img:SMACH-sample}
 \end{figure}
 
-En SMACH una maquina de estado está compuesta por un conjunto de estados y sus transiciones. La librería soporta anidamiento, por lo que cualquier estado puede ser reemplazado por otra máquina de estado disponible. Cada estado debe proveer una función \texttt{execute} a ser ejecutada cuando esté activo. En la Figura~\ref{img:SMACH-sample} se presenta máquina de estado construida en SMACH, que ejemplifica el concepto de anidación de estados.
+En SMACH una máquina de estado está compuesta por un conjunto de estados y sus transiciones. La librería soporta anidamiento, por lo que cualquier estado puede ser reemplazado por otra máquina de estado disponible. Cada estado debe proveer una función \texttt{execute} a ser ejecutada cuando esté activo. En la Figura~\ref{img:SMACH-sample} se presenta máquina de estado construida en SMACH, que ejemplifica el concepto de anidación de estados.
 
 %En la Figura~\ref{img:SMACH-sample} se presenta un ejemplo de un comportamiento robótico complejo implementado en SMACH, que representa el proceso de recarga de baterías en un robot. Según las condiciones encontradas se activarán distintas transiciones, pero en el caso básico la rutina es la siguiente: El robot navega a la estación de carga, se posiciona, manipula el conector, se conecta y espera.
 
@@ -138,7 +138,7 @@ En SMACH una maquina de estado está compuesta por un conjunto de estados y sus 
 %% =============================================================================
 %% =============================================================================
 
-UChile ROS Framework (URF) hace referencia al sistema de software desarrollado en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, para sus robots de servicio. El sistema cuenta con 10 años de desarrollo y está orientado a cumplir los requisitos de la competencia RoboCup en su categoría @Home.
+UChile ROS Framework (URF) hace referencia al sistema de software desarrollado en el Laboratorio de Robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile, para sus robots de servicio. El sistema cuenta con 10 años de desarrollo y está orientado a cumplir los requisitos de la competencia RoboCup en su categoría @Home.
 
 \subsection{Conceptos}
 
@@ -150,6 +150,8 @@ URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se pre
 \item Finalmente, la capa de alto nivel cumple dos propósitos. En primer lugar, provee una interfaz Python para el uso de las capacidades de menor nivel, la que es utilizada principalmente para la elaboración de máquinas de estado y comportamientos robóticos complejos mediante SMACH. Segundo, almacena los archivos de configuración y los \textit{launchfiles} para adecuar URF al robot objetivo. Además, provee herramientas para visualizar la ejecución del sistema robótico.
 \end{enumerate}
 
+Todos los módulos de URF son de código libre, a excepción de los algoritmos relacionados con percepción y la interfaz de alto nivel. El código se almacena públicamente en la organización \textit{uchile-robotics} en GitHub\footnote{Organización \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.8\textwidth]{URF.png}
@@ -157,8 +159,6 @@ URF está construido sobre ROS y utiliza una estructura de 4 capas, cómo se pre
 	{\small Diagrama general con componentes de software de UChile ROS Framework. Cada bloque de software depende de los módulos mostrados en las capas de menor nivel.}
 	\label{img:URF}
 \end{figure}
-
-Todos los módulos de URF son de código libre, a excepción de los algoritmos relacionados con percepción y la interfaz de alto nivel. El código se almacena públicamente en la organización \textit{uchile-robotics} en GitHub\footnote{Organización \textit{uchile-robotics} y URF en GitHub: \url{https://github.com/uchile-robotics}}.
 
 
 \subsection{Memoria a corto y largo plazo}

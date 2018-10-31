@@ -204,7 +204,7 @@ Es posible modular ambos procesos. Las experiencias repetidas potencian la conso
 %% =====================================================================
 %% =====================================================================
 
-En esta sección se revisan trabajos que buscan implementar LTM en robots. Se inicia haciendo énfasis en la importancia de esta en el campo de la robótica doméstica. Se hace una comparación entre la memoria humana y el manejo de información en robots. Luego, se revisan sistemas LTM encontrados en la literatura. Finalmente, se detallan las bases teóricas utilizadas para el diseño del proyecto, seleccionadas a partir de los trabajos más relevantes estudiados.
+En esta sección se revisan trabajos que buscan implementar LTM en robots. Se inicia haciendo énfasis en la importancia de esta en el campo de la robótica doméstica. Se hace una comparación entre la memoria humana y el manejo de información en robots. Luego, se revisan sistemas LTM encontrados en la literatura. Finalmente, se detallan las bases teóricas utilizadas para el diseño del trabajo, seleccionadas a partir de los estudios más relevantes revisados.
 
 
 %% =====================================================================
@@ -280,7 +280,7 @@ Por otro lado, desde un punto de vista práctico, se ha mostrado que el concepto
 % - trabajos relacionados
 % - otros aspectos
 
-A continuación se presenta una revisión de sistemas LTM basados en la memoria humana. En primer lugar se describen otras implementaciones de estos sistemas. Luego, se estudian trabajos con aspectos de interés para un sistema LTM. Para concluir, se muestran algunos trabajos enfocados en aspectos interesantes, pero que escapan de los alcances del proyecto.
+A continuación se presenta una revisión de sistemas LTM basados en la memoria humana. En primer lugar se describen otras implementaciones de estos sistemas. Luego, se revisan trabajos con aspectos de interés para un sistema LTM. Para concluir, se muestran algunos estudios enfocados en aspectos interesantes, pero que escapan de los alcances de este trabajo.
 
 \subsubsection{Frameworks LTM}
 
@@ -312,7 +312,7 @@ Vijayakumar muestra que su sistema cumple con los requisitos de eficiencia esper
 
 
 \ltmconcept{Bender}
-El año 2015 Sanchez et al.~\cite{Sanchez:2015} diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este proyecto). Este primer acercamiento es descrito en detalle en la Sección~\ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este proyecto.
+El año 2015 Sanchez et al.~\cite{Sanchez:2015} diseñaron un sistema de memoria episódica para el robot Bender (plataforma de este trabajo). Este primer acercamiento es descrito en detalle en la Sección~\ref{sec:primer_acercamiento} y es utilizado como parte de la motivación para este trabajo.
 
 
 \ltmconcept{Otros trabajos}
@@ -357,10 +357,10 @@ Existen otros esfuerzos en equipar robots con memoria episódica, por ejemplo, M
 %Además, este diseño permite que el sistema cambie su opinión sobre un evento, mediante aprendizaje reforzado. Si se repiten eventos, pero la consecuencia deja de ser la misma, entonces el sistema se acostumbra.
 
 
-\subsubsection{Aspectos fuera del alcance del proyecto}\label{sec:otros_aspectos}
+\subsubsection{Aspectos fuera del alcance del trabajo}\label{sec:otros_aspectos}
 %% =====================================================================
 
-A continuación se presentan algunos estudios relacionados con aspectos de una LTM que escapan de los requerimientos para este proyecto o que simplemente no son basados en la taxonomía de la memoria humana. Estos trabajos solo se presentan a modo de completitud, pues no permiten resolver el objetivo de este proyecto, sino que solo comprender otros enfoques y acercamientos a la solución. 
+A continuación se presentan algunos estudios relacionados con aspectos de una LTM que escapan de los requerimientos para este trabajo o que simplemente no son basados en la taxonomía de la memoria humana. Estos estudios solo se presentan a modo de completitud, pues no permiten resolver el objetivo general, sino que solo comprender otros enfoques y acercamientos a la solución. 
 
 Thorsten et al.~\cite{Spexard2008} proponen una memoria LTM para el robot BIRON. En su trabajo, se abstraen de la clasificación entre memorias episódica y semántica, pues todos los datos de largo plazo almacenados por el robot son considerados LTM. La memoria almacena solo datos de alto nivel, obtenidos tras el procesamiento de streams de datos básicos, como cámaras, micrófonos o actuadores. Los datos almacenados corresponden a un historial de percepciones y acciones de alto nivel realizadas, como: detecciones de objetos, interacciones verbales o la descripción de movimientos realizados. A pesar de su simplicidad, esta arquitectura centralizada permite reducir las dependencias entre cada componente y el ancho de banda utilizado para retransmitir la información entre procesos.
 

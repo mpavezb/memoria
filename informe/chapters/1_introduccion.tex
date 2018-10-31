@@ -3,12 +3,12 @@
 \todoNOPE{L.Mateu: El contenido se torna muy descriptivo, sin discutir las decisiones.}
 \todoNOPE{Agregar summary al final de cada cap.}
 
-En este capítulo se presenta el trabajo de título a realizar: el diseño e implementación de una memoria de largo plazo episódica, semántica y emocional para el robot Bender, desarrollado en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. Se da el contexto en el que se enmarca, la motivación para su desarrollo y los objetivos del proyecto. Se revisan brevemente conceptos sobre robótica doméstica, la memoria humana y el equipo de trabajo donde se implantará el sistema. Luego se explica el problema a tratar y la oportunidad de desarrollo. Finalmente se formalizan los objetivos del trabajo así como sus alcances.
+En este capítulo se expone una introducción al trabajo de título a realizar: el diseño e implementación de una memoria de largo plazo episódica, semántica y emocional para el robot Bender, desarrollado en el laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile. Se da el contexto en el que se enmarca, la motivación para su desarrollo y los objetivos del trabajo. Se revisan brevemente conceptos sobre robótica doméstica, la memoria humana y el equipo de trabajo donde se implantará el sistema. Luego se explica el problema a tratar y la oportunidad de desarrollo. Finalmente se formalizan los objetivos del trabajo así como sus alcances.
 
 
 \section{Antecedentes Generales}
 
-A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el proyecto y su relación con la robótica. Estos temas serán tratados en mayor profundidad más adelante, en los Capítulos~\ref{chapter:theory} y \ref{chapter:technical}.
+A continuación, el lector encontrará una breve introducción a los temas requeridos para contextualizar este trabajo: La robótica de servicio doméstica y el equipo de trabajo donde se implantará la solución. Además, se introduce el tema de la memoria humana, requerido para entender el trabajo y su relación con la robótica. Estos temas serán tratados en mayor profundidad más adelante, en los Capítulos~\ref{chapter:theory} y \ref{chapter:technical}.
 
 
 \subsection{Robots de servicio domésticos}
@@ -25,7 +25,7 @@ Las pruebas de la liga @Home se desarrollan en escenarios que imitan ambientes d
 
 \subsection{Equipo de trabajo: UChile Homebreakers}
 
-El laboratorio de robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile alberga dos equipos de robótica: \textit{UChile Robotics Team}, dedicado al fútbol robótico y \textit{UChile Homebreakers Team}, enfocado en robótica de servicio. Ambos son conformados por alumnos de pregrado y postgrado de diversas especialidades, y liderados por el profesor Javier Ruiz del Solar~\cite{uchile-robotics}. UChile Homebreakers existe desde el año 2007 y actualmente cuenta con alrededor de 12 miembros. Desde sus inicios, el equipo participa desde en la competencia RoboCup@Home.
+El Laboratorio de Robótica del Departamento de Ingeniería Eléctrica de la Universidad de Chile alberga dos equipos de robótica: \textit{UChile Robotics Team}, dedicado al fútbol robótico y \textit{UChile Homebreakers Team}, enfocado en robótica de servicio. Ambos son conformados por alumnos de pregrado y postgrado de diversas especialidades, y liderados por el profesor Javier Ruiz del Solar~\cite{uchile-robotics}. UChile Homebreakers existe desde el año 2007 y actualmente cuenta con alrededor de 12 miembros. Desde sus inicios, el equipo participa en la competencia RoboCup@Home.
 
 El equipo trabaja en dos plataformas humanoides de tipo doméstico, Bender y Maqui. Bender es un robot construido en el mismo laboratorio y con el objetivo de ser un mayordomo para el hogar. Maqui, desarrollado por SoftBank Robotics~\cite{softbank}, está diseñado para ser un robot de compañía. Ambos basan su desarrollo de software en ROS, un framework para facilitar la comunicación entre componentes robóticos, y con miles de usuarios alrededor del mundo~\cite{ROS:2009}. Ambos robots comparten la misma arquitectura de software y prácticamente todo su código, exceptuando los \textit{drivers} para acceder al hardware respectivo. 
 
@@ -86,9 +86,9 @@ Existe un vasto desarrollo respecto a la memoria y los procesos cognitivos, sin 
 El uso de LTM no está en las prioridades del equipo, sino que es algo útil para demostraciones y para potenciar la interacción humano-robot. Por ello, se considera que no basta con desarrollar un módulo capaz de recopilar información inteligentemente, sino que es necesario atacar los 4 problemas identificados del sistema LTM implementado por Sánchez et al.
 
 
-\section{Objetivos del Proyecto}\label{sec:objetivos}
+\section{Objetivos del Trabajo de Título}\label{sec:objetivos}
 
-En esta sección se presentan los objetivos del proyecto, a modo general y en un desglose por aspectos específicos requeridos. Luego se describen los alcances y la contribución del trabajo. 
+En esta sección se presentan los objetivos del trabajo de título, a modo general y en un desglose por aspectos específicos requeridos. Luego se describen los alcances y la contribución del trabajo. 
 
 \subsection{Objetivo general}
 
@@ -97,7 +97,7 @@ El objetivo general es el diseño e implementación de una LTM para robots de se
 
 \subsection{Objetivos específicos}
 
-A continuación se presentan los objetivos específicos del proyecto, derivados a partir del objetivo general, y que representan los requerimientos clave del proyecto.
+A continuación se presentan los objetivos específicos del trabajo de título, derivados a partir del objetivo general, y que representan los requerimientos clave del trabajo.
 \begin{itemize}
 	\item Definir un conjunto de requisitos para el diseño del sistema y las validaciones para verificar el cumplimiento de tales requisitos.
 	\item Diseñar un sistema LTM para almacenamiento de memoria episódica, semántica y emocional, enfocada en robots domésticos.
@@ -110,11 +110,11 @@ A continuación se presentan los objetivos específicos del proyecto, derivados 
 
 \subsection{Alcances y contribución del trabajo}
 
-En primer lugar, se espera que este trabajo de título sirva como base para la implementación de sistemas LTM y funcionalidades derivadas en robots domésticos. Por lo tanto, el foco del proyecto es proveer un diseño robusto, basado en los objetivos propuestos, sumado a una implementación inicial que soporte el diseño. 
+En primer lugar, se espera que este trabajo de título sirva como base para la implementación de sistemas LTM y funcionalidades derivadas en robots domésticos. Por lo tanto, el foco del trabajo es proveer un diseño robusto, basado en los objetivos propuestos, sumado a una implementación inicial que soporte el diseño. 
 
-El proyecto provee un sistema LTM que considera la memoria emocional en su diseño. Sin embargo, Bender no dispone de módulos emocionales que puedan ser utilizados como fuente de datos para el sistema. Se considera que el desarrollo de tales módulos es un trabajo extenso y se escapa de los objetivos del proyecto. Considerando esto, el sistema LTM provee una interfaz emocional, en caso de que a futuro se implementen módulos emocionales en Bender.
+Este trabajo provee un sistema LTM que considera la memoria emocional en su diseño. Sin embargo, Bender no dispone de módulos emocionales que puedan ser utilizados como fuente de datos para el sistema. Se considera que el desarrollo de tales módulos es un trabajo extenso y se escapa de los objetivos expuestos. Considerando esto, el sistema LTM provee una interfaz emocional, en caso de que a futuro se implementen módulos emocionales en Bender.
 
-Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados por este proyecto. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en el Capítulo~\ref{chapter:theory}.
+Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son abordados en este trabajo. Dos ejemplos son los aspectos éticos de almacenar información sensible de usuarios, y el cómo compartir la memoria con otros robots. Estos se describen en detalle en el Capítulo~\ref{chapter:theory}.
 
 
 \section{Estructura de la Memoria}
@@ -126,7 +126,7 @@ Existen otras cuestiones deseables de tratar en una memoria LTM, pero que no son
 % - 6to: Resultados de las validaciones y análisis
 % - 7to: Conclusiones y trabajo futuro.
 
-En este primer capítulo se hizo una descripción breve de los conceptos necesarios para introducir el proyecto, su motivación y sus objetivos. El Capítulo~\ref{chapter:theory} hace una revisión de los aspectos teóricos necesarios para comprender el trabajo realizado, y el Capítulo~\ref{chapter:technical} describe los componentes de software y hardware requeridos para el proyecto. Luego, el Capítulo~\ref{chapter:diseno} presenta los requisitos del proyecto, las validaciones propuestas y el diseño del sistema LTM, mientras que en el Capítulo~\ref{chapter:implementacion} se describe su implementación y funcionamiento. En el Capítulo~\ref{chapter:results} se muestran los resultados de las validaciones y su análisis. Finalmente, se presentan las conclusiones y el trabajo futuro propuesto para el proyecto.
+En este primer capítulo se hizo una descripción breve de los conceptos necesarios para introducir el trabajo, su motivación y sus objetivos. El Capítulo~\ref{chapter:theory} hace una revisión de los aspectos teóricos necesarios para comprender el trabajo realizado, y el Capítulo~\ref{chapter:technical} describe los componentes de software y hardware requeridos. Luego, el Capítulo~\ref{chapter:diseno} presenta el diseño del sistema LTM, a partir de sus requisitos y validaciones, mientras que en el Capítulo~\ref{chapter:implementacion} se describe su implementación y funcionamiento. En el Capítulo~\ref{chapter:results} se muestran los resultados de las validaciones y su análisis. Finalmente, se presentan las conclusiones y el trabajo futuro propuesto.
 
 %\section{Resumen}
 
