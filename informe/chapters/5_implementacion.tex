@@ -220,8 +220,8 @@ A partir del diseño propuesto en la Sección~\ref{sec:ep_design}, se construye 
 
 Para ordenar la información, el mensaje se construye a partir de otros mensajes ROS definidos en el mismo paquete:
 \begin{itemize}
-\item \texttt{ltm/When.msg}: Mantiene el contexto temporal del episodio, indicando tiempos de inicio y fin, mediante campos del tipo \texttt{time}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}.
-\item \texttt{ltm/When.msg}: Almacena el contexto espacial del episodio, utilizando dos estrategias.
+\item \texttt{ltm/When.msg}: Mantiene el contexto temporal del episodio, indicando tiempos de inicio y fin, mediante campos del tipo \texttt{time}\footnote{El tipo de dato \texttt{time} es estándar en ROS y permite indicar un instante de tiempo mediante un contador de segundos transcurridos desde el tiempo cero (Jueves 1 de Enero de 1970 a las 00:00:00). Tiene una resolución de nanosegundos.}. La información temporal descrita en otro formato, por ejemplo, cuando un humano dice ``este semestre'' o ``la semana pasada'', debe ser convertida en rangos temporales del tipo \texttt{time}.
+\item \texttt{ltm/Where.msg}: Almacena el contexto espacial del episodio, utilizando dos estrategias.
 \begin{itemize}
 \item  Permite almacenar un conjunto de coordenadas, mediante mensajes del tipo \texttt{geometry\_msgs/Point.msg}\footnote{El paquete de ROS \texttt{geometry\_msgs} proporciona mensajes para manejar primitivas geométricas y sus transformaciones. Pertenece al conjunto de paquetes para mensajes \texttt{common\_msgs}, el cual se considera estable. Más información en la web oficial: \url{http://wiki.ros.org/geometry\_msgs}}, sumado al nombre del mapa y del sistema coordenado utilizado. Además, mantiene la envoltura convexa de las posiciones de sus hijos.
 \item Permite almacenar la ubicación del robot en formato textual.

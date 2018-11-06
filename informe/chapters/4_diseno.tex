@@ -45,7 +45,7 @@ El servidor LTM hace referencia al programa encargado de almacenar, mantener y p
 A través de la API de consulta del servidor LTM, es posible adquirir información episódica y semántica. Las consultas se construyen utilizando el lenguaje de consultas que provee MongoDB en formato JSON. El sistema es capaz de responder consultas como: qué sucedió en cierta fecha o hablar sobre una persona en particular, sus datos y cómo se ha modificado su conocimiento sobre ella en el tiempo.
 
 \ltmconcept{Generalidad y sistema de plugins}
-El sistema LTM está diseñado para ser utilizado en Bender y otros robots, mediante el uso de un sistema de plugins. Ya que la información semántica a almacenar depende del robot objetivo, el sistema permite la definición de sus contenidos mediante cualquier estructura de datos representable en un mensaje ROS. Luego, la interfaz de tarea y las interfaces para acceder a la memoria de trabajo deben ser implementadas por el usuario, mediante una serie de plugins adecuados al robot. 
+El sistema LTM está diseñado para ser utilizado en Bender y otros robots, mediante el uso de un sistema de plugins. Ya que la información semántica a almacenar depende del robot objetivo, el sistema permite la definición de sus contenidos mediante cualquier estructura de datos representable en un mensaje ROS. Luego, la interfaz de tarea y las interfaces para acceder a la memoria de trabajo deben ser implementadas por el usuario, mediante una serie de plugins adecuados al robot.  Particularmente, el sistema LTM requiere la implementación de 4 plugins, para recopilar información sobre la ubicación del robot, emociones del robot, streams de datos percibidos y entidades.
 
 \ltmconcept{Integración en Bender}
 Para el caso de Bender, este trabajo provee implementaciones de cada uno de los plugins requeridos. Por un lado, las tareas son recopiladas desde máquinas de estado en SMACH. Por otro lado, se implementan plugins para acceder al sistema de localización del robot, recopilar información emocional y para recopilar datos sobre las entidades modificadas durante la tarea.
@@ -193,8 +193,7 @@ A partir de los requisitos de sistema \RSlabel{09} y \RSlabel{11}, se debe sopor
 
 % SOBRE TEMPORALIDAD
 \ltmconcept{Temporalidad}
-Para el árbol episódico es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. Lo anterior es presentado en el diagrama de la Figura~\ref{img:episodes}. Se ejemplifica el caso de la transposición episódica, donde dos hijos pueden ocurrir de manera simultánea, cada uno con eventos distintos ocurridos dentro del periodo de tiempo del padre. Además, se muestra un caso de borde, donde un padre puede tener lapsos de tiempo sin hijos asociados.
-\todojavier{Sería bueno un ejemplo}
+Para el árbol episódico es fundamental que cada episodio padre inicie antes que cualquiera de sus hijos, y termine después que todos ellos. Lo anterior es presentado en el diagrama de la Figura~\ref{img:episodes}, donde el episodio \textit{A} cubre el rango temporal de sus hijos. Además, el diagrama ejemplifica un caso particular, denominado \textit{transposición temporal episódica}, donde dos episodios (\textit{B1} y \textit{B2}) ocurren de manera simultánea, cada uno representando eventos distintos. Finalmente, el diagrama muestra un caso de borde, donde un padre puede tener lapsos de tiempo sin hijos asociados (cuadro con bordes punteados bajo el episodio \textit{B}).
 
 % SOBRE MANEJO DE INFORMACIÓN EN PADRES E HIJOS
 \ltmconcept{Estrategia de almacenamiento}
@@ -214,8 +213,6 @@ Es importante enfatizar que no basta que un episodio esté embebido temporalment
 %% =============================================================================
 %% =============================================================================
 
-\todojavier{timestamps o tiempo humano??? o 18 sept 2018 o primer semestre.. cómo se realiza la traducción.}
-
 % SOBRE LOS REQUISITOS
 \ltmconcept{Requisitos}
 De acuerdo al requisito \RSlabel{03}, los episodios deben almacenar información que indique su contexto temporal (\textit{When}), es decir, cuándo  sucedió. Para esto, la única información de interés a almacenar son los instantes de tiempo que indican el fin y el inicio del episodio.
@@ -225,6 +222,7 @@ De acuerdo al requisito \RSlabel{03}, los episodios deben almacenar información
 En el caso de las hojas, basta utilizar los instantes de tiempo obtenidos al iniciar y finalizar el episodio. Sin embargo, para el caso de los nodos, se pueden seguir dos estrategias: Utilizar los instantes de tiempo iniciales y finales percibidos, o calcular automáticamente los tiempos de inicio y fin para ajustarse a los hijos. A pesar de que la segunda opción suena razonable, está asumiendo que siempre existirá un hijo para cada instante de tiempo de vida del padre, lo que puede no ser cierto. Por lo tanto, se deben manejar cuidadosamente los valores de tiempo de los padres, para asegurar que no son sobre-escritos por sus hijos, y para asegurar que los padres siempre contienen temporalmente a cada hijo.
 
 
+
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -232,7 +230,7 @@ En el caso de las hojas, basta utilizar los instantes de tiempo obtenidos al ini
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\todojavier{no debería haber una jerarquía?? lab..univ..santgo...}
+
 
 % SOBRE LOS REQUISITOS
 \ltmconcept{Requisitos}
@@ -255,7 +253,8 @@ Los nombres de lugares en los que estuvo el robot durante el episodio pueden ser
 \ltmconcept{Estrategia 2 - Coordenadas}
 Similarmente al caso anterior, las coordenadas de lugares son almacenadas en vectores de puntos, junto con su hora y sistema de coordenadas asociados. Además, para cada punto se debe almacenar el nombre del mapa en donde se define el sistema coordenado. Ya que el trabajo está orientado a robots de servicio doméstico, se ha decidido implementar solamente ubicaciones en 2 dimensiones, es decir, cada punto solo considera 2 valores numéricos. En el caso de los padres se sigue la siguiente estrategia: las posiciones son obtenidas a partir de sus hijos, se agrega un campo para almacenar la envoltura convexa de todas las posiciones, y se agrega un campo indicando el centroide de esta. La envoltura convexa es agregada por motivos prácticos, pues puede ser utilizada para visualización y análisis del árbol episódico.
 
-
+% LIMITANTES
+\ltmconcept{Limitantes} En la Sección \ref{sec:design-limits} se describen dos limitantes del diseño realizado: la posible redundancia de información, y la utilidad de esta.
 
 %% =============================================================================
 %% =============================================================================
@@ -297,8 +296,7 @@ Los \textit{streams} corresponden a flujos de datos generalmente invariables, re
 
 Para acotar el trabajo, y bajo la suposición de que en la práctica existen pocos episodios traslapados, se escoge la segunda estrategia. Entonces, cada episodio puede estar asociado a un \textit{stream} de cada tipo, y a su vez, cada \textit{stream} puede contener uno o más datos. El servidor debe proveer notificaciones para indicar el inicio y fin de un episodio, mientras que el usuario debe definir su estrategia para adquirir datos durante ese lapso de tiempo. Por ejemplo, en el caso de un \textit{stream} de imágenes representando la visión del robot, y cuyo fin solo sea de visualización a futuro, el usuario podría almacenar una imagen cada 3 segundos. 
 
-Según la cantidad de plugins a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (e.g., disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
-\todojavier{Es necesario si se toman episodios de base a relevancia??}
+Según la cantidad de plugins a utilizar y la periodicidad de recopilación de información, el espacio de disco requerido para almacenar los mensajes puede ser agotado rápidamente. Para solucionar esto hay 3 alternativas. En primer lugar, se puede expandir la memoria disponible, lo que no es una solución real. En segundo lugar, está el ``olvido'' de información, mediante la eliminación de datos antiguos o de baja relevancia episódica (posiblemente previo respaldo en otra máquina) o eliminar datos intercaladamente. La tercera opción es la degradación de información, para lo que cada usuario debe implementar un algoritmo que disminuya el tamaño de sus mensajes (e.g., disminuyendo la resolución o cantidad de las imágenes del episodio). Ya que las dos primeras opciones pueden ser ejecutadas manualmente por el usuario, se ha decidido utilizar la degradación de mensajes. Esta estrategia puede ser aplicada automáticamente a mensajes antiguos y de baja relevancia episódica.
 
 % SOBRE ENTIDADES
 \ltmconcept{Datos semánticos - Entidades}
@@ -400,7 +398,7 @@ El último conjunto de datos considerado para un episodio es denominado \textit{
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
-\subsection{Limitantes y trabajo futuro}
+\subsection{Limitantes y trabajo futuro}\label{sec:design-limits}
 %% =============================================================================
 %% =============================================================================
 %% =============================================================================
@@ -419,7 +417,7 @@ A pesar de que el diseño permite episodios de duración indefinida, en la prác
 Ya que el diseño apunta a ser lo suficientemente genérico, la información emocional que se puede exigir es acotada. El formato permite almacenar los datos justos para la asignación de relevancias, pero a la vez, limita las consultas posibles sobre las emociones del robot en un episodio. Particularmente, en episodios de larga duración sería interesante conocer la secuencia (ordenada) de emociones, o las causas de estas. A pesar de que el diseño no almacena información al respecto, si permite definir una forma alternativa de almacenar tales datos. Se puede crear una entidad ``Robot'' con campos asociados a sus emociones, para así, llevar un registro detallado de lo que se necesite.
 
 \ltmconcept{Ubicación del robot duplicada o no útil}
-Se cree que el formato propuesto para el campo \textit{Where} se ajusta a los requerimientos de un robot doméstico, sin embargo, se identifican dos problemas. Por un lado, la naturaleza de la ubicación del robot no depende de un episodio, sino que es información desacoplada de este, similar al funcionamiento de una entidad. Esto genera duplicación de la información en caso de traslape episódico. Por otro lado, se cree que el formato es lo suficientemente genérico, pero pueden haber casos donde la información de localización sea conveniente almacenarla en otros términos. En un trabajo futuro se podría modificar el diseño, para manejar el campo \textit{Where}  de manera similar al caso de las entidades, donde cada usuario defina los datos que desea almacenar, y evitando redundancia de información.
+Se cree que el formato propuesto para el campo \textit{Where} se ajusta a los requerimientos de un robot doméstico, sin embargo, se identifican dos problemas. Por un lado, la naturaleza de la ubicación del robot no depende de un episodio, sino que es información desacoplada de este, similar al funcionamiento de una entidad. Esto genera duplicación de la información en caso de traslape episódico. Por otro lado, se cree que el formato se adapta a los requerimientos para Bender, pero pueden haber usuarios que requieran almacenar otra información (e.g., GPS) o utilizar mayores niveles de profundidad semántica (e.g., Chile $\rightarrow$ Santiago $\rightarrow$ Laboratorio $\rightarrow$ Mesón A). En un trabajo futuro se podría modificar el diseño, para manejar el campo \textit{Where}  de manera similar al caso de las entidades, donde cada usuario defina los datos que desea almacenar y su metodología de adquisición mediante un plugin asociado, y asimismo, evitando la redundancia de información.
 
 %% =============================================================================
 %% =============================================================================
@@ -704,7 +702,6 @@ Tras recibir la notificación, el servidor recolecta información episódica des
 En cuanto a la recopilación de la ubicación del robot, dato episódico \textit{Where}, el cómo se obtiene la información depende totalmente del usuario y la API de localización utilizada en el robot objetivo (ver diseño episódico en la Sección~\ref{sec:design_ep_where}). Sin embargo, de acuerdo a la sección anterior, el plugin debe proveer las funcionalidades de registro y adquisición de información.
 
 Se propone la siguiente estrategia para la implementación del plugin: recopilar periódicamente el posicionamiento del robot, mientras hayan episodios activos; cuando el servidor necesite la información, se debe proveer un listado con cada ubicación y su instante de tiempo, según el formato estudiado en el diseño episódico del campo \textit{Where}; la lista debe estar restringida a los tiempos de inicio y fin del episodio en consideración.
-\todojavier{sólo de sit f. local o de internet?? ej. país??}
 
 
 \subsubsection{Plugin: Emociones}
