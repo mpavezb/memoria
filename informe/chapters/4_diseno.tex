@@ -901,7 +901,7 @@ La segunda versión debe ser integrada en el software robot, utilizando su API R
 %% =====================================================================================
 
 \ltmconcept{Propuesta}
-Se decidió implementar entidades de ``Persona'' y ``Objeto'', pues son las entidades más utilizadas por el robot Bender, y probablemente las más significativas para todo robot de servicio doméstico. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Lugar'' y ``Robot''. De manera similar al caso de los \textit{streams}, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
+Se decidió implementar la entidad ``Humano'', pues es un concepto muy recurrente para el robot Bender. Otras entidades de alta relevancia que pueden ser consideradas como trabajo futuro, son las de ``Objeto'', ``Lugar'' y ``Robot''. De manera similar al caso de los \textit{streams}, se consideran dos versiones a implementar, una capaz de proveer información ficticia sobre cada entidad, y otra encargada de proveer información real recopilada por el robot.
 
 \ltmconcept{Estrategia}
 Se utilizará la estrategia de funcionamiento propuesta en la Sección~\ref{sec:design_ep_what}. Para ello, el plugin se debe subscribir a notificaciones sobre cambios en las entidades conocidas. Luego, se deben registrar los cambios percibidos en el historial de la colección, a pesar de que no hayan episodios activos.

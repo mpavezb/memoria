@@ -67,7 +67,7 @@ Luego, las únicas validaciones de funcionalidad pendientes son: \Vlabel{A}{17},
 
 A continuación se describe es estado de la integración del sistema LTM en el robot Bender. Las 6 validaciones de interés se presentan en el Anexo \ref{appendix:validations}.
 
-Durante el periodo de implementación del trabajo, incluso hasta la fecha, el robot Bender no ha estado operativo. El equipo encargado ha decidido reestructurar el hardware del robot y además, está en el proceso de migrar URF a ROS kinetic. Por lo anterior, se ha retrasado la integración del sistema LTM en el robot y solo algunos de los componentes requeridos se han integrado.
+Durante la mayor parte del periodo de implementación del trabajo, el robot Bender no ha estado operativo. El equipo encargado ha decidido reestructurar el hardware del robot y además, está en el proceso de migrar URF a ROS kinetic. Por lo anterior, se ha retrasado la integración del sistema LTM en el robot y solo algunos de los componentes requeridos se han integrado.
 
 La integración requiere la implementación de plugins para el sistema LTM, la generación de episodios a partir de las máquinas de estado del robot y la integración de tal código en URF.
 
@@ -79,28 +79,22 @@ A continuación se describen los componentes integrados en Bender. Estos corresp
 
 \ltmconcept{Plugin de para campo \textit{Where}} Se creó un plugin para la recolección de la ubicación del robot según las consideraciones de diseño descritas en el capítulo \ref{chapter:diseno}. Esta integración fue posible, debido a que Bender utiliza un conjunto estándar de paquetes ROS para navegación robótica (ROS navigation stack). Su funcionamiento fue verificado mediante la simulación de un robot que utiliza estos paquetes para navegar y localizarse.
 
-\ltmconcept{Interfaz LTM-SMACH} Según se presentó en el Capítulo \ref{chapter:results}, la interfaz del sistema LTM con las máquinas de estado en SMACH se implementó de manera genérica y funciona de acuerdo a los requerimientos. Para validar esta integración, se implementó una máquina de estado similar a una prueba de la competencia RoboCup, con la que el sistema LTM puede recolectar episodios.
+\ltmconcept{Plugin para entidades} Se implementó un plugin para la recopilación de información facial sobre humanos. Todos los datos son obtenidos a partir del sistema de percepción del robot Bender. Esto se puede validar mediante la demostración implementada durante la integración.
+
+
+\ltmconcept{Interfaz LTM-SMACH} Según se presentó en el Capítulo \ref{chapter:results}, la interfaz del sistema LTM con las máquinas de estado en SMACH se implementó de manera genérica y funciona de acuerdo a los requerimientos. Para validar esta integración, se implementó una máquina de estado similar a una prueba de la competencia RoboCup, con la que el sistema LTM puede recolectar episodios. Además, esto se valida mediante las sesiones de aprendizaje y consultas utilizadas para la demostración implementada.
 
 \ltmconcept{Integración en URF} Todos los componentes descritos anteriormente fueron integrados en URF mediante el paquete ROS \texttt{bender\_ltm}. El proceso de instalación fue modificado para incluir los paquetes ROS del sistema LTM y la instalación de sus dependencias. Se añadieron archivos \texttt{launch} y de configuración para ejecutar el sistema LTM con los plugins integrados.
 
-\subsection{Módulos pendientes}
+\subsection{Módulo pendiente}
 
-A continuación se describen los componentes que no se han integrado al software del robot. Estos corresponden al plugin para recolección de entidades y al plugin emocional.
-
-\ltmconcept{Plugin para entidades} Según se describió en la Sección \ref{sec:design_bender}, se debe implementar un plugin para la recolección de entidades tipo persona y objeto, a partir de los módulos de percepción del robot. Este plugin no se ha desarrollado.
-
-\ltmconcept{Plugin emocional} Este plugin no ha sido implementado por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del trabajo. Sin ese requerimiento es imposible implementar el plugin requerido.
-
-\todoNOPE{L.Mateu: Era lo que más me intrigaba. Debió quedar claro desde el principio.}
+\ltmconcept{Plugin emocional} Este plugin es el único módulo que no ha sido implementado ni integrado a Bender, por dos razones. Como se explicó anteriormente, no se pudo acceder al robot para la integración. Sin embargo, el problema de fondo es que Bender no dispone de un motor emocional, capaz de generar emociones a través de los estímulos que percibe. La implementación de un sistema emocional escapa del alcance del trabajo de título. Sin ese requerimiento es imposible implementar el plugin requerido.
 
 Por lo tanto, la integración del sistema LTM en Bender es parcial. Queda propuesta la implementación del plugin para entidades, el motor emocional para el robot y el plugin asociado.
 
 \subsection{Demostración del sistema en Bender}
 
-Uno de los objetivos específicos del trabajo es la integración del sistema en el robot Bender y la posterior generación de una demostración de tal funcionalidad. Ya que no se dispone de robot, no se ha podido concretar este objetivo. 
-
-Una vez integrados los módulos pendientes, se debe ejecutar una máquina de estado en SMACH para la recopilación de episodios con información semántica sobre personas y objetos. Luego, el robot debe responder a un conjunto de preguntas sobre hechos pasados mediante el servicio de consultas que provee el sistema LTM.
-
+Todos los módulos descritos anteriormente son validados simultáneamente mediante la demostración implementada para Bender. Esta permite almacenar secuencias de episodios, en los cuales el robot se encuentra en un lugar (\textit{Where}) y tiempo (\textit{When}) específicos, interactuando y recolectando datos (\textit{What}) sobre humanos.
 
 \section{Desempeño del Sistema}
 

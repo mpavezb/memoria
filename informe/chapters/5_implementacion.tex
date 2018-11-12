@@ -1,6 +1,6 @@
 \chapter{Implementación}\label{chapter:implementacion}
 
-Es este capítulo se describe la implementación del trabajo, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el trabajo.
+Es este capítulo se describe la implementación del trabajo, a partir de las decisiones de diseño expuestas en el Capítulo~\ref{chapter:diseno}. Primero, se presenta la estructuración del software en términos de archivos y paquetes ROS. Luego se describe la implementación del sistema LTM: el modelo episódico, el servidor, el sistema de plugins y la API ROS para su utilización. En tercer lugar, se presentan módulos de software implementados para acelerar la implementación y validar el trabajo. Finalmente, se presenta la integración del sistema LTM en el robot Bender.
 
 % ==============================================================================
 % ==============================================================================
@@ -151,25 +151,24 @@ En la Tabla~\ref{table:lineas-codigo} se presenta una tabla con el conteo de lí
 		\hline
 		\rowcolor{gray!50}
 		Lenguaje & Archivos & Líneas en blanco & Comentarios & Código \\ \hline
-		C++                   &  32  &  669  &  422  &  3073 \\ \hline
-		C/C++ Header          &  47  &  667  &  422  &  2192 \\ \hline
-		Python                &  37  &  587  &  471  &  1812 \\ \hline
+		C++                   &  37  &  831  &  575  &  3896 \\ \hline
+		Python                &  57  & 1078  &  792  &  3646 \\ \hline
+		C/C++ Header          &  51  &  716  &  435  &  2397 \\ \hline
+		CMake                 &   8  &  135  &  294  &   380 \\ \hline
+		XML                   &  29  &  190  &  178  &   373 \\ \hline
 		JSON                  &  12  &    0  &    0  &   321 \\ \hline
-		CMake                 &   5  &  107  &  219  &   312 \\ \hline
-		XML                   &  17  &   91  &   79  &   213 \\ \hline
-		Markdown              &   8  &   95  &    0  &   183 \\ \hline
-		ROS msg/srv           &  30  &   34  &   72  &   177 \\ \hline
-		BASH    &   2  &   21  &    7  &    99 \\ \hline
-		YAML                  &   4  &   30  &   45  &    77 \\ \hline
+		Markdown              &  10  &  145  &    0  &   245 \\ \hline
+		ROS msg/srv           &  34  &   43  &   90  &   217 \\ \hline
+		BASH 				  &   5  &   37  &   22  &   183 \\ \hline
+		JavaScript            &   1  &   30  &   45  &   133 \\ \hline
+		YAML                  &   5  &   43  &   70  &   111 \\ \hline
 		\rowcolor{gray!50}
-		Total                 & 194  & 2301  & 1737  & 8459  \\ \hline	
+		Total                 &  249 & 3248  & 2501  & 11902 \\ \hline	
 	\end{tabular} 
 	\caption[Líneas de código del sistema LTM por lenguaje.]
 	{\small Líneas de código del sistema LTM por lenguaje. Para cada lenguaje utilizado, se indican la cantidad de archivos asociados y un conteo de la cantidad de líneas en blanco, líneas utilizadas para comentarios y líneas de código.}
 	\label{table:lineas-codigo}
 \end{table}
-
-\todowrite{actualizar CLOC}
 
 %\subsection{Documentación}
 %% ==============================================================================
@@ -517,7 +516,7 @@ El robot implementado responde a todas las consultas mediante la generación de 
 \begin{itemize}
 	\item Ubicación: Implementado en la clase \texttt{ltm\_samples::LocationPlugin}.
 	\item Emociones: Implementado en la clase \texttt{ltm\_samples::EmotionPlugin}.
-	\item Entidades: Se implementaron plugins para las entidades personas y objeto. Las clases correspondientes son \texttt{ltm\_samples::PeopleEntityPlugin} para personas, y la clase  \texttt{ltm\_samples::ObjectsEntityPlugin} para objetos.
+	\item Entidades: Se implementaron plugins para las entidades personas y objeto. Las clases correspondientes son \texttt{ltm\_samples::PeopleEntityPlugin} para personas, y la clase  \texttt{ltm\_samples::ObjectsEntityPlugin} para representar objetos.
 \end{itemize}
 
 \todoNOPE{Ejecución del robot simulado. Launchfiles}
@@ -537,49 +536,52 @@ El robot implementado responde a todas las consultas mediante la generación de 
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
-%\section{Integración en Bender}
+\section{Integración en Bender}
 % ==============================================================================
 % ==============================================================================
 % ==============================================================================
 
-% SEC: Intregración en Bender
-% - Describir problema, pero queda el diseño realizado.
-% - Sistema Emocional: NO.
-% - Intregración Plugins
-%   - EMOCIONES: NO AÚN
-%   - Video Stream: SI
-%   - Entidades: NO AÚN
-% - Intregración SMACH: SÍ
+En esta sección se describe la integración del sistema LTM en el robot Bender, a partir de los módulos implementados en las secciones anteriores. En primer lugar, se da una descripción general de la integración. Luego, se presentan los plugins específicos implementados para esto. Finalmente, se explican las máquinas de estado utilizadas para demostrar la integración del sistema en el robot.
+
+\subsection{Descripción general}
+
+Por un lado, la integración con Bender requiere el desarrollo de plugins para la adquisición de datos desde el robot. Por otro lado, se deben elaborar máquinas de estado que permitan recopilar información episódica y acceder a ella. Todos los componentes específicos para Bender fueron implementados en el paquete ROS \texttt{bender\_ltm}.
+
+Se desarrollaron plugins para recolectar datos desde la memoria de trabajo del robot. Particularmente, la ubicación del robot se obtiene desde su sistema de localización; las secuencias de imágenes se obtienen desde su cámara de video; y la información sobre entidades se recopila desde sus capacidades de percepción robótica y reconocimiento de voz. 
+
+A modo de demostración, se implementó una máquina de estado capaz de recolectar datos de personas. Además, se utiliza otra máquina de estado es para que el robot describa los conocimientos adquiridos previamente, a partir de consultas a la memoria LTM.
+
+\subsection{Plugins del sistema LTM}
+
+El proceso de integración del sistema LTM en el robot Bender requiere el desarrollo de plugins específicos para sus necesidades. A continuación se detallan los aspectos importantes de cada plugin elaborado.
+
+\ltmconcept{Plugin para el campo \textit{where}} La ubicación del robot se obtiene a partir del sistema de localización del robot. URF provee un tópico que indica la ubicación del robot en un mapa predefinido, en cada instante de tiempo y respecto a un sistema coordenado. Además, cada mapa tiene zonas predefinidas, identificadas por una etiqueta indicando el nombre de cada lugar en el mapa. Conociendo la ubicación coordenada del robot, se puede saber el nombre de la zona actual. Por ejemplo, este plugin permitiría saber que el robot se encuentra en la coordenada X,Y de un mapa, la que se puede asociar al ``dormitorio del hogar''.
+
+\ltmconcept{Plugin para el estado emocional} Según se describe en capítulos anteriores, el desarrollo de un plugin emocional requiere la existencia de un sistema emocional en el robot Bender. Tal sistema aún no existe en URF y su desarrollo se escapa del alcance de este trabajo de título. Por lo tanto, este plugin queda propuesto como trabajo futuro.
+
+\ltmconcept{Plugin para \textit{streams}} A modo de demostración funcional, se considera el concepto de \textit{streams} de imágenes. Para esto, se utiliza el plugin implementado en la Sección~\ref{sec:impl-validation}, donde solamente se debe indicar el tópico para acceder a los datos de la cámara de video de Bender.
+
+\ltmconcept{Plugins para entidades} Se consideró la entidad ``humano''. A modo de demostración, solamente se consideraron los siguientes datos de interés: nombre, edad, género, emoción e imagen de la cara. A excepción del nombre, todos los datos se pueden obtener desde el módulo de percepción del robot. Además, por simplicidad, cada persona es identificada por su nombre, por lo que estos se consideran únicos. Formalmente, cada entidad se describe mediante mensajes ROS de tipo \texttt{HumanEntity}, el que se presenta en el Código~\ref{lst:humanmsg}.
+
+\lstset{style=/Style/ROS/MSG}
+\lstinputlisting[caption=bender\_ltm\_plugins/HumanEntity.msg,label=lst:humanmsg]{code/msg/HumanEntity.msg}
 
 
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-%\section{Trabajo Futuro}
-% ==============================================================================
-% ==============================================================================
-% ==============================================================================
-% SEC: Trabajo Futuro
-% - 
-% - 
-% - 
+\subsection{Sesiones de demostración}
 
+Las sesiones de demostración se dividen en dos etapas: adquisición de datos episódicos y consultas episódicas al sistema. Para esto, se implementaron máquinas de estado en SMACH para ambos propósitos.
 
-% CONSIDERACIONES
-% - Plugins que fallan no son inicializados.
-% - sobre estabilidad de plugins y daño al server.
+En la sesión de aprendizaje, el robot es presentado ante una cantidad indefinida de humanos, sobre los cuales debe recopilar su nombre y sus características faciales. Un mismo operador puede ser presentado nuevamente, para recopilar datos nuevos o actualizar los ya existentes. La máquina de estado desarrollada se resume en la imagen de la Figura~\ref{img:human-sesssion}. Esta máquina hace uso de los módulos de localización y percepción del robot.
 
+A partir de los estados de la máquina utilizada en la sesión se aprendizaje se recopilan episodios para el sistema LTM, cada uno asociado al humano con el que interactúa el robot. Para esto, se utiliza la interfaz SMACH desarrollada en la Sección~\ref{sec:impl-validation}. Ya que cada estado se compone otras máquinas de menor jerarquía, cada sesión de aprendizaje genera un árbol episódico. 
 
-% TRABAJO FUTURO
-%  MD5
-% - modificar msg de colección MD5 y poder seguir ocupando la base de datos.
-% - mongo no tiene problema en modificar representación ...
-% - el driver ROS si.
-% - Por qué es importante?
-% Visualizador episódico
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{human-session.png}
+	\caption[SMACH: Sesión de aprendizaje de personas.]
+	{\small Máquina de estado construida en SMACH para que el robot Bender adquiera datos episódicos sobre humanos. En cada sesión de aprendizaje el robot espera la presencia de un humano, para luego consultar su nombre y analizar sus características faciales. Finalmente, el robot resume los datos recopilados y se despide.}
+	\label{img:human-sesssion}
+\end{figure}
 
-% DOC: proposed.md
-% - reservar ids mientras nodo esté activo.
-
-
+Finalmente, se implementó una máquina de estado que permite acceder a los datos almacenados en las sesiones de aprendizaje. En este caso, el robot es sometido a distintas preguntas episódicas sobre los datos almacenados. Por ejemplo, respondiendo consultas como: ``¿qué sucedió en el intervalo temporal T1 - T2?'', ``¿qué lugares conoce el robot?'', ``describir al humano H'' o ``describir al humano H, con el conocimiento del instante de tiempo T'', entre otras consultas.
 
