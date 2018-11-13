@@ -20,8 +20,7 @@
 
 ### Versiones PDF
 
-[//]: # (https://latexonline.cc/compile?git=https://github.com/mpavezb/memoria&target=propuesta/main.tex&command=pdflatex)
-
 - [Propuesta de Memoria](https://rawgit.com/mpavezb/memoria/master/propuesta/main.pdf)
 - [Preinforme](https://rawgit.com/mpavezb/memoria/master/preinforme/preinforme_v4.pdf)
-- [Informe (compilación online)](https://latexonline.cc/compile?git=https://github.com/mpavezb/memoria&target=informe/main.tex&command=pdflatex)
+- [Informe](https://rawgit.com/mpavezb/memoria/master/memoria_v1.0.pdf)
+
