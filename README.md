@@ -22,5 +22,5 @@
 
 - [Propuesta de Memoria](https://rawgit.com/mpavezb/memoria/master/propuesta/main.pdf)
 - [Preinforme](https://rawgit.com/mpavezb/memoria/master/preinforme/preinforme_v4.pdf)
-- [Informe](https://rawgit.com/mpavezb/memoria/master/memoria_v1.0.pdf)
+- [Informe](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf)
 
