@@ -9,18 +9,25 @@
 - Universidad de Chile, Departamento de Ingeniería Eléctrica, Departamento de Ciencias de la Computación.
 
 
-### Repositorios de Software Asociados
+### Sobre este Repositorio
 
-- ROS package: [ltm](https://github.com/mpavezb/ltm)
-- ROS package: [ltm_addons](https://github.com/mpavezb/ltm_addons)
-- ROS package: [ltm_samples](https://github.com/mpavezb/ltm_samples)
-- ROS package: [bender_ltm](https://github.com/uchile-robotics/bender_ltm)
-- ROS package: [bender_emotion](https://github.com/uchile-robotics/bender_emotion)
+El repositorio contiene los informes requeridos para el proyecto de título. Estos están escritos en LaTeX y pueden ser compilados a partir del archivo `main.tex` de cada documento.
 
-
-### Versiones PDF
+#### Versiones PDF
 
 - [Propuesta de Memoria](https://rawgit.com/mpavezb/memoria/master/propuesta/main.pdf)
 - [Preinforme](https://rawgit.com/mpavezb/memoria/master/preinforme/preinforme_v4.pdf)
 - [Informe](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf)
 
+
+### Sistema LTM:
+
+El paquete ROS [ltm](https://github.com/mpavezb/ltm) provee una documentación para los usuarios del sistema LTM. Una documentación extensa sobre las decisiones de diseño, la implementación y pruebas de validación se puede encontrar en el [informe de memoria](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf).
+
+#### Repositorios de Software Asociados
+
+- ROS package: [ltm](https://github.com/mpavezb/ltm)
+- ROS package: [ltm_db](https://github.com/mpavezb/ltm_db)
+- ROS package: [ltm_addons](https://github.com/mpavezb/ltm_addons)
+- ROS package: [ltm_samples](https://github.com/mpavezb/ltm_samples)
+- ROS package: [bender_ltm](https://github.com/uchile-robotics/bender_ltm)
