@@ -13,8 +13,7 @@
 
 El repositorio contiene los informes requeridos para el proyecto de título. Estos están escritos en LaTeX y pueden ser compilados a partir del archivo `main.tex` de cada documento.
 
-#### Versiones PDF
-
+Versiones PDF:
 - [Propuesta de Memoria](https://rawgit.com/mpavezb/memoria/master/propuesta/main.pdf)
 - [Preinforme](https://rawgit.com/mpavezb/memoria/master/preinforme/preinforme_v4.pdf)
 - [Informe](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf)
@@ -22,10 +21,9 @@ El repositorio contiene los informes requeridos para el proyecto de título. Est
 
 ### Sistema LTM:
 
-El paquete ROS [ltm](https://github.com/mpavezb/ltm) provee una documentación para los usuarios del sistema LTM. Una documentación extensa sobre las decisiones de diseño, la implementación y pruebas de validación se puede encontrar en el [informe de memoria](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf).
+El paquete ROS [ltm](https://github.com/mpavezb/ltm) provee documentación para los usuarios del sistema LTM. En el [informe de memoria](https://rawgit.com/mpavezb/memoria/master/memoria_v2.pdf) se presenta una documentación extensa sobre las decisiones de diseño, la implementación y las pruebas de validación realizadas.
 
-#### Repositorios de Software Asociados
-
+Repositorios de Software Asociados:
 - ROS package: [ltm](https://github.com/mpavezb/ltm)
 - ROS package: [ltm_db](https://github.com/mpavezb/ltm_db)
 - ROS package: [ltm_addons](https://github.com/mpavezb/ltm_addons)
